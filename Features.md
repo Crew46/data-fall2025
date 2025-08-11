@@ -1,5 +1,5 @@
 Agreed Upon Features and Ideas
-wedge: shoot'em'up
+* wedge: shoot'em'up
 
 
 Discussed Features and Ideas:

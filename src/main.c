@@ -1,3 +1,5 @@
+#include "gamemanager.h"
+
 void main(void)
 {
 	//Initialize Game Manager

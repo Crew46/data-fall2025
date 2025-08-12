@@ -1,14 +1,34 @@
-# Installation Guide
+# Build/Development Guide
 
 ## Makefile: Building and managing the project
 
-This project uses a set of Makefiles to compile and process source, audio, and images.
+This  project uses  a set  of Makefiles  to compile  and process  source,
+audio, and images.
 
-To compile parts of the project the tool `make` is required.
+### Build the components
 
-To compile everything, in the root of the repository, there is a Makefile which when
-called upon by the tool `make`, it will compile everything into a Vircon32 cartridge and
-will be dropped into `bin/`.
+To compile parts of the project  the tool `make` is required. The default
+action is  to compile all  the separate components,  but NOT to  pack the
+cartridge:
+
+    $ `make`
+
+### Pack the cartridge
+
+To pack up all the built components into a Vircon32 cartridge, run:
+
+    $ `make cart`
+
+... from the base of the project. It will be deposited into `bin/`.
+
+### Build and pack
+
+To  do everything  (including pack  the cartridge),  in the  root of  the
+repository, we merely add "**all**" as an argument to `make`:
+
+    $ `make all`
+
+### Capturing warnings and errors
 
 NOTE: with the normal build process, any warnings or errors generated will be stored in
 text files in the particular category (**tool**.errors).
@@ -22,7 +42,10 @@ In the `src/` directory, it is further broken out by tool:
 
     src$ `cat compile.errors`
     src$ `cat assemble.errors`
-    src$ `cat packrom.errors`
+
+And should there be an issue with packing the cartridge:
+
+    data$ `cat packrom.errors`
 
 ### Help
 

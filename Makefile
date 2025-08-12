@@ -31,7 +31,7 @@ v32: game
 	@make -C data $(DEBUG)
 
 clean:
-	@for item in $(UNITS); do make -C $$item clean; done
+	@for item in $(UNITS) data; do make -C $$item clean; done
 	@rm -f bin/*
 
 save: clean

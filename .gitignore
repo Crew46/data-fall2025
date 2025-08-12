@@ -53,3 +53,12 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Vircon32 files
+*.asm
+*.vbin
+*.vtex
+*.vsnd
+*.vbin
+*.v32
+*.xml

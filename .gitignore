@@ -62,3 +62,4 @@ dkms.conf
 *.vbin
 *.v32
 *.xml
+*.errors

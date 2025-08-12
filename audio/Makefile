@@ -20,7 +20,7 @@ sounds: $(OBJECTS)
 %.vsnd: %.wav
 ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;33m%s\033[0m] %-16s -> %-16s ... " "$(PROCESS)" "$^" "$@"
-	@$(PROCESS) $(FLAGS) $^ 2>> errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
+	@$(PROCESS) $(FLAGS) $^ 2>> $(PROCESS).errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
 else
 	$(PROCESS) $(FLAGS) $^
 endif
@@ -32,4 +32,4 @@ endif
 
 clean:
 	@printf "[\033[0;33m%s\033[0m]      %-36s ... " "clean" "removing VSND files"
-	@rm -f *.vsnd errors && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
+	@rm -f *.vsnd $(PROCESS).errors && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"

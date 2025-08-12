@@ -28,7 +28,7 @@ endif
 source:
 ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;33m%s\033[0m]    %-16s -> %-16s ... " "$(CC)" "main.c" "$(GAME).asm"
-	@$(CC)   $(CFLAGS) main.c 2>> errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
+	@$(CC)   $(CFLAGS) main.c 2>> $(CC).errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
 else
 	$(CC)    $(CFLAGS) main.c
 endif
@@ -36,7 +36,7 @@ endif
 object:
 ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;33m%s\033[0m]   %-16s -> %-16s ... " "$(ASM)" "$(GAME).asm" "$(GAME).vbin"
-	@$(ASM)  $(AFLAGS) $(GAME).asm 2>> errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
+	@$(ASM)  $(AFLAGS) $(GAME).asm 2>> $(ASM).errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
 else
 	$(ASM)   $(AFLAGS) $(GAME).asm
 endif
@@ -45,7 +45,7 @@ $(GAME):
 	@./mkxml.sh $(GAME)
 ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;33m%s\033[0m]    %-16s -> %-16s ... " "$(PACK)" "$(GAME).vbin" "$(GAME).v32"
-	@$(PACK) $(PFLAGS) $(GAME).xml 2>> errors && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
+	@$(PACK) $(PFLAGS) $(GAME).xml 2>> $(PACK).errors && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
 else
 	$(PACK)  $(PFLAGS) $(GAME).xml
 endif
@@ -53,4 +53,4 @@ endif
 
 clean:
 	@printf "[\033[0;33m%s\033[0m]      %-36s ... " "clean" "removing object files"
-	@rm -f .*.sw[op] *.save* *~ $(BINPATH)/$(GAME) err* *.debug *.asm *.vbin *.v32 *.xml && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
+	@rm -f .*.sw[op] *.save* *~ $(BINPATH)/$(GAME) *.errors *.debug *.asm *.vbin *.v32 *.xml && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"

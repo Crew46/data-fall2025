@@ -12,6 +12,6 @@ Project folder format:
 
 Makefiles are used for installation, read more in: [docs/BuildingGuide.md]
 
-Read [Features.md] for agreed upon and still discussed game features
+Read ![Features](Features.md) for agreed upon and still discussed game features
 
-Read the [Tasks.md] for delegations to who is implementing said feature
+Read the ![Tasks](Tasks.md) for delegations to who is implementing said feature

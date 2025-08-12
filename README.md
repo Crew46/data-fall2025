@@ -2,11 +2,12 @@
 Collaborative Vircon32 shoot-em-up game
 
 repository folder format:
-* res: video and image resources and assets
 * docs: documents on instalation, guides, etc.
 * src: source code
+* images
+* audio
 
-Make.sh is for building the source
+Makefiles are used for installation, read more in /docs/InstallationGuide
 
 Read features.md for agreed upon and still discussed game features
 

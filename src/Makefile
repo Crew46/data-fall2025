@@ -50,7 +50,6 @@ ifneq ($(MAKECMDGOALS),debug)
 else
 	$(PACK)  $(PFLAGS) $(GAME).xml || exit 1
 endif
-	@cp -f $(GAME).v32 $(BINPATH)/
 
 tail:
 ifndef DEBUG

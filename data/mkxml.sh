@@ -27,7 +27,7 @@ echo    '" version="1.0" />'                                           >> ${GAME
 ## Append the VBIN section
 ##
 echo -n '<binary path="'                                               >> ${GAME}.xml
-echo -n "${GAME}.vbin"                                                 >> ${GAME}.xml
+echo -n "../src/${GAME}.vbin"                                          >> ${GAME}.xml
 echo    '" />'                                                         >> ${GAME}.xml
 
 #######################################################################################

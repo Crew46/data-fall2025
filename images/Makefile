@@ -12,8 +12,8 @@ debug: images
 
 head:
 ifndef DEBUG
-	@printf "\033[1;33m%s\033[0m:\n" "images"
-	@printf "\033[1;33m==========================================================\033[0m\n"
+	@printf "\033[0;33m%s\033[0m:\n" "images"
+	@printf "\033[0;33m==========================================================\033[0m\n"
 endif
 
 images: $(OBJECTS)
@@ -21,7 +21,7 @@ images: $(OBJECTS)
 
 %.vtex: %.png
 ifneq ($(MAKECMDGOALS),debug)
-	@printf "[\033[0;33m%s\033[0m] %-16s -> %-16s ... " "$(PROCESS)" "$^" "$@"
+	@printf "[\033[0;34m%s\033[0m] %-16s -> %-16s ... " "$(PROCESS)" "$^" "$@"
 	@$(PROCESS) $(FLAGS) $^ 2>> $(PROCESS).errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
 else
 	$(PROCESS) $(FLAGS) $^

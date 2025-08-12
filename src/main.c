@@ -11,7 +11,7 @@ void main(void)
 		//Update Game Manager
 		/////////////
 		
-		end_frame();
+		//end_frame();
 	}
 
 	//Deinitialize Game Manager

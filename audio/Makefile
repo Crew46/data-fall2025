@@ -32,4 +32,4 @@ endif
 
 clean:
 	@printf "[\033[0;33m%s\033[0m]      %-36s ... " "clean" "removing VSND files"
-	@rm -f *.vsnd && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
+	@rm -f *.vsnd errors && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"

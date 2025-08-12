@@ -1,10 +1,10 @@
-CFLAGS = -Wall
+GAME = game
+CFLAGS = -Wall -o $(GAME).asm
 AFLAGS = 
 PFLAGS = 
 CC = compile
 ASM = assemble
 PACK = packrom
-GAME = game
 BINPATH = ../bin
 all: head source object $(GAME) tail
 
@@ -27,10 +27,10 @@ endif
 
 source:
 ifneq ($(MAKECMDGOALS),debug)
-	@printf "[\033[0;33m%s\033[0m]    %-16s -> %-16s ... " "$(CC)" "$(GAME).c" "$(GAME).asm"
-	@$(CC)  $(CFLAGS) $(GAME).c 2>> errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
+	@printf "[\033[0;33m%s\033[0m]    %-16s -> %-16s ... " "$(CC)" "main.c" "$(GAME).asm"
+	@$(CC)   $(CFLAGS) main.c 2>> errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m"
 else
-	$(CC)    $(CFLAGS) $(GAME).c
+	$(CC)    $(CFLAGS) main.c
 endif
 
 object:
@@ -44,10 +44,11 @@ endif
 $(GAME):
 ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;33m%s\033[0m]    %-16s -> %-16s ... " "$(PACK)" "$(GAME).vbin" "$(GAME).v32"
-	@$(PACK) $(PFLAGS) $(GAME).xml -o $(BINPATH)/$(GAME).v32 2>> errors && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
+	@$(PACK) $(PFLAGS) $(GAME).xml 2>> errors && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
 else
-	$(PACK)  $(PFLAGS) $(GAME).xml -o $(BINPATH)/$(GAME).v32
+	$(PACK)  $(PFLAGS) $(GAME).xml
 endif
+	@cp -f $(GAME).v32 $(BINPATH)/
 
 clean:
 	@printf "[\033[0;33m%s\033[0m]      %-36s ... " "clean" "removing object files"

@@ -74,4 +74,6 @@ endif
 clean:
 	@printf "[\033[0;34m%s\033[0m]     %-36s ... " "$(CATEGORY)" \
 	                                               "removing $(DSTTYPE) files"
-	@rm -f .*.sw[op] *.save* *~ *.errors *.debug *.asm *.vbin *.v32 *.xml && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
+	@rm -f .*.sw[op] *.save* *~ *.errors *.debug
+	@rm -f *.asm *.vbin *.v32 *.xml && echo "\033[0;32mOK\033[0m"   \
+	                                || echo "\033[0;31mFAIL\033[0m"

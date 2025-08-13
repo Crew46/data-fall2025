@@ -59,9 +59,9 @@ fi
 
 #######################################################################################
 ##
-## Determine the audio, generate and append the section
+## Determine the sounds, generate and append the section
 ##
-VSNDFILES=$(/bin/ls -1 ../audio/*.vsnd 2> /dev/null)
+VSNDFILES=$(/bin/ls -1 ../sounds/*.vsnd 2> /dev/null)
 
 #######################################################################################
 ##

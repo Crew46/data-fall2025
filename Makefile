@@ -7,7 +7,7 @@ OBJ =
 AR = ar
 DEBUG = 
 PROJ = game
-UNITS = images audio src 
+UNITS = audio images src 
 BIN = 
 default: game
 debug: game-debug
@@ -21,7 +21,7 @@ MAKEFLAGS += --no-print-directory
 endif
 
 game:
-	@mkdir -p bin audio data images src
+	@mkdir -p $(UNITS) bin data
 	@for item in $(UNITS); do make -C $$item $(DEBUG); done
 
 all: v32

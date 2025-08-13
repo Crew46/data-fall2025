@@ -1,4 +1,7 @@
+CATEGORY = "code"
 GAME = game
+SRCFILE := main.c
+DSTTYPE = asm, object
 CFLAGS = -Wall -o $(GAME).asm
 AFLAGS = 
 PFLAGS = 
@@ -28,27 +31,39 @@ endif
 
 source:
 ifneq ($(MAKECMDGOALS),debug)
-	@printf "[\033[0;34m%s\033[0m]    %-16s -> %-16s ... " "$(CC)" "main.c" "$(GAME).asm"
-	@$(CC)   $(CFLAGS) main.c 2>> $(CC).errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m" || exit 1
+	@printf "[\033[0;34m%s\033[0m]    %-16s -> %-16s ... "	  "$(CC)"        \
+															  "$(SRCFILE)"   \
+															  "$(GAME).asm"
+	@$(CC)   $(CFLAGS) $(SRCFILE) 2>> $(CC).errors    && echo "\033[0;32mOK\033[0m"   \
+													  || echo "\033[0;31mFAIL\033[0m" \
+													  || exit 1
 else
-	$(CC)    $(CFLAGS) main.c || exit 1
+	$(CC)    $(CFLAGS) $(SRCFILE)					  || exit 1
 endif
 
 object:
 ifneq ($(MAKECMDGOALS),debug)
-	@printf "[\033[0;34m%s\033[0m]   %-16s -> %-16s ... " "$(ASM)" "$(GAME).asm" "$(GAME).vbin"
-	@$(ASM)  $(AFLAGS) $(GAME).asm 2>> $(ASM).errors && echo "\033[0;32mOK\033[0m" || echo "\033[0;31mFAIL\033[0m" || exit 1
+	@printf "[\033[0;34m%s\033[0m]   %-16s -> %-16s ... "     "$(ASM)"       \
+															  "$(GAME).asm"  \
+															  "$(GAME).vbin"
+	@$(ASM)  $(AFLAGS) $(GAME).asm 2>> $(ASM).errors  && echo "\033[0;32mOK\033[0m"   \
+													  || echo "\033[0;31mFAIL\033[0m" \
+													  || exit 1
 else
-	$(ASM)   $(AFLAGS) $(GAME).asm || exit 1
+	$(ASM)   $(AFLAGS) $(GAME).asm					  || exit 1
 endif
 
 $(GAME):
 	@../data/mkxml.sh $(GAME)
 ifneq ($(MAKECMDGOALS),debug)
-	@printf "[\033[1;34m%s\033[0m]    %-16s -> %-16s ... " "$(PACK)" "$(GAME).vbin" "$(GAME).v32"
-	@$(PACK) $(PFLAGS) $(GAME).xml 2>> $(PACK).errors && echo "\033[1;32mDONE\033[0m" || echo "\033[1;31mFAIL\033[0m" || exit 1
+	@printf "[\033[1;34m%s\033[0m]    %-16s -> %-16s ... "    "$(PACK)"      \
+															  "$(GAME).vbin" \
+															  "$(GAME).v32"
+	@$(PACK) $(PFLAGS) $(GAME).xml 2>> $(PACK).errors && echo "\033[1;32mDONE\033[0m" \
+													  || echo "\033[1;31mFAIL\033[0m" \
+													  || exit 1
 else
-	$(PACK)  $(PFLAGS) $(GAME).xml || exit 1
+	$(PACK)  $(PFLAGS) $(GAME).xml                    || exit 1
 endif
 
 tail:
@@ -57,5 +72,7 @@ ifndef DEBUG
 endif
 
 clean:
-	@printf "[\033[0;33m%s\033[0m]      %-36s ... " "clean" "removing object files"
-	@rm -f .*.sw[op] *.save* *~ $(BINPATH)/$(GAME) *.errors *.debug *.asm *.vbin *.v32 *.xml && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"
+	@printf "[\033[0;33m%s\033[0m]      %-9s%-27s ... " "clean" \
+	                                                    "$(CATEGORY): " \
+	                                                    "removing $(DSTTYPE) files"
+	@rm -f .*.sw[op] *.save* *~ *.errors *.debug *.asm *.vbin *.v32 *.xml && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"

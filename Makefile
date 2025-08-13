@@ -41,7 +41,6 @@ ifndef DEBUG
 	@printf "\033[0;33m==========================================================\033[0m\n"
 endif
 	@for item in $(UNITS) data; do make -C $$item clean; done
-	@rm -f bin/*
 	@echo
 
 save: clean

@@ -5,11 +5,12 @@ INPUTS := $(wildcard *.$(SRCTYPE))
 OBJECTS := $(patsubst %.$(SRCTYPE),%.$(DSTTYPE),${INPUTS})
 FLAGS = 
 PROCESS = $(SRCTYPE)2vircon
+MAKEFLAGS += --always-make
 all: head $(CATEGORY) tail
 
 debug: FLAGS += -v
 debug: DEBUG = debug
-debug: sounds
+debug: $(CATEGORY)
 
 head:
 ifndef DEBUG
@@ -36,7 +37,8 @@ ifndef DEBUG
 endif
 
 clean:
-	@printf "[\033[0;34m%s\033[0m]     %-36s ... " "$(CATEGORY)" \
-	                                               "removing $(DSTTYPE) files"
-	@rm -f *.$(DSTTYPE) *.errors && echo "\033[0;32mOK\033[0m"   \
-	                             || echo "\033[0;31mFAIL\033[0m"
+	@printf "[\033[0;34m%s\033[0m]     %-36s\n" "$(CATEGORY)" \
+	                                            "removing $(DSTTYPE) files"
+	@rm -f *.errors
+	@make -f Makefile.clean --no-print-directory
+	@echo

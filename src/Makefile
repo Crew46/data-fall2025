@@ -77,3 +77,4 @@ clean:
 	@rm -f .*.sw[op] *.save* *~ *.errors *.debug
 	@rm -f *.asm *.vbin *.v32 *.xml && echo "\033[0;32mOK\033[0m"   \
 	                                || echo "\033[0;31mFAIL\033[0m"
+	@echo

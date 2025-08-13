@@ -18,7 +18,7 @@ TITLE="fall2025/data game"
 ##
 echo    '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>'      >  ${GAME}.xml
 echo    '<rom-definition version="1.0">'                               >> ${GAME}.xml
-echo -n '    <rom type="cartridge" title="'                             >> ${GAME}.xml
+echo -n '    <rom type="cartridge" title="'                            >> ${GAME}.xml
 echo -n "${TITLE}"                                                     >> ${GAME}.xml
 echo    '" version="1.0" />'                                           >> ${GAME}.xml
 

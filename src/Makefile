@@ -1,4 +1,4 @@
-CATEGORY = "code"
+CATEGORY = "source"
 GAME = game
 SRCFILE := main.c
 DSTTYPE = asm, object
@@ -19,7 +19,7 @@ debug: source object $(GAME)
 
 head:
 ifndef DEBUG
-	@printf "\033[0;33m%s\033[0m:\n" "code"
+	@printf "\033[0;33m%s\033[0m:\n" "$(CATEGORY)"
 	@printf "\033[0;33m==========================================================\033[0m\n"
 endif
 
@@ -72,7 +72,6 @@ ifndef DEBUG
 endif
 
 clean:
-	@printf "[\033[0;33m%s\033[0m]      %-9s%-27s ... " "clean" \
-	                                                    "$(CATEGORY): " \
-	                                                    "removing $(DSTTYPE) files"
+	@printf "[\033[0;34m%s\033[0m]     %-36s ... " "$(CATEGORY)" \
+	                                               "removing $(DSTTYPE) files"
 	@rm -f .*.sw[op] *.save* *~ *.errors *.debug *.asm *.vbin *.v32 *.xml && echo "\033[1;32mOK\033[0m" || echo "\033[1;31mFAIL\033[0m"

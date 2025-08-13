@@ -7,7 +7,7 @@ OBJ =
 AR = ar
 DEBUG = 
 PROJ = game
-UNITS = audio images src 
+UNITS = images sounds src 
 BIN = 
 default: game
 debug: game-debug
@@ -20,7 +20,12 @@ ifndef DEBUG
 MAKEFLAGS += --no-print-directory
 endif
 
-game:
+header:
+ifndef DEBUG
+	@printf ""
+endif
+
+game: header
 	@mkdir -p $(UNITS) bin data
 	@for item in $(UNITS); do make -C $$item $(DEBUG); done
 
@@ -31,8 +36,13 @@ v32: game
 	@make -C data $(DEBUG)
 
 clean:
+ifndef DEBUG
+	@printf "\033[0;33m%s\033[0m:\n" "clean"
+	@printf "\033[0;33m==========================================================\033[0m\n"
+endif
 	@for item in $(UNITS) data; do make -C $$item clean; done
 	@rm -f bin/*
+	@echo
 
 save: clean
 	@echo "Archiving the project ..."

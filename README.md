@@ -3,11 +3,11 @@ Collaborative Vircon32 shoot-em-up game
 
 Project folder format:
 
-  * **audio/**: sound assets
   * **bin/**: packed cartridge
   * **data/**: XML and cartridge packing logic
   * **docs/**: documents on instalation, guides, etc.
   * **images/**: image assets
+  * **sounds/**: sound assets
   * **src/**: source code
 
 Read  [Features](Features.md) for  agreed upon  and still  discussed game

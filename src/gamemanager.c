@@ -11,7 +11,7 @@ struct object
 GameManager* CreateGameManager() 
 {
     // Allocate memory for the GameManager structure
-    Gamemanager* gameManager = (GameManager*)malloc(sizeof(GameManager));
+    GameManager* gameManager = (GameManager*)malloc(sizeof(GameManager));
     return gameManager;
 }
 

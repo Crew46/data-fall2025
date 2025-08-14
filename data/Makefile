@@ -28,9 +28,9 @@ ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[1;34m%s\033[0m]    %-16s -> %-16s ... " "$(PACK)"      \
 	                                                       "$(GAME).vbin" \
 	                                                       "$(GAME).v32"
-	@$(PACK) $(PFLAGS) $(GAME).xml 2>> $(PACK).errors && echo "\033[1;32mDONE\033[0m" \
-	                                                  || echo "\033[1;31mFAIL\033[0m" \
-	                                                  || exit 1
+	@$(PACK) $(PFLAGS) $(GAME).xml 2>> $(PACK).errors && echo "\033[1;32mDONE\033[0m"  \
+	                                                  || (echo "\033[1;31mFAIL\033[0m" \
+	                                                  && exit 1)
 else
 	$(PACK)  $(PFLAGS) $(GAME).xml                    || exit 1
 endif
@@ -42,7 +42,8 @@ ifndef DEBUG
 endif
 
 clean:
-	@printf "[\033[0;34m%s\033[0m]     %-36s ... " "$(CATEGORY)" \
-	                                               "removing $(DSTTYPE) files"
-	@rm -f $(BINPATH)/$(GAME).v32 *.errors *.v32 *.xml && echo "\033[0;32mOK\033[0m"   \
-	                                                   || echo "\033[0;31mFAIL\033[0m"
+	@rm -f .*.sw[op] *.save* *~ *.errors *.debug
+	@printf "[\033[0;34m%s\033[0m]     %-36s\n" "$(CATEGORY)" \
+	                                            "removing $(DSTTYPE) files"
+	@make -f Makefile.clean --no-print-directory
+	@echo

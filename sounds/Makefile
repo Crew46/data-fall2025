@@ -24,9 +24,9 @@ $(CATEGORY): $(OBJECTS)
 %.$(DSTTYPE): %.$(SRCTYPE)
 ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;34m%s\033[0m] %-16s -> %-16s ... " "$(PROCESS)" "$^" "$@"
-	@$(PROCESS) $(FLAGS) $^ 2>> $(PROCESS).errors && echo "\033[0;32mOK\033[0m"   \
-	                                              || echo "\033[0;31mFAIL\033[0m" \
-	                                              || exit 1
+	@$(PROCESS) $(FLAGS) $^ 2>> $(PROCESS).errors && echo "\033[0;32mOK\033[0m"    \
+	                                              || (echo "\033[0;31mFAIL\033[0m" \
+	                                              && exit 1)
 else
 	$(PROCESS)  $(FLAGS) $^                       || exit 1
 endif

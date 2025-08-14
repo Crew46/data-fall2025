@@ -32,6 +32,7 @@ game: header
 all: v32
 cart: v32
 rom: v32
+v32rom: v32
 v32: game
 	@make -C data $(DEBUG)
 

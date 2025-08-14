@@ -22,7 +22,8 @@ endif
 
 header:
 ifndef DEBUG
-	@printf ""
+	@printf "\033[1;36m%s\033[0m ...\n" "building $(PROJ)"
+	@echo
 endif
 
 game: header

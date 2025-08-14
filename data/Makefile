@@ -38,12 +38,14 @@ endif
 
 tail:
 ifndef DEBUG
-	@echo
+	@echo -n
 endif
 
 clean:
+ifneq ("$(wildcard $(GAME).v32)","")
 	@rm -f .*.sw[op] *.save* *~ *.errors *.debug
 	@printf "[\033[0;34m%s\033[0m]     %-36s\n" "$(CATEGORY)" \
 	                                            "removing $(DSTTYPE) files"
 	@make -f Makefile.clean --no-print-directory
-	@echo
+endif
+	@echo -n

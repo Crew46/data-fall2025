@@ -14,8 +14,10 @@ debug: $(CATEGORY)
 
 head:
 ifndef DEBUG
+ifneq ("$(wildcard *.$(SRCTYPE))","")
 	@printf "\033[0;33m%s\033[0m:\n" "$(CATEGORY)"
 	@printf "\033[0;33m==========================================================\033[0m\n"
+endif
 endif
 
 $(CATEGORY): $(OBJECTS)
@@ -33,12 +35,17 @@ endif
 
 tail:
 ifndef DEBUG
+ifneq ("$(wildcard *.$(SRCTYPE))","")
 	@echo
+endif
 endif
 
 clean:
+ifneq ("$(wildcard *.$(DSTTYPE))","")
 	@printf "[\033[0;34m%s\033[0m]     %-36s\n" "$(CATEGORY)" \
 	                                            "removing $(DSTTYPE) files"
 	@rm -f *.errors
 	@make -f Makefile.clean --no-print-directory
 	@echo
+endif
+	@echo -n

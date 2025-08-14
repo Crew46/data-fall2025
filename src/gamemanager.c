@@ -19,6 +19,9 @@ void InitializeGameManager(GameManager* gameManager)
 {
     if(gameManager != NULL) 
     {
+        //initialize things managed by game manager
+
+        //temporary location for shooter initialization 
         //int         chance              = 0;
         int         index               = 0;
         int         xpos                = 320;
@@ -60,103 +63,107 @@ void DeinitializeGameManager(Gamemanager* gameManager)
 
 void UpdateGameManager(Gamemanager* gameManager) 
 {
-    if (gamepad_left()         >  0)
+    if(gameManager != NULL) 
     {
-        xpos                    = xpos - 1;
-    }
-
-    if (gamepad_right()        >  0)
-    {
-        xpos                    = xpos + 1;
-    }
-
-    if (gamepad_up()           >  0)
-    {
-        ypos                    = ypos - 1;
-    }
-
-    if (gamepad_down()         >  0)
-    {
-        ypos                    = ypos + 1;
-    }
-
-    if (gamepad_button_a()     >  0)
-    {
-        if (pewpews            <  4)
+        //temporary location for input handling, drawing, and object specific game logic, will be moved to appropriate systems later
+        if (gamepad_left()         >  0)
         {
-            pewpew[pewpews].x      = xpos;
-            pewpew[pewpews].y      = ypos;
-            pewpew[pewpews].alive  = 1;
-            pewpews                = pewpews + 1;
+            xpos                    = xpos - 1;
         }
-    }
 
-    if (xpos                   <  0)
-    {
-        xpos                    = 0;
-    }
-
-    if (xpos                   >  630)
-    {
-        xpos                    = 630;
-    }
-
-    if (ypos                   >  350)
-    {
-        ypos                    = 350;
-    }
-
-    if (ypos                   <  0)
-    {
-        ypos                    = 0;
-    }
-
-    select_region ('^');
-    set_drawing_point (xpos, ypos);
-    draw_region ();
-
-    for (index = 0; index < 12; index++)
-    {
-        if (enemy[index].alive == 1)
+        if (gamepad_right()        >  0)
         {
-            select_region (enemy[index].region);
-            set_drawing_point (enemy[index].x, enemy[index].y);
-            draw_region ();
+            xpos                    = xpos + 1;
+        }
 
-            enemy[index].x      = rand () % 3 - 1;
-            enemy[index].y      = enemy[index].y + 1;
+        if (gamepad_up()           >  0)
+        {
+            ypos                    = ypos - 1;
+        }
 
-            if (enemy[index].x <  0)
+        if (gamepad_down()         >  0)
+        {
+            ypos                    = ypos + 1;
+        }
+
+        if (gamepad_button_a()     >  0)
+        {
+            if (pewpews            <  4)
             {
-                enemy[index].x  = 0;
-            }
-
-            if (enemy[index].x >  630)
-            {
-                enemy[index].x  = 630;
-            }
-
-            if (enemy[index].y >  630)
-            {
-                enemy[index].y  = rand () % 40 - 30;
+                pewpew[pewpews].x      = xpos;
+                pewpew[pewpews].y      = ypos;
+                pewpew[pewpews].alive  = 1;
+                pewpews                = pewpews + 1;
             }
         }
-    }
 
-    if (pewpews                >  0)
-    {
-        for (index = 0; index < pewpews; index++)
+        if (xpos                   <  0)
         {
-            select_region (pewpew[index].region);
-            set_drawing_point (pewpew[index].x, pewpew[index].y);
-            draw_region ();
+            xpos                    = 0;
+        }
 
-            pewpew[index].y     = pewpew[index].y - 1;
+        if (xpos                   >  630)
+        {
+            xpos                    = 630;
+        }
 
-            if (pewpew[index].y <  0)
+        if (ypos                   >  350)
+        {
+            ypos                    = 350;
+        }
+
+        if (ypos                   <  0)
+        {
+            ypos                    = 0;
+        }
+
+        select_region ('^');
+        set_drawing_point (xpos, ypos);
+        draw_region ();
+
+        for (index = 0; index < 12; index++)
+        {
+            if (enemy[index].alive == 1)
             {
-                pewpew[index].alive  = 0;
-                pewpews              = pewpews - 1;
+                select_region (enemy[index].region);
+                set_drawing_point (enemy[index].x, enemy[index].y);
+                draw_region ();
+
+                enemy[index].x      = rand () % 3 - 1;
+                enemy[index].y      = enemy[index].y + 1;
+
+                if (enemy[index].x <  0)
+                {
+                    enemy[index].x  = 0;
+                }
+
+                if (enemy[index].x >  630)
+                {
+                    enemy[index].x  = 630;
+                }
+
+                if (enemy[index].y >  630)
+                {
+                    enemy[index].y  = rand () % 40 - 30;
+                }
+            }
+        }
+
+        if (pewpews                >  0)
+        {
+            for (index = 0; index < pewpews; index++)
+            {
+                select_region (pewpew[index].region);
+                set_drawing_point (pewpew[index].x, pewpew[index].y);
+                draw_region ();
+
+                pewpew[index].y     = pewpew[index].y - 1;
+
+                if (pewpew[index].y <  0)
+                {
+                    pewpew[index].alive  = 0;
+                    pewpews              = pewpews - 1;
+                }
             }
         }
     }

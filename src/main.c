@@ -1,4 +1,5 @@
 #include "gamemanager.h"
+#include "gamemanager.c"
 
 GameManager* gameManager;
 

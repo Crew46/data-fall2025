@@ -7,4 +7,13 @@
 #include "time.h"
 #include "video.h"
 
+struct Gamemanager {
+};
+
+GameManager* CreateGameManager();
+
+void InitializeGameManager(GameManager* gameManager);
+
+void UpdateGameManager(Gamemanager* gameManager);
+
 #endif

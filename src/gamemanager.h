@@ -7,13 +7,21 @@
 #include "time.h"
 #include "video.h"
 
-struct Gamemanager {
+enum GameState
+{
+    Menu
+};
+
+struct GameManager {
+    GameState gameState;
 };
 
 GameManager* CreateGameManager();
 
 void InitializeGameManager(GameManager* gameManager);
 
-void UpdateGameManager(Gamemanager* gameManager);
+void UpdateGameManager(GameManager* gameManager);
+
+void DeinitializeGameManager(GameManager* gameManager);
 
 #endif

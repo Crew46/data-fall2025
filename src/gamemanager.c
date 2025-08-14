@@ -8,7 +8,7 @@ struct object
 	int alive;
 };
 
-Gamemanager* CreateGameManager() 
+GameManager* CreateGameManager() 
 {
     // Allocate memory for the GameManager structure
     Gamemanager* gameManager = (GameManager*)malloc(sizeof(GameManager));
@@ -53,7 +53,7 @@ void InitializeGameManager(GameManager* gameManager)
     }
 }
 
-void DeinitializeGameManager(Gamemanager* gameManager) 
+void DeinitializeGameManager(GameManager* gameManager) 
 {
     if (gameManager != NULL) 
     {
@@ -61,7 +61,7 @@ void DeinitializeGameManager(Gamemanager* gameManager)
     }
 }
 
-void UpdateGameManager(Gamemanager* gameManager) 
+void UpdateGameManager(GameManager* gameManager) 
 {
     if(gameManager != NULL) 
     {

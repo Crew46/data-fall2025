@@ -1,6 +1,6 @@
 #include "gamemanager.h"
 
-Gamemanager* gameManager;
+GameManager* gameManager;
 
 void main (void)
 {

@@ -10,3 +10,7 @@ Discussed Features and Ideas:
     * offensive: magnetic attraction, defensive: magnetic repulsion
 * wedge: switch sides
 * wedge: grab assets from online game repos
+* tylermanguy58: enemies of different health, size, and magnitude
+* tylermanguy58: boss enemies that can spawn in smaller ones, do specialized attacks, and progress the level.
+* tylermanguy58: boss bar to show the progress of a boss battle in progress
+* tylermanguy58: collision system to detect enemy damage, powerups, repaires, etc.

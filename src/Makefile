@@ -72,8 +72,8 @@ ifndef DEBUG
 endif
 
 clean:
-ifneq ("$(wildcard $(GAME).asm)","")
 	@rm -f .*.sw[op] *.save* *~ *.errors *.debug *.v32 *.xml
+ifneq ("$(wildcard $(GAME).asm)","")
 	@printf "[\033[0;34m%s\033[0m]     %-36s\n" "$(CATEGORY)" \
 	                                            "removing $(DSTTYPE) files"
 	@make -f Makefile.clean --no-print-directory

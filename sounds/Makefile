@@ -41,10 +41,10 @@ endif
 endif
 
 clean:
+	@rm -f *.errors
 ifneq ("$(wildcard *.$(DSTTYPE))","")
 	@printf "[\033[0;34m%s\033[0m]     %-36s\n" "$(CATEGORY)" \
 	                                            "removing $(DSTTYPE) files"
-	@rm -f *.errors
 	@make -f Makefile.clean --no-print-directory
 	@echo
 endif

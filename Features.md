@@ -14,3 +14,6 @@ Discussed Features and Ideas:
 * tylermanguy58: boss enemies that can spawn in smaller ones, do specialized attacks, and progress the level.
 * tylermanguy58: boss bar to show the progress of a boss battle in progress
 * tylermanguy58: collision system to detect enemy damage, powerups, repaires, etc.
+* Darkjet21: Score system.
+* Darkjet21: Powerups that impact the other players in a negative way. (Such as longer cooldowns for defensive abilities.)
+* 

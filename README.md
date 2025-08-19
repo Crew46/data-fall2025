@@ -5,7 +5,7 @@ Project folder format:
 
   * **bin/**: packed cartridge
   * **data/**: XML and cartridge packing logic
-  * **docs/**: documents on instalation, guides, etc.
+  * **docs/**: documents on installation, guides, etc.
   * **images/**: image assets
   * **sounds/**: sound assets
   * **src/**: source code

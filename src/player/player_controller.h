@@ -25,18 +25,20 @@ struct PlayerController
 ///////////////////////////////////////////////////////////
 
 //constructor
-void CreatePlayerController(int x, int y, float maxShootCooldownTime, int maxLasers)
+PlayerController* CreatePlayerController(int x, int y, float maxShootCooldownTime, int maxLasers, Sprite** sprites)
 {
     // Create the player model
     Player* player = CreatePlayer(x, y, maxShootCooldownTime, maxLasers);
 
     //create the player view
-    PlayerView* view = CreatePlayerView();
+    PlayerView* view = CreatePlayerView(sprites);
 
-    //create the player controller
+    //create the player controller, and set its model and view
     PlayerController* controller = (PlayerController*)malloc(sizeof(PlayerController));
     controller->player = player;
     controller->view = view;
+
+    return controller;
 }
 
 //deconstructor

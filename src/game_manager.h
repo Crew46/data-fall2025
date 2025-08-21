@@ -23,6 +23,18 @@ struct GameManager {
 ///////////Constructor and Deconstructor///////////////////
 ///////////////////////////////////////////////////////////
 
+void InitializeGameManager(GameManager* manager) 
+{
+    // create sprite array that player view will use, will use 2 sprites for now
+    Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 2);
+    sprites[0] = CreateSprite(1); // Example sprite
+    sprites[1] = CreateSprite(4); // Example sprite
+
+    playerController = CreatePlayerController(20, 10, 1, 10, sprites); // Create player controller with initial values
+    // Initialize game state
+    manager->state = Menu;
+}
+
 //constructor
 GameManager* CreateGameManager()
 {
@@ -31,12 +43,6 @@ GameManager* CreateGameManager()
     return gameManager;
 }
 
-void InitializeGameManager(GameManager* manager) 
-{
-    playerController = CreatePlayerController(0, 0, 1.0f, 10); // Create player controller with initial values
-    // Initialize game state
-    manager->state = Menu;
-}
 
 //deconstructor
 void DeinitializeGameManager(GameManager* manager) 
@@ -44,6 +50,9 @@ void DeinitializeGameManager(GameManager* manager)
     free(manager);
 }
 
+///////////////////////////////////////////////////////////
+///////////UPDATE GAME MANAGER/////////////////////////////
+///////////////////////////////////////////////////////////
 
 void UpdateGameManager(GameManager* manager) 
 {

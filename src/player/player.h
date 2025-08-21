@@ -16,7 +16,7 @@
 
 struct Player 
 {
-    int maxLasers; // Maximum number of lasers the player can have
+    int maxLasers; // Maximum number of lasers that the player can have shot at once
     LaserController* laser; // Player's laser list
     Vector2* position;
     float maxShootCooldownTime; //seconds
@@ -47,11 +47,6 @@ void DeinitializePlayer(Player* player)
     //deinitialize player position vector
     DeinitializeVector2(player->position);
 
-    //deinitialize each laser controller in the array
-    for(int i = 0; i < player->maxLasers; i++)
-    {
-        DeinitializeLaserController(&player->laser[i]);
-    }
 
     //free player struct
     free(player);
@@ -61,7 +56,7 @@ void DeinitializePlayer(Player* player)
 ///////////Player Functions////////////////////////////////
 ///////////////////////////////////////////////////////////
 
-void MovePlayer(Player* player, Vector2* direction)
+void PlayerMove(Player* player, Vector2* direction)
 {
     //add player position and direction to player position
     AddVector2Components(player->position, direction, player->position);

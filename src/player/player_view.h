@@ -1,16 +1,18 @@
 #ifndef PLAYER_VIEW_H
 #define PLAYER_VIEW_H
 #include "misc.h"
+#include "video.h"
+#include "../sprite/sprite.h"
 
 struct PlayerView
 {
-    // Placeholder for player view properties (e.g., sprite, texture)
+    Sprite** sprites; // pointer to list of pointers to sprites of the player
 };
 
-PlayerView* CreatePlayerView()
+PlayerView* CreatePlayerView(Sprite** sprites)
 {
     PlayerView* view = (PlayerView*)malloc(sizeof(PlayerView));
-    // Initialize view properties here if needed
+    view->sprites = sprites; // Initialize the sprite array
     return view;
 }
 

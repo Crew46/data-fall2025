@@ -1,25 +1,18 @@
-#include "gamemanager.h"
-#include "gamemanager.c"
-#include "player.h"
-#include "player.c"
+#include "game_manager.h"
+#include "time.h"
 
 GameManager* gameManager;
 
-void main (void)
+void main(void)
 {
-	//create and initialize Game Manager
-	gameManager = CreateGameManager();
-	InitializeGameManager(gameManager);
-	
-	//Game Loop
-	while (true)
-	{
-		//Update Game Manager
-		UpdateGameManager(gameManager);
+    gameManager = CreateGameManager();
+    InitializeGameManager(gameManager);
+    while(true)
+    {
+        UpdateGameManager(gameManager);
+        end_frame();
+    }
 
-		end_frame ();
-	}
-
-	//Deinitialize Game Manager
-	DeinitializeGameManager(gameManager);
+    DeinitializeGameManager(gameManager);
 }
+

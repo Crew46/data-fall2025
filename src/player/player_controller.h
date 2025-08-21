@@ -1,6 +1,6 @@
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
-#include "player_model.h"
+#include "player.h"
 #include "player_view.h"
 
 
@@ -18,6 +18,7 @@
 struct PlayerController
 {
     Player* player; // Pointer to the player model
+    PlayerView* view; // Pointer to the player view
 };
 
 
@@ -29,15 +30,24 @@ struct PlayerController
 void CreatePlayerController(int x, int y, float maxShootCooldownTime, int maxLasers)
 {
     // Create the player model
-    Player* player = (Player*)malloc(sizeof(Player));
-    CreatePlayer(x, y, maxShootCooldownTime, maxLasers);
+    Player* player = CreatePlayer(x, y, maxShootCooldownTime, maxLasers);
+
+    //create the player view
+    PlayerView* view = CreatePlayerView();
+
+    //create the player controller
+    PlayerController* controller = (PlayerController*)malloc(sizeof(PlayerController));
+    controller->player = player;
+    controller->view = view;
 }
 
 //deconstructor
 void DeinitializePlayerController(PlayerController* controller)
 {
-    // Deinitialize the player model
+    // Deinitialize the player model and view
     DeinitializePlayer(controller->player);
+    DeinitializePlayerView(controller->view);
+
     free(controller);
 }
 

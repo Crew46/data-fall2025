@@ -16,6 +16,7 @@
 
 struct Player 
 {
+    int id; // Unique identifier for the player
     int maxLasers; // Maximum number of lasers that the player can have shot at once
     LaserController** laser; // list of pointers to laser controllers
     Vector2* position;

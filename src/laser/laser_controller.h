@@ -2,9 +2,23 @@
 #define LASER_CONTROLLER_H
 #include "laser.h"
 
+/** 
+ * SUMMARY:
+ * This file is a facade & glue for the laser model, and the laser view. 
+ * it's responsibility is controlling the interaction between the two.
+**/
+
+////////////////////////////////////////////////////////////
+///////////Struct///////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
 struct LaserController {
     Laser* laser;
 };
+
+/////////////////////////////////////////////////////////////
+///////////Constructor and Deconstructor/////////////////////
+/////////////////////////////////////////////////////////////
 
 LaserController* CreateLaserController(float x, float y, float speed, float lifetime) 
 {
@@ -13,11 +27,15 @@ LaserController* CreateLaserController(float x, float y, float speed, float life
     return controller;
 }
 
-void DeinitializeLaserController(LaserController* controller) 
+void DeconstructLaserController(LaserController* controller) 
 {
-    DeinitializeLaser(controller->laser);
+    DeconstructLaser(controller->laser);
     free(controller);
 }
+
+/////////////////////////////////////////////////////////////
+///////////Laser_Controller Functions///////////////////////
+/////////////////////////////////////////////////////////////
 
 void UpdateLaserController(LaserController* controller, float deltaTime) 
 {

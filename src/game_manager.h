@@ -1,12 +1,14 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 #include "misc.h"
-#include "invader/invader.h"
 #include "player/player.h"
 
+struct GameState {
+    Menu
+};
+
 struct GameManager {
-    Invader* invaders; // Array of invaders
-    int invaderCount; // Number of invaders
+    GameState state; // Current game state
 };
 
 GameManager* CreateGameManager()

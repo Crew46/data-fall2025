@@ -3,7 +3,7 @@
 #include "misc.h"
 #include "player/player.h"
 
-struct GameState {
+enum GameState {
     Menu
 };
 
@@ -11,31 +11,22 @@ struct GameManager {
     GameState state; // Current game state
 };
 
+
+//constructor
 GameManager* CreateGameManager()
 {
     return (GameManager*)malloc(sizeof(GameManager));
 }
 
-void UpdateGameManager(GameManager* manager) 
-{
-    //update invaders
-    for(int i = 0; i < manager->invaderCount; i++)
-    {
-        UpdateInvader(&manager->invaders[i]);
-    }
-}
-
-void InitializeGameManager(GameManager* manager) 
-{
-}
-
+//deconstructor
 void DeinitializeGameManager(GameManager* manager) 
 {
-    for(int i = 0; i < manager->invaderCount; i++) 
-    {
-        DeinitializeInvader(&manager->invaders[i]);
-    }
     free(manager);
+}
+
+
+void UpdateGameManager(GameManager* manager) 
+{
 }
 
 #endif // GAME_MANAGER_H

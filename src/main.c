@@ -6,7 +6,6 @@ GameManager* gameManager;
 void main(void)
 {
     gameManager = CreateGameManager();
-    InitializeGameManager(gameManager);
     while(true)
     {
         UpdateGameManager(gameManager);

@@ -4,9 +4,11 @@
 #include "../vector/vector2.h"
 #include "../laser/laser_controller.h"
 
-/// 
-/// This file is the model of player, containing player properties and functions
-///
+/** 
+ * SUMMARY:
+ * This file defines the Player struct and its associated functions.
+ * This is the model of the player: the the fundamental properties and behaviors of the player.
+**/
 
 ////////////////////////////////////////////////////////////
 ///////////Player Struct////////////////////////////////////

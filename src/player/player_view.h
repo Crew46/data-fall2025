@@ -4,27 +4,43 @@
 #include "video.h"
 #include "../sprite/sprite.h"
 
+/** 
+ * SUMMARY:
+ * this files represents the view of a player
+ * it's struct cotnains all the sprites that a player can use
+ * it also contains functions to create, deinitialize and draw the player
+**/
+
+////////////////////////////////////////////////////////////
+///////////Struct//////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
 struct PlayerView
 {
     Sprite** sprites; // pointers to all the sprites the player will use
     int numSprites; // number of sprites
 };
 
-PlayerView* CreatePlayerView(Sprite** sprites)
+///////////////////////////////////////////////////////////
+///////////Constructor and Deconstructor///////////////////
+///////////////////////////////////////////////////////////
+
+PlayerView* CreatePlayerView(Sprite** sprites, int numSprites)
 {
     PlayerView* view = (PlayerView*)malloc(sizeof(PlayerView));
     view->sprites = sprites; // Initialize the sprite array
+    view->numSprites = numSprites;
     return view;
 }
 
-void DeinitializePlayerView(PlayerView* view)
+void DeconstructPlayerView(PlayerView* view)
 {
-    for(int i = 0; i < view->numSprites; i++)
-    {
-        DeinitializeSprite(view->sprites[i]); // Deinitialize each sprite
-    }
     free(view);
 }
+
+///////////////////////////////////////////////////////////
+///////////Player View Functions///////////////////////////
+///////////////////////////////////////////////////////////
 
 void DrawPlayer(PlayerView* view, Player* player)
 {

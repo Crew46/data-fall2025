@@ -6,8 +6,8 @@
 
 /** 
  * SUMMARY:
- * This file is a facade for the player model, and the player view. 
- * it's responsibility is controlling the interaction between the player model and it's view.
+ * This file is a facade & glue for the player model, and the player view. 
+ * it's responsibility is controlling the interaction between the two.
 **/
 
 ////////////////////////////////////////////////////////////
@@ -25,13 +25,13 @@ struct PlayerController
 ///////////////////////////////////////////////////////////
 
 //constructor
-PlayerController* CreatePlayerController(int x, int y, float maxShootCooldownTime, int maxLasers, Sprite** sprites)
+PlayerController* CreatePlayerController(int x, int y, float maxShootCooldownTime, int maxLasers, Sprite** sprites, int numSprites)
 {
     // Create the player model
     Player* player = CreatePlayer(x, y, maxShootCooldownTime, maxLasers);
 
     //create the player view
-    PlayerView* view = CreatePlayerView(sprites);
+    PlayerView* view = CreatePlayerView(sprites, numSprites);
 
     //create the player controller, and set its model and view
     PlayerController* controller = (PlayerController*)malloc(sizeof(PlayerController));
@@ -42,11 +42,11 @@ PlayerController* CreatePlayerController(int x, int y, float maxShootCooldownTim
 }
 
 //deconstructor
-void DeinitializePlayerController(PlayerController* controller)
+void DeconstructPlayerController(PlayerController* controller)
 {
     // Deinitialize the player model and view
-    DeinitializePlayer(controller->player);
-    DeinitializePlayerView(controller->view);
+    DeconstructPlayer(controller->player);
+    DeconstructPlayerView(controller->view);
 
     free(controller);
 }

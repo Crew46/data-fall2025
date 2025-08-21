@@ -42,10 +42,10 @@ Player* CreatePlayer(int x, int y, float maxShootCooldownTime, int maxLasers)
 }
 
 //player deconstructor
-void DeinitializePlayer(Player* player)
+void DeconstructPlayer(Player* player)
 {
-    //deinitialize player position vector
-    DeinitializeVector2(player->position);
+    //deinitialize & free player position vector
+    DeconstructVector2(player->position);
 
     //free player struct
     free(player);

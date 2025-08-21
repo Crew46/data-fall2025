@@ -17,7 +17,7 @@
 struct Player 
 {
     int maxLasers; // Maximum number of lasers the player can have
-    Laser* laser; // Player's laser list
+    LaserController* laser; // Player's laser list
     Vector2* position;
     float maxShootCooldownTime; //seconds
     float currentShootCooldownTime; //seconds
@@ -27,25 +27,33 @@ struct Player
 ///////////Constructor and Deconstructor///////////////////
 ///////////////////////////////////////////////////////////
 
-void CreatePlayer(int x, int y, float maxShootCooldownTime, int maxLasers)
+Player* CreatePlayer(int x, int y, float maxShootCooldownTime, int maxLasers)
 {
     //allocate memory for player
     Player* player = (Player*)malloc(sizeof(Player));
 
     //player properties initialization
     player->maxLasers = maxLasers;
-    player->laser = (Laser*)malloc(sizeof(Laser) * maxLasers); // Initialize laser array of size maxLasers
+    player->laser = (LaserController*)malloc(sizeof(LaserController) * maxLasers); // Initialize laser controller array of size maxLasers
     player->maxShootCooldownTime = maxShootCooldownTime;
     player->currentShootCooldownTime = 0; // Start with no cooldown
     player->position = CreateVector2(x, y);
+    return player;
 }
 
 //player deconstructor
 void DeinitializePlayer(Player* player)
 {
-    //free allocated heap memory in player struct
-    free(player->position);
-    free(player->laser);
+    //deinitialize player position vector
+    DeinitializeVector2(player->position);
+
+    //deinitialize each laser controller in the array
+    for(int i = 0; i < player->maxLasers; i++)
+    {
+        DeinitializeLaserController(&player->laser[i]);
+    }
+
+    //free player struct
     free(player);
 }
 

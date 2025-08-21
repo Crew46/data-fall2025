@@ -17,6 +17,11 @@ Vector2* CreateVector2(float x, float y)
   return vector2;
 }
 
+void DeinitializeVector2(Vector2* vector2)
+{
+  free(vector2);
+}
+
 void AddVector2Components(Vector2* a, Vector2* b, Vector2* out)
 {
   out->x = a->x + b->x;

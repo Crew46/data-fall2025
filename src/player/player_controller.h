@@ -1,6 +1,8 @@
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
-#include "player.h"
+#include "player_model.h"
+#include "player_view.h"
+
 
 /** 
  * SUMMARY:

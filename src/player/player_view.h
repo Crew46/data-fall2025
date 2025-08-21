@@ -6,7 +6,8 @@
 
 struct PlayerView
 {
-    Sprite** sprites; // pointer to list of pointers to sprites of the player
+    Sprite** sprites; // pointers to all the sprites the player will use
+    int numSprites; // number of sprites
 };
 
 PlayerView* CreatePlayerView(Sprite** sprites)
@@ -18,7 +19,10 @@ PlayerView* CreatePlayerView(Sprite** sprites)
 
 void DeinitializePlayerView(PlayerView* view)
 {
-    // Deinitialize view properties here if needed
+    for(int i = 0; i < view->numSprites; i++)
+    {
+        DeinitializeSprite(view->sprites[i]); // Deinitialize each sprite
+    }
     free(view);
 }
 

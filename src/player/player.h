@@ -7,7 +7,7 @@
 /** 
  * SUMMARY:
  * This file defines the Player struct and its associated functions.
- * This is the model of the player: the the fundamental properties and behaviors of the player.
+ * This is the model of the player: the fundamental properties and behaviors of the player.
 **/
 
 ////////////////////////////////////////////////////////////

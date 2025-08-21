@@ -2,13 +2,12 @@
 #define PLAYER_CONTROLLER_H
 #include "player.h"
 #include "player_view.h"
-
+#include "../vector/vector2.h"
 
 /** 
  * SUMMARY:
- * This file is the logical glue between the player model and it's visual representation. 
- * This file is a facade for the player model, 
- * controlling the interaction between the player model and it's view.
+ * This file is a facade for the player model, and the player view. 
+ * it's responsibility is controlling the interaction between the player model and it's view.
 **/
 
 ////////////////////////////////////////////////////////////
@@ -20,7 +19,6 @@ struct PlayerController
     Player* player; // Pointer to the player model
     PlayerView* view; // Pointer to the player view
 };
-
 
 ///////////////////////////////////////////////////////////
 ///////////Constructor and Deconstructor///////////////////
@@ -55,9 +53,22 @@ void DeinitializePlayerController(PlayerController* controller)
 ///////////Player_Controller Functions/////////////////////
 ///////////////////////////////////////////////////////////
 
-void PlayerShoot()
+void PlayerControllerShoot(PlayerController* playerController)
 {
-
+    PlayerShoot(playerController->player);
 }
 
+void PlayerControllerMove(PlayerController* playerController, Vector2* direction)
+{
+    PlayerMove(playerController->player, direction);
+}
+
+void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)
+{
+    // Update the player's shoot cooldown
+    UpdateShootCooldown(playerController->player, deltaTime);
+
+    // Update the player view
+    DrawPlayer(playerController->view, playerController->player);
+}
 #endif

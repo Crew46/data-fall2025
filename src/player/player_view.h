@@ -20,4 +20,8 @@ void DeinitializePlayerView(PlayerView* view)
     free(view);
 }
 
+void DrawPlayer(PlayerView* view, Player* player)
+{
+}
+
 #endif // PLAYER_VIEW_H

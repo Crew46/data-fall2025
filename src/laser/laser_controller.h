@@ -10,8 +10,8 @@
 **/
 
 //initialize instances list
-Node* PlayerControllerList = CreateLinkedList();
-int instancesOfPlayerController = 0;
+Node* LaserControllerList = CreateLinkedList();
+int instancesOfLaserController = 0;
 
 ////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////

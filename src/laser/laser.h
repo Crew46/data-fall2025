@@ -5,7 +5,7 @@
 
 /** 
  * SUMMARY:
- * This is the model of the player: the fundamental properties and behaviors of the player.
+ * This is the model of the laser: the fundamental properties and behaviors.
  * This file defines the laser struct and its associated functions.
 **/
 
@@ -41,16 +41,5 @@ void DeconstructLaser(Laser* laser)
 ///////////////////////////////////////////////////////////
 ///////////Laser Functions/////////////////////////////////
 ///////////////////////////////////////////////////////////
-
-void UpdateLaser(Laser* laser, float deltaTime)
-{
-    // Move the laser based on its speed and the delta time
-    Vector2* movement = CreateVector2(laser->speed * deltaTime, 0);
-    AddVector2Components(laser->position, movement, laser->position);
-    free(movement);
-
-    // Decrease the lifetime of the laser
-    laser->lifetime -= deltaTime;
-}
 
 #endif // LASER_H

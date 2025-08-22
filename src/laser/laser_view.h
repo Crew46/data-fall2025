@@ -3,9 +3,9 @@
 
 /** 
  * SUMMARY:
- * this files represents the view of a player
- * it's struct cotnains all the sprites that a player can use
- * it also contains functions to create, deinitialize and draw the player
+ * this files represents the view of the laser
+ * it's struct contains all the sprites that the laser might need
+ * it also contains functions to create, deinitialize and draw the laser
 **/
 
 #endif // LASER_VIEW_H

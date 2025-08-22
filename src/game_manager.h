@@ -1,7 +1,12 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 #include "misc.h"
+#include "video.h"
 #include "player/player_controller.h"
+
+
+//temporary region definitions
+#define REGION_PLAYER 1
 
 //temporary player controller
 PlayerController* playerController;
@@ -25,10 +30,14 @@ struct GameManager {
 
 void InitializeGameManager(GameManager* manager) 
 {
+    //temporary player controller initialization
+    //select player texture
+    select_texture(1);
+    select_region(REGION_PLAYER);
+    define_region(0, 0, 64, 64, 32, 32); // Player sprite
     // create sprite array that player view will use, will use 2 sprites for now
     Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 2);
-    sprites[0] = CreateSprite(1); // Example sprite
-    sprites[1] = CreateSprite(4); // Example sprite
+    sprites[0] = CreateSprite(REGION_PLAYER, 1); // Example sprite
 
     playerController = CreatePlayerController(20, 10, 1, 10, 10, 0, sprites, 2); // Create player controller with initial values
     // Initialize game state

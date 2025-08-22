@@ -3,6 +3,7 @@
 #include "misc.h"
 #include "video.h"
 #include "../sprite/sprite.h"
+#include "player_controller.h"
 
 /** 
  * SUMMARY:
@@ -43,6 +44,9 @@ void DeconstructPlayerView(PlayerView* view)
 
 void DrawPlayer(PlayerView* view, Player* player)
 {
+    select_texture(view->sprites[0]->textureID); // Select the player's texture
+    select_region(view->sprites[0]->regionID); // Select the player's sprite region
+    draw_region_at(player->position->x, player->position->y); // Draw the sprite at the player's position
 }
 
 #endif // PLAYER_VIEW_H

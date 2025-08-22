@@ -9,16 +9,18 @@
 struct Sprite
 {
     int regionID; // ID of the texture region 
+    int textureID; // ID of the texture
 };
 
 ////////////////////////////////////////////////////////////////
 ///////////Constructor and Deconstructor////////////////////////
 ////////////////////////////////////////////////////////////////
 
-Sprite* CreateSprite(int regionID)
+Sprite* CreateSprite(int regionID, int textureID)
 {
     Sprite* sprite = (Sprite*)malloc(sizeof(Sprite));
     sprite->regionID = regionID;
+    textureID = textureID;
 }
 
 void DeconstructSprite(Sprite* sprite)

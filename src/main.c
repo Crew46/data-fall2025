@@ -4,9 +4,9 @@
 
 
 // Temporary spot to define stuff.
-	#define Background 0
+#define Background 0
 
-	GameManager* gameManager;
+GameManager* gameManager;
 
 void main(void)
 {
@@ -15,7 +15,7 @@ void main(void)
 	
 
 
-// Getting the Background
+	// Getting the Background
 	select_texture( 0 );
 	select_region ( Background );
 	define_region_topleft( 0,0, 639,359);
@@ -29,6 +29,7 @@ void main(void)
     //game loop
     while(true)
     {
+		clear_screen(get_color_red(0));	
 		//drawing the background
 		select_texture ( 0 );
 		select_region ( Background );
@@ -37,7 +38,6 @@ void main(void)
 
         //update game manager
         UpdateGameManager(gameManager);
-		
         end_frame();
     }
 

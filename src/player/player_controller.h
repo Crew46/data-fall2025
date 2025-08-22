@@ -1,13 +1,15 @@
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
+#include "input.h"
+#include "misc.h"
 #include "player.h"
 #include "player_view.h"
 #include "../vector/vector2.h"
-#include "input.h"
 
 /** 
  * SUMMARY:
  * This file is the glue to making the player model, player view, and input work together. 
+ * ie the logic that connects the player model's functions, view, and input.
 **/
 
 ////////////////////////////////////////////////////////////
@@ -70,7 +72,11 @@ void HandleInput(PlayerController* playerController)
 {
     //select the gamepad mapped to this player controller
     select_gamepad(playerController->gamepadID);
+    Vector2* movement = CreateVector2(0, 0); 
+    gamepad_direction_normalized(&movement->x, &movement->y); //get the direction from the gamepad
 
+
+    DeconstructVector2(movement);
 }
 
 void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)

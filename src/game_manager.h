@@ -34,12 +34,12 @@ void InitializeGameManager(GameManager* manager)
     //select player texture
     select_texture(1);
     select_region(REGION_PLAYER);
-    define_region(0, 0, 64, 64, 32, 32); // Player sprite
-    // create sprite array that player view will use, will use 2 sprites for now
-    Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 2);
+    define_region(0, 0, 31, 31, 0, 0); // Player sprite
+    // create sprite array that player view will use, will use 1 sprites for now
+    Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 1);
     sprites[0] = CreateSprite(REGION_PLAYER, 1); // Example sprite
 
-    playerController = CreatePlayerController(20, 10, 1, 10, 10, 0, sprites, 2); // Create player controller with initial values
+    playerController = CreatePlayerController(screen_width / 2, screen_height / 2, 1, 10, 10, 0, sprites, 1); // Create player controller with initial values
     // Initialize game state
     manager->state = Menu;
 }

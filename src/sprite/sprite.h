@@ -20,7 +20,8 @@ Sprite* CreateSprite(int regionID, int textureID)
 {
     Sprite* sprite = (Sprite*)malloc(sizeof(Sprite));
     sprite->regionID = regionID;
-    textureID = textureID;
+    sprite->textureID = textureID;
+    return sprite;
 }
 
 void DeconstructSprite(Sprite* sprite)

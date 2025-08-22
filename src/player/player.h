@@ -78,10 +78,10 @@ void SetPlayerState(Player* player, PlayerMovementState state)
 ///////////Player Behavioural Functions////////////////////
 ///////////////////////////////////////////////////////////
 
-void PlayerMove(Player* player, Vector2* direction)
+void PlayerMove(Player* player, Vector2* movementVector)
 {
     //add player position and direction to player position
-    AddVector2Components(player->position, direction, player->position);
+    AddVector2Components(player->position, movementVector, player->position);
 }
 
 void UpdateShootCooldown(Player* player, float deltaTime)

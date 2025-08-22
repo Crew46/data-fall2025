@@ -40,6 +40,7 @@ PlayerController* CreatePlayerController(int x, int y, float maxShootCooldownTim
     PlayerController* controller = (PlayerController*)malloc(sizeof(PlayerController));
     controller->player = player;
     controller->view = view;
+    controller->gamepadID = gamepadID;
 
     return controller;
 }
@@ -63,9 +64,9 @@ void PlayerControllerShoot(PlayerController* playerController)
     PlayerShoot(playerController->player);
 }
 
-void PlayerControllerMove(PlayerController* playerController, Vector2* direction)
+void PlayerControllerMove(PlayerController* playerController, Vector2* movementVector)
 {
-    PlayerMove(playerController->player, direction);
+    PlayerMove(playerController->player, movementVector);
 }
 
 void HandleInput(PlayerController* playerController)

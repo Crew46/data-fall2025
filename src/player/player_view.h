@@ -3,12 +3,12 @@
 #include "misc.h"
 #include "video.h"
 #include "../sprite/sprite.h"
-#include "player_controller.h"
+#include "../player/player.h"
 
 /** 
  * SUMMARY:
  * this file represents the view of a player
- * it contains functions to create, deinitialize and draw the player
+ * it contains functions to create, deinitialize and draw the player, based on the data of the model
 **/
 
 ////////////////////////////////////////////////////////////
@@ -44,8 +44,11 @@ void DeconstructPlayerView(PlayerView* view)
 
 void DrawPlayer(PlayerView* view, Player* player)
 {
+    //select texture and region for first sprite in sprite array
     select_texture(view->sprites[0]->textureID); // Select the player's texture
     select_region(view->sprites[0]->regionID); // Select the player's sprite region
+
+    //draw the sprite at the player's position
     draw_region_at(player->position->x, player->position->y); // Draw the sprite at the player's position
 }
 

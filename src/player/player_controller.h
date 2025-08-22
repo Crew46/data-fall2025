@@ -3,11 +3,11 @@
 #include "player.h"
 #include "player_view.h"
 #include "../vector/vector2.h"
+#include "input.h"
 
 /** 
  * SUMMARY:
- * This file is a facade & glue for the player model, and the player view. 
- * it's responsibility is controlling the interaction between the two.
+ * This file is the glue to making the player model, player view, and input work together. 
 **/
 
 ////////////////////////////////////////////////////////////
@@ -18,6 +18,7 @@ struct PlayerController
 {
     Player* player; // Pointer to the player model
     PlayerView* view; // Pointer to the player view
+    int gamepadID; // ID of the gamepad associated with this player controller
 };
 
 ///////////////////////////////////////////////////////////
@@ -25,10 +26,10 @@ struct PlayerController
 ///////////////////////////////////////////////////////////
 
 //constructor
-PlayerController* CreatePlayerController(int x, int y, float maxShootCooldownTime, int maxLasers, Sprite** sprites, int numSprites)
+PlayerController* CreatePlayerController(int x, int y, float maxShootCooldownTime, int maxLasers, float speed, int gamepadID, Sprite** sprites, int numSprites)
 {
     // Create the player model
-    Player* player = CreatePlayer(x, y, maxShootCooldownTime, maxLasers);
+    Player* player = CreatePlayer(x, y, maxShootCooldownTime, maxLasers, speed);
 
     //create the player view
     PlayerView* view = CreatePlayerView(sprites, numSprites);
@@ -65,8 +66,16 @@ void PlayerControllerMove(PlayerController* playerController, Vector2* direction
     PlayerMove(playerController->player, direction);
 }
 
+void HandleInput(PlayerController* playerController)
+{
+    //select the gamepad mapped to this player controller
+    select_gamepad(playerController->gamepadID);
+
+}
+
 void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)
 {
+    HandleInput(playerController);    
     // Update the player's shoot cooldown
     UpdateShootCooldown(playerController->player, deltaTime);
 

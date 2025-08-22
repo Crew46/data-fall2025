@@ -30,7 +30,7 @@ void InitializeGameManager(GameManager* manager)
     sprites[0] = CreateSprite(1); // Example sprite
     sprites[1] = CreateSprite(4); // Example sprite
 
-    playerController = CreatePlayerController(20, 10, 1, 10, sprites, 2); // Create player controller with initial values
+    playerController = CreatePlayerController(20, 10, 1, 10, 10, 0, sprites, 2); // Create player controller with initial values
     // Initialize game state
     manager->state = Menu;
 }

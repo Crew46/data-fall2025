@@ -6,9 +6,8 @@
 
 /** 
  * SUMMARY:
- * this files represents the view of a player
- * it's struct cotnains all the sprites that a player can use
- * it also contains functions to create, deinitialize and draw the player
+ * this file represents the view of a player
+ * it contains functions to create, deinitialize and draw the player
 **/
 
 ////////////////////////////////////////////////////////////

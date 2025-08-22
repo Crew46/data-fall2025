@@ -52,4 +52,13 @@ void LaserControllerUpdate(LaserController* controller)
     DrawLaser(controller->laserView, controller->laser);
 }
 
+/////////////////////////////////////////////////////////////
+///////////Laser_Controller List Functions///////////////////
+/////////////////////////////////////////////////////////////
+
+//update all laser controller in the laser controller list
+void UpdateAllLaserControllers()
+{
+}
+
 #endif // LASER_CONTROLLER_H

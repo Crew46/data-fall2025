@@ -96,4 +96,14 @@ void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)
     DrawPlayer(playerController->view, playerController->player);
 }
 
+/////////////////////////////////////////////////////////////
+///////////Player_Controller List Functions///////////////////
+/////////////////////////////////////////////////////////////
+
+//update all player controller in instances list
+void UpdateAllPlayerControllers()
+{
+
+}
+
 #endif // PLAYER_CONTROLLER_H

@@ -27,7 +27,7 @@ LaserController* CreateLaserController(float x, float y, float speed, float life
     LaserController* controller = (LaserController*)malloc(sizeof(LaserController));
     controller->laser = CreateLaser(x, y, speed, lifetime);
 
-    //create and initialize laser view here
+    controller->laserView = CreateLaserView(sprites, spriteNum);
 
     return controller;
 }
@@ -35,12 +35,17 @@ LaserController* CreateLaserController(float x, float y, float speed, float life
 void DeconstructLaserController(LaserController* controller) 
 {
     DeconstructLaser(controller->laser);
-    //deconstruct laser view here();
+    DeconstructLaserView(controller->laserView);
     free(controller);
 }
 
 /////////////////////////////////////////////////////////////
 ///////////Laser_Controller Functions///////////////////////
 /////////////////////////////////////////////////////////////
+
+void LaserControllerUpdate(LaserController* controller)
+{
+    DrawLaser(controller->laserView, controller->laser);
+}
 
 #endif // LASER_CONTROLLER_H

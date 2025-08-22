@@ -18,13 +18,13 @@ struct Node
 
 Node* CreateLinkedList()
 {
-  Node *ptrNode = malloc(sizeof(Node));
+  Node* ptrNode = malloc(sizeof(Node));
   ptrNode->ptrNext = NULL;
   ptrNode->ptrData = NULL;
   return ptrNode;
 }
 
-void DeconstructLinkedList(Node *ptrFirstNode)
+void DeconstructLinkedList(Node* firstNode)
 {
 }
 
@@ -32,7 +32,7 @@ void DeconstructLinkedList(Node *ptrFirstNode)
 ///////////Linked List Functions////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void LinkedListAddData(Node *ptrFirstNode, void *ptrData)
+void LinkedListAddData(Node* firstNode, void* ptrData)
 { 
 }
 

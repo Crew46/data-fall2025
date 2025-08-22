@@ -13,12 +13,9 @@
  * this file also stores a dynamic linked list to keep track of all current instances
 **/
 
-////////////////////////////////////////////////////////////
-///////Instances List & Functions///////////////////////////
-////////////////////////////////////////////////////////////
-
+//initialize instances list
 Node* PlayerControllerList = CreateLinkedList();
-
+int instancesOfPlayerController = 0;
 
 ////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////
@@ -98,4 +95,5 @@ void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)
     // Update the player view
     DrawPlayer(playerController->view, playerController->player);
 }
-#endif
+
+#endif // PLAYER_CONTROLLER_H

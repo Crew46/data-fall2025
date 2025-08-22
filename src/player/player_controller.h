@@ -9,7 +9,7 @@
 /** 
  * SUMMARY:
  * This file is the glue to making the player model, player view, and input work together. 
- * ie the logic that connects the player model's functions, view, and input.
+ * ie the logic that connects the player's functions, view, and input.
 **/
 
 ////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ void PlayerControllerShoot(PlayerController* playerController)
 
 void PlayerControllerMove(PlayerController* playerController, Vector2* movementVector)
 {
-    PlayerMove(playerController->player, movementVector);
+    PlayerMoveInDirection(playerController->player, movementVector);
 }
 
 void HandleInput(PlayerController* playerController)
@@ -75,6 +75,7 @@ void HandleInput(PlayerController* playerController)
     select_gamepad(playerController->gamepadID);
     Vector2* movement = CreateVector2(0, 0); 
     gamepad_direction_normalized(&movement->x, &movement->y); //get the direction from the gamepad
+    PlayerControllerMove(playerController, movement);
 
 
     DeconstructVector2(movement);

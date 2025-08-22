@@ -42,6 +42,6 @@ void main(void)
     }
 
 	//Deinitialize game manager before exiting
-	DeinitializeGameManager(gameManager);
+	DeconstructGameManager(gameManager);
 }
 

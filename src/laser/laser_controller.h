@@ -57,8 +57,22 @@ void LaserControllerUpdate(LaserController* controller)
 /////////////////////////////////////////////////////////////
 
 //update all laser controller in the laser controller list
-void UpdateAllLaserControllers()
+void UpdateAllLaserControllers(float deltaTime)
 {
+    //loop through all instances of laser controller
+    for(int i = 0; i < instancesOfLaserController; i++)
+    {
+        //LaserControllerUpdate();
+    }
+}
+
+void DeconstructAllLaserControllers()
+{
+    //loop through all instances of laser controller
+    for(int i = 0; i < instancesOfLaserController; i++)
+    {
+        //DeconstructLaserController();    
+    }
 }
 
 #endif // LASER_CONTROLLER_H

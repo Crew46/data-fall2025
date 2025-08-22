@@ -101,9 +101,22 @@ void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)
 /////////////////////////////////////////////////////////////
 
 //update all player controller in instances list
-void UpdateAllPlayerControllers()
+void UpdateAllPlayerControllers(float deltaTime)
 {
+    //loop through all player controller instances
+    for(int i = 0; i < instancesOfPlayerController; i++)
+    {
+        //PlayerControllerUpdate();
+    }
+}
 
+void DeconstructAllPlayerControllers()
+{
+    //loop through all player controller instances
+    for(int i = 0; i < instancesOfPlayerController; i++)
+    {
+        //DeconstructPlayerController();
+    }
 }
 
 #endif // PLAYER_CONTROLLER_H

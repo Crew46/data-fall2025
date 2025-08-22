@@ -3,6 +3,7 @@
 #include "misc.h"
 #include "video.h"
 #include "player/player_controller.h"
+#include "laser/laser_controller.h"
 
 
 //temporary region definitions
@@ -10,6 +11,7 @@
 
 //temporary player controller
 PlayerController* playerController;
+//temporary deltatime
 float deltaTime;
 
 ////////////////////////////////////////////////////////////
@@ -61,9 +63,11 @@ GameManager* CreateGameManager()
 }
 
 //deconstructor
-void DeinitializeGameManager(GameManager* manager) 
+void DeconstructGameManager(GameManager* manager) 
 {
-    DeconstructPlayerController(playerController);
+    //deconstruct all laser and player controllers
+    DeconstructAllLaserControllers();
+    DeconstructAllPlayerControllers();
     free(manager);
 }
 
@@ -73,7 +77,8 @@ void DeinitializeGameManager(GameManager* manager)
 
 void UpdateGameManager(GameManager* manager) 
 {
-    PlayerControllerUpdate(playerController, deltaTime); // Update player controller
+    UpdateAllLaserControllers(deltaTime);
+    UpdateAllPlayerControllers(deltaTime);
 }
 
 #endif // GAME_MANAGER_H

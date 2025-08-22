@@ -25,11 +25,14 @@ struct GameManager {
 };
 
 ///////////////////////////////////////////////////////////
-///////////Constructor and Deconstructor///////////////////
+///////////INITIALIZE (CALLED IN CONSTRUCTOR)//////////////
 ///////////////////////////////////////////////////////////
 
 void InitializeGameManager(GameManager* manager) 
 {
+    //we should create a way to deserialize game state from a file, to load sprites, and player data
+    //into the player controller
+
     //temporary player controller initialization
     //select player texture
     select_texture(1);
@@ -39,10 +42,15 @@ void InitializeGameManager(GameManager* manager)
     Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 1);
     sprites[0] = CreateSprite(REGION_PLAYER, 1); // Example sprite
 
+    //params: inititial pos x, y, max shoot cooldown time, max lasers, speed, gamepadID, sprite array, number of sprites
     playerController = CreatePlayerController(screen_width / 2, screen_height / 2, 1, 10, 10, 0, sprites, 1); // Create player controller with initial values
     // Initialize game state
     manager->state = Menu;
 }
+
+///////////////////////////////////////////////////////////
+///////////Constructor and Deconstructor///////////////////
+///////////////////////////////////////////////////////////
 
 //constructor
 GameManager* CreateGameManager()
@@ -52,10 +60,10 @@ GameManager* CreateGameManager()
     return gameManager;
 }
 
-
 //deconstructor
 void DeinitializeGameManager(GameManager* manager) 
 {
+    DeconstructPlayerController(playerController);
     free(manager);
 }
 

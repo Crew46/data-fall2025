@@ -12,6 +12,10 @@
 DoublyNode* playerControllerList = CreateDoublyNode();
 int instancesOfPlayerController = 0;
 
+/////////////////////////////////////////////////////////////
+///////////Player List Functions/////////////////////////////
+/////////////////////////////////////////////////////////////
+
 //update all player controller in instances list
 void UpdateAllPlayerControllers(float deltaTime)
 {

@@ -12,6 +12,10 @@
 DoublyNode* laserControllerList = CreateDoublyNode();
 int instancesOfLaserController = 0;
 
+/////////////////////////////////////////////////////////////
+///////////Laser List Functions//////////////////////////////
+/////////////////////////////////////////////////////////////
+
 //update all laser controller in the laser controller list
 void UpdateAllLaserControllers(float deltaTime)
 {
@@ -22,6 +26,7 @@ void UpdateAllLaserControllers(float deltaTime)
     }
 }
 
+//deconstruct linked list and all laser controllers in list 
 void DeconstructAllLaserControllers()
 {
     //loop through all instances of laser controller

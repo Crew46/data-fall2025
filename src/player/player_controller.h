@@ -10,7 +10,6 @@
  * SUMMARY:
  * This file is the glue to making the player model, player view, and input work together. 
  * ie the logic that connects the player's functions, view, and input.
- * this file also stores a dynamic linked list to keep track of all current instances
 **/
 
 ////////////////////////////////////////////////////////////

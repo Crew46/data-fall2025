@@ -4,6 +4,7 @@
 #include "video.h"
 #include "../sprite/sprite.h"
 #include "../player/player.h"
+#include "../tools/debugger.h"
 
 /** 
  * SUMMARY:
@@ -50,6 +51,8 @@ void DrawPlayer(PlayerView* view, Player* player)
 
     //draw the sprite at the player's position
     draw_region_at(player->position->x, player->position->y); // Draw the sprite at the player's position
+    
+
 }
 
 #endif // PLAYER_VIEW_H

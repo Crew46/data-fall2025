@@ -85,19 +85,6 @@ void PlayerMoveInDirection(Player* player, Vector2* direction)
     DeconstructVector2(movementVector); // Free the movement vector after use
 }
 
-//update the shoot cooldown timer
-void UpdateShootCooldown(Player* player, float deltaTime)
-{
-    if(player->shootCooldownElapsed > 0)
-    {
-        player->shootCooldownElapsed -= deltaTime;
-        if(player->shootCooldownElapsed < 0)
-        {
-            player->shootCooldownElapsed = 0;
-        }
-    }
-}
-
 //shoot selected weapon
 void PlayerShoot(Player* player)
 {

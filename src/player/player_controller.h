@@ -84,8 +84,6 @@ void HandleInput(PlayerController* playerController)
 void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)
 {
     HandleInput(playerController);    
-    // Update the player's shoot cooldown
-    UpdateShootCooldown(playerController->player, deltaTime);
 
     // Update the player view
     DrawPlayer(playerController->view, playerController->player);

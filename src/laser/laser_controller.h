@@ -9,10 +9,6 @@
  * This file is the glue for the logical interation between the laser model and view 
 **/
 
-//initialize instances list
-DoublyNode* LaserControllerList = CreateDoublyNode();
-int instancesOfLaserController = 0;
-
 ////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////
 ///////////////////////////////////////////////////////////
@@ -50,29 +46,6 @@ void DeconstructLaserController(LaserController* controller)
 void LaserControllerUpdate(LaserController* controller)
 {
     DrawLaser(controller->laserView, controller->laser);
-}
-
-/////////////////////////////////////////////////////////////
-///////////Laser_Controller List Functions///////////////////
-/////////////////////////////////////////////////////////////
-
-//update all laser controller in the laser controller list
-void UpdateAllLaserControllers(float deltaTime)
-{
-    //loop through all instances of laser controller
-    for(int i = 0; i < instancesOfLaserController; i++)
-    {
-        //LaserControllerUpdate();
-    }
-}
-
-void DeconstructAllLaserControllers()
-{
-    //loop through all instances of laser controller
-    for(int i = 0; i < instancesOfLaserController; i++)
-    {
-        //DeconstructLaserController();    
-    }
 }
 
 #endif // LASER_CONTROLLER_H

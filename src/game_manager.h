@@ -4,6 +4,8 @@
 #include "video.h"
 #include "player/player_controller.h"
 #include "laser/laser_controller.h"
+#include "laser/laser_controller_manager.h"
+#include "player/player_controller_manager.h"
 
 
 //temporary region definitions

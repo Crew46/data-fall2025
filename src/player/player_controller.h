@@ -13,10 +13,6 @@
  * this file also stores a dynamic linked list to keep track of all current instances
 **/
 
-//initialize instances list
-DoublyNode* PlayerControllerList = CreateDoublyNode();
-int instancesOfPlayerController = 0;
-
 ////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////
 ///////////////////////////////////////////////////////////
@@ -94,29 +90,6 @@ void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)
 
     // Update the player view
     DrawPlayer(playerController->view, playerController->player);
-}
-
-/////////////////////////////////////////////////////////////
-///////////Player_Controller List Functions///////////////////
-/////////////////////////////////////////////////////////////
-
-//update all player controller in instances list
-void UpdateAllPlayerControllers(float deltaTime)
-{
-    //loop through all player controller instances
-    for(int i = 0; i < instancesOfPlayerController; i++)
-    {
-        //PlayerControllerUpdate();
-    }
-}
-
-void DeconstructAllPlayerControllers()
-{
-    //loop through all player controller instances
-    for(int i = 0; i < instancesOfPlayerController; i++)
-    {
-        //DeconstructPlayerController();
-    }
 }
 
 #endif // PLAYER_CONTROLLER_H

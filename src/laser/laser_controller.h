@@ -10,7 +10,7 @@
 **/
 
 //initialize instances list
-Node* LaserControllerList = CreateLinkedList();
+DoublyNode* LaserControllerList = CreateDoublyNode();
 int instancesOfLaserController = 0;
 
 ////////////////////////////////////////////////////////////

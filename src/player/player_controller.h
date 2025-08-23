@@ -14,7 +14,7 @@
 **/
 
 //initialize instances list
-Node* PlayerControllerList = CreateLinkedList();
+DoublyNode* PlayerControllerList = CreateDoublyNode();
 int instancesOfPlayerController = 0;
 
 ////////////////////////////////////////////////////////////

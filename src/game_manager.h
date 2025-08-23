@@ -10,6 +10,7 @@
 
 //temporary region definitions
 #define REGION_PLAYER 1
+#define Background 0
 
 //temporary player controller
 PlayerController* playerController;
@@ -34,6 +35,11 @@ struct GameManager {
 
 void InitializeGameManager(GameManager* manager) 
 {
+    // Getting the Background
+    select_texture( 0 );
+    select_region ( Background );
+    define_region_topleft( 0,0, 639,359);
+
     //we should create a way to deserialize game state from a file, to load sprites, and player data
     //into the player controller
 
@@ -79,6 +85,12 @@ void DeconstructGameManager(GameManager* manager)
 
 void UpdateGameManager(GameManager* manager) 
 {
+	clear_screen(get_color_red(0));	
+    //drawing the background
+    select_texture ( 0 );
+    select_region ( Background );
+    draw_region_at( 0, 0 );
+
     //temporary player controller update
     PlayerControllerUpdate(playerController, deltaTime);
 

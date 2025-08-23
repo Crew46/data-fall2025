@@ -77,8 +77,12 @@ void DeconstructGameManager(GameManager* manager)
 
 void UpdateGameManager(GameManager* manager) 
 {
-    UpdateAllLaserControllers(deltaTime);
-    UpdateAllPlayerControllers(deltaTime);
+    //temporary player controller update
+    PlayerControllerUpdate(playerController, deltaTime);
+
+    //will update all once linked list data structure is made, in order to store instances and update iteratively
+    //UpdateAllLaserControllers(deltaTime);
+    //UpdateAllPlayerControllers(deltaTime);
 }
 
 #endif // GAME_MANAGER_H

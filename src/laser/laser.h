@@ -2,7 +2,6 @@
 #define LASER_H
 #include "misc.h"
 #include "../vector/vector2.h"
-#include "../data_structures/linkedlist.h"
 
 /** 
  * SUMMARY:

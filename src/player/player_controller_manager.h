@@ -1,6 +1,6 @@
 #ifndef PLAYER_CONTROLLER_MANAGER_H
 #define PLAYER_CONTROLLER_MANAGER_H
-#include "../data_structures/linkedlist.h"
+#include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 /** 
  * SUMMARY:

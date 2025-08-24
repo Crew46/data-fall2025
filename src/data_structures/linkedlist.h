@@ -3,7 +3,7 @@
 #include "misc.h"
 
 ////////////////////////////////////////////////////////////
-///////////Struct///////////////////////////////////////////
+///////////Structs///////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
 struct DoublyNode
@@ -13,25 +13,36 @@ struct DoublyNode
   DoublyNode* previous;
 };
 
+struct DoublyLinkedList
+{
+  DoublyNode* head;
+  DoublyNode* tail;
+  int size;
+};
+
 ///////////////////////////////////////////////////////////
 ///////////Constructor and Deconstructor///////////////////
 ///////////////////////////////////////////////////////////
 
-DoublyNode* CreateDoublyNode()
+DoublyNode* CreateDoublyNode(void* data)
 {
-  DoublyNode* node = malloc(sizeof(DoublyNode));
+  DoublyNode* node = (DoublyNode*)malloc(sizeof(DoublyNode));
   node->next = NULL;
   node->previous = NULL;
-  node->data = NULL;
+  node->data = data;
   return node;
 }
 
-void DeconstructDoublyLinkedList(DoublyNode* firstNode)
+DoublyLinkedList* CreateDoublyLinkedList()
 {
+  DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
+  list->head = CreateDoublyNode(NULL);
+  list->tail = CreateDoublyNode(NULL);
+  list->size = 0;
 }
 
 ////////////////////////////////////////////////////////////
-///////////Linked List Functions////////////////////////////
+///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
 void InsertDoublyNodeAfterDoublyNode(DoublyNode* nodeToInsertAfter, DoublyNode* newNode)
@@ -44,9 +55,48 @@ void InsertDoublyNodeAfterDoublyNode(DoublyNode* nodeToInsertAfter, DoublyNode* 
   nodeToInsertAfter->next = newNode;
 }
 
-DoublyNode* FindDoublyNodeOfData(DoublyNode* head, void* data)
+void InsertDoublyNodeBeforeDoublyNode(DoublyNode* nodeToInsertBefore, DoublyNode* newNode)
 {
-  DoublyNode* selectedNode = head;
+  nodeToInsertBefore->previous->next = newNode;
+
+  newNode->previous = nodeToInsertBefore->previous;
+
+  newNode->next = nodeToInsertBefore;
+
+  nodeToInsertBefore->previous = newNode;
+}
+
+void InsertDataAtTail(DoublyLinkedList* doublyLinkedList, void* data)
+{
+  if(doublyLinkedList->tail->data != NULL)
+  {
+    InsertDoublyNodeAfterDoublyNode(doublyLinkedList->tail, CreateDoublyNode(data));
+  }
+  else
+  {
+    doublyLinkedList->tail->data = data;
+  }
+}
+
+void InsertDataAtHead(DoublyLinkedList* doublyLinkedList, void* data)
+{
+  if(doublyLinkedList->head->data != NULL)
+  {
+    InsertDoublyNodeBeforeDoublyNode(doublyLinkedList->head, CreateDoublyNode(data));
+  }
+  else
+  {
+    doublyLinkedList->head->data = data;
+  }
+}
+
+////////////////////////////////////////////////////////////
+///////////ACCESS///////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+DoublyNode* FindDoublyNodeOfData(DoublyLinkedList* doublyLinkedList, void* data)
+{
+  DoublyNode* selectedNode = doublyLinkedList->head;
   while(selectedNode != NULL)
   {
     //if desired data matches data of a node
@@ -60,31 +110,5 @@ DoublyNode* FindDoublyNodeOfData(DoublyNode* head, void* data)
   
   return NULL;
 }
-
-void AddDataToDoublyLinkedList(void* data)
-{
-
-}
-
-void SetDataAtIndex(int index, void* data)
-{
-
-}
-
-void* GetDataAtIndex(int index)
-{
-  //check in forward direction
-  if(index >= 0)
-  {
-
-  }
-  //check in backwards direction
-  if(index < 0)
-  {
-
-  }
-}
-
-
 
 #endif // LINKED_LIST_H

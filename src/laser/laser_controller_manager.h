@@ -9,8 +9,7 @@
 **/
 
 //initialize instances list
-DoublyNode* laserControllerList = CreateDoublyNode();
-int instancesOfLaserController = 0;
+DoublyLinkedList* laserControllerList = CreateDoublyLinkedList();
 
 /////////////////////////////////////////////////////////////
 ///////////Laser List Functions//////////////////////////////
@@ -20,20 +19,20 @@ int instancesOfLaserController = 0;
 void UpdateAllLaserControllers(float deltaTime)
 {
     //loop through all instances of laser controller
-    for(int i = 0; i < instancesOfLaserController; i++)
-    {
+    //for(int i = 0; i < instancesOfLaserController; i++)
+    //{
         //LaserControllerUpdate();
-    }
+    //}
 }
 
 //deconstruct linked list and all laser controllers in list 
 void DeconstructAllLaserControllers()
 {
     //loop through all instances of laser controller
-    for(int i = 0; i < instancesOfLaserController; i++)
-    {
+    //for(int i = 0; i < instancesOfLaserController; i++)
+    //{
         //DeconstructLaserController();    
-    }
+    //}
 }
 
 #endif //LASER_CONTROLLER_MANAGER_H

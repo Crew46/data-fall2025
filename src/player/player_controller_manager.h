@@ -9,8 +9,7 @@
 **/
 
 //initialize instances list
-DoublyNode* playerControllerList = CreateDoublyNode();
-int instancesOfPlayerController = 0;
+DoublyLinkedList* playerControllerList = CreateDoublyLinkedList();
 
 /////////////////////////////////////////////////////////////
 ///////////Player List Functions/////////////////////////////
@@ -20,19 +19,19 @@ int instancesOfPlayerController = 0;
 void UpdateAllPlayerControllers(float deltaTime)
 {
     //loop through all player controller instances
-    for(int i = 0; i < instancesOfPlayerController; i++)
-    {
+    //for(int i = 0; i < instancesOfPlayerController; i++)
+    //{
         //PlayerControllerUpdate();
-    }
+    //}
 }
 
 void DeconstructAllPlayerControllers()
 {
     //loop through all player controller instances
-    for(int i = 0; i < instancesOfPlayerController; i++)
-    {
+    //for(int i = 0; i < instancesOfPlayerController; i++)
+    //{
         //DeconstructPlayerController();
-    }
+    //}
 }
 
 #endif //PLAYER_CONTROLLER_MANAGER_H

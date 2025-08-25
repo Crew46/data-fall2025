@@ -37,6 +37,7 @@ void InitializeGameManager(GameManager* manager)
     //initialize regions
     InitializeRegions();
 
+    //temporary
     // create sprite array that player view will use, will use 1 sprites for now
     Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 1);
     sprites[0] = CreateSprite(REGION_PLAYER, 1); // Example sprite
@@ -74,6 +75,7 @@ void DeconstructGameManager(GameManager* manager)
 
 void UpdateGameManager(GameManager* manager) 
 {
+    //clear screen
 	clear_screen(get_color_red(0));	
     //drawing the background
     select_texture ( BACKGROUND_TEXTURE );

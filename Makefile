@@ -40,7 +40,7 @@ v32: game
 clean:
 ifndef DEBUG
 	@printf "\033[0;33m%s\033[0m:\n" "clean"
-	@printf "\033[0;33m==========================================================\033[0m\n"
+	@printf "\033[0;33m==================================================================\033[0m\n"
 endif
 	@for item in $(UNITS) data; do make -C $$item clean; done
 	@echo

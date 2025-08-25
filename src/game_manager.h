@@ -7,10 +7,9 @@
 #include "laser/laser_controller_manager.h"
 #include "player/player_controller_manager.h"
 
-
-//temporary region definitions
-#define REGION_PLAYER 1
-#define Background 0
+//include texture and regions definitions and configuration vales
+#include "configuration/textures_configurations.h"
+#include "configuration/regions_configurations.h"
 
 //temporary player controller
 PlayerController* playerController;
@@ -35,19 +34,9 @@ struct GameManager {
 
 void InitializeGameManager(GameManager* manager) 
 {
-    // Getting the Background
-    select_texture( 0 );
-    select_region ( Background );
-    define_region_topleft( 0,0, 639,359);
+    //initialize regions
+    InitializeRegions();
 
-    //we should create a way to deserialize game state from a file, to load sprites, and player data
-    //into the player controller
-
-    //temporary player controller initialization
-    //select player texture
-    select_texture(1);
-    select_region(REGION_PLAYER);
-    define_region(0, 0, 31, 31, 0, 0); // Player sprite
     // create sprite array that player view will use, will use 1 sprites for now
     Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 1);
     sprites[0] = CreateSprite(REGION_PLAYER, 1); // Example sprite
@@ -87,8 +76,8 @@ void UpdateGameManager(GameManager* manager)
 {
 	clear_screen(get_color_red(0));	
     //drawing the background
-    select_texture ( 0 );
-    select_region ( Background );
+    select_texture ( BACKGROUND_TEXTURE );
+    select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
 
     //temporary player controller update

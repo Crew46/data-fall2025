@@ -28,6 +28,10 @@ DoublyLinkedList* CreateDoublyLinkedList()
 
 void DeconstructDoublyLinkedList(DoublyLinkedList* list)
 {
+  for(int i = 0; i < list->size; i++)
+  {
+    
+  }
 }
 
 ////////////////////////////////////////////////////////////
@@ -79,8 +83,6 @@ void* DoublyLinkedListPopBack(DoublyLinkedList* list)
   list->tail = newTail;
   return data;
 }
-
-
 
 DoublyNode* FindDoublyNodeOfData(DoublyLinkedList* doublyLinkedList, void* data)
 {

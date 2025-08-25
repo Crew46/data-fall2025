@@ -1,6 +1,6 @@
 #ifndef REGIONS_CONFIGURATIONS_H
 #define REGIONS_CONFIGURATIONS_H
-#include "textures_configurations.h"
+#include "texture_configurations.h"
 #include "video.h"
 
 /////////////////////////////////////////////////////////////
@@ -8,7 +8,7 @@
 /////////////////////////////////////////////////////////////
 
 #define BACKGROUND_REGION 0
-#define REGION_PLAYER 1
+#define PLAYER_REGION 1
 
 void InitializeRegions()
 {
@@ -19,7 +19,7 @@ void InitializeRegions()
     
     //player
     select_texture(PLAYER_SPRITES_TEXTURE);
-    select_region(REGION_PLAYER);
+    select_region(PLAYER_REGION);
     define_region(0, 0, 31, 31, 0, 0); // Player sprite
 
 }

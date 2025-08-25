@@ -8,8 +8,8 @@
 #include "player/player_controller_manager.h"
 
 //include texture and regions definitions and configuration vales
-#include "configuration/textures_configurations.h"
-#include "configuration/regions_configurations.h"
+#include "configuration/texture_configurations.h"
+#include "configuration/region_configurations.h"
 
 //temporary player controller
 PlayerController* playerController;
@@ -40,7 +40,7 @@ void InitializeGameManager(GameManager* manager)
     //temporary
     // create sprite array that player view will use, will use 1 sprites for now
     Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 1);
-    sprites[0] = CreateSprite(REGION_PLAYER, 1); // Example sprite
+    sprites[0] = CreateSprite(PLAYER_REGION, PLAYER_SPRITES_TEXTURE); // Example sprite
 
     //params: inititial pos x, y, max shoot cooldown time, max lasers, speed, gamepadID, sprite array, number of sprites
     playerController = CreatePlayerController(screen_width / 2, screen_height / 2, 1, 10, 10, 0, sprites, 1); // Create player controller with initial values

@@ -15,6 +15,8 @@ struct Object
     Vector2* position; //x & y
 	int x;
 	int y;
+	int xdir;
+	int ydir;
     bool isActive;
 	int speed;
 };

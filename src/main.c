@@ -6,68 +6,51 @@ GameManager* gameManager;
 void main (void)
 {
     // create and initialize the game manager
-    gameManager  = CreateGameManager ();
+    gameManager     = CreateGameManager ();
 	Object *player  = (Object *) malloc (sizeof (Object) * 1); 
-	
 
     //game loop
     while (true)
     {
-        //update game manager
-        //UpdateGameManager(gameManager);
-
 		//clear screen
 		clear_screen (get_color_red (0));	
+
 		//drawing the background
 		select_texture (BACKGROUND_TEXTURE);
 		select_region (BACKGROUND_REGION);
 		draw_region_at (0, 0);
 
-		//temporary player controller update
-		//PlayerControllerUpdate(playerController);
 
 		//select the gamepad mapped to this player controller
 		select_gamepad (playerController -> gamepadID);
-		//Vector2 *movement  = CreateVector2 (0, 0); 
-		//gamepad_direction_normalized (&player -> x, &player -> y); //get the direction from the gamepad
-		gamepad_direction (&player -> x, &player -> y); //get the direction from the gamepad
-		//add player position and direction to player position
-		//Vector2 *movementVector  = CreateVector2 (movement -> x, movement -> y); // Create a new vector for movement
-		//MultiplyVector2ByScalar (movementVector, player -> speed); // Scale the movement vector by the player's speed
-		//AddVector2Components(player->object->position, movementVector, player->object->position);
-		//DeconstructVector2(movementVector); // Free the movement vector after use
+		gamepad_direction (&player -> xdir, &player -> ydir); //get the direction from the gamepad
+		player -> x = player -> x + player -> xdir;
+		player -> y = player -> y + player -> ydir;
 
-		//DeconstructVector2(movement);
+	    if (player -> x >  358)
+	    {
+            player -> x  = 357;
+        }
 
-		//will update all once linked list data structure is made, in order to store instances and update iteratively
-		//UpdateAllLaserControllers();
-		//UpdateAllPlayerControllers();
+        if (player -> x <  2)
+		{
+            player -> x  = 3;
+		}
 
-	if(player->Object->position->x > 358)
-{
-         player->Object->position->x = 357;
-}
-    if(player->Object->position->x < 2)
-{
-         player->Object->position->x = 3;
-}
-    if(player->Object->position->y > 640)
-{
-         player->Object->position->y = 649;
-}
-    if(player->Object->position->y < 0)
-{
-         player->position->y = 1;
-}
+		if (player -> y >  640)
+		{
+            player -> y  = 649;
+		}
 
-
-
-
+		if (player -> y <  0)
+		{
+		    player -> y  = 1;
+		}
 
         end_frame();
     }
 
 	//Deinitialize game manager before exiting
-	DeconstructGameManager(gameManager);
+	DeconstructGameManager (gameManager);
 }
 

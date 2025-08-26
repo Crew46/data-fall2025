@@ -46,7 +46,7 @@ ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;34m%s\033[0m]   %-20s -> %-20s ... "     "$(ASM)"       \
 															  "$(GAME).asm"  \
 															  "$(GAME).vbin"
-	@$(ASM)  $(AFLAGS) $(GAME).asm 2>> $(ASM).errors  && echo "\033[0;32mOK\033[0m"    \
+	@$(ASM)  $(AFLAGS) $(GAME).asm 2> $(ASM).errors  && echo "\033[0;32mOK\033[0m"    \
 													  || (echo "\033[0;31mFAIL\033[0m" \
 													  && exit 1)
 else

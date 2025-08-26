@@ -43,6 +43,27 @@ void main (void)
 		//UpdateAllLaserControllers();
 		//UpdateAllPlayerControllers();
 
+	if(player->Object->position->x > 358)
+{
+         player->Object->position->x = 357;
+}
+    if(player->Object->position->x < 2)
+{
+         player->Object->position->x = 3;
+}
+    if(player->Object->position->y > 640)
+{
+         player->Object->position->y = 649;
+}
+    if(player->Object->position->y < 0)
+{
+         player->position->y = 1;
+}
+
+
+
+
+
         end_frame();
     }
 

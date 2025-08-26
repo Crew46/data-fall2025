@@ -9,8 +9,8 @@
 
 struct Object
 {
-	int texture;
-	int region;
+	int textureID;
+	int regionID;
     int id;
     Vector2* position; //x & y
 	int x;

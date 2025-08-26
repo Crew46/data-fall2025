@@ -34,7 +34,7 @@ ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;34m%s\033[0m]    %-20s -> %-20s ... "	  "$(CC)"        \
 															  "$(SRCFILE)"   \
 															  "$(GAME).asm"
-	@$(CC)   $(CFLAGS) $(SRCFILE) 2>> $(CC).errors    && echo "\033[0;32mOK\033[0m"    \
+	@$(CC)   $(CFLAGS) $(SRCFILE) 2> $(CC).errors    && echo "\033[0;32mOK\033[0m"    \
 													  || (echo "\033[0;31mFAIL\033[0m" \
 													  && exit 1)
 else

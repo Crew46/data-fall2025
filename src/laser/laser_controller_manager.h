@@ -16,7 +16,7 @@ DoublyLinkedList* laserControllerList = CreateDoublyLinkedList();
 /////////////////////////////////////////////////////////////
 
 //update all laser controller in the laser controller list
-void UpdateAllLaserControllers(float deltaTime)
+void UpdateAllLaserControllers()
 {
     //loop through all instances of laser controller
     //for(int i = 0; i < instancesOfLaserController; i++)

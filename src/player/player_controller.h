@@ -82,7 +82,7 @@ void HandleInput(PlayerController* playerController)
     DeconstructVector2(movement);
 }
 
-void PlayerControllerUpdate(PlayerController* playerController, float deltaTime)
+void PlayerControllerUpdate(PlayerController* playerController)
 {
     HandleInput(playerController);    
 

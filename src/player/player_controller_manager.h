@@ -16,7 +16,7 @@ DoublyLinkedList* playerControllerList = CreateDoublyLinkedList();
 /////////////////////////////////////////////////////////////
 
 //update all player controller in instances list
-void UpdateAllPlayerControllers(float deltaTime)
+void UpdateAllPlayerControllers()
 {
     //loop through all player controller instances
     //for(int i = 0; i < instancesOfPlayerController; i++)

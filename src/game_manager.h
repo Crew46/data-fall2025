@@ -12,10 +12,8 @@
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 
-//temporary player controller
+//player controller
 PlayerController* playerController;
-//temporary deltatime
-float deltaTime;
 
 ////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////
@@ -46,9 +44,9 @@ void InitializeGameManager(GameManager* manager)
     //create a generic object that the player will utilize
                             //parameters: id, x, y, isActive
     Object* playerObject = CreateObject(0, screen_width / 2, screen_height / 2, true); 
-
-    //params: generic object instance, maxshootingcooldowntime, speed, gamepadID, sprite array, num sprites 
+    //create player controller: params: generic object instance, maxshootingcooldowntime, speed, gamepadID, sprite array, num sprites 
     playerController = CreatePlayerController(playerObject, 1, 10, 0, sprites, 1); // Create player controller with initial values
+
     // Initialize game state
     manager->state = Menu;
 }
@@ -88,11 +86,11 @@ void UpdateGameManager(GameManager* manager)
     draw_region_at( 0, 0 );
 
     //temporary player controller update
-    PlayerControllerUpdate(playerController, deltaTime);
+    PlayerControllerUpdate(playerController);
 
     //will update all once linked list data structure is made, in order to store instances and update iteratively
-    //UpdateAllLaserControllers(deltaTime);
-    //UpdateAllPlayerControllers(deltaTime);
+    UpdateAllLaserControllers();
+    UpdateAllPlayerControllers();
 }
 
 #endif // GAME_MANAGER_H

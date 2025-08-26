@@ -2,6 +2,7 @@
 #define LINKED_LIST_H
 #include "misc.h"
 #include "doubly_node.h"
+#include "../../object.h"
 
 ////////////////////////////////////////////////////////////
 ///////////Structs///////////////////////////////////////////
@@ -38,7 +39,7 @@ void DeconstructDoublyLinkedList(DoublyLinkedList* list)
 ///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void DoublyLinkedListPushBack(DoublyLinkedList* doublyLinkedList, void* data)
+void DoublyLinkedListPushBack(DoublyLinkedList* doublyLinkedList, Object* data)
 {
   if(doublyLinkedList->tail->data != NULL)
   {
@@ -50,7 +51,7 @@ void DoublyLinkedListPushBack(DoublyLinkedList* doublyLinkedList, void* data)
   }
 }
 
-void DoublyLinkedListPushFront(DoublyLinkedList* doublyLinkedList, void* data)
+void DoublyLinkedListPushFront(DoublyLinkedList* doublyLinkedList, Object* data)
 {
   if(doublyLinkedList->head->data != NULL)
   {
@@ -68,7 +69,7 @@ void DoublyLinkedListPushFront(DoublyLinkedList* doublyLinkedList, void* data)
 
 void* DoublyLinkedListPopFront(DoublyLinkedList* list)
 {
-  void* data = list->head->data; 
+  Object* data = list->head->data; 
   DoublyNode* newHead = list->head->next;
   DeleteDoublyNode(list->head);
   list->head = newHead;
@@ -77,14 +78,14 @@ void* DoublyLinkedListPopFront(DoublyLinkedList* list)
 
 void* DoublyLinkedListPopBack(DoublyLinkedList* list)
 {
-  void* data = list->tail->data;
+  Object* data = list->tail->data;
   DoublyNode* newTail = list->tail->previous;
   DeleteDoublyNode(list->tail);
   list->tail = newTail;
   return data;
 }
 
-DoublyNode* FindDoublyNodeOfData(DoublyLinkedList* doublyLinkedList, void* data)
+DoublyNode* FindDoublyNodeOfData(DoublyLinkedList* doublyLinkedList, Object* data)
 {
   DoublyNode* selectedNode = doublyLinkedList->head;
   while(selectedNode != NULL)

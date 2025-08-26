@@ -1,15 +1,16 @@
 #ifndef DOUBLY_NODE_H
 #define DOUBLY_NODE_H
 #include "misc.h"
+#include "../../object.h"
 
 struct DoublyNode
 {
-  void* data;
+  Object* data;
   DoublyNode* next;
   DoublyNode* previous;
 };
 
-DoublyNode* CreateDoublyNode(void* data)
+DoublyNode* CreateDoublyNode(Object* data)
 {
   DoublyNode* node = (DoublyNode*)malloc(sizeof(DoublyNode));
   node->next = NULL;

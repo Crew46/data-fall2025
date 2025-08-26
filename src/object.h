@@ -7,6 +7,6 @@ struct Object
 {
     int id;
     Vector2* position; //x & y
-}
+};
 
 #endif //OBJECT_H

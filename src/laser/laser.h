@@ -14,7 +14,7 @@
 ///////////////////////////////////////////////////////////
 
 struct Laser {
-    Vector2* position; // Position of the laser
+    Object* object;
     float speed; // Speed of the laser in pixels per second
     float lifetime; // Lifetime of the laser in seconds
 };
@@ -23,10 +23,10 @@ struct Laser {
 ///////////Constructor and Deconstructor///////////////////
 ///////////////////////////////////////////////////////////
 
-Laser* CreateLaser(float x, float y, float speed, float lifetime)
+Laser* CreateLaser(Object* object, float speed, float lifetime)
 {
     Laser* laser = (Laser*)malloc(sizeof(Laser));
-    laser->position = CreateVector2(x, y);
+    laser->object = object;
     laser->speed = speed;
     laser->lifetime = lifetime;
     return laser;
@@ -34,7 +34,6 @@ Laser* CreateLaser(float x, float y, float speed, float lifetime)
 
 void DeconstructLaser(Laser* laser)
 {
-    free(laser->position);
     free(laser);
 }
 

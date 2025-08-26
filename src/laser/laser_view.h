@@ -44,7 +44,7 @@ void DrawLaser(LaserView* view, Laser* laser)
     select_region(view->sprites[0]->regionID); // Select the lasers's sprite region
 
     //draw the sprite at the player's position
-    draw_region_at(laser->position->x, laser->position->y); // Draw the sprite at the player's position
+    draw_region_at(laser->object->position->x, laser->object->position->y); // Draw the sprite at the player's position
 }
 
 #endif // LASER_VIEW_H

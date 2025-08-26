@@ -22,10 +22,10 @@ struct LaserController {
 ///////////Constructor and Deconstructor/////////////////////
 /////////////////////////////////////////////////////////////
 
-LaserController* CreateLaserController(float x, float y, float speed, float lifetime, Sprite** sprites, int spriteNum) 
+LaserController* CreateLaserController(Object* object, float speed, float lifetime, Sprite** sprites, int spriteNum) 
 {
     LaserController* controller = (LaserController*)malloc(sizeof(LaserController));
-    controller->laser = CreateLaser(x, y, speed, lifetime);
+    controller->laser = CreateLaser(object, speed, lifetime);
 
     controller->laserView = CreateLaserView(sprites, spriteNum);
 

@@ -50,6 +50,7 @@ Player* CreatePlayer(Object* object, float maxShootCooldownTime, float speed)
     player->maxShootCooldownTime = maxShootCooldownTime;
     player->speed = speed;
 
+
     player->shootCooldownElapsed = 0; // Start with no cooldown
     player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
     player->weaponType = PLAYER_WEAPON_TYPE_LASER; // Default weapon type
@@ -60,8 +61,6 @@ Player* CreatePlayer(Object* object, float maxShootCooldownTime, float speed)
 //deconstructor
 void DeconstructPlayer(Player* player)
 {
-    //deinitialize & free player position vector
-    DeconstructVector2(player->object->position);
     //free player struct
     free(player);
 }

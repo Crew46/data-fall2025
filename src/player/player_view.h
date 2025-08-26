@@ -50,7 +50,7 @@ void DrawPlayer(PlayerView* view, Player* player)
     select_region(view->sprites[0]->regionID); // Select the player's sprite region
 
     //draw the sprite at the player's position
-    draw_region_at(player->position->x, player->position->y); // Draw the sprite at the player's position
+    draw_region_at(player->object->position->x, player->object->position->y); // Draw the sprite at the player's position
     
 
 }

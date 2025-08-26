@@ -3,6 +3,7 @@
 #include "misc.h"
 #include "../vector/vector2.h"
 #include "../laser/laser_controller.h"
+#include "../object.h"
 
 /** 
  * SUMMARY:
@@ -27,11 +28,7 @@ enum PlayerWeaponType
 
 struct Player 
 {
-    bool isActive; // Is the player active in the game
-    int id; // Unique identifier for the player
-    int maxLasers; // Maximum number of lasers that the player can have shot at once
-    LaserController** laser; // list of pointers to laser controllers
-    Vector2* position; // Pointer to the player's position vector
+    Object* object;
     float maxShootCooldownTime; //shoot cooldown in seconds
     float shootCooldownElapsed; //seconds elapsed since last shot
     float speed; // Speed of the player
@@ -44,17 +41,15 @@ struct Player
 ///////////////////////////////////////////////////////////
 
 //constructor
-Player* CreatePlayer(float x, float y, float maxShootCooldownTime, int maxLasers, float speed)
+Player* CreatePlayer(Object* object, float maxShootCooldownTime, float speed)
 {
     //allocate memory for player
     Player* player = (Player*)malloc(sizeof(Player));
     //player properties initialization
-    player->maxLasers = maxLasers;
-    player->laser = (LaserController**)malloc(sizeof(LaserController*) * maxLasers); // Initialize laser controller array of size maxLasers
+    player->object = object;
     player->maxShootCooldownTime = maxShootCooldownTime;
-    player->position = CreateVector2(x, y);
     player->speed = speed;
-    player->isActive = true; // Player is active by default
+
     player->shootCooldownElapsed = 0; // Start with no cooldown
     player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
     player->weaponType = PLAYER_WEAPON_TYPE_LASER; // Default weapon type
@@ -66,7 +61,7 @@ Player* CreatePlayer(float x, float y, float maxShootCooldownTime, int maxLasers
 void DeconstructPlayer(Player* player)
 {
     //deinitialize & free player position vector
-    DeconstructVector2(player->position);
+    DeconstructVector2(player->object->position);
     //free player struct
     free(player);
 }
@@ -81,7 +76,7 @@ void PlayerMoveInDirection(Player* player, Vector2* direction)
     //add player position and direction to player position
     Vector2* movementVector = CreateVector2(direction->x, direction->y); // Create a new vector for movement
     MultiplyVector2ByScalar(movementVector, player->speed); // Scale the movement vector by the player's speed
-    AddVector2Components(player->position, movementVector, player->position);
+    AddVector2Components(player->object->position, movementVector, player->object->position);
     DeconstructVector2(movementVector); // Free the movement vector after use
 }
 

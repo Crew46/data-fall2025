@@ -2,6 +2,7 @@
 #define GAME_MANAGER_H
 #include "misc.h"
 #include "video.h"
+#include "object.h"
 #include "player/player_controller.h"
 #include "laser/laser_controller.h"
 #include "laser/laser_controller_manager.h"
@@ -42,8 +43,12 @@ void InitializeGameManager(GameManager* manager)
     Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 1);
     sprites[0] = CreateSprite(PLAYER_REGION, PLAYER_SPRITES_TEXTURE); // Example sprite
 
-    //params: inititial pos x, y, max shoot cooldown time, max lasers, speed, gamepadID, sprite array, number of sprites
-    playerController = CreatePlayerController(screen_width / 2, screen_height / 2, 1, 10, 10, 0, sprites, 1); // Create player controller with initial values
+    //create a generic object that the player will utilize
+                            //parameters: id, x, y, isActive
+    Object* playerObject = CreateObject(0, screen_width / 2, screen_height / 2, true); 
+
+    //params: generic object instance, maxshootingcooldowntime, speed, gamepadID, sprite array, num sprites 
+    playerController = CreatePlayerController(playerObject, 1, 10, 0, sprites, 1); // Create player controller with initial values
     // Initialize game state
     manager->state = Menu;
 }

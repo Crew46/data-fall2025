@@ -3,6 +3,7 @@
 #include "input.h"
 #include "misc.h"
 #include "player.h"
+#include "../object.h"
 #include "player_view.h"
 #include "../vector/vector2.h"
 
@@ -28,10 +29,10 @@ struct PlayerController
 ///////////////////////////////////////////////////////////
 
 //constructor
-PlayerController* CreatePlayerController(int x, int y, float maxShootCooldownTime, int maxLasers, float speed, int gamepadID, Sprite** sprites, int numSprites)
+PlayerController* CreatePlayerController(Object* object, float maxShootCooldownTime, float speed, int gamepadID, Sprite** sprites, int numSprites)
 {
     // Create the player model
-    Player* player = CreatePlayer(x, y, maxShootCooldownTime, maxLasers, speed);
+    Player* player = CreatePlayer(object, maxShootCooldownTime, speed);
 
     //create the player view
     PlayerView* view = CreatePlayerView(sprites, numSprites);

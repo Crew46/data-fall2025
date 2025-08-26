@@ -7,6 +7,8 @@ void main (void)
 {
     // create and initialize the game manager
     gameManager  = CreateGameManager ();
+	Object *player  = (Object *) malloc (sizeof (Object) * 1); 
+	
 
     //game loop
     while (true)
@@ -26,15 +28,16 @@ void main (void)
 
 		//select the gamepad mapped to this player controller
 		select_gamepad (playerController -> gamepadID);
-		Vector2 *movement  = CreateVector2 (0, 0); 
-		gamepad_direction_normalized (&movement -> x, &movement -> y); //get the direction from the gamepad
+		//Vector2 *movement  = CreateVector2 (0, 0); 
+		//gamepad_direction_normalized (&player -> x, &player -> y); //get the direction from the gamepad
+		gamepad_direction (&player -> x, &player -> y); //get the direction from the gamepad
 		//add player position and direction to player position
-		Vector2 *movementVector  = CreateVector2 (direction -> x, direction -> y); // Create a new vector for movement
-		MultiplyVector2ByScalar (movementVector, player -> speed); // Scale the movement vector by the player's speed
-		AddVector2Components(player->object->position, movementVector, player->object->position);
-		DeconstructVector2(movementVector); // Free the movement vector after use
+		//Vector2 *movementVector  = CreateVector2 (movement -> x, movement -> y); // Create a new vector for movement
+		//MultiplyVector2ByScalar (movementVector, player -> speed); // Scale the movement vector by the player's speed
+		//AddVector2Components(player->object->position, movementVector, player->object->position);
+		//DeconstructVector2(movementVector); // Free the movement vector after use
 
-		DeconstructVector2(movement);
+		//DeconstructVector2(movement);
 
 		//will update all once linked list data structure is made, in order to store instances and update iteratively
 		//UpdateAllLaserControllers();

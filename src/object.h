@@ -9,9 +9,14 @@
 
 struct Object
 {
+	int texture;
+	int region;
     int id;
     Vector2* position; //x & y
+	int x;
+	int y;
     bool isActive;
+	int speed;
 };
 
 ////////////////////////////////////////////////////////////////

@@ -27,19 +27,19 @@ void main (void)
 		player -> x = player -> x + player -> xdir;
 		player -> y = player -> y + player -> ydir;
 
-	    if (player -> x >  358)
+	    if (player -> x >  640)
 	    {
-            player -> x  = 357;
+            player -> x  = 639;
         }
 
-        if (player -> x <  2)
+        if (player -> x <  0)
 		{
-            player -> x  = 3;
+            player -> x  = 1;
 		}
 
-		if (player -> y >  640)
+		if (player -> y >  360)
 		{
-            player -> y  = 649;
+            player -> y  = 359;
 		}
 
 		if (player -> y <  0)

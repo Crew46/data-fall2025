@@ -2,7 +2,9 @@ Below is listed the delegations. for each feature, there will be a person that i
 
 Delegations
 
-switch sides: ? 
+generic object: tyler
+
+boundaries: 
 
 grab assets from online game repos: ? 
 

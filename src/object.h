@@ -5,7 +5,8 @@
 
 struct Object
 {
-    Vector2* position;
+    int id;
+    Vector2* position; //x & y
 }
 
 #endif //OBJECT_H

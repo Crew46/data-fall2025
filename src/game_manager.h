@@ -2,10 +2,12 @@
 #define GAME_MANAGER_H
 //vircon standard library
 #include "misc.h"
+#include "audio.h"
 #include "video.h"
 //include texture and regions definitions and configuration vales
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
+#include "configuration/sound_configurations.h"
 //objects
 #include "object.h"
 #include "player/player.h"
@@ -40,6 +42,8 @@ DoublyLinkedList* objectList;
 
 void InitializeGameManager() 
 {
+    select_channel(0);
+    play_sound(THE_INITIUM_CAVERNS_MUSIC);
     //initialize regions
     InitializeRegions();
 
@@ -60,6 +64,7 @@ void InitializeGameManager()
 
 void UpdateGameManager() 
 {
+
     //clear screen
 	clear_screen(get_color_red(0));	
     //drawing the background

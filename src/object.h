@@ -1,7 +1,6 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 #include "vector/vector2.h"
-#include "sprite/sprite.h"
 
 ////////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////////
@@ -9,25 +8,35 @@
 
 struct Object
 {
+    int textureID;
+    int regionID;
     int id;
-    Vector2* position; //x & y
+    Vector2* position;
+    int xdir;
+    int ydir;
     bool isActive;
+    int speed;
 };
 
 ////////////////////////////////////////////////////////////////
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-Object* CreateObject(int id, int x, int y, bool isActive)
+Object* CreateObject(int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
 {
     //create instances of object and vector2
     Object* object = (Object*)malloc(sizeof(Object));
-    Vector2* position = CreateVector2(x, y);
+    Vector2* position = (Vector2*)malloc(sizeof(Vector2));
+    position->x = x;
+    position->y = y;
 
     //initialize object fields
-    object->position = position;
+    object->textureID = textureID;
+    object->regionID = regionID;
     object->id = id;
+    object->position = position;
     object->isActive = isActive;
+    object->speed = speed;
 
     return object;
 }

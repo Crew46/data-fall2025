@@ -3,12 +3,12 @@
 //vircon standard library
 #include "misc.h"
 #include "video.h"
-//objects
-#include "object.h"
-#include "player/player.h"
 //include texture and regions definitions and configuration vales
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
+//objects
+#include "object.h"
+#include "player/player.h"
 //linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 
@@ -18,7 +18,7 @@
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-//player
+//player instance
 Player* player;
 
 enum GameState

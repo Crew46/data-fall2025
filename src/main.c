@@ -5,11 +5,11 @@
 
 #define  BACKGROUND_TEXTURE 0
 #define  PLAYER_TEXTURE     1
-#define  ENEMY_TEXTURE      -1
+#define  ENEMYA_TEXTURE      2
 
 #define  BACKGROUND_REGION  0
 #define  PLAYER_REGION      1
-#define  ENEMY_REGION       86
+#define  ENEMYA_REGION       2
 
 struct Object
 {
@@ -42,12 +42,12 @@ void main (void)
     //
     // Create an enemy instance
     //
-    Object *enemy        = (Object *) malloc (sizeof (Object) * 1); 
-    enemy  -> next       = NULL;
-    enemy  -> x          = rand () % 630;
-    enemy  -> y          = 0;
-    enemy  -> textureID  = ENEMY_TEXTURE;
-    enemy  -> regionID   = ENEMY_REGION;
+    Object *enemyA        = (Object *) malloc (sizeof (Object) * 1); 
+    enemyA  -> next       = NULL;
+    enemyA  -> x          = rand () % 630;
+    enemyA  -> y          = 300;
+    enemyA  -> textureID  = ENEMYA_TEXTURE;
+    enemyA  -> regionID   = ENEMYA_REGION;
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -65,7 +65,18 @@ void main (void)
     select_region (PLAYER_REGION);
     define_region (0, 0, 31, 31, 0, 0);
     
-    ////////////////////////////////////////////////////////////////////////////////////
+ 
+	///////////////////////////////////////////////////////////////////////////////////
+	//
+	// Define the enemy texutre and region
+	select_texture (ENEMYA_TEXTURE);
+	select_region (ENEMYA_REGION);
+	define_region_topleft (0, 0 , 9, 9 );
+
+
+
+
+   ////////////////////////////////////////////////////////////////////////////////////
     //
     // Select the first gamepad
     //
@@ -132,15 +143,25 @@ void main (void)
         select_texture (player -> textureID);
         select_region  (player -> regionID);
         draw_region_at (player -> x, player -> y);
+	
+		///////////////////////////////////////////////////////////////////////////////
+		//
+		//
+		// Getting the textures and drawing the enemy at their position.
+		//
+		select_texture (enemyA -> textureID);
+		select_region (enemyA -> regionID);
+		draw_region_at (enemyA -> x , enemyA -> y);
 
+		
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust enemy position based on randomness
         //
-        enemy  -> xdir   = rand () % 3 - 1;
-        enemy  -> ydir   = 1; //rand () % 3 - 1;
-        enemy  -> x      = enemy  -> x + enemy  -> xdir;
-        enemy  -> y      = enemy  -> y + enemy  -> ydir;
+        enemyA  -> xdir   = rand () % 3 - 1;
+        enemyA  -> ydir   = 1; //rand () % 3 - 1;
+        enemyA  -> x      = enemyA  -> x + enemyA  -> xdir;
+        enemyA  -> y      = enemyA  -> y + enemyA  -> ydir;
         
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -152,9 +173,9 @@ void main (void)
         //
         // Select texture and region for the enemy, and draw it
         //
-        select_texture (enemy  -> textureID);
-        select_region  (enemy  -> regionID);
-        draw_region_at (enemy  -> x, enemy  -> y);
+        select_texture (enemyA  -> textureID);
+        select_region  (enemyA  -> regionID);
+        draw_region_at (enemyA  -> x, enemyA  -> y);
 
         end_frame ();
     }

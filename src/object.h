@@ -11,9 +11,10 @@ struct Object
     int textureID;
     int regionID;
     int id;
-    Vector2* position;
-    int xdir;
-    int ydir;
+    float x;
+    float y;
+    float xdir;
+    float ydir;
     bool isActive;
     int speed;
 };
@@ -26,15 +27,13 @@ Object* CreateObject(int textureID, int regionID, int id, int x, int y, bool isA
 {
     //create instances of object and vector2
     Object* object = (Object*)malloc(sizeof(Object));
-    Vector2* position = (Vector2*)malloc(sizeof(Vector2));
-    position->x = x;
-    position->y = y;
 
     //initialize object fields
+    object->x = x;
+    object->y = y;
     object->textureID = textureID;
     object->regionID = regionID;
     object->id = id;
-    object->position = position;
     object->isActive = isActive;
     object->speed = speed;
 
@@ -44,7 +43,6 @@ Object* CreateObject(int textureID, int regionID, int id, int x, int y, bool isA
 //object is composed, rather than aggregate of vector2, so also responsible for freeing it
 void DeconstructObject(Object* object)
 {
-    free(object->position);
     free(object);
 }
 

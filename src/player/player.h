@@ -80,13 +80,13 @@ void DeconstructPlayer(Player* player)
 ///////////////////////////////////////////////
 
 //move player in a direction, where then direction is scaled by the player's speed
-void PlayerMoveInDirection(Player* player, Vector2* direction)
+void PlayerMoveInDirection(Player* player)
 {
+    float resultX;
+    float resultY;
     //add player position and direction to player position
-    Vector2* movementVector = CreateVector2(direction->x, direction->y); // Create a new vector for movement
-    MultiplyVector2ByScalar(movementVector, player->object->speed); // Scale the movement vector by the player's speed
-    AddVector2Components(player->object->position, movementVector, player->object->position);
-    DeconstructVector2(movementVector); // Free the movement vector after use
+    MultiplyVector2ByScalar(player->object->xdir, player->object->ydir, player->object->speed, &resultX, &resultY); // Scale the movement vector by the player's speed
+    AddVector2Components(resultX, player->object->x, resultY, player->object->y, &player->object->x, &player->object->y);
 }
 
 //shoot selected weapon
@@ -118,7 +118,7 @@ void DrawPlayer(Player* player)
 {
     select_texture(player->object->textureID);
     select_region(player->object->regionID);
-    draw_region_at(player->object->position->x, player->object->position->y);
+    draw_region_at(player->object->x, player->object->y);
 }
 
 //=========================================================
@@ -136,11 +136,13 @@ void DrawPlayer(Player* player)
 void HandleInput(Player* player)
 {
     //select the gamepad mapped to this player controller
-    //select_gamepad(player->gamepadID);
-    Vector2* movement = CreateVector2(0, 0); 
-    gamepad_direction_normalized(&movement->x, &movement->y); //get the direction from the gamepad
-    PlayerMoveInDirection(player, movement);
-    DeconstructVector2(movement);
+    select_gamepad(player->gamepadID);
+    float deltaX;
+    float deltaY;
+    gamepad_direction_normalized(&deltaX, &deltaY); //get the direction from the gamepad
+    player->object->xdir = deltaX;
+    player->object->ydir = deltaY;
+    PlayerMoveInDirection(player);
 }
 
 void PlayerUpdate(Player* player)

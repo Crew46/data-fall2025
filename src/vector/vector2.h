@@ -3,7 +3,7 @@
 #include "math.h"
 #include "misc.h"
 
-//components of first vector, followed by components of second, with pointers to result components
+//components of x, followed by components of y, with pointers to result components
 void AddVector2Components(float xA, float xB, float yA, float yB, float* resultX, float* resultY)
 {
   *resultX = xA + xB;
@@ -24,7 +24,7 @@ void MultiplyVector2ByScalar(float x, float y, float scalar, float* resultX, flo
 void DivideVector2ByScalar(float x, float y, float scalar, float* resultX, float* resultY)
 {
   *resultX = x / scalar; 
-  *resultY = y / scalar; 
+  *resultY = y / scalar;
 }
 
 float GetVector2Magnitude(float x, float y)

@@ -1,16 +1,10 @@
-#ifndef LASER_H
-#define LASER_H
+#ifndef WEAPON_H
+#define WEAPON_H
 #include "misc.h"
 #include "video.h"
 #include "../vector/vector2.h"
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
-
-/** 
- * SUMMARY:
- * This is the model of the laser: the fundamental properties and behaviors.
- * This file defines the laser struct and its associated functions.
-**/
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -24,28 +18,35 @@
 ///////////Struct////////////////////////////////
 /////////////////////////////////////////////////
 
-struct Laser {
+enum WeaponType
+{
+    WEAPON_TYPE_LASER_CANNON,
+    WEAPON_TYPE_MISSILE_LAUNCHER,
+    WEAPON_TYPE_LIGHTNING_ROD,
+    WEAPON_TYPE_MAGNETIC_ATTRACTION_DEVICE
+};
+
+struct Weapon {
     Object* object;
-    float speed; // Speed of the laser in pixels per second
-    float lifetime; // Lifetime of the laser in seconds
+    WeaponType* type;
+    float lifetime; // Lifetime of the weapon's projectile in seconds
 };
 
 /////////////////////////////////////////////////
 ///////////Constructor and Deconstructor/////////
 /////////////////////////////////////////////////
 
-Laser* CreateLaser(Object* object, float speed, float lifetime)
+Weapon* CreateWeapon(Object* object, float speed, float lifetime)
 {
-    Laser* laser = (Laser*)malloc(sizeof(Laser));
-    laser->object = object;
-    laser->speed = speed;
-    laser->lifetime = lifetime;
-    return laser;
+    Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
+    weapon->object = object;
+    weapon->lifetime = lifetime;
+    return weapon;
 }
 
-void DeconstructLaser(Laser* laser)
+void DeconstructWeapon(Weapon* weapon)
 {
-    free(laser);
+    free(weapon);
 }
 
 //=========================================================
@@ -56,9 +57,8 @@ void DeconstructLaser(Laser* laser)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void DrawLaser()
+void DrawWeapon(Weapon* weapon)
 {
-
 }
 
 //=========================================================
@@ -69,9 +69,12 @@ void DrawLaser()
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void LaserControllerUpdate(LaserController* controller)
+void WeaponUpdate(Weapon* weapon)
 {
-    DrawLaser(controller->laserView, controller->laser);
+    //logical operations here
+
+    //draw
+    DrawWeapon(weapon);
 }
 
 //=========================================================
@@ -83,10 +86,10 @@ void LaserControllerUpdate(LaserController* controller)
 //=========================================================
 
 //initialize instances list
-DoublyLinkedList* laserControllerList = CreateDoublyLinkedList();
+DoublyLinkedList* weaponsList = CreateDoublyLinkedList();
 
 //update all laser controller in the laser controller list
-void UpdateAllLasers()
+void UpdateAllWeapons()
 {
     //loop through all instances of laser controller
     //for(int i = 0; i < instancesOfLaserController; i++)
@@ -96,7 +99,7 @@ void UpdateAllLasers()
 }
 
 //deconstruct linked list and all laser controllers in list 
-void DeconstructAllLasers()
+void DeconstructAllWeapons()
 {
     //loop through all instances of laser controller
     //for(int i = 0; i < instancesOfLaserController; i++)
@@ -105,4 +108,4 @@ void DeconstructAllLasers()
     //}
 }
 
-#endif // LASER_H
+#endif // WEAPON_H

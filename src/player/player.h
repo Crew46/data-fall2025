@@ -6,6 +6,7 @@
 #include "../vector/vector2.h"
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "../weapon/weapon.h"
 
 /** 
  * SUMMARY:
@@ -38,10 +39,6 @@ enum PlayerMovementState
     PLAYER_MOVEMENT_STATE_MOVING
 };
 
-enum PlayerWeaponType
-{
-    PLAYER_WEAPON_TYPE_LASER
-};
 
 struct Player 
 {
@@ -50,7 +47,7 @@ struct Player
     float maxShootCooldownTime; //shoot cooldown in seconds
     float shootCooldownElapsed; //seconds elapsed since last shot
     PlayerMovementState state; // Current state of the player
-    PlayerWeaponType weaponType; // Current weapon type of the player
+    WeaponType weaponType;
 };
 
 ////////////////////////////////////////////////
@@ -68,7 +65,7 @@ Player* CreatePlayer(Object* object, float maxShootCooldownTime, int gamepadID)
     player->maxShootCooldownTime = maxShootCooldownTime;
     player->shootCooldownElapsed = 0; // Start with no cooldown
     player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
-    player->weaponType = PLAYER_WEAPON_TYPE_LASER; // Default weapon type
+    player->weaponType = WEAPON_TYPE_LASER_CANNON; // Default weapon type
     //return pointer to player
     return player;
 }

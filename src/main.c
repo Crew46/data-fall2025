@@ -1,9 +1,15 @@
+#include "input.h"
 #include "misc.h"
 #include "video.h"
 #include "time.h"
 
-#define  BACKGROUND_REGION 0
-#define  PLAYER_REGION     1
+#define  BACKGROUND_TEXTURE 0
+#define  PLAYER_TEXTURE     1
+#define  ENEMY_TEXTURE      -1
+
+#define  BACKGROUND_REGION  0
+#define  PLAYER_REGION      1
+#define  ENEMY_REGION       86
 
 struct Object
 {
@@ -29,8 +35,19 @@ void main (void)
     player -> next       = NULL;
     player -> x          = 360;
     player -> y          = 300;
-    player -> textureID  = 1;
-    player -> regionID   = 1;
+    player -> textureID  = PLAYER_TEXTURE;
+    player -> regionID   = PLAYER_REGION;
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Create an enemy instance
+    //
+    Object *enemy        = (Object *) malloc (sizeof (Object) * 1); 
+    enemy  -> next       = NULL;
+    enemy  -> x          = rand () % 630;
+    enemy  -> y          = 0;
+    enemy  -> textureID  = ENEMY_TEXTURE;
+    enemy  -> regionID   = ENEMY_REGION;
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -44,10 +61,10 @@ void main (void)
     //
     // Define the player texture and region
     //
-    select_texture (PLAYER_SPRITES_TEXTURE);
+    select_texture (PLAYER_TEXTURE);
     select_region (PLAYER_REGION);
     define_region (0, 0, 31, 31, 0, 0);
-
+    
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Select the first gamepad
@@ -110,16 +127,34 @@ void main (void)
         
         ////////////////////////////////////////////////////////////////////////////////
         //
-        // Select texture and region for the player
+        // Select texture and region for the player, and draw it
         //
         select_texture (player -> textureID);
-        select_region (player -> regionID);
+        select_region  (player -> regionID);
+        draw_region_at (player -> x, player -> y);
 
         ////////////////////////////////////////////////////////////////////////////////
         //
-        // Draw the player the screen at is current x, y coordinates
+        // Adjust enemy position based on randomness
         //
-        draw_region_at (player -> x, player -> y);
+        enemy  -> xdir   = rand () % 3 - 1;
+        enemy  -> ydir   = 1; //rand () % 3 - 1;
+        enemy  -> x      = enemy  -> x + enemy  -> xdir;
+        enemy  -> y      = enemy  -> y + enemy  -> ydir;
+        
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // Enemy/playfield bounds checking
+        //
+
+ 
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // Select texture and region for the enemy, and draw it
+        //
+        select_texture (enemy  -> textureID);
+        select_region  (enemy  -> regionID);
+        draw_region_at (enemy  -> x, enemy  -> y);
 
         end_frame ();
     }

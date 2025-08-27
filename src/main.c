@@ -44,8 +44,8 @@ void main (void)
     //
     Object *enemyA        = (Object *) malloc (sizeof (Object) * 1); 
     enemyA  -> next       = NULL;
-    enemyA  -> x          = rand () % 630;
-    enemyA  -> y          = 300;
+    enemyA  -> x          = 320;	//rand () % 630;
+    enemyA  -> y          = 0;
     enemyA  -> textureID  = ENEMYA_TEXTURE;
     enemyA  -> regionID   = ENEMYA_REGION;
 

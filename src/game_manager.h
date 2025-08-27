@@ -1,12 +1,16 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
+//vircon standard library
 #include "misc.h"
 #include "video.h"
+//objects
 #include "object.h"
 #include "player/player.h"
 //include texture and regions definitions and configuration vales
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
+//linked list
+#include "data_structures/doubly_linked_list/doubly_linked_list.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -24,6 +28,9 @@ enum GameState
 };
 
 GameState currentState;
+
+//list of all objects in scene
+DoublyLinkedList* objectList;
 
 //=========================================================
 ///////////////////////////////////////////////////////////

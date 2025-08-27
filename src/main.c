@@ -1,22 +1,16 @@
 #include "game_manager.h"
 #include "time.h"
 
-GameManager* gameManager;
-
 void main(void)
 {
-    // create and initialize the game manager
-    gameManager = CreateGameManager();
+    InitializeGameManager();
 
     //game loop
     while(true)
     {
         //update game manager
-        UpdateGameManager(gameManager);
+        UpdateGameManager();
         end_frame();
     }
-
-	//Deinitialize game manager before exiting
-	DeconstructGameManager(gameManager);
 }
 

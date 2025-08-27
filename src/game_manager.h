@@ -4,7 +4,6 @@
 #include "video.h"
 #include "object.h"
 #include "player/player.h"
-
 //include texture and regions definitions and configuration vales
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
@@ -12,23 +11,19 @@
 //player
 Player* player;
 
-////////////////////////////////////////////////////////////
-///////////Struct///////////////////////////////////////////
-///////////////////////////////////////////////////////////
-
-enum GameState {
-    Menu
+enum GameState
+{
+    MENU,
+    INGAME
 };
 
-struct GameManager {
-    GameState state; // Current game state
-};
+GameState currentState;
 
 ///////////////////////////////////////////////////////////
 ///////////INITIALIZE (CALLED IN CONSTRUCTOR)//////////////
 ///////////////////////////////////////////////////////////
 
-void InitializeGameManager(GameManager* manager) 
+void InitializeGameManager() 
 {
     //initialize regions
     InitializeRegions();
@@ -39,34 +34,15 @@ void InitializeGameManager(GameManager* manager)
     player = CreatePlayer(playerObject, 1, 0); // Create player controller with initial values
 
     // Initialize game state
-    manager->state = Menu;
+    currentState = MENU;
 }
 
-///////////////////////////////////////////////////////////
-///////////Constructor and Deconstructor///////////////////
-///////////////////////////////////////////////////////////
-
-//constructor
-GameManager* CreateGameManager()
-{
-    GameManager* gameManager = (GameManager*)malloc(sizeof(GameManager));
-    InitializeGameManager(gameManager);
-    return gameManager;
-}
-
-//deconstructor
-void DeconstructGameManager(GameManager* manager) 
-{
-    //deconstruct player controllers
-    DeconstructAllPlayers();
-    free(manager);
-}
 
 ///////////////////////////////////////////////////////////
 ///////////UPDATE GAME MANAGER/////////////////////////////
 ///////////////////////////////////////////////////////////
 
-void UpdateGameManager(GameManager* manager) 
+void UpdateGameManager() 
 {
     //clear screen
 	clear_screen(get_color_red(0));	

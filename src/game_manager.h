@@ -49,7 +49,7 @@ void InitializeGameManager()
 
     //create a generic object that the player will utilize
     Object* playerObject = CreateObject(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 10); 
-    //create player controller: params: generic object instance, maxshootingcooldowntime, speed, gamepadID, sprite array, num sprites 
+    //create player controller: params: generic object instance, maxshootingcooldowntime, gamepad ID
     player = CreatePlayer(playerObject, 1, 0); // Create player controller with initial values
 
     // Initialize game state
@@ -64,7 +64,6 @@ void InitializeGameManager()
 
 void UpdateGameManager() 
 {
-
     //clear screen
 	clear_screen(get_color_red(0));	
     //drawing the background

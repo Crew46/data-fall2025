@@ -59,7 +59,6 @@ void UpdateGameManager()
     select_texture ( BACKGROUND_TEXTURE );
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
-
     PlayerUpdate(player);
 }
 

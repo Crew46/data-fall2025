@@ -3,17 +3,14 @@
 #include "misc.h"
 #include "video.h"
 #include "object.h"
-#include "player/player_controller.h"
-#include "laser/laser_controller.h"
-#include "laser/laser_controller_manager.h"
-#include "player/player_controller_manager.h"
+#include "player/player.h"
 
 //include texture and regions definitions and configuration vales
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 
-//player controller
-PlayerController* playerController;
+//player
+Player* player;
 
 ////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////
@@ -36,16 +33,10 @@ void InitializeGameManager(GameManager* manager)
     //initialize regions
     InitializeRegions();
 
-    //temporary
-    // create sprite array that player view will use, will use 1 sprites for now
-    Sprite** sprites = (Sprite**)malloc(sizeof(Sprite*) * 1);
-    sprites[0] = CreateSprite(PLAYER_REGION, PLAYER_SPRITES_TEXTURE); // Example sprite
-
     //create a generic object that the player will utilize
-                            //parameters: id, x, y, isActive
-    Object* playerObject = CreateObject(0, screen_width / 2, screen_height / 2, true); 
+    Object* playerObject = CreateObject(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 10); 
     //create player controller: params: generic object instance, maxshootingcooldowntime, speed, gamepadID, sprite array, num sprites 
-    playerController = CreatePlayerController(playerObject, 1, 10, 0, sprites, 1); // Create player controller with initial values
+    player = CreatePlayer(playerObject, 1, 0); // Create player controller with initial values
 
     // Initialize game state
     manager->state = Menu;
@@ -66,9 +57,8 @@ GameManager* CreateGameManager()
 //deconstructor
 void DeconstructGameManager(GameManager* manager) 
 {
-    //deconstruct all laser and player controllers
-    DeconstructAllLaserControllers();
-    DeconstructAllPlayerControllers();
+    //deconstruct player controllers
+    DeconstructAllPlayers();
     free(manager);
 }
 
@@ -85,12 +75,8 @@ void UpdateGameManager(GameManager* manager)
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
 
-    //temporary player controller update
-    PlayerControllerUpdate(playerController);
-
-    //will update all once linked list data structure is made, in order to store instances and update iteratively
-    UpdateAllLaserControllers();
-    UpdateAllPlayerControllers();
+    //temporary player update
+    PlayerUpdate(player);
 }
 
 #endif // GAME_MANAGER_H

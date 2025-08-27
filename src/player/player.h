@@ -118,12 +118,14 @@ void PlayerShoot(Player* player)
 
 /** 
  * SUMMARY:
- * this part if for visualizing the data of the model
+ * this part is for visualizing the data of the model
 **/
 
 void DrawPlayer(Player* player)
 {
-
+    select_texture(player->object->textureID);
+    select_region(player->object->regionID);
+    draw_region_at(player->object->position->x, player->object->position->y);
 }
 
 //=========================================================

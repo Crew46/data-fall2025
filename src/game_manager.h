@@ -75,7 +75,6 @@ void UpdateGameManager(GameManager* manager)
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
 
-    //temporary player update
     PlayerUpdate(player);
 }
 

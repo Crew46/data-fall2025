@@ -41,6 +41,7 @@ Object* CreateObject(int textureID, int regionID, int id, int x, int y, bool isA
     return object;
 }
 
+//object is composed, rather than aggregate of vector2, so also responsible for freeing it
 void DeconstructObject(Object* object)
 {
     free(object->position);

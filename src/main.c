@@ -11,6 +11,11 @@
 #define  PLAYER_REGION      1
 #define  ENEMY_REGION       86
 
+
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  Object struct and helpers
+//
 struct Object
 {
     int     textureID;
@@ -22,11 +27,153 @@ struct Object
     int     ydir;
     bool    isActive;
     int     speed;
-    Object *next;
+    Object  *next;
 };
+
+Object* createObject(int textureID, int regionID, int xPos, int yPos, bool isActive, Object* next)
+{
+  Object* obj = (Object*)malloc(sizeof(Object));
+  obj->textureID = textureID;
+  obj->regionID = regionID;
+  obj->x = xPos;
+  obj->y = yPos;
+  obj->isActive = isActive;
+  obj->next = next;
+
+  return obj;
+}
+
+Object* deleteObject(Object** obj)
+{
+  free(*obj);
+  *obj = NULL;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  Node struct and helpers
+//
+struct Node
+{
+  Object* data;
+  Node* next;
+  Node* prev;
+};
+
+Node* createNode(Object* data)
+{
+  Node* node = (Node*)malloc(sizeof(Node));
+  node->data = data;
+  node->next = NULL;
+  node->prev = NULL;
+
+  return node;
+}
+
+void deleteNode(Node** node)
+{
+  free(*node);
+  *node = NULL;
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  Linked List struct and helpers
+//
+struct DoublyLinkedList
+{
+  Node* head;
+  Node* tail;
+  int size;
+};
+
+DoublyLinkedList* createList()
+{
+  DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
+  list->head = NULL;
+  list->tail = NULL;
+  list->size = 0;
+
+  return list;
+}
+
+void deleteList(DoublyLinkedList** list)
+{
+  Node* current = (*list)->head;
+  for(int i = 0; i < (*list)->size; ++i)
+  {
+    Node* next = current->next;
+    deleteNode(&current);
+    current = next;
+  }
+  free(*list);
+  *list = NULL;
+}
+
+void addFront(DoublyLinkedList* list, Object* data)
+{
+  Node* node = createNode(data);
+  if(list->head == NULL)
+  {
+    list->head = node;
+    list->tail = node;
+  }
+  else
+  {
+    list->head->prev = node;
+    node->next = list->head;
+    list->head = node;
+  }
+}
+
+void addBack(DoublyLinkedList* list, Object* data)
+{
+  Node* node = createNode(data);
+  if(list->head == NULL)
+  {
+   list->head = node;
+   list->tail = node;
+  }
+  else
+  {
+    list->tail->next = node;
+    node->prev = list->tail;
+    list->tail = node;
+  }
+}
+
+void updateEnemies(DoublyLinkedList* enemyList)
+{
+  Node* current = enemyList->head;
+  Object* enemy = NULL;
+  for(int i = 0; i < enemyList->size; ++i)
+  {
+    // Move enemy 
+    enemy = current->data;
+    enemy  -> xdir   = rand() % 3 - 1;
+    enemy  -> ydir   = 1; //rand () % 3 - 1;
+    enemy  -> x      = enemy  -> x + enemy  -> xdir;
+    enemy  -> y      = enemy  -> y + enemy  -> ydir;
+    
+    // Draw enemy
+    select_texture (enemy->textureID);
+    select_region  (enemy->regionID);
+    draw_region_at (enemy->x, enemy->y);
+
+    // Next node
+    current = current->next;
+  }
+}
 
 void main (void)
 {
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Seed the rng
+    //
+    srand(get_time());
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -42,12 +189,30 @@ void main (void)
     //
     // Create an enemy instance
     //
-    Object *enemy        = (Object *) malloc (sizeof (Object) * 1); 
-    enemy  -> next       = NULL;
-    enemy  -> x          = rand () % 630;
-    enemy  -> y          = 0;
-    enemy  -> textureID  = ENEMY_TEXTURE;
-    enemy  -> regionID   = ENEMY_REGION;
+    //Object *enemy        = (Object *) malloc (sizeof (Object) * 1); 
+    //enemy  -> next       = NULL;
+    //enemy  -> x          = rand () % 630;
+    //enemy  -> y          = 0;
+    //enemy  -> textureID  = ENEMY_TEXTURE;
+    //enemy  -> regionID   = ENEMY_REGION;
+
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Create enemy list
+    //
+    DoublyLinkedList* enemyList = createList(); 
+    for(int i = 0; i < 5; ++i) // Add 5 enemies to start 
+    {
+      int xPos = rand() % 630;
+      int yPos = 0;
+      bool isActive = true;
+      //Object* next = NULL;
+      Object* enemy = createObject(ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, isActive, NULL);
+
+      addBack(enemyList, enemy);
+      enemyList->size++;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -135,12 +300,19 @@ void main (void)
 
         ////////////////////////////////////////////////////////////////////////////////
         //
+        // Update the enemies 
+        //
+        updateEnemies(enemyList);
+
+        ////////////////////////////////////////////////////////////////////////////////
+        //
         // Adjust enemy position based on randomness
         //
-        enemy  -> xdir   = rand () % 3 - 1;
-        enemy  -> ydir   = 1; //rand () % 3 - 1;
-        enemy  -> x      = enemy  -> x + enemy  -> xdir;
-        enemy  -> y      = enemy  -> y + enemy  -> ydir;
+        //enemy  -> xdir   = rand () % 3 - 1;
+        //enemy  -> ydir   = 1; //rand () % 3 - 1;
+        //enemy  -> x      = enemy  -> x + enemy  -> xdir;
+        //enemy  -> y      = enemy  -> y + enemy  -> ydir;
+
         
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -152,10 +324,11 @@ void main (void)
         //
         // Select texture and region for the enemy, and draw it
         //
-        select_texture (enemy  -> textureID);
-        select_region  (enemy  -> regionID);
-        draw_region_at (enemy  -> x, enemy  -> y);
+        //select_texture (enemy  -> textureID);
+        //select_region  (enemy  -> regionID);
+        //draw_region_at (enemy  -> x, enemy  -> y);
 
         end_frame ();
     }
+    deleteList(&enemyList);
 }

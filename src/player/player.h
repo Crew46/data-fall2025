@@ -3,10 +3,12 @@
 #include "misc.h"
 #include "video.h"
 #include "input.h"
+#include "math.h"
 #include "../vector/vector2.h"
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 #include "../weapon/weapon.h"
+#include "../tools/debugger.h"
 
 /** 
  * SUMMARY:
@@ -86,7 +88,11 @@ void PlayerMoveInDirection(Player* player)
     float resultY;
     //add player position and direction to player position
     MultiplyVector2ByScalar(player->object->xdir, player->object->ydir, player->object->speed, &resultX, &resultY); // Scale the movement vector by the player's speed
-    AddVector2Components(resultX, player->object->x, resultY, player->object->y, &player->object->x, &player->object->y);
+    float resultsX2;
+    float resultsY2;
+    AddVector2Components(resultX, player->object->x, resultY, player->object->y, &resultsX2, &resultsY2);
+    player->object->x = (int)resultsX2;
+    player->object->y = (int)resultsY2;
 }
 
 //shoot selected weapon
@@ -152,6 +158,9 @@ void PlayerUpdate(Player* player)
 
     // Update the player view every frame
     DrawPlayer(player);
+
+
+    
 }
 
 //=========================================================

@@ -11,8 +11,8 @@ struct Object
     int textureID;
     int regionID;
     int id;
-    float x;
-    float y;
+    int x;
+    int y;
     float xdir;
     float ydir;
     bool isActive;

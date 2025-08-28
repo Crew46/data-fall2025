@@ -71,6 +71,8 @@ void UpdateGameManager()
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
     PlayerUpdate(player);
+    //debug
+    PrintObjectDataAt(1, 1, player->object, "Player");
 }
 
 #endif // GAME_MANAGER_H

@@ -26,7 +26,10 @@ void DeconstructDoublyNode(DoublyNode* doublyNode)
 
 void InsertDoublyNodeAfterDoublyNode(DoublyNode* nodeToInsertAfter, DoublyNode* newNode)
 {
-  nodeToInsertAfter->next->previous = newNode;
+  if(nodeToInsertAfter->next != NULL)
+  {
+    nodeToInsertAfter->next->previous = newNode;
+  }
 
   newNode->next = nodeToInsertAfter->next; 
   newNode->previous = nodeToInsertAfter;
@@ -36,7 +39,10 @@ void InsertDoublyNodeAfterDoublyNode(DoublyNode* nodeToInsertAfter, DoublyNode* 
 
 void InsertDoublyNodeBeforeDoublyNode(DoublyNode* nodeToInsertBefore, DoublyNode* newNode)
 {
-  nodeToInsertBefore->previous->next = newNode;
+  if(nodeToInsertBefore->previous != NULL)
+  {
+    nodeToInsertBefore->previous->next = newNode;
+  }
 
   newNode->previous = nodeToInsertBefore->previous;
   newNode->next = nodeToInsertBefore;

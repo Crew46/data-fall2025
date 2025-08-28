@@ -27,26 +27,6 @@ void PrintIntAt(int x, int y, int value)
     print_at(x, y, stringToPrint);
 }
 
-void PrintFloatAt(int x, int y, float value)
-{
-    //cannot convert negative values, must find absolute value, and add negative after
-    int* stringValue = (int*)malloc(sizeof(int) * 40);
-    ftoa(abs(value), stringValue);
-    int* stringToPrint = (int*)malloc(sizeof(int) * (strlen(stringValue) + 1));
-    
-    if(value < 0)
-    {
-        strcat(stringToPrint, "-");
-    }
-    else
-    {
-        strcat(stringToPrint, "+");
-    }
-    strcat(stringToPrint, stringValue);
-    
-    print_at(x, y, stringToPrint);
-}
-
  void PrintObjectDataAt(int x, int y, Object* object, int* label)
  {
     int leading = 20;
@@ -69,10 +49,10 @@ void PrintFloatAt(int x, int y, float value)
     print_at(x + tracking, y + leading * 4, "Dir: ");
 
     print_at(x + tracking * 2, y + leading * 5, "xdir: ");
-    PrintFloatAt(x + tracking * 6, y + leading * 5, object->xdir);
+    PrintIntAt(x + tracking * 6, y + leading * 5, object->xdir);
 
     print_at(x + tracking * 2, y + leading * 6, "ydir: ");
-    PrintFloatAt(x + tracking * 6, y + leading * 6, object->ydir);
+    PrintIntAt(x + tracking * 6, y + leading * 6, object->ydir);
 
 
     //sprite region and texture

@@ -84,16 +84,15 @@ struct DoublyLinkedList
 {
   Node* head;
   Node* tail;
-  int size;
 };
 
 void deleteNode(DoublyLinkedList* list, Node** node)
 {
-  if(!list || !*node || !node || list->size == 0)
+  if(!list || !*node || !node)
     return;
 
   // Only one node
-  if(list->size == 1)
+  if(list->head == (*node) && list->tail == (*node))
   {
     list->head = NULL;
     list->tail = NULL;
@@ -114,7 +113,6 @@ void deleteNode(DoublyLinkedList* list, Node** node)
     (*node)->prev->next = (*node)->next;
   }
 
-  list->size--;
   free(*node);
   *node = NULL;
 }
@@ -124,7 +122,6 @@ DoublyLinkedList* createList()
   DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
   list->head = NULL;
   list->tail = NULL;
-  list->size = 0;
 
   return list;
 }
@@ -132,7 +129,7 @@ DoublyLinkedList* createList()
 void deleteList(DoublyLinkedList** list)
 {
   Node* current = (*list)->head;
-  for(int i = 0; i < (*list)->size; ++i)
+  while(current != NULL)
   {
     Node* next = current->next;
     deleteNode((*list), &current);
@@ -157,7 +154,6 @@ void addFront(DoublyLinkedList* list, Object* data)
     list->head = node;
   }
 
-  list->size++;
 }
 
 void addBack(DoublyLinkedList* list, Object* data)
@@ -175,7 +171,6 @@ void addBack(DoublyLinkedList* list, Object* data)
     list->tail = node;
   }
 
-  list->size++;
 }
 
 // Checks bounds but should only be used for objects that don't need to check which side they are exceeding
@@ -194,7 +189,7 @@ void updateEnemies(DoublyLinkedList* enemyList)
   Node* current = enemyList->head;
   Node* next = NULL;
   Object* enemy = NULL;
-  for(int i = 0; i < enemyList->size; ++i)
+  while(current != NULL)
   {
     next = current->next;
 

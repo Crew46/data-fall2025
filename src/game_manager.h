@@ -48,7 +48,7 @@ void InitializeGameManager()
     InitializeRegions();
 
     //create a generic object that the player will utilize
-    Object* playerObject = CreateObject(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 10); 
+    Object* playerObject = CreateObject(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 5); 
     //create player controller: params: generic object instance, maxshootingcooldowntime, gamepad ID
     player = CreatePlayer(playerObject, 1, 0); // Create player controller with initial values
 
@@ -72,7 +72,7 @@ void UpdateGameManager()
     draw_region_at( 0, 0 );
     PlayerUpdate(player);
     //debug
-    PrintObjectDataAt(1, 1, player->object, "Player");
+    PrintObjectDataAt(1, 1, player->object, "Object");
 }
 
 #endif // GAME_MANAGER_H

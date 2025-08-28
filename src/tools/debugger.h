@@ -63,6 +63,8 @@ void PrintFloatAt(int x, int y, float value)
     print_at(x + tracking * 2, y + leading * 3, "Y: ");
     PrintIntAt(x + tracking * 6, y + leading * 3, object->y);
 
+
+
     //x and y dir
     print_at(x + tracking, y + leading * 4, "Dir: ");
 
@@ -87,12 +89,12 @@ void PrintFloatAt(int x, int y, float value)
     //misc
     print_at(x + tracking, y + leading * 10, "Misc: ");
 
-    //active
     print_at(x + tracking * 2, y + leading * 11, "active: ");
     PrintIntAt(x + tracking * 6, y + leading * 11, object->isActive);
-    //ID
     print_at(x + tracking * 2, y + leading * 12, "id: ");
     PrintIntAt(x + tracking * 6, y + leading * 12, object->id);
+    print_at(x + tracking * 2, y + leading * 13, "speed: ");
+    PrintIntAt(x + tracking * 6, y + leading * 13, object->speed);
  }
 
 #endif //DEBUGGER_H

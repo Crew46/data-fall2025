@@ -11,6 +11,9 @@
 #define  PLAYER_REGION      1
 #define  ENEMY_REGION       86
 
+#define  SCREEN_WIDTH       640
+#define  SCREEN_HEIGHT      360
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
@@ -71,11 +74,7 @@ Node* createNode(Object* data)
   return node;
 }
 
-void deleteNode(Node** node)
-{
-  free(*node);
-  *node = NULL;
-}
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
@@ -87,6 +86,38 @@ struct DoublyLinkedList
   Node* tail;
   int size;
 };
+
+void deleteNode(DoublyLinkedList* list, Node** node)
+{
+  if(!list || !*node || !node || list->size == 0)
+    return;
+
+  // Only one node
+  if(list->size == 1)
+  {
+    list->head = NULL;
+    list->tail = NULL;
+  }
+  else if(*node == list->head)
+  {
+    list->head = (*node)->next;
+    list->head->prev = NULL;
+  }
+  else if(*node == list->tail)
+  {
+    list->tail = (*node)->prev;
+    list->tail->next = NULL;
+  }
+  else
+  {
+    (*node)->next->prev = (*node)->prev;
+    (*node)->prev->next = (*node)->next;
+  }
+
+  list->size--;
+  free(*node);
+  *node = NULL;
+}
 
 DoublyLinkedList* createList()
 {
@@ -104,7 +135,7 @@ void deleteList(DoublyLinkedList** list)
   for(int i = 0; i < (*list)->size; ++i)
   {
     Node* next = current->next;
-    deleteNode(&current);
+    deleteNode((*list), &current);
     current = next;
   }
   free(*list);
@@ -125,6 +156,8 @@ void addFront(DoublyLinkedList* list, Object* data)
     node->next = list->head;
     list->head = node;
   }
+
+  list->size++;
 }
 
 void addBack(DoublyLinkedList* list, Object* data)
@@ -141,14 +174,30 @@ void addBack(DoublyLinkedList* list, Object* data)
     node->prev = list->tail;
     list->tail = node;
   }
+
+  list->size++;
+}
+
+// Checks bounds but should only be used for objects that don't need to check which side they are exceeding
+bool exceedsBounds(Object* obj)
+{
+  if(obj->x < 0 || obj->x > SCREEN_WIDTH)
+    return true;
+  if(obj->y < 0 || obj->y > SCREEN_HEIGHT)
+    return true;
+
+  return false;
 }
 
 void updateEnemies(DoublyLinkedList* enemyList)
 {
   Node* current = enemyList->head;
+  Node* next = NULL;
   Object* enemy = NULL;
   for(int i = 0; i < enemyList->size; ++i)
   {
+    next = current->next;
+
     // Move enemy 
     enemy = current->data;
     enemy  -> xdir   = rand() % 3 - 1;
@@ -156,15 +205,25 @@ void updateEnemies(DoublyLinkedList* enemyList)
     enemy  -> x      = enemy  -> x + enemy  -> xdir;
     enemy  -> y      = enemy  -> y + enemy  -> ydir;
     
-    // Draw enemy
-    select_texture (enemy->textureID);
-    select_region  (enemy->regionID);
-    draw_region_at (enemy->x, enemy->y);
 
+    if(exceedsBounds(enemy))
+    {
+      deleteObject(&enemy);
+      deleteNode(enemyList, &current);
+    }
+
+    // Draw enemy
+    if(enemy != NULL)
+    {
+      select_texture (enemy->textureID);
+      select_region  (enemy->regionID);
+      draw_region_at (enemy->x, enemy->y);
+    }
     // Next node
-    current = current->next;
+    current = next;
   }
 }
+
 
 void main (void)
 {
@@ -207,11 +266,9 @@ void main (void)
       int xPos = rand() % 630;
       int yPos = 0;
       bool isActive = true;
-      //Object* next = NULL;
       Object* enemy = createObject(ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, isActive, NULL);
 
       addBack(enemyList, enemy);
-      enemyList->size++;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

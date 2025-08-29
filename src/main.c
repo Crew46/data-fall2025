@@ -205,10 +205,24 @@ void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_W
   if(!objA || !objB)
     return;
 
-  if( objA->x + objA_Width>= objB->x 
-      && objA->x <= objB->x + objB_Width 
-      && objA->y + objA_Height >= objB->y 
-      && objA->y <= objB->y + objB_Height ) {
+  // Make collision less sensitive
+  int cushion = 2;
+
+  int aLeft = objA->x + cushion;
+  int aRight = objA->x + objA_Width - cushion;
+  int aTop = objA->y + cushion;
+  int aBottom = objA->y + objA_Height - cushion;
+
+  int bLeft = objB->x;
+  int bRight = objB->x + objB_Width;
+  int bTop = objB->y;
+  int bBottom = objB->y + objB_Height;
+
+
+  if( aLeft <= bRight 
+      && aRight >= bLeft 
+      && aBottom >= bTop 
+      && aTop <= bBottom) {
 
     print_at(300, 120, "COLLISION");
   }

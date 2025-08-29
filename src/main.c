@@ -44,9 +44,11 @@ int xpos = 20;
 	headEnemyA->next = EnemyA;
 
 	Object * tmp = (Object *) malloc (sizeof (Object) * 1);
-	tmp= headEnemyA->next;
-
-
+	tmp= headEnemyA -> next;
+	
+// The delete tmp will be used to delete nodes.
+	Object * deletetmp = (Object *)malloc (sizeof(Object) * 1);
+	
 	
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -181,7 +183,7 @@ for(i = 0; i < 12; i++)
 		// Getting the textures and drawing the enemies at their positions.
 		//
 
-	tmp = headEnemyA->next;
+	tmp = headEnemyA;
 	while(tmp->next != NULL)
 	{
 		select_texture (ENEMYA_TEXTURE);
@@ -194,15 +196,20 @@ for(i = 0; i < 12; i++)
         //
         // Adjust enemy positions based on randomness
         //
-
-	tmp = headEnemyA->next;
+	tmp = headEnemyA;
 	while(tmp->next != NULL)
 	{
         tmp  -> xdir   = rand () % 3 - 1;
         tmp  -> ydir   = 1; //rand () % 3 - 1;
         tmp  -> x      = tmp  -> x + tmp  -> xdir;
         tmp  -> y      = tmp  -> y + tmp  -> ydir;
-    	tmp = tmp->next;
+		if (tmp->next->y > 300)
+		{
+			deletetmp = tmp->next;
+			tmp->next = deletetmp->next;
+			free(deletetmp);
+		}
+		tmp=tmp->next;
 	}   
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -215,7 +222,7 @@ for(i = 0; i < 12; i++)
         // Select texture and region for enemies, and draw it
         //
 	
-	tmp = headEnemyA->next;
+	tmp = headEnemyA;
 
 	while(tmp->next !=NULL)
 	{

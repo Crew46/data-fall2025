@@ -5,15 +5,17 @@
 
 #define  BACKGROUND_TEXTURE 0
 #define  PLAYER_TEXTURE     1
-#define  ENEMY_TEXTURE      -1
+#define  ENEMY_TEXTURE      2
 
 #define  BACKGROUND_REGION  0
 #define  PLAYER_REGION      1
-#define  ENEMY_REGION       86
+#define  ENEMY_REGION       2
 
 #define  SCREEN_WIDTH       640
 #define  SCREEN_HEIGHT      360
 
+#define  ENEMY_WIDTH         10
+#define  ENEMY_HEIGHT        10
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
@@ -88,7 +90,7 @@ struct DoublyLinkedList
 
 void deleteNode(DoublyLinkedList* list, Node** node)
 {
-  if(!list || !*node || !node)
+  if(!list || !node || !*node)
     return;
 
   // Only one node
@@ -184,36 +186,68 @@ bool exceedsBounds(Object* obj)
   return false;
 }
 
+void moveObject(Object* obj, int xdir, int ydir)
+{
+  obj  -> xdir   = xdir;
+  obj  -> ydir   = ydir; //rand () % 3 - 1;
+  obj  -> x      = obj  -> x + obj  -> xdir;
+  obj  -> y      = obj  -> y + obj  -> ydir;
+}
+void drawObject(Object* obj)
+{
+  select_texture(obj->textureID);
+  select_region(obj->regionID);
+  draw_region_at(obj->x, obj->y);
+}
+void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_Width, int objA_Height, int objB_Height)
+{
+  // Check if objects are NULL
+  if(!objA || !objB)
+    return;
+
+  if( objA->x + objA_Width>= objB->x 
+      && objA->x <= objB->x + objB_Width 
+      && objA->y + objA_Height >= objB->y 
+      && objA->y <= objB->y + objB_Height ) {
+
+    print_at(300, 120, "COLLISION");
+  }
+}
+
+
+
 void updateEnemies(DoublyLinkedList* enemyList)
 {
   Node* current = enemyList->head;
   Node* next = NULL;
   Object* enemy = NULL;
+
   while(current != NULL)
   {
     next = current->next;
-
-    // Move enemy 
     enemy = current->data;
-    enemy  -> xdir   = rand() % 3 - 1;
-    enemy  -> ydir   = 1; //rand () % 3 - 1;
-    enemy  -> x      = enemy  -> x + enemy  -> xdir;
-    enemy  -> y      = enemy  -> y + enemy  -> ydir;
     
-
-    if(exceedsBounds(enemy))
+    for(Node* b = next; b != NULL; b = b->next)
     {
-      deleteObject(&enemy);
-      deleteNode(enemyList, &current);
+      checkObjectCollision(enemy, b->data, ENEMY_WIDTH, ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_HEIGHT);
+    }
+  
+    if(enemy != NULL) // Make sure enemy was not deleted
+    {
+      moveObject(enemy, rand() % 3 - 1, 1); // Move enemy
+
+      // Check if enemy exceeds bounds
+      if(exceedsBounds(enemy))
+      {
+        deleteObject(&enemy);
+        deleteNode(enemyList, &current);
+      }
+
+      // Draw enemy
+      if(enemy != NULL)
+        drawObject(enemy);
     }
 
-    // Draw enemy
-    if(enemy != NULL)
-    {
-      select_texture (enemy->textureID);
-      select_region  (enemy->regionID);
-      draw_region_at (enemy->x, enemy->y);
-    }
     // Next node
     current = next;
   }
@@ -232,24 +266,10 @@ void main (void)
     //
     // Create our player instance
     //
-    Object *player       = (Object *) malloc (sizeof (Object) * 1); 
-    player -> next       = NULL;
-    player -> x          = 360;
-    player -> y          = 300;
-    player -> textureID  = PLAYER_TEXTURE;
-    player -> regionID   = PLAYER_REGION;
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Create an enemy instance
-    //
-    //Object *enemy        = (Object *) malloc (sizeof (Object) * 1); 
-    //enemy  -> next       = NULL;
-    //enemy  -> x          = rand () % 630;
-    //enemy  -> y          = 0;
-    //enemy  -> textureID  = ENEMY_TEXTURE;
-    //enemy  -> regionID   = ENEMY_REGION;
-
+    int xPos        = 360;
+    int yPos        = 300;
+    bool isActive   = true;
+    Object* player  = createObject(PLAYER_TEXTURE, PLAYER_REGION, xPos, yPos, isActive, NULL);
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -284,6 +304,14 @@ void main (void)
     
     ////////////////////////////////////////////////////////////////////////////////////
     //
+    // Define the enemy texture and region
+    //
+    select_texture(ENEMY_TEXTURE);
+    select_region(ENEMY_REGION);
+    define_region_topleft(0, 0, 10, 10);
+    
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
     // Select the first gamepad
     //
     select_gamepad (0);
@@ -295,7 +323,7 @@ void main (void)
     while (true)
     {
         //clear screen -- do we really need this?
-        clear_screen (get_color_red (0));    
+        clear_screen (get_color_red (0));
 
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -315,8 +343,7 @@ void main (void)
         //
         // Adjust player position based on recently obtained gamepad information
         //
-        player -> x      = player -> x + player -> xdir;
-        player -> y      = player -> y + player -> ydir;
+        moveObject(player, player->xdir, player->ydir);
 
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -346,9 +373,7 @@ void main (void)
         //
         // Select texture and region for the player, and draw it
         //
-        select_texture (player -> textureID);
-        select_region  (player -> regionID);
-        draw_region_at (player -> x, player -> y);
+        drawObject(player);
 
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -356,29 +381,7 @@ void main (void)
         //
         updateEnemies(enemyList);
 
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Adjust enemy position based on randomness
-        //
-        //enemy  -> xdir   = rand () % 3 - 1;
-        //enemy  -> ydir   = 1; //rand () % 3 - 1;
-        //enemy  -> x      = enemy  -> x + enemy  -> xdir;
-        //enemy  -> y      = enemy  -> y + enemy  -> ydir;
-
-        
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Enemy/playfield bounds checking
-        //
-
  
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Select texture and region for the enemy, and draw it
-        //
-        //select_texture (enemy  -> textureID);
-        //select_region  (enemy  -> regionID);
-        //draw_region_at (enemy  -> x, enemy  -> y);
 
         end_frame ();
     }

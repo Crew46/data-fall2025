@@ -28,26 +28,10 @@ void main (void)
 {
 	///////////////////////////////////////////////////////////////////////////////////
 	//
-	// Declaring variables and a single linked list.
+	// Declaring variables and an array
 	//
 int i;
-
-// These variables will allow enemies to spawn (A way to improve it will be to use rand();
-int ypos = 0;
-int xpos = 20;
-// Make the head connect it to the first EnemyA Once that is done connect tmp, so that it can start connecting new nodes.
-	Object * headEnemyA = NULL;	
-	headEnemyA = (Object *)malloc(sizeof(Object));	
-	headEnemyA->next = NULL;	
-	
-	Object * EnemyA = (Object *) malloc (sizeof (Object) * 1);	
-	headEnemyA->next = EnemyA;
-
-	Object * tmp = (Object *) malloc (sizeof (Object) * 1);
-	tmp= headEnemyA->next;
-
-
-	
+Object * [12] EnemyAArray; 
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -61,27 +45,17 @@ int xpos = 20;
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    // Create multiple enemies for a single linked list
+    // Create multiple enemies
     //
-i = 0;
 for(i = 0; i < 12; i++)
-{     
-    EnemyA = (Object *) malloc(sizeof(Object));
-
-	EnemyA  -> next       = NULL;
-    EnemyA  -> x          = xpos;	//rand () % 630;
-    EnemyA  -> y          = ypos;
-	ypos = ypos + 10;
-	xpos = xpos + 10;
-    EnemyA  -> textureID  = ENEMYA_TEXTURE;
-    EnemyA  -> regionID   = ENEMYA_REGION;
-	tmp->next = EnemyA;
-	tmp = tmp->next;
-		
-
+{    
+	EnemyAArray[i] = (Object *) malloc (sizeof (Object) * 1); 
+    EnemyAArray[i] -> next       = NULL;
+    EnemyAArray[i]  -> x          = 320;	//rand () % 630;
+    EnemyAArray[i]  -> y          = 0;
+    EnemyAArray[i]  -> textureID  = ENEMYA_TEXTURE;
+    EnemyAArray[i]  -> regionID   = ENEMYA_REGION;
 }
-
-	
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the background texture and region
@@ -121,6 +95,8 @@ for(i = 0; i < 12; i++)
     //
     while (true)
     {
+        //clear screen -- do we really need this?
+        clear_screen (get_color_red (0));    
 
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -178,32 +154,26 @@ for(i = 0; i < 12; i++)
 		///////////////////////////////////////////////////////////////////////////////
 		//
 		//
-		// Getting the textures and drawing the enemies at their positions.
-		//
-
-	tmp = headEnemyA->next;
-	while(tmp->next != NULL)
+		// Getting the textures and drawing the enemies at their position.
+		//i
+	for(i = 0; i < 12; i++)
 	{
-		select_texture (ENEMYA_TEXTURE);
-		select_region (ENEMYA_REGION);
-		draw_region_at (tmp -> x , tmp -> y);
-		tmp = tmp->next;
+		select_texture (EnemyAArray[i] -> textureID);
+		select_region (EnemyAArray[i] -> regionID);
+		draw_region_at (EnemyAArray[i] -> x , EnemyAArray[i] -> y);
 	}
 		
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust enemy positions based on randomness
         //
-
-	tmp = headEnemyA->next;
-	while(tmp->next != NULL)
+	for(i = 0; i < 12; i++)
 	{
-        tmp  -> xdir   = rand () % 3 - 1;
-        tmp  -> ydir   = 1; //rand () % 3 - 1;
-        tmp  -> x      = tmp  -> x + tmp  -> xdir;
-        tmp  -> y      = tmp  -> y + tmp  -> ydir;
-    	tmp = tmp->next;
-	}   
+        EnemyAArray[i]  -> xdir   = rand () % 3 - 1;
+        EnemyAArray[i]  -> ydir   = 1; //rand () % 3 - 1;
+        EnemyAArray[i]  -> x      = EnemyAArray[i]  -> x + EnemyAArray[i]  -> xdir;
+        EnemyAArray[i]  -> y      = EnemyAArray[i]  -> y + EnemyAArray[i]  -> ydir;
+    }   
         ////////////////////////////////////////////////////////////////////////////////
         //
         //
@@ -214,15 +184,11 @@ for(i = 0; i < 12; i++)
         //
         // Select texture and region for enemies, and draw it
         //
-	
-	tmp = headEnemyA->next;
-
-	while(tmp->next !=NULL)
+	for(i = 0; i < 12; i++)
 	{
-        select_texture (ENEMYA_TEXTURE);
-        select_region  (ENEMYA_REGION);
-        draw_region_at (tmp  -> x, tmp  -> y);
-		tmp = tmp->next;
+        select_texture (EnemyAArray[i]  -> textureID);
+        select_region  (EnemyAArray[i]  -> regionID);
+        draw_region_at (EnemyAArray[i]  -> x, EnemyAArray[i]  -> y);
 	}
      
 	   end_frame ();

@@ -23,11 +23,8 @@ struct Object
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-Object* CreateObject(int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
+void InitializeObject(Object* object, int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
 {
-    //create instances of object and vector2
-    Object* object = (Object*)malloc(sizeof(Object));
-
     //initialize object fields
     object->x = x;
     object->y = y;
@@ -37,6 +34,16 @@ Object* CreateObject(int textureID, int regionID, int id, int x, int y, bool isA
     object->isActive = isActive;
     object->speed = speed;
 
+    //default values
+    object->xdir = 0;
+    object->ydir = 0;
+}
+
+Object* CreateObject(int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
+{
+    //malloc object and initialize then return
+    Object* object = (Object*)malloc(sizeof(Object));
+    InitializeObject(object, textureID, regionID, id, x, y, isActive, speed);
     return object;
 }
 

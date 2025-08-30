@@ -13,9 +13,30 @@
 /** 
  * SUMMARY:
  * this entire file is split into different sections for different concerns regarding the player,
- * including part 1: the model, part 2: visual functions, part 3: logical connections between the two,
- * and part 4: management of multiple instances
+ * including part 1: the model, part 2: visual functions, part 3: logical connections between model and view,
+ * part 4: instance management, part 5: construction and desconstruction
 **/
+
+//declarations
+
+DoublyLinkedList* playerList = CreateDoublyLinkedList();
+
+enum PlayerMovementState
+{
+    PLAYER_MOVEMENT_STATE_IDLE,
+    PLAYER_MOVEMENT_STATE_MOVING
+};
+
+struct Player 
+{
+    //object is a non pointer, in order to imbed to struct for downcasting.
+    Object object;
+    int gamepadID; 
+    float maxShootCooldownTime; //shoot cooldown in seconds
+    float shootCooldownElapsed; //seconds elapsed since last shot
+    PlayerMovementState state; // Current state of the player
+    WeaponType weaponType; //weapon that player has equipped
+};
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -25,61 +46,10 @@
 
 /** 
  * SUMMARY:
- * This is the model of the player: ie. the fundamental properties and behaviors of the player that server to 
- * represent the player's data and functions.
+ * This is the model of the player: ie. the fundamental 
+ * properties and behaviors of the player that server to 
+ * represent the player's behaviour
 **/
-
-///////////////////////////////////////////////
-///////////1: Player Struct////////////////////
-///////////////////////////////////////////////
-
-enum PlayerMovementState
-{
-    PLAYER_MOVEMENT_STATE_IDLE,
-    PLAYER_MOVEMENT_STATE_MOVING
-};
-
-
-struct Player 
-{
-    Object* object;
-    int gamepadID;
-    float maxShootCooldownTime; //shoot cooldown in seconds
-    float shootCooldownElapsed; //seconds elapsed since last shot
-    PlayerMovementState state; // Current state of the player
-    WeaponType weaponType;
-};
-
-////////////////////////////////////////////////
-///////////1: Constructor and Deconstructor/////
-////////////////////////////////////////////////
-
-//constructor
-Player* CreatePlayer(Object* object, float maxShootCooldownTime, int gamepadID)
-{
-    //allocate memory for player
-    Player* player = (Player*)malloc(sizeof(Player));
-    //player properties initialization
-    player->object = object;
-    player->gamepadID = gamepadID;
-    player->maxShootCooldownTime = maxShootCooldownTime;
-    player->shootCooldownElapsed = 0; // Start with no cooldown
-    player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
-    player->weaponType = WEAPON_TYPE_LASER_CANNON; // Default weapon type
-    //return pointer to player
-    return player;
-}
-
-//deconstructor
-void DeconstructPlayer(Player* player)
-{
-    //free player struct
-    free(player);
-}
-
-///////////////////////////////////////////////
-///////////1: Player Behavioural Functions/////
-///////////////////////////////////////////////
 
 //move player in a direction, where then direction is scaled by the player's speed
 void PlayerMoveInDirection(Player* player)
@@ -87,12 +57,12 @@ void PlayerMoveInDirection(Player* player)
     float resultX;
     float resultY;
     //add player position and direction to player position
-    MultiplyVector2ByScalar(player->object->xdir, player->object->ydir, player->object->speed, &resultX, &resultY); // Scale the movement vector by the player's speed
+    MultiplyVector2ByScalar(player->object.xdir, player->object.ydir, player->object.speed, &resultX, &resultY); // Scale the movement vector by the player's speed
     float resultsX2;
     float resultsY2;
-    AddVector2Components(resultX, player->object->x, resultY, player->object->y, &resultsX2, &resultsY2);
-    player->object->x = (int)resultsX2;
-    player->object->y = (int)resultsY2;
+    AddVector2Components(resultX, player->object.x, resultY, player->object.y, &resultsX2, &resultsY2);
+    player->object.x = (int)resultsX2;
+    player->object.y = (int)resultsY2;
 }
 
 //shoot selected weapon
@@ -122,9 +92,9 @@ void PlayerShoot(Player* player)
 
 void DrawPlayer(Player* player)
 {
-    select_texture(player->object->textureID);
-    select_region(player->object->regionID);
-    draw_region_at(player->object->x, player->object->y);
+    select_texture(player->object.textureID);
+    select_region(player->object.regionID);
+    draw_region_at(player->object.x, player->object.y);
 }
 
 //=========================================================
@@ -135,8 +105,9 @@ void DrawPlayer(Player* player)
 
 /** 
  * SUMMARY:
- * This part is the glue to making the player model, player view, and input work together. 
- * ie the logic that connects the player's model, view, and input.
+ * This part is the glue to making the player model, player 
+ * view, and input work together. ie the logic that connects 
+ * the player's model, view, and input.
 **/
 
 void HandleInput(Player* player)
@@ -146,8 +117,8 @@ void HandleInput(Player* player)
     float deltaX;
     float deltaY;
     gamepad_direction_normalized(&deltaX, &deltaY); //get the direction from the gamepad
-    player->object->xdir = deltaX;
-    player->object->ydir = deltaY;
+    player->object.xdir = deltaX;
+    player->object.ydir = deltaY;
     PlayerMoveInDirection(player);
 }
 
@@ -158,9 +129,6 @@ void PlayerUpdate(Player* player)
 
     // Update the player view every frame
     DrawPlayer(player);
-
-
-    
 }
 
 //=========================================================
@@ -171,21 +139,12 @@ void PlayerUpdate(Player* player)
 
 /** 
  * SUMMARY:
- * This file keeps tracks of all the instances of player controller in a linked list
- * also provides functions to do things with those players in the list
+ * This part keeps tracks of all the instances of player in a linked list
 **/
-
-//create linked list
-DoublyLinkedList* playerControllerList = CreateDoublyLinkedList();
 
 //update all player controller in instances list
 void UpdateAllPlayers()
 {
-    //loop through all player controller instances
-    //for(int i = 0; i < instancesOfPlayerController; i++)
-    //{
-        //PlayerControllerUpdate();
-    //}
 }
 
 void DeconstructAllPlayers()
@@ -196,5 +155,39 @@ void DeconstructAllPlayers()
         //DeconstructPlayerController();
     //}
 }
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////PART 5: CONSTRUCTION////////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+//constructor
+Player* CreatePlayer(int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime, int gamepadID)
+{
+    //allocate memory for player
+    Player* player = (Player*)malloc(sizeof(Player));
+
+    //player object properties initialization
+    InitializeObject(&player->object, textureID, regionID, id, x, y, isActive, speed);    
+
+    //player properties initialization
+    player->gamepadID = gamepadID;
+    player->maxShootCooldownTime = maxShootCooldownTime;
+    player->shootCooldownElapsed = 0; // Start with no cooldown
+    player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
+    player->weaponType = WEAPON_TYPE_LASER_CANNON; // Default weapon type
+
+    //return pointer to player
+    return player;
+}
+
+//deconstructor
+void DeconstructPlayer(Player* player)
+{
+    //free player struct
+    free(player);
+}
+
 
 #endif // PLAYER_H 

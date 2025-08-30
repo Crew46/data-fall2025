@@ -21,14 +21,16 @@ struct DoublyLinkedList
 DoublyLinkedList* CreateDoublyLinkedList()
 {
   DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
+  list->head = CreateDoublyNode(NULL);
+  list->tail = NULL;
+  return list;
 }
-
 
 ////////////////////////////////////////////////////////////
 ///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void DoublyLinkedListInsertAfterTail(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* data)
 {
   //if tail exists
   if(doublyLinkedList->tail != NULL)
@@ -41,28 +43,60 @@ void DoublyLinkedListInsertAfterTail(DoublyLinkedList* doublyLinkedList, Object*
       //inserted node, becomes new tail
       doublyLinkedList->tail = newNode;
     }
-    //tail data is pointing to null
+    //tail data has nothing in it
     else
     {
       doublyLinkedList->tail->data = data;
     }
   }
-  //if tail doesn't exist, create one and pass in data
+  //if tail doesn't exist
   else
   {
-    doublyLinkedList->tail = CreateDoublyNode(data);
+    //if head exists
+    if(doublyLinkedList->head != NULL)
+    {
+      //if head data is empty
+      if(doublyLinkedList->head->data == NULL)
+      {
+        doublyLinkedList->head->data = data;
+      }
+      //need to create tail node
+      else
+      {
+        doublyLinkedList->tail = CreateDoublyNode(data);
+      }
+    }
+    //if head doesn't exist
+    else
+    {
+      doublyLinkedList->head = CreateDoublyNode(data);
+    }
   }
 }
 
-void DoublyLinkedListInsertBeforeHead(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* data)
 {
-  if(doublyLinkedList->head->data != NULL)
+  //if head exists
+  if(doublyLinkedList->head != NULL)
   {
-    InsertDoublyNodeBeforeDoublyNode(doublyLinkedList->head, CreateDoublyNode(data));
+    //if head has has data in it already
+    if(doublyLinkedList->head->data != NULL)
+    {
+      DoublyNode* newNode = CreateDoublyNode(data);
+      InsertDoublyNodeBeforeDoublyNode(doublyLinkedList->head, newNode);
+      //set head of list to the new node
+      doublyLinkedList->head = newNode;
+    }
+    //if head doesn't have data in it
+    else
+    {
+      doublyLinkedList->head->data = data;
+    }
   }
+  //if head doesn't exist
   else
   {
-    doublyLinkedList->head->data = data;
+    doublyLinkedList->head = CreateDoublyNode(data);
   }
 }
 
@@ -70,39 +104,14 @@ void DoublyLinkedListInsertBeforeHead(DoublyLinkedList* doublyLinkedList, Object
 ///////////ACCESS///////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void* DoublyLinkedListPopFront(DoublyLinkedList* list)
+Object* DoublyLinkedListGetObjectAtHead(DoublyLinkedList* list)
 {
-  Object* data = list->head->data; 
-  DoublyNode* newHead = list->head->next;
-  DeleteDoublyNode(list->head);
-  list->head = newHead;
-  return data;
+  return list->head->data;
 }
 
-void* DoublyLinkedListPopBack(DoublyLinkedList* list)
+Object* DoublyLinkedListGetObjectAtTail(DoublyLinkedList* list)
 {
-  Object* data = list->tail->data;
-  DoublyNode* newTail = list->tail->previous;
-  DeleteDoublyNode(list->tail);
-  list->tail = newTail;
-  return data;
-}
-
-DoublyNode* FindDoublyNodeOfData(DoublyLinkedList* doublyLinkedList, Object* data)
-{
-  DoublyNode* selectedNode = doublyLinkedList->head;
-  while(selectedNode != NULL)
-  {
-    //if desired data matches data of a node
-    if(selectedNode->data == data)
-    {
-      return selectedNode;
-    }
-
-    selectedNode = selectedNode->next;
-  }
-  
-  return NULL;
+  return list->tail->data;
 }
 
 #endif // LINKED_LIST_H

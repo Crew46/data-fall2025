@@ -42,19 +42,18 @@ DoublyLinkedList* objectList;
 
 void InitializeGameManager() 
 {
+    //initialize regions
+    InitializeRegions();
+
+    //player intialize temporary location
     select_sound(THE_ABYSS_MUSIC);
     select_channel(0);
     assign_channel_sound(get_selected_channel(), get_selected_sound());
     play_channel(get_selected_channel());
     set_channel_loop(true);
 
-    //initialize regions
-    InitializeRegions();
-
-    //create a generic object that the player will utilize
-    Object* playerObject = CreateObject(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 5); 
-    //create player controller: params: generic object instance, maxshootingcooldowntime, gamepad ID
-    player = CreatePlayer(playerObject, 1, 0); // Create player controller with initial values
+    //create player, which is an extension of object
+    player = CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 5, 1, 0);
 
     // Initialize game state
     currentState = MENU;
@@ -75,9 +74,7 @@ void UpdateGameManager()
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
     PlayerUpdate(player);
-    //debug
     //PrintObjectDataAt(1, 1, player->object, "Object");
-
 }
 
 #endif // GAME_MANAGER_H

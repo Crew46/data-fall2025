@@ -4,7 +4,6 @@
 #include "video.h"
 #include "input.h"
 #include "math.h"
-#include "../vector/vector2.h"
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 #include "../weapon/weapon.h"

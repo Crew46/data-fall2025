@@ -87,6 +87,11 @@ void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* da
       InsertDoublyNodeBeforeDoublyNode(doublyLinkedList->head, newNode);
       //set head of list to the new node
       doublyLinkedList->head = newNode;
+
+      if(doublyLinkedList->tail == NULL)
+      {
+        doublyLinkedList->tail = doublyLinkedList->head->next;
+      }
     }
     //if head doesn't have data in it
     else

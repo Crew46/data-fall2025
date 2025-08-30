@@ -4,6 +4,7 @@
 #include "video.h"
 #include "../object.h"
 #include "math.h"
+#include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 void PrintIntAt(int x, int y, int value)
 {
@@ -75,6 +76,11 @@ void PrintIntAt(int x, int y, int value)
     PrintIntAt(x + tracking * 6, y + leading * 12, object->id);
     print_at(x + tracking * 2, y + leading * 13, "speed: ");
     PrintIntAt(x + tracking * 6, y + leading * 13, object->speed);
+ }
+
+ void VisualizeLinkedList(DoublyLinkedList* list)
+ {
+
  }
 
 #endif //DEBUGGER_H

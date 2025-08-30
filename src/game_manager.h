@@ -77,6 +77,7 @@ void UpdateGameManager()
     PlayerUpdate(player);
     //debug
     //PrintObjectDataAt(1, 1, player->object, "Object");
+
 }
 
 #endif // GAME_MANAGER_H

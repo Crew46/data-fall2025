@@ -21,11 +21,12 @@ DoublyNode* CreateDoublyNode(Object* data)
 
 void DeconstructDoublyNode(DoublyNode* doublyNode)
 {
-    free(doublyNode);
+  free(doublyNode);
 }
 
 void InsertDoublyNodeAfterDoublyNode(DoublyNode* nodeToInsertAfter, DoublyNode* newNode)
 {
+  //if nodeToInsertAfter->next doesn't exist, don't set it's previous
   if(nodeToInsertAfter->next != NULL)
   {
     nodeToInsertAfter->next->previous = newNode;
@@ -52,9 +53,15 @@ void InsertDoublyNodeBeforeDoublyNode(DoublyNode* nodeToInsertBefore, DoublyNode
 
 void DeleteDoublyNode(DoublyNode* node)
 {
+  if(node->next != NULL)
+  {
     node->next->previous = node->previous;
+  }
+  if(node->previous != NULL)
+  {
     node->previous->next = node->next;
-    DeconstructDoublyNode(node);
+  }
+  DeconstructDoublyNode(node);
 }
 
 #endif //DOUBLY_NODE_H

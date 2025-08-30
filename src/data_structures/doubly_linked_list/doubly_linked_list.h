@@ -27,13 +27,6 @@ DoublyLinkedList* CreateDoublyLinkedList()
   list->size = 0;
 }
 
-void DeconstructDoublyLinkedList(DoublyLinkedList* list)
-{
-  for(int i = 0; i < list->size; i++)
-  {
-    
-  }
-}
 
 ////////////////////////////////////////////////////////////
 ///////////INSERTION////////////////////////////////////////

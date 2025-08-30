@@ -141,19 +141,19 @@ void PlayerUpdate(Player* player)
 **/
 
 //update all player controller in instances list
-void UpdateAllPlayers()
-{
+//void UpdateAllPlayers()
+//{
     //DoublyNode* currentNode = playerList->head;
     //Object* currentData = NULL;
     //while(currentNode != NULL)
     //{
-     //   currentData = currentNode->data;
-     //   if(currentData != NULL)
-      //  {
+        //currentData = currentNode->data;
+        //if(currentData != NULL)
+        //{
             //PlayerUpdate((Player*)currentData);
-       // }
+        //}
     //}
-}
+//}
 
 void DeconstructAllPlayers()
 {

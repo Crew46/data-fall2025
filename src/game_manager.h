@@ -76,7 +76,7 @@ void UpdateGameManager()
     draw_region_at( 0, 0 );
     PlayerUpdate(player);
     //debug
-    PrintObjectDataAt(1, 1, player->object, "Object");
+    //PrintObjectDataAt(1, 1, player->object, "Object");
 }
 
 #endif // GAME_MANAGER_H

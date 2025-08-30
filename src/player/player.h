@@ -71,8 +71,7 @@ void PlayerShoot(Player* player)
     //if not in cooldown, shoot
     if(player->shootCooldownElapsed == 0)
     {
-        //shoot logic here
-        
+        //shoot logic here 
 
         // Reset cooldown
         player->shootCooldownElapsed = player->maxShootCooldownTime;
@@ -138,13 +137,23 @@ void PlayerUpdate(Player* player)
 //=========================================================
 
 /** 
- * SUMMARY:
+ * SUMMARY: //NOT FULLY IMPLEMENTED UNTIL THE COMPLETION OF LINKED LIST
  * This part keeps tracks of all the instances of player in a linked list
 **/
 
 //update all player controller in instances list
 void UpdateAllPlayers()
 {
+    //DoublyNode* currentNode = playerList->head;
+    //Object* currentData = NULL;
+    //while(currentNode != NULL)
+    //{
+     //   currentData = currentNode->data;
+     //   if(currentData != NULL)
+      //  {
+            //PlayerUpdate((Player*)currentData);
+       // }
+    //}
 }
 
 void DeconstructAllPlayers()
@@ -177,6 +186,8 @@ Player* CreatePlayer(int textureID, int regionID, int id, int x, int y, bool isA
     player->shootCooldownElapsed = 0; // Start with no cooldown
     player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
     player->weaponType = WEAPON_TYPE_LASER_CANNON; // Default weapon type
+
+    //DoublyLinkedListInsertAtTail(playerList, &player->object);
 
     //return pointer to player
     return player;

@@ -60,12 +60,11 @@ void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* da
       {
         doublyLinkedList->head->data = data;
       }
-      //need to create tail node
+      //need to create tail node if head isn't empty
       else
       {
         doublyLinkedList->tail = CreateDoublyNode(data);
-        doublyLinkedList->tail->previous = doublyLinkedList->head;
-        doublyLinkedList->head->next = doublyLinkedList->tail;
+        InsertDoublyNodeAfterDoublyNode(doublyLinkedList->head, doublyLinkedList->tail);
       }
     }
     //if head doesn't exist

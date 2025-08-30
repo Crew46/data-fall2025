@@ -12,7 +12,6 @@ struct DoublyLinkedList
 {
   DoublyNode* head;
   DoublyNode* tail;
-  int size;
 };
 
 ///////////////////////////////////////////////////////////
@@ -22,9 +21,6 @@ struct DoublyLinkedList
 DoublyLinkedList* CreateDoublyLinkedList()
 {
   DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
-  list->head = CreateDoublyNode(NULL);
-  list->tail = CreateDoublyNode(NULL);
-  list->size = 0;
 }
 
 
@@ -32,19 +28,33 @@ DoublyLinkedList* CreateDoublyLinkedList()
 ///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void DoublyLinkedListPushBack(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListInsertAfterTail(DoublyLinkedList* doublyLinkedList, Object* data)
 {
-  if(doublyLinkedList->tail->data != NULL)
+  //if tail exists
+  if(doublyLinkedList->tail != NULL)
   {
-    InsertDoublyNodeAfterDoublyNode(doublyLinkedList->tail, CreateDoublyNode(data));
+    //if tail has data in it, must create new node and insert it after tail, then set new tail to new node
+    if(doublyLinkedList->tail->data != NULL)
+    {
+      DoublyNode* newNode = CreateDoublyNode(data);
+      InsertDoublyNodeAfterDoublyNode(doublyLinkedList->tail, newNode);
+      //inserted node, becomes new tail
+      doublyLinkedList->tail = newNode;
+    }
+    //tail data is pointing to null
+    else
+    {
+      doublyLinkedList->tail->data = data;
+    }
   }
+  //if tail doesn't exist, create one and pass in data
   else
   {
-    doublyLinkedList->tail->data = data;
+    doublyLinkedList->tail = CreateDoublyNode(data);
   }
 }
 
-void DoublyLinkedListPushFront(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListInsertBeforeHead(DoublyLinkedList* doublyLinkedList, Object* data)
 {
   if(doublyLinkedList->head->data != NULL)
   {

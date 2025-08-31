@@ -19,7 +19,8 @@ debug: $(GAME)
 packhead:
 ifndef DEBUG
 	@printf "\033[1;33m%s\033[0m:\n" "$(CATEGORY)"
-	@printf "\033[1;33m==================================================================================\033[0m\n"
+	@printf "\033[0;33m================================================================"
+	@printf "==================\033[0m\n"
 endif
 
 $(GAME):
@@ -31,6 +32,7 @@ ifneq ($(MAKECMDGOALS),debug)
 	@$(PACK) $(PFLAGS) $(GAME).xml 2>> $(PACK).errors && echo "\033[1;32mDONE\033[0m"  \
 	                                                  || (echo "\033[1;31mFAIL\033[0m" \
 	                                                  && exit 1)
+	@[ ! -s "$(PACK).errors" ] && rm -f $(PACK).errors || echo -n
 else
 	$(PACK)  $(PFLAGS) $(GAME).xml                    || exit 1
 endif

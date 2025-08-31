@@ -20,13 +20,15 @@ debug: source object $(GAME)
 head:
 ifndef DEBUG
 	@printf "\033[0;33m%s\033[0m:\n" "$(CATEGORY)"
-	@printf "\033[0;33m==================================================================================\033[0m\n"
+	@printf "\033[0;33m================================================================"
+	@printf "==================\033[0m\n"
 endif
 
 packhead:
 ifndef DEBUG
 	@printf "\033[1;33m%s\033[0m:\n" "packing"
-	@printf "\033[1;33m==================================================================================\033[0m\n"
+	@printf "\033[0;33m================================================================"
+	@printf "==================\033[0m\n"
 endif
 
 source:
@@ -34,9 +36,10 @@ ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;34m%s\033[0m]    %-28s -> %-28s ... "	  "$(CC)"        \
 															  "$(SRCFILE)"   \
 															  "$(GAME).asm"
-	@$(CC)   $(CFLAGS) $(SRCFILE) 2> $(CC).errors    && echo "\033[0;32mOK\033[0m"    \
+	@$(CC)   $(CFLAGS) $(SRCFILE) 2> $(CC).errors     && echo "\033[0;32mOK\033[0m" \
 													  || (echo "\033[0;31mFAIL\033[0m" \
 													  && exit 1)
+	@[ ! -s "$(CC).errors" ] && rm -f $(CC).errors    || echo -n
 else
 	$(CC)    $(CFLAGS) $(SRCFILE)					  || exit 1
 endif
@@ -46,9 +49,10 @@ ifneq ($(MAKECMDGOALS),debug)
 	@printf "[\033[0;34m%s\033[0m]   %-28s -> %-28s ... "     "$(ASM)"       \
 															  "$(GAME).asm"  \
 															  "$(GAME).vbin"
-	@$(ASM)  $(AFLAGS) $(GAME).asm 2> $(ASM).errors  && echo "\033[0;32mOK\033[0m"    \
+	@$(ASM)  $(AFLAGS) $(GAME).asm 2> $(ASM).errors   && echo "\033[0;32mOK\033[0m"    \
 													  || (echo "\033[0;31mFAIL\033[0m" \
 													  && exit 1)
+	@[ ! -s "$(ASM).errors" ] && rm -f $(ASM).errors  || echo -n
 else
 	$(ASM)   $(AFLAGS) $(GAME).asm					  || exit 1
 endif
@@ -62,6 +66,7 @@ ifneq ($(MAKECMDGOALS),debug)
 	@$(PACK) $(PFLAGS) $(GAME).xml 2>> $(PACK).errors && echo "\033[1;32mDONE\033[0m"  \
 													  || (echo "\033[1;31mFAIL\033[0m" \
 													  && exit 1)
+	@[ ! -s "$(PACK).errors" ] && rm -f $(PACK).errors || echo -n
 else
 	$(PACK)  $(PFLAGS) $(GAME).xml                    || exit 1
 endif

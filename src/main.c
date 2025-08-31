@@ -33,11 +33,19 @@ void main (void)
 int i;
 
 // These variables will allow enemies to spawn (A way to improve it will be to use rand();
-int ypos = 0;
-int xpos = 20;
+	int ypos = 0;
+	int xpos = 20;
 // Make the head connect it to the first EnemyA Once that is done connect tmp, so that it can start connecting new nodes.
 	Object * headEnemyA = NULL;	
 	headEnemyA = (Object *)malloc(sizeof(Object));	
+	
+// If headEnemyA is NULL then then the memory was not allocated
+	if (headEnemyA == NULL)
+	{	
+		exit();
+	}
+
+
 	headEnemyA->next = NULL;	
 	
 	Object * EnemyA = (Object *) malloc (sizeof (Object) * 1);	

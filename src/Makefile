@@ -20,18 +20,18 @@ debug: source object $(GAME)
 head:
 ifndef DEBUG
 	@printf "\033[0;33m%s\033[0m:\n" "$(CATEGORY)"
-	@printf "\033[0;33m==================================================================\033[0m\n"
+	@printf "\033[0;33m==================================================================================\033[0m\n"
 endif
 
 packhead:
 ifndef DEBUG
 	@printf "\033[1;33m%s\033[0m:\n" "packing"
-	@printf "\033[1;33m==================================================================\033[0m\n"
+	@printf "\033[1;33m==================================================================================\033[0m\n"
 endif
 
 source:
 ifneq ($(MAKECMDGOALS),debug)
-	@printf "[\033[0;34m%s\033[0m]    %-20s -> %-20s ... "	  "$(CC)"        \
+	@printf "[\033[0;34m%s\033[0m]    %-28s -> %-28s ... "	  "$(CC)"        \
 															  "$(SRCFILE)"   \
 															  "$(GAME).asm"
 	@$(CC)   $(CFLAGS) $(SRCFILE) 2> $(CC).errors    && echo "\033[0;32mOK\033[0m"    \
@@ -43,7 +43,7 @@ endif
 
 object:
 ifneq ($(MAKECMDGOALS),debug)
-	@printf "[\033[0;34m%s\033[0m]   %-20s -> %-20s ... "     "$(ASM)"       \
+	@printf "[\033[0;34m%s\033[0m]   %-28s -> %-28s ... "     "$(ASM)"       \
 															  "$(GAME).asm"  \
 															  "$(GAME).vbin"
 	@$(ASM)  $(AFLAGS) $(GAME).asm 2> $(ASM).errors  && echo "\033[0;32mOK\033[0m"    \
@@ -56,7 +56,7 @@ endif
 $(GAME):
 	@../data/mkxml.sh $(GAME)
 ifneq ($(MAKECMDGOALS),debug)
-	@printf "[\033[1;34m%s\033[0m]    %-20s -> %-20s ... "    "$(PACK)"      \
+	@printf "[\033[1;34m%s\033[0m]    %-28s -> %-28s ... "    "$(PACK)"      \
 															  "$(GAME).vbin" \
 															  "$(GAME).v32"
 	@$(PACK) $(PFLAGS) $(GAME).xml 2>> $(PACK).errors && echo "\033[1;32mDONE\033[0m"  \

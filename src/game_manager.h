@@ -77,10 +77,12 @@ void UpdateGameManager()
     PlayerUpdate(player);
     
     select_texture(UI_TEXTURES);
-    select_region(PLAY_GAME_REGION);
-    draw_region_at(20, 40);
     select_region(EXIT_GAME_REGION);
-    draw_region_at(200, 40);
+    draw_region_at(20, 40);
+    select_region(PLAY_GAME_REGION);
+    draw_region_at(220, 40);
+    select_region(CREDITS_REGION);
+    draw_region_at(420, 40);
 }
 
 #endif // GAME_MANAGER_H

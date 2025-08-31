@@ -35,6 +35,11 @@ void InitializeRegions()
     select_texture( UI_TEXTURES );  
     select_region(EXIT_GAME_REGION);
     define_region_topleft(0, 24, 107, 47);
+
+    //CREDITS
+    select_texture( UI_TEXTURES );  
+    select_region(CREDITS_REGION);
+    define_region_topleft(0, 48, 191, 71);
 }
 
 #endif //REGIONS_CONFIGURATIONS_H

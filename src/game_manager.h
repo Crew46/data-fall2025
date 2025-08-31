@@ -25,8 +25,8 @@ Player* player;
 
 enum GameState
 {
-    MENU,
-    INGAME
+    GAMESTATE_MENU,
+    GAMESTATE_INGAME
 };
 
 GameState currentState;
@@ -56,7 +56,7 @@ void InitializeGameManager()
     player = CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 5, 1, 0);
 
     // Initialize game state
-    currentState = MENU;
+    currentState = GAMESTATE_MENU;
 }
 
 //=========================================================
@@ -73,16 +73,18 @@ void UpdateGameManager()
     select_texture ( BACKGROUND_TEXTURE );
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
-
     PlayerUpdate(player);
-    
-    select_texture(UI_TEXTURES);
-    select_region(EXIT_GAME_REGION);
-    draw_region_at(20, 40);
-    select_region(PLAY_GAME_REGION);
-    draw_region_at(220, 40);
-    select_region(CREDITS_REGION);
-    draw_region_at(420, 40);
+
+    if(currentState == GAMESTATE_MENU)
+    {
+        select_texture(UI_TEXTURES);
+        select_region(EXIT_GAME_REGION);
+        draw_region_at(20, 40);
+        select_region(PLAY_GAME_REGION);
+        draw_region_at(220, 40);
+        select_region(CREDITS_REGION);
+        draw_region_at(420, 40);
+    }
 }
 
 #endif // GAME_MANAGER_H

@@ -1,0 +1,3 @@
+#ifndef AUDIO_MANAGER_H
+#include AUDIO_MANAGER_H
+#endif //AUDIO_MANAGER_H

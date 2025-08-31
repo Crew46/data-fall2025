@@ -4,7 +4,7 @@
 #include "misc.h"
 #include "audio.h"
 #include "video.h"
-//include texture and regions definitions and configuration vales
+//include texture, region, and audio definitions and configuration values
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 #include "configuration/sound_configurations.h"
@@ -45,14 +45,14 @@ void InitializeGameManager()
     //initialize regions
     InitializeRegions();
 
-    //player intialize temporary location
+    //temporary music loop location
     select_sound(THE_ABYSS_MUSIC);
     select_channel(0);
     assign_channel_sound(get_selected_channel(), get_selected_sound());
     play_channel(get_selected_channel());
     set_channel_loop(true);
 
-    //create player, which is an extension of object
+    //create player, which is an extension of object, so need to pass in object params.
     player = CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 5, 1, 0);
 
     // Initialize game state

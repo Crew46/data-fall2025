@@ -1,9 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+//standard libraries
 #include "misc.h"
 #include "video.h"
 #include "input.h"
 #include "math.h"
+//custom libraries
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 #include "../weapon/weapon.h"
@@ -28,7 +30,7 @@ enum PlayerMovementState
 
 struct Player 
 {
-    //object is a non pointer, in order to imbed to struct for downcasting.
+    //object is not a pointer, in order to imbed to struct for upcasting & downcasting.
     Object object;
     int gamepadID; 
     float maxShootCooldownTime; //shoot cooldown in seconds
@@ -46,8 +48,7 @@ struct Player
 /** 
  * SUMMARY:
  * This is the model of the player: ie. the fundamental 
- * properties and behaviors of the player that server to 
- * represent the player's behaviour
+ * behaviors of the player. logical connection between these functions is in part 3
 **/
 
 //move player in a direction, where then direction is scaled by the player's speed
@@ -141,8 +142,8 @@ void PlayerUpdate(Player* player)
 **/
 
 //update all player controller in instances list
-//void UpdateAllPlayers()
-//{
+void UpdateAllPlayers()
+{
     //DoublyNode* currentNode = playerList->head;
     //Object* currentData = NULL;
     //while(currentNode != NULL)
@@ -153,7 +154,7 @@ void PlayerUpdate(Player* player)
             //PlayerUpdate((Player*)currentData);
         //}
     //}
-//}
+}
 
 void DeconstructAllPlayers()
 {

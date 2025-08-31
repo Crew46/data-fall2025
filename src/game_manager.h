@@ -67,15 +67,20 @@ void InitializeGameManager()
 
 void UpdateGameManager() 
 {
+    clear_screen(make_color_rgb(0, 0, 0));
     //clear screen
-	clear_screen(get_color_red(0));	
     //drawing the background
     select_texture ( BACKGROUND_TEXTURE );
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
+
     PlayerUpdate(player);
-    //UpdateAllPlayers();
-    //PrintObjectDataAt(1, 1, player->object, "Object");
+    
+    select_texture(UI_TEXTURES);
+    select_region(PLAY_GAME_REGION);
+    draw_region_at(20, 40);
+    select_region(EXIT_GAME_REGION);
+    draw_region_at(200, 40);
 }
 
 #endif // GAME_MANAGER_H

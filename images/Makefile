@@ -16,7 +16,8 @@ head:
 ifndef DEBUG
 ifneq ("$(wildcard *.$(SRCTYPE))","")
 	@printf "\033[0;33m%s\033[0m:\n" "$(CATEGORY)"
-	@printf "\033[0;33m==================================================================================\033[0m\n"
+	@printf "\033[0;33m================================================================"
+	@printf "==================\033[0m\n"
 endif
 endif
 
@@ -29,6 +30,7 @@ ifneq ($(MAKECMDGOALS),debug)
 	@$(PROCESS) $(FLAGS) $^ 2>> $(PROCESS).errors && echo "\033[0;32mOK\033[0m"    \
 	                                              || (echo "\033[0;31mFAIL\033[0m" \
 	                                              && exit 1)
+	@[ ! -s "$(PROCESS).errors" ] && rm -f $(PROCESS).errors || echo -n
 else
 	$(PROCESS)  $(FLAGS) $^                       || exit 1
 endif

@@ -228,7 +228,11 @@ void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_W
   }
 }
 
-
+void spawnEnemy(DoublyLinkedList* list, int xPos, int yPos)
+{
+  Object* enemy = createObject( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, true, NULL );
+  addBack( list, enemy );
+}
 
 void updateEnemies(DoublyLinkedList* enemyList)
 {
@@ -338,7 +342,7 @@ void main (void)
     {
         //clear screen -- do we really need this?
         clear_screen (get_color_red (0));
-
+        
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background
@@ -388,6 +392,16 @@ void main (void)
         // Select texture and region for the player, and draw it
         //
         drawObject(player);
+        
+        
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // Spawn an enemy every three seconds 
+        //
+        if( get_frame_counter() % 180 == 0 )
+        {
+          spawnEnemy(enemyList, rand() % 630, 0);
+        }
 
         ////////////////////////////////////////////////////////////////////////////////
         //

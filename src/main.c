@@ -189,15 +189,15 @@ bool exceedsBounds(Object* obj)
 void moveObject(Object* obj, int xdir, int ydir)
 {
   obj  -> xdir   = xdir;
-  obj  -> ydir   = ydir; //rand () % 3 - 1;
+  obj  -> ydir   = ydir; 
   obj  -> x      = obj  -> x + obj  -> xdir;
   obj  -> y      = obj  -> y + obj  -> ydir;
 }
 void drawObject(Object* obj)
 {
-  select_texture(obj->textureID);
-  select_region(obj->regionID);
-  draw_region_at(obj->x, obj->y);
+  select_texture ( obj->textureID );
+  select_region  ( obj->regionID );
+  draw_region_at ( obj->x, obj->y );
 }
 void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_Width, int objA_Height, int objB_Height)
 {
@@ -208,14 +208,14 @@ void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_W
   // Make collision less sensitive
   int cushion = 2;
 
-  int aLeft = objA->x + cushion;
-  int aRight = objA->x + objA_Width - cushion;
-  int aTop = objA->y + cushion;
+  int aLeft   = objA->x + cushion;
+  int aRight  = objA->x + objA_Width - cushion;
+  int aTop    = objA->y + cushion;
   int aBottom = objA->y + objA_Height - cushion;
 
-  int bLeft = objB->x;
-  int bRight = objB->x + objB_Width;
-  int bTop = objB->y;
+  int bLeft   = objB->x;
+  int bRight  = objB->x + objB_Width;
+  int bTop    = objB->y;
   int bBottom = objB->y + objB_Height;
 
 
@@ -236,39 +236,77 @@ void spawnEnemy(DoublyLinkedList* list, int xPos, int yPos)
 
 void updateEnemies(DoublyLinkedList* enemyList)
 {
-  Node* current = enemyList->head;
-  Node* next = NULL;
-  Object* enemy = NULL;
+  Node*   current = enemyList->head;
+  Node*   next    = NULL;
+  Object* enemy   = NULL;
 
   while(current != NULL)
   {
-    next = current->next;
+    next  = current->next;
     enemy = current->data;
     
     for(Node* b = next; b != NULL; b = b->next)
     {
-      checkObjectCollision(enemy, b->data, ENEMY_WIDTH, ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_HEIGHT);
+      checkObjectCollision ( enemy, b->data, ENEMY_WIDTH, ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_HEIGHT );
     }
   
     if(enemy != NULL) // Make sure enemy was not deleted
     {
-      moveObject(enemy, rand() % 3 - 1, 1); // Move enemy
+      moveObject( enemy, rand() % 3 - 1, 1 ); // Move enemy
 
       // Check if enemy exceeds bounds
       if(exceedsBounds(enemy))
       {
-        deleteObject(&enemy);
-        deleteNode(enemyList, &current);
+        deleteObject( &enemy );
+        deleteNode( enemyList, &current );
       }
 
       // Draw enemy
       if(enemy != NULL)
-        drawObject(enemy);
+        drawObject( enemy );
     }
 
     // Next node
     current = next;
   }
+
+    // Spawn an enemy every 3 seconds
+    if( get_frame_counter() % 180 == 0 )
+    {
+      spawnEnemy( enemyList, rand() % 630, 0 );
+    }
+}
+
+void updatePlayer( Object* player )
+{
+  // Obtain directional information (per axis) from selected gamepad
+  gamepad_direction ( &player-> xdir, &player-> ydir );
+
+  // Move the player
+  moveObject( player, player->xdir, player->ydir );
+
+  //Check the player bounds - this can go in a function later
+  if (player -> x <  0) // left side
+  {
+      player -> x  = 1;
+  }
+
+  if (player -> x >  640) // right side
+  {
+      player -> x  = 639;
+  }
+
+  if (player -> y <  0) // top of screen
+  {
+      player -> y  = 1;
+  }
+
+  if (player -> y >  360) // bottom of screen
+  {
+      player -> y  = 359;
+  }
+  
+  drawObject( player );
 }
 
 
@@ -278,7 +316,7 @@ void main (void)
     //
     // Seed the rng
     //
-    srand(get_time());
+    srand( get_time() );
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -287,7 +325,7 @@ void main (void)
     int xPos        = 360;
     int yPos        = 300;
     bool isActive   = true;
-    Object* player  = createObject(PLAYER_TEXTURE, PLAYER_REGION, xPos, yPos, isActive, NULL);
+    Object* player  = createObject( PLAYER_TEXTURE, PLAYER_REGION, xPos, yPos, isActive, NULL );
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -296,10 +334,10 @@ void main (void)
     DoublyLinkedList* enemyList = createList(); 
     for(int i = 0; i < 5; ++i) // Add 5 enemies to start 
     {
-      int xPos = rand() % 630;
-      int yPos = 0;
+      int  xPos     = rand() % 630;
+      int  yPos     = 0;
       bool isActive = true;
-      Object* enemy = createObject(ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, isActive, NULL);
+      Object* enemy = createObject( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, isActive, NULL );
 
       addBack(enemyList, enemy);
     }
@@ -308,25 +346,25 @@ void main (void)
     //
     // Define the background texture and region
     //
-    select_texture (BACKGROUND_TEXTURE);
-    select_region (BACKGROUND_REGION);
-    define_region_topleft (0, 0, 639, 359);
+    select_texture ( BACKGROUND_TEXTURE );
+    select_region ( BACKGROUND_REGION );
+    define_region_topleft ( 0, 0, 639, 359 );
     
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the player texture and region
     //
-    select_texture (PLAYER_TEXTURE);
-    select_region (PLAYER_REGION);
-    define_region (0, 0, 31, 31, 0, 0);
+    select_texture ( PLAYER_TEXTURE );
+    select_region ( PLAYER_REGION );
+    define_region ( 0, 0, 31, 31, 0, 0 );
     
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the enemy texture and region
     //
-    select_texture(ENEMY_TEXTURE);
-    select_region(ENEMY_REGION);
-    define_region_topleft(0, 0, 10, 10);
+    select_texture( ENEMY_TEXTURE );
+    select_region( ENEMY_REGION );
+    define_region_topleft( 0, 0, 10, 10 );
     
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -347,71 +385,26 @@ void main (void)
         //
         // Draw the background
         //
-        select_texture (BACKGROUND_TEXTURE);
-        select_region (BACKGROUND_REGION);
-        draw_region_at (0, 0);
+        select_texture ( BACKGROUND_TEXTURE );
+        select_region ( BACKGROUND_REGION );
+        draw_region_at ( 0, 0 );
 
         ////////////////////////////////////////////////////////////////////////////////
         //
-        // Obtain directional information (per axis) from selected gamepad
+        // Update the player
         //
-        gamepad_direction (&player -> xdir, &player -> ydir);
-
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Adjust player position based on recently obtained gamepad information
-        //
-        moveObject(player, player->xdir, player->ydir);
-
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Player/playfield bounds checking
-        //
-        if (player -> x <  0) // left side
-        {
-            player -> x  = 1;
-        }
-
-        if (player -> x >  640) // right side
-        {
-            player -> x  = 639;
-        }
-
-        if (player -> y <  0) // top of screen
-        {
-            player -> y  = 1;
-        }
-
-        if (player -> y >  360) // bottom of screen
-        {
-            player -> y  = 359;
-        }
-        
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Select texture and region for the player, and draw it
-        //
-        drawObject(player);
-        
-        
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Spawn an enemy every three seconds 
-        //
-        if( get_frame_counter() % 180 == 0 )
-        {
-          spawnEnemy(enemyList, rand() % 630, 0);
-        }
-
+        updatePlayer( player );
+     
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Update the enemies 
         //
-        updateEnemies(enemyList);
+        updateEnemies( enemyList );
 
- 
-
-        end_frame ();
+        // End frame
+        end_frame();
     }
-    deleteList(&enemyList);
+
+    // Free our list and all its contents
+    deleteList( &enemyList );
 }

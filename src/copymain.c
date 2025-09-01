@@ -187,28 +187,40 @@ void main (void)
     tmp = headEnemyA;
     while(tmp->next != NULL)
     {
-		tmp = tmp->next;
+        tmp = tmp->next;
         tmp  -> xdir   = rand () % 3 - 1;
         tmp  -> ydir   = 1; //rand () % 3 - 1;
         tmp  -> x      = tmp  -> x + tmp  -> xdir;
         tmp  -> y      = tmp  -> y + tmp  -> ydir;
-		select_texture (ENEMYA_TEXTURE);
-		select_region  (ENEMYA_REGION);
-		draw_region_at (tmp  -> x, tmp  -> y);
-    }  
-// delete nodes if they hit a certain y value
-// Do not put these 2 together. Vircon32 does not like it.
-		tmp = headEnemyA;
-		if( tmp->next->y > 300)
-		{
-			deletetmp = tmp->next;
-			tmp->next = deletetmp->next;
-			free(deletetmp);
-			tmp = tmp->next;
-		}
 
+/*        if (tmp->next->y > 300)
+        {
+            deletetmp = tmp->next;
+            tmp->next = deletetmp->next;
+            free(deletetmp);
+        }
+*/
+    }   
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        //
+        //
+    
+ 
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // Select texture and region for enemies, and draw it
+        //    
+    tmp = headEnemyA;
 
-  
+    while(tmp->next !=NULL)
+    {
+        tmp= tmp->next;
+        select_texture (ENEMYA_TEXTURE);
+        select_region  (ENEMYA_REGION);
+        draw_region_at (tmp  -> x, tmp  -> y);
+    }
+     
        end_frame ();
     }
 }

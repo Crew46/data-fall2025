@@ -28,7 +28,7 @@ void PrintIntAt(int x, int y, int value)
     free(stringToPrint);
 }
 
-void DrawLine(int startingX, int startingY, int endX, int endY)
+void DrawLine(int startingX, int startingY, int endX, int endY, int* character)
 {
     //find the change in x and y
     int deltaX = endX - startingX;
@@ -39,19 +39,27 @@ void DrawLine(int startingX, int startingY, int endX, int endY)
     //distance betweent he two passed in vectors
     float distance = GetDistanceBetweenVector2s(startingX, startingY, endX, endY);
     //number of dots that will fit into distance
-    float numberOfDots = distance / distanceBetweenDots;
-    //how does does the height related to the hypotenuse
-    float cosineRatio = deltaY / distance;
-
-    //for every dot starting at 1st, rather than 0st 
-    for(int i = 1; i < (numberOfDots); i++)
+    int numberOfDots = floor(distance / distanceBetweenDots);
+    //if they are actually apart from eachother
+    if(distance != 0)
     {
-        //find the x of that dot
-        float newX = startingX + (cosineRatio * (i * distanceBetweenDots)); 
-        //find the y of that dot
-        float newY = startingY + ((deltaY / abs(deltaY)) * sqrt(pow(distanceBetweenDots * i, 2) - pow(startingX - newX, 2)));  
-        //print dot
-        print_at(round(newX), round(newY), ".");
+        //how does does the height related to the hypotenuse
+        float cosineRatio = deltaY / distance;
+        int deltaXNegative = 1;
+        if(deltaX < 0)
+        {
+            deltaXNegative = -1;
+        }
+
+        //for every dot starting at 1st, rather than 0st 
+        for(int i = 1; i < (numberOfDots); i++)
+        {
+            //find the x of that dot
+            float newY = startingY + (cosineRatio * (i * distanceBetweenDots)); 
+            //find the y of that dot
+            float newX = startingX + (deltaXNegative * sqrt(pow(distanceBetweenDots * i, 2) - pow(startingY - newY, 2))); 
+            print_at(round(newX), round(newY), character);
+        }
     }
 }
 
@@ -125,12 +133,13 @@ void PrintObjectDataAt(int x, int y, Object* object)
             }
             else
             {
-                //DrawLine();
+                DrawLine(currentNode->data->x, currentNode->data->y - 10, previousNode->data->x, previousNode->data->y - 10, ".");
             }
         }
         //draw line from previous node to current node
         if(previousNode != NULL)
         {
+            DrawLine(previousNode->data->x, previousNode->data->y + 10, currentNode->data->x, currentNode->data->y + 10, ",");
         }
         previousNode = currentNode;
         currentNode = currentNode->next;

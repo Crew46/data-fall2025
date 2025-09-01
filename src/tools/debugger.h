@@ -81,7 +81,11 @@ void PrintIntAt(int x, int y, int value)
 
  void VisualizeLinkedList(DoublyLinkedList* list)
  {
-
+    //DoublyNode* currentNode = list->head;
+    //while(currentNode != NULL)
+    //{
+        
+    //}
  }
 
 #endif //DEBUGGER_H

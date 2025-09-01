@@ -9,6 +9,19 @@ enum SoundEffect
     LASER_SOUND_EFFECT
 }
 
+enum MusicLoop
+{
+    MENU_MUSIC,
+    IN_GAME_MUSIC
+}
+
+MusicLoop currentMusicLoop;
+
+void ChangeMusicLoop(MusicLoop musicLoopToChangeTo)
+{
+    currentMusicLoop = musicLoopToChangeTo;
+}
+
 void PlaySoundFx(SoundEffect soundEffect)
 {
     //each sound effect has 4 variants, randomize from 0-3.
@@ -22,5 +35,20 @@ void PlaySoundFx(SoundEffect soundEffect)
     default:
         break;
     }
+}
+
+void InitializeAudioManager()
+{
+    //temporary music loop location
+    select_sound(THE_ABYSS_MUSIC);
+    select_channel(0);
+    assign_channel_sound(get_selected_channel(), get_selected_sound());
+    play_channel(get_selected_channel());
+    set_channel_loop(true);
+}
+
+void UpdateAudioManager()
+{
+
 }
 #endif //AUDIO_MANAGER_H

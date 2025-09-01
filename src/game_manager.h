@@ -14,15 +14,14 @@
 #include "player/player.h"
 //linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
+//other managers
+#include "audio_manager.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///////////DECLARATIONS////////////////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
-
-//player instance
-Player* player;
 
 enum GameState
 {
@@ -45,16 +44,19 @@ void InitializeGameManager()
 {
     //initialize regions
     InitializeRegions();
-
-    //temporary music loop location
-    select_sound(THE_ABYSS_MUSIC);
-    select_channel(0);
-    assign_channel_sound(get_selected_channel(), get_selected_sound());
-    play_channel(get_selected_channel());
-    set_channel_loop(true);
+    InitializeAudioManager();
+    
+    //MANY INSTANCES OF PLAYER, WHEN PLAYER IS CREATED, THE PLAYER FILE HAS STORED IT IN A LINKED LIST
+    //TO UPDATE ALL INSTANCES, ALL YOU HAVE TO CALL IS UpdateAllPlayers();
 
     //create player, which is an extension of object, so need to pass in object params.
-    player = CreatePlayer("Player", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 5, 1, 0);
+
+    //           name,     texture,                region,       id, x,                y,    isActive, speed, shootCooldown, gamepadID
+    CreatePlayer("Player", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 8, 1, 0);
+    CreatePlayer("Player0", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 1, screen_width / 2 -40, screen_height / 2, true, 4, 1, 0);
+    CreatePlayer("Player1", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 3, screen_width / 2 + 40, screen_height / 2, true, 3, 1, 0);
+    CreatePlayer("Player2", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 2, screen_width / 2 -80, screen_height / 2, true, 7, 1, 0);
+    CreatePlayer("Player3", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 4, screen_width / 2 + 80, screen_height / 2, true, 2, 1, 0);
 
     // Initialize game state
     currentState = GAMESTATE_MENU;
@@ -75,8 +77,8 @@ void UpdateGameManager()
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
 
-    //update player
-    PlayerUpdate(player);
+    //updates all players in players list
+    UpdateAllPlayers();
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)
@@ -89,8 +91,6 @@ void UpdateGameManager()
         select_region(CREDITS_REGION);
         draw_region_at(420, 40);
     }
-    
-    PrintObjectDataAt(10, 60, &player->object);
 }
 
 #endif // GAME_MANAGER_H

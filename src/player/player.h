@@ -61,8 +61,8 @@ void PlayerMoveInDirection(Player* player)
     float resultsX2;
     float resultsY2;
     AddVector2Components(resultX, player->object.x, resultY, player->object.y, &resultsX2, &resultsY2);
-    player->object.x = (int)resultsX2;
-    player->object.y = (int)resultsY2;
+    player->object.x = round(resultsX2);
+    player->object.y = round(resultsY2);
 }
 
 //shoot selected weapon
@@ -147,16 +147,17 @@ void PlayerUpdate(Player* player)
 //update all player controller in instances list
 void UpdateAllPlayers()
 {
-    //DoublyNode* currentNode = playerList->head;
-    //Object* currentData = NULL;
-    //while(currentNode != NULL)
-    //{
-        //currentData = currentNode->data;
-        //if(currentData != NULL)
-        //{
-            //PlayerUpdate((Player*)currentData);
-        //}
-    //}
+    DoublyNode* currentNode = playerList->head;
+    Object* currentData = NULL;
+    while(currentNode != NULL)
+    {
+        currentData = currentNode->data;
+        if(currentData != NULL)
+        {
+            PlayerUpdate((Player*)currentData);
+        }
+        currentNode = currentNode->next;
+    }
 }
 
 void DeconstructAllPlayers()
@@ -190,7 +191,7 @@ Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int 
     player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
     player->weaponType = WEAPON_TYPE_LASER_CANNON; // Default weapon type
 
-    //DoublyLinkedListInsertAtTail(playerList, &player->object);
+    DoublyLinkedListInsertAtHead(playerList, &player->object);
 
     //return pointer to player
     return player;

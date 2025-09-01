@@ -10,7 +10,8 @@
 #define  BACKGROUND_REGION  0
 #define  PLAYER_REGION      1
 #define  ENEMYA_REGION       2
-
+int xpos = 20;
+int ypos = 0;
 struct Object
 {
     int     textureID;
@@ -24,40 +25,57 @@ struct Object
     int     speed;
     Object *next;
 };
-void main (void)
-{
-	///////////////////////////////////////////////////////////////////////////////////
-	//
-	// Declaring variables and a single linked list.
-	//
-int i;
+////////////////////////////////////////////////////////////////////////////////////
+ 
 
-// These variables will allow enemies to spawn (A way to improve it will be to use rand();
-	int ypos = 0;
-	int xpos = 20;
-// Make the head connect it to the first EnemyA Once that is done connect tmp, so that it can start connecting new nodes.
-	Object * headEnemyA = NULL;	
-	headEnemyA = (Object *)malloc(sizeof(Object));	
-	
-// If headEnemyA is NULL then then the memory was not allocated
-	if (headEnemyA == NULL)
-	{	
-		exit();
+// Prepping what we need.
+Object * headEnemyA = NULL;
+Object * tmp = (Object *) malloc (sizeof (Object) * 1);
+// This function will create a single EnemyA everytime it is used.
+void createEnemyA(void)
+	{
+		Object * EnemyA = (Object *)malloc(sizeof(Object) * 1);
+		if(headEnemyA == NULL) //This is used for the first Enemy to store into headEnemyA->next.
+		{ 
+		headEnemyA = (Object *)malloc(sizeof(Object) * 1);
+		headEnemyA->next = NULL;
+			if(headEnemyA == NULL);
+				{
+					exit();
+				}
+		EnemyA -> next = NULL;
+		EnemyA -> y = ypos;
+		EnemyA -> x = xpos;
+		EnemyA -> textureID = ENEMYA_TEXTURE;
+		EnemyA -> regionID = ENEMYA_REGION;
+		headEnemyA->next = EnemyA;
+		}
+		else // else is used when there is an Enemy in headEnemyA->next.
+		{
+			tmp = headEnemyA;
+				while(tmp->next != NULL);
+			{
+			tmp=tmp->next;
+			}
+				EnemyA -> next = NULL;
+				EnemyA -> x = xpos;
+				EnemyA -> y = ypos;
+				EnemyA -> textureID = ENEMYA_TEXTURE;
+				EnemyA -> regionID = ENEMYA_REGION;
+				tmp -> next = EnemyA;
+		}
+		xpos = xpos + 10;
 	}
 
+void main (void)
+{		
+	
+// Functions in action.
 
-	headEnemyA->next = NULL;	
-	
-	Object * EnemyA = (Object *) malloc (sizeof (Object) * 1);	
-	headEnemyA->next = EnemyA;
 
-	Object * tmp = (Object *) malloc (sizeof (Object) * 1);
-	tmp= headEnemyA -> next;
-	
-// The delete tmp will be used to delete nodes.
-	Object * deletetmp = (Object *)malloc (sizeof(Object) * 1);
-	
-	
+Object * deletetmp = (Object *)malloc (sizeof(Object) * 1);
+
+createEnemyA();
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -68,30 +86,6 @@ int i;
     player -> y          = 300;
     player -> textureID  = PLAYER_TEXTURE;
     player -> regionID   = PLAYER_REGION;
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Create multiple enemies for a single linked list
-    //
-i = 0;
-for(i = 0; i < 12; i++)
-{     
-    EnemyA = (Object *) malloc(sizeof(Object));
-
-	EnemyA  -> next       = NULL;
-    EnemyA  -> x          = xpos;	//rand () % 630;
-    EnemyA  -> y          = ypos;
-	ypos = ypos + 10;
-	xpos = xpos + 10;
-    EnemyA  -> textureID  = ENEMYA_TEXTURE;
-    EnemyA  -> regionID   = ENEMYA_REGION;
-	tmp->next = EnemyA;
-	tmp = tmp->next;
-		
-
-}
-
-	
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the background texture and region
@@ -131,7 +125,6 @@ for(i = 0; i < 12; i++)
     //
     while (true)
     {
-
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background
@@ -189,9 +182,8 @@ for(i = 0; i < 12; i++)
 		//
 		//
 		// Getting the textures and drawing the enemies at their positions.
-		//
-
-	tmp = headEnemyA;
+		//	
+	tmp = headEnemyA->next;
 	while(tmp->next != NULL)
 	{
 		select_texture (ENEMYA_TEXTURE);
@@ -199,18 +191,21 @@ for(i = 0; i < 12; i++)
 		draw_region_at (tmp -> x , tmp -> y);
 		tmp = tmp->next;
 	}
-		
+	
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust enemy positions based on randomness
         //
-	tmp = headEnemyA;
+
+	tmp = headEnemyA->next;
 	while(tmp->next != NULL)
 	{
+		
         tmp  -> xdir   = rand () % 3 - 1;
         tmp  -> ydir   = 1; //rand () % 3 - 1;
         tmp  -> x      = tmp  -> x + tmp  -> xdir;
         tmp  -> y      = tmp  -> y + tmp  -> ydir;
+
 		if (tmp->next->y > 300)
 		{
 			deletetmp = tmp->next;
@@ -228,9 +223,8 @@ for(i = 0; i < 12; i++)
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Select texture and region for enemies, and draw it
-        //
-	
-	tmp = headEnemyA;
+        //	
+	tmp = headEnemyA->next;
 
 	while(tmp->next !=NULL)
 	{

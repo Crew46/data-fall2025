@@ -30,20 +30,27 @@ void PrintIntAt(int x, int y, int value)
 
 void DrawLine(int startingX, int startingY, int endX, int endY)
 {
+    //find the change in x and y
     int deltaX = endX - startingX;
     int deltaY = endY - startingY;
 
+    //distance between the visual dots
     int distanceBetweenDots = 6;
+    //distance betweent he two passed in vectors
     float distance = GetDistanceBetweenVector2s(startingX, startingY, endX, endY);
-
+    //number of dots that will fit into distance
     float numberOfDots = distance / distanceBetweenDots;
-
+    //how does does the height related to the hypotenuse
     float cosineRatio = deltaY / distance;
 
+    //for every dot starting at 1st, rather than 0st 
     for(int i = 1; i < (numberOfDots); i++)
     {
+        //find the x of that dot
         float newX = startingX + (cosineRatio * (i * distanceBetweenDots)); 
-        float newY = startingY + sqrt(pow(distanceBetweenDots * i, 2) - pow(startingX - newX, 2));  
+        //find the y of that dot
+        float newY = startingY + ((deltaY / abs(deltaY)) * sqrt(pow(distanceBetweenDots * i, 2) - pow(startingX - newX, 2)));  
+        //print dot
         print_at(round(newX), round(newY), ".");
     }
 }
@@ -102,17 +109,13 @@ void PrintObjectDataAt(int x, int y, Object* object)
 
  void VisualizeLinkedList(DoublyLinkedList* list)
  {
-    int tracking = 80;
-    int currentXPositionToDraw = 10;
-    int currentYPositionToDraw = 100;
     DoublyNode* previousNode = NULL;
     DoublyNode* currentNode = list->head;
     Object* currentData = NULL;
-    DrawLine(200, 200, 100, 100);
     while(currentNode != NULL)
     {
         currentData = currentNode->data;
-        PrintIntAt(currentXPositionToDraw, currentYPositionToDraw, currentData->id);
+        PrintIntAt(currentData->x, currentData->y, currentData->id);
         //draw line from current node to previous node
         if(currentNode->previous == previousNode)
         {
@@ -122,14 +125,13 @@ void PrintObjectDataAt(int x, int y, Object* object)
             }
             else
             {
-
+                //DrawLine();
             }
         }
         //draw line from previous node to current node
         if(previousNode != NULL)
         {
         }
-        currentXPositionToDraw += tracking;
         previousNode = currentNode;
         currentNode = currentNode->next;
     }

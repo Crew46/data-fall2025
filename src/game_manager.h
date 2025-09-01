@@ -94,7 +94,9 @@ void UpdateGameManager()
     }
 
     VisualizeLinkedList(GetPlayerList());
-    //DrawLine(screen_width / 2 , screen_height / 2, screen_width, 0);
+    //print statistics
+    //PrintObjectDataAt(10, 60, GetPlayerList()->head->data);
+    //PrintObjectDataAt(screen_width - 180, 60, GetPlayerList()->head->next->next->next->data);
 }
 
 #endif // GAME_MANAGER_H

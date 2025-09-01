@@ -5,13 +5,15 @@
 
 #define  BACKGROUND_TEXTURE 0
 #define  PLAYER_TEXTURE     1
-#define  ENEMYA_TEXTURE      2
+#define  ENEMYA_TEXTURE     2
 
 #define  BACKGROUND_REGION  0
 #define  PLAYER_REGION      1
-#define  ENEMYA_REGION       2
-int xpos = 20;
-int ypos = 0;
+#define  ENEMYA_REGION      2
+
+int xpos;
+int ypos;
+
 struct Object
 {
     int     textureID;
@@ -29,42 +31,47 @@ struct Object
  
 
 // Prepping what we need.
-	Object * headEnemyA = NULL;
-	Object * tmp = NULL;
-	Object * deletetmp = NULL;
+    Object * headEnemyA = NULL;
+    Object * tmp = NULL;
+    Object * deletetmp = NULL;
 // This function will create a single EnemyA everytime it is used.
 void createEnemyA(void)
-	{
-				tmp = headEnemyA;
-				while(tmp->next != NULL);
-				{
-				tmp=tmp->next;
-				}	
-					Object * EnemyA = (Object *)malloc (sizeof(Object));
-					EnemyA -> next = NULL;
-					EnemyA -> x = xpos;
-					EnemyA -> y = ypos;
-					EnemyA -> textureID = ENEMYA_TEXTURE;
-					EnemyA -> regionID = ENEMYA_REGION;
-					tmp -> next = EnemyA;	
-					xpos = xpos + 10;
-	}
+    {
+                tmp = headEnemyA;
+                while(tmp->next != NULL);
+                {
+                tmp=tmp->next;
+                }    
+                    Object * EnemyA = (Object *)malloc (sizeof(Object));
+                    EnemyA -> next = NULL;
+                    EnemyA -> x = xpos;
+                    EnemyA -> y = ypos;
+                    EnemyA -> textureID = ENEMYA_TEXTURE;
+                    EnemyA -> regionID = ENEMYA_REGION;
+                    tmp -> next = EnemyA;    
+                    xpos = xpos + 10;
+    }
 
 void main (void)
-{		
-	
-// creating the head and malloc it.
-Object * headEnemyA = (Object *)malloc(sizeof(Object));
-	if(headEnemyA == NULL);
-	{
-	exit();
-	}
-headEnemyA->next == NULL;
-// Prepping these for later use. tmp is a temporary node that will traverse
-// the list and deletetmp will be used to free nodes.
-Object * deletetmp = (Object *)malloc (sizeof(Object));
-Object * tmp = (Object *) malloc (sizeof (Object));
-createEnemyA();
+{        
+    xpos = 20;
+    ypos = 0;
+    
+    // creating the head and malloc it.
+    Object *headEnemyA = (Object *) malloc (sizeof (Object));
+    if (headEnemyA == NULL);
+    {
+        exit ();
+    }
+
+    headEnemyA -> next == NULL;
+
+    // Prepping these for later use. tmp is a temporary node that will traverse
+    // the list and deletetmp will be used to free nodes.
+    Object *deletetmp   = (Object *) malloc (sizeof (Object));
+    Object *tmp         = (Object *) malloc (sizeof (Object));
+    createEnemyA ();
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -92,12 +99,12 @@ createEnemyA();
     define_region (0, 0, 31, 31, 0, 0);
     
  
-	///////////////////////////////////////////////////////////////////////////////////
-	//
-	// Define the enemy texture and region
-	select_texture (ENEMYA_TEXTURE);
-	select_region (ENEMYA_REGION);
-	define_region_topleft (0, 0 , 9, 9 );
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // Define the enemy texture and region
+    select_texture (ENEMYA_TEXTURE);
+    select_region (ENEMYA_REGION);
+    define_region_topleft (0, 0 , 9, 9 );
 
 
 
@@ -166,63 +173,63 @@ createEnemyA();
         select_texture (player -> textureID);
         select_region  (player -> regionID);
         draw_region_at (player -> x, player -> y);
-	
-		///////////////////////////////////////////////////////////////////////////////
-		//
-		//
-		// Getting the textures and drawing the enemies at their positions.
-		//	
-	tmp = headEnemyA;
-	while(tmp->next != NULL)
-	{
-		tmp = tmp->next;
-		select_texture (ENEMYA_TEXTURE);
-		select_region (ENEMYA_REGION);
-		draw_region_at (tmp -> x , tmp -> y);
-	}
-	
+    
+        ///////////////////////////////////////////////////////////////////////////////
+        //
+        //
+        // Getting the textures and drawing the enemies at their positions.
+        //    
+    tmp = headEnemyA;
+    while(tmp->next != NULL)
+    {
+        tmp = tmp->next;
+        select_texture (ENEMYA_TEXTURE);
+        select_region (ENEMYA_REGION);
+        draw_region_at (tmp -> x , tmp -> y);
+    }
+    
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust enemy positions based on randomness
         //
 
-	tmp = headEnemyA;
-	while(tmp->next != NULL)
-	{
-		tmp = tmp->next;
+    tmp = headEnemyA;
+    while(tmp->next != NULL)
+    {
+        tmp = tmp->next;
         tmp  -> xdir   = rand () % 3 - 1;
         tmp  -> ydir   = 1; //rand () % 3 - 1;
         tmp  -> x      = tmp  -> x + tmp  -> xdir;
         tmp  -> y      = tmp  -> y + tmp  -> ydir;
 
-/*		if (tmp->next->y > 300)
-		{
-			deletetmp = tmp->next;
-			tmp->next = deletetmp->next;
-			free(deletetmp);
-		}
+/*        if (tmp->next->y > 300)
+        {
+            deletetmp = tmp->next;
+            tmp->next = deletetmp->next;
+            free(deletetmp);
+        }
 */
-	}   
+    }   
         ////////////////////////////////////////////////////////////////////////////////
         //
         //
         //
-	
+    
  
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Select texture and region for enemies, and draw it
-        //	
-	tmp = headEnemyA;
+        //    
+    tmp = headEnemyA;
 
-	while(tmp->next !=NULL)
-	{
-		tmp= tmp->next;
+    while(tmp->next !=NULL)
+    {
+        tmp= tmp->next;
         select_texture (ENEMYA_TEXTURE);
         select_region  (ENEMYA_REGION);
         draw_region_at (tmp  -> x, tmp  -> y);
-	}
+    }
      
-	   end_frame ();
+       end_frame ();
     }
 }

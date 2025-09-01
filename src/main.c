@@ -29,52 +29,41 @@ struct Object
  
 
 // Prepping what we need.
-Object * headEnemyA = NULL;
-Object * tmp = (Object *) malloc (sizeof (Object) * 1);
+	Object * headEnemyA = NULL;
+	Object * tmp = NULL;
+	Object * deletetmp = NULL;
 // This function will create a single EnemyA everytime it is used.
 void createEnemyA(void)
 	{
-		Object * EnemyA = (Object *)malloc(sizeof(Object) * 1);
-		if(headEnemyA == NULL) //This is used for the first Enemy to store into headEnemyA->next.
-		{ 
-		headEnemyA = (Object *)malloc(sizeof(Object) * 1);
-		headEnemyA->next = NULL;
-			if(headEnemyA == NULL);
-				{
-					exit();
-				}
-		EnemyA -> next = NULL;
-		EnemyA -> y = ypos;
-		EnemyA -> x = xpos;
-		EnemyA -> textureID = ENEMYA_TEXTURE;
-		EnemyA -> regionID = ENEMYA_REGION;
-		headEnemyA->next = EnemyA;
-		}
-		else // else is used when there is an Enemy in headEnemyA->next.
-		{
-			tmp = headEnemyA;
+				tmp = headEnemyA;
 				while(tmp->next != NULL);
-			{
-			tmp=tmp->next;
-			}
-				EnemyA -> next = NULL;
-				EnemyA -> x = xpos;
-				EnemyA -> y = ypos;
-				EnemyA -> textureID = ENEMYA_TEXTURE;
-				EnemyA -> regionID = ENEMYA_REGION;
-				tmp -> next = EnemyA;
-		}
-		xpos = xpos + 10;
+				{
+				tmp=tmp->next;
+				}	
+					Object * EnemyA = (Object *)malloc (sizeof(Object));
+					EnemyA -> next = NULL;
+					EnemyA -> x = xpos;
+					EnemyA -> y = ypos;
+					EnemyA -> textureID = ENEMYA_TEXTURE;
+					EnemyA -> regionID = ENEMYA_REGION;
+					tmp -> next = EnemyA;	
+					xpos = xpos + 10;
 	}
 
 void main (void)
 {		
 	
-// Functions in action.
-
-
-Object * deletetmp = (Object *)malloc (sizeof(Object) * 1);
-
+// creating the head and malloc it.
+Object * headEnemyA = (Object *)malloc(sizeof(Object));
+	if(headEnemyA == NULL);
+	{
+	exit();
+	}
+headEnemyA->next == NULL;
+// Prepping these for later use. tmp is a temporary node that will traverse
+// the list and deletetmp will be used to free nodes.
+Object * deletetmp = (Object *)malloc (sizeof(Object));
+Object * tmp = (Object *) malloc (sizeof (Object));
 createEnemyA();
     ////////////////////////////////////////////////////////////////////////////////////
     //

@@ -19,10 +19,6 @@ void PrintIntAt(int x, int y, int value)
     {
         strcat(stringToPrint, "-");
     }
-    else
-    {
-        strcat(stringToPrint, "+");
-    }
     strcat(stringToPrint, stringValue);
     print_at(x, y, stringToPrint);
     free(stringToPrint);

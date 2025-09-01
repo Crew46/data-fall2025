@@ -32,13 +32,14 @@ struct Object
 
 // Prepping what we need.
     Object * headEnemyA = NULL;
-    Object * tmp = NULL;
+	Object * tmp = NULL;
     Object * deletetmp = NULL;
 // This function will create a single EnemyA everytime it is used.
-void createEnemyA(void)
+void createEnemyA(Object * headEnemyA)
     {
-                tmp = headEnemyA;
-                while(tmp->next != NULL);
+                
+               tmp = headEnemyA;
+					while(tmp->next != NULL)
                 {
                 tmp=tmp->next;
                 }    
@@ -59,18 +60,21 @@ void main (void)
     
     // creating the head and malloc it.
     Object *headEnemyA = (Object *) malloc (sizeof (Object));
-    if (headEnemyA == NULL);
+    if (headEnemyA == NULL)
     {
         exit ();
     }
-
-    headEnemyA -> next == NULL;
+    headEnemyA -> next = NULL;
 
     // Prepping these for later use. tmp is a temporary node that will traverse
     // the list and deletetmp will be used to free nodes.
-    Object *deletetmp   = (Object *) malloc (sizeof (Object));
-    Object *tmp         = (Object *) malloc (sizeof (Object));
-    createEnemyA ();
+	
+    createEnemyA (headEnemyA);
+	createEnemyA (headEnemyA);
+	createEnemyA (headEnemyA);
+	createEnemyA (headEnemyA);
+	createEnemyA (headEnemyA);
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -174,20 +178,7 @@ void main (void)
         select_region  (player -> regionID);
         draw_region_at (player -> x, player -> y);
     
-        ///////////////////////////////////////////////////////////////////////////////
-        //
-        //
-        // Getting the textures and drawing the enemies at their positions.
-        //    
-    tmp = headEnemyA;
-    while(tmp->next != NULL)
-    {
-        tmp = tmp->next;
-        select_texture (ENEMYA_TEXTURE);
-        select_region (ENEMYA_REGION);
-        draw_region_at (tmp -> x , tmp -> y);
-    }
-    
+       
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust enemy positions based on randomness

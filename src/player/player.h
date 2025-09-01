@@ -144,6 +144,12 @@ void PlayerUpdate(Player* player)
  * This part keeps tracks of all the instances of player in a linked list
 **/
 
+//return linked list of players
+DoublyLinkedList* GetPlayerList()
+{
+    return playerList; 
+}
+
 //update all player controller in instances list
 void UpdateAllPlayers()
 {
@@ -191,7 +197,7 @@ Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int 
     player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
     player->weaponType = WEAPON_TYPE_LASER_CANNON; // Default weapon type
 
-    DoublyLinkedListInsertAtHead(playerList, &player->object);
+    DoublyLinkedListInsertAtTail(playerList, &player->object);
 
     //return pointer to player
     return player;

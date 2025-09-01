@@ -3,6 +3,7 @@
 #include "string.h"
 #include "video.h"
 #include "../object.h"
+#include "../vector/vector2.h"
 #include "math.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
@@ -27,8 +28,28 @@ void PrintIntAt(int x, int y, int value)
     free(stringToPrint);
 }
 
- void PrintObjectDataAt(int x, int y, Object* object)
- {
+void DrawLine(int startingX, int startingY, int endX, int endY)
+{
+    int deltaX = endX - startingX;
+    int deltaY = endY - startingY;
+
+    int distanceBetweenDots = 6;
+    float distance = GetDistanceBetweenVector2s(startingX, startingY, endX, endY);
+
+    float numberOfDots = distance / distanceBetweenDots;
+
+    float cosineRatio = deltaY / distance;
+
+    for(int i = 1; i < (numberOfDots); i++)
+    {
+        float newX = startingX + (cosineRatio * (i * distanceBetweenDots)); 
+        float newY = startingY + sqrt(pow(distanceBetweenDots * i, 2) - pow(startingX - newX, 2));  
+        print_at(round(newX), round(newY), ".");
+    }
+}
+
+void PrintObjectDataAt(int x, int y, Object* object)
+{
     int leading = 20;
     int tracking = 20;
 
@@ -77,15 +98,41 @@ void PrintIntAt(int x, int y, int value)
 
     print_at(x + tracking * 1, y + leading * 14, "speed: ");
     PrintIntAt(x + tracking * 5, y + leading * 14, object->speed);
- }
+}
 
  void VisualizeLinkedList(DoublyLinkedList* list)
  {
-    //DoublyNode* currentNode = list->head;
-    //while(currentNode != NULL)
-    //{
-        
-    //}
- }
+    int tracking = 80;
+    int currentXPositionToDraw = 10;
+    int currentYPositionToDraw = 100;
+    DoublyNode* previousNode = NULL;
+    DoublyNode* currentNode = list->head;
+    Object* currentData = NULL;
+    DrawLine(200, 200, 100, 100);
+    while(currentNode != NULL)
+    {
+        currentData = currentNode->data;
+        PrintIntAt(currentXPositionToDraw, currentYPositionToDraw, currentData->id);
+        //draw line from current node to previous node
+        if(currentNode->previous == previousNode)
+        {
+            if(previousNode == NULL)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        //draw line from previous node to current node
+        if(previousNode != NULL)
+        {
+        }
+        currentXPositionToDraw += tracking;
+        previousNode = currentNode;
+        currentNode = currentNode->next;
+    }
+}
 
 #endif //DEBUGGER_H

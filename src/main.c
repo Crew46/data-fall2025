@@ -172,13 +172,13 @@ createEnemyA();
 		//
 		// Getting the textures and drawing the enemies at their positions.
 		//	
-	tmp = headEnemyA->next;
+	tmp = headEnemyA;
 	while(tmp->next != NULL)
 	{
+		tmp = tmp->next;
 		select_texture (ENEMYA_TEXTURE);
 		select_region (ENEMYA_REGION);
 		draw_region_at (tmp -> x , tmp -> y);
-		tmp = tmp->next;
 	}
 	
         ////////////////////////////////////////////////////////////////////////////////
@@ -186,22 +186,22 @@ createEnemyA();
         // Adjust enemy positions based on randomness
         //
 
-	tmp = headEnemyA->next;
+	tmp = headEnemyA;
 	while(tmp->next != NULL)
 	{
-		
+		tmp = tmp->next;
         tmp  -> xdir   = rand () % 3 - 1;
         tmp  -> ydir   = 1; //rand () % 3 - 1;
         tmp  -> x      = tmp  -> x + tmp  -> xdir;
         tmp  -> y      = tmp  -> y + tmp  -> ydir;
 
-		if (tmp->next->y > 300)
+/*		if (tmp->next->y > 300)
 		{
 			deletetmp = tmp->next;
 			tmp->next = deletetmp->next;
 			free(deletetmp);
 		}
-		tmp=tmp->next;
+*/
 	}   
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -213,14 +213,14 @@ createEnemyA();
         //
         // Select texture and region for enemies, and draw it
         //	
-	tmp = headEnemyA->next;
+	tmp = headEnemyA;
 
 	while(tmp->next !=NULL)
 	{
+		tmp= tmp->next;
         select_texture (ENEMYA_TEXTURE);
         select_region  (ENEMYA_REGION);
         draw_region_at (tmp  -> x, tmp  -> y);
-		tmp = tmp->next;
 	}
      
 	   end_frame ();

@@ -1,5 +1,5 @@
 #ifndef AUDIO_MANAGER_H
-#include AUDIO_MANAGER_H
+#define AUDIO_MANAGER_H
 #include "misc.h"
 #include "audio.h"
 
@@ -7,13 +7,13 @@ enum SoundEffect
 {
     EXPLOSION_SOUND_EFFECT,
     LASER_SOUND_EFFECT
-}
+};
 
 enum MusicLoop
 {
     MENU_MUSIC,
     IN_GAME_MUSIC
-}
+};
 
 MusicLoop currentMusicLoop;
 

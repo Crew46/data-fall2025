@@ -123,11 +123,14 @@ void HandleInput(Player* player)
 
 void PlayerUpdate(Player* player)
 {
-    //handle input every frame
-    HandleInput(player);    
+    if(player->object.isActive)
+    {
+        //handle input every frame
+        HandleInput(player);    
 
-    // Update the player view every frame
-    DrawPlayer(player);
+        // Update the player view every frame
+        DrawPlayer(player);
+    }
 }
 
 //=========================================================
@@ -172,13 +175,13 @@ void DeconstructAllPlayers()
 //=========================================================
 
 //constructor
-Player* CreatePlayer(int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime, int gamepadID)
+Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime, int gamepadID)
 {
     //allocate memory for player
     Player* player = (Player*)malloc(sizeof(Player));
 
     //player object properties initialization
-    InitializeObject(&player->object, textureID, regionID, id, x, y, isActive, speed);    
+    InitializeObject(&player->object, name, textureID, regionID, id, x, y, isActive, speed);    
 
     //player properties initialization
     player->gamepadID = gamepadID;

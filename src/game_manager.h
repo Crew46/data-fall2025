@@ -4,6 +4,7 @@
 #include "misc.h"
 #include "audio.h"
 #include "video.h"
+#include "string.h"
 //include texture, region, and audio definitions and configuration values
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
@@ -53,7 +54,7 @@ void InitializeGameManager()
     set_channel_loop(true);
 
     //create player, which is an extension of object, so need to pass in object params.
-    player = CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 5, 1, 0);
+    player = CreatePlayer("Player", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 5, 1, 0);
 
     // Initialize game state
     currentState = GAMESTATE_MENU;
@@ -67,14 +68,17 @@ void InitializeGameManager()
 
 void UpdateGameManager() 
 {
-    clear_screen(make_color_rgb(0, 0, 0));
     //clear screen
+    clear_screen(make_color_rgb(0, 0, 0));
     //drawing the background
     select_texture ( BACKGROUND_TEXTURE );
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
+
+    //update player
     PlayerUpdate(player);
 
+    //main menu UI
     if(currentState == GAMESTATE_MENU)
     {
         select_texture(UI_TEXTURES);
@@ -85,6 +89,8 @@ void UpdateGameManager()
         select_region(CREDITS_REGION);
         draw_region_at(420, 40);
     }
+    
+    PrintObjectDataAt(10, 60, &player->object);
 }
 
 #endif // GAME_MANAGER_H

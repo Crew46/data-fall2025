@@ -88,10 +88,10 @@ struct DoublyLinkedList
   Node* tail;
 };
 
-void deleteNode(DoublyLinkedList* list, Node** node)
+DoublyLinkedList* deleteNode(DoublyLinkedList* list, Node** node)
 {
   if(!list || !node || !*node)
-    return;
+    return list;
 
   // Only one node
   if(list->head == (*node) && list->tail == (*node))
@@ -117,6 +117,8 @@ void deleteNode(DoublyLinkedList* list, Node** node)
 
   free(*node);
   *node = NULL;
+
+  return list;
 }
 
 DoublyLinkedList* createList()
@@ -141,7 +143,7 @@ void deleteList(DoublyLinkedList** list)
   *list = NULL;
 }
 
-void addFront(DoublyLinkedList* list, Object* data)
+DoublyLinkedList* addFront(DoublyLinkedList* list, Object* data)
 {
   Node* node = createNode(data);
   if(list->head == NULL)
@@ -156,9 +158,10 @@ void addFront(DoublyLinkedList* list, Object* data)
     list->head = node;
   }
 
+  return list;
 }
 
-void addBack(DoublyLinkedList* list, Object* data)
+DoublyLinkedList* addBack(DoublyLinkedList* list, Object* data)
 {
   Node* node = createNode(data);
   if(list->head == NULL)
@@ -172,6 +175,8 @@ void addBack(DoublyLinkedList* list, Object* data)
     node->prev = list->tail;
     list->tail = node;
   }
+
+  return list;
 
 }
 
@@ -228,13 +233,16 @@ void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_W
   }
 }
 
-void spawnEnemy(DoublyLinkedList* list, int xPos, int yPos)
+DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos)
 {
   Object* enemy = createObject( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, true, NULL );
-  addBack( list, enemy );
+  list = addBack( list, enemy );
+
+  return list;
+
 }
 
-void updateEnemies(DoublyLinkedList* enemyList)
+DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
 {
   Node*   current = enemyList->head;
   Node*   next    = NULL;
@@ -258,7 +266,7 @@ void updateEnemies(DoublyLinkedList* enemyList)
       if(exceedsBounds(enemy))
       {
         deleteObject( &enemy );
-        deleteNode( enemyList, &current );
+        enemyList = deleteNode( enemyList, &current );
       }
 
       // Draw enemy
@@ -275,6 +283,8 @@ void updateEnemies(DoublyLinkedList* enemyList)
     {
       spawnEnemy( enemyList, rand() % 630, 0 );
     }
+
+    return enemyList;
 }
 
 void updatePlayer( Object* player )
@@ -399,7 +409,7 @@ void main (void)
         //
         // Update the enemies 
         //
-        updateEnemies( enemyList );
+        enemyList = updateEnemies( enemyList );
 
         // End frame
         end_frame();

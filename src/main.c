@@ -53,6 +53,29 @@ void createEnemyA(Object * headEnemyA)
                     xpos = xpos + 10;
     }
 
+
+
+
+// The delete function used to delete enemies.
+
+void deleteEnemyA(Object * headEnemyA)
+	{
+		tmp = headEnemyA;
+		if( tmp->next->y > 300)
+		{
+		deletetmp = tmp->next;
+		tmp->next = deletetmp->next;
+		free(deletetmp);
+		tmp = tmp->next;
+		}
+	}
+
+
+
+
+
+
+
 void main (void)
 {        
     xpos = 20;
@@ -196,17 +219,8 @@ void main (void)
 		select_region  (ENEMYA_REGION);
 		draw_region_at (tmp  -> x, tmp  -> y);
     }  
-// delete nodes if they hit a certain y value
-// Do not put these 2 together. Vircon32 does not like it.
-		tmp = headEnemyA;
-		if( tmp->next->y > 300)
-		{
-			deletetmp = tmp->next;
-			tmp->next = deletetmp->next;
-			free(deletetmp);
-			tmp = tmp->next;
-		}
-
+// use the deleteEnemyA function to delete nodes that hit a certain Y value.
+	deleteEnemyA(headEnemyA);
 
   
        end_frame ();

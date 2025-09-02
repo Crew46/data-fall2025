@@ -55,7 +55,7 @@ void createEnemyA (Object *headEnemyA)
 
 // The delete function used to delete enemies.
 
-void deleteEnemyA(Object * headEnemyA)
+void deleteEnemyA (Object * headEnemyA)
 {
     Object *tmp           = headEnemyA;
     Object *deletetmp     = headEnemyA;

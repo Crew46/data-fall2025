@@ -7,21 +7,22 @@
 #include "math.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
-void PrintIntAt(int x, int y, int value)
+void PrintIntAt (int x, int y, int value)
 {
     //cannot convert negative values, must find absolute value, and add negative after
-    int* stringValue = (int*)malloc(sizeof(int) * 25);
-    itoa(abs(value), stringValue, 10);
+    int* stringValue = (int*) malloc (sizeof (int) * 25);
+    itoa (abs (value), stringValue, 10);
     
-    int* stringToPrint = (int*)malloc(sizeof(int) * (strlen(stringValue) + 2));
+    int* stringToPrint = (int*) malloc (sizeof (int) * (strlen (stringValue) + 2));
 
-    if(value < 0)
+    if (value < 0)
     {
-        strcat(stringToPrint, "-");
+        strcpy (stringToPrint, "-");
     }
-    strcat(stringToPrint, stringValue);
-    print_at(x, y, stringToPrint);
-    free(stringToPrint);
+    strcpy (stringToPrint, stringValue);
+    print_at (x, y, stringToPrint);
+    free (stringToPrint);
+    free (stringValue);
 }
 
 void DrawLine(int startingX, int startingY, int endX, int endY, int* character)

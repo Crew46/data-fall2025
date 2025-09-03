@@ -3,8 +3,6 @@
 #include "player_model.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
-//declarations
-
 //player linked list
 DoublyLinkedList* playerList = CreateDoublyLinkedList();
 
@@ -16,7 +14,8 @@ DoublyLinkedList* playerList = CreateDoublyLinkedList();
 
 /** 
  * SUMMARY:
- * This part keeps tracks of all the instances of player in a linked list
+ * This part keeps tracks of all the instances of player in a linked list, and provides functions to manage,
+ * create, destroy, and update all players.
 **/
 
 //return linked list of players

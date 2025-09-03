@@ -1,6 +1,7 @@
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
 #include "player_model.h"
+#include "player_view.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -15,27 +16,35 @@
  * the player's model, view, and input.
 **/
 
-void HandleInput(PlayerModel* player)
+struct PlayerController 
+{
+    PlayerModel* playerModel;
+    int gamepadID; 
+};
+
+void ReactToInput(PlayerController* playerController)
 {
     //select the gamepad mapped to this player controller
-    select_gamepad(player->gamepadID);
+    select_gamepad(playerController->gamepadID);
     float deltaX;
     float deltaY;
     gamepad_direction_normalized(&deltaX, &deltaY); //get the direction from the gamepad
     player->object.xdir = deltaX;
     player->object.ydir = deltaY;
-    PlayerMoveInDirection(player);
+    //delegate movement to player model
+    PlayerMoveInDirection(playerController);
 }
 
-void PlayerUpdate(PlayerModel* player)
+void PlayerControllerUpdate(PlayerController* playerController)
 {
-    if(player->object.isActive)
+    //if the player is active, update it
+    if(playerController->playerModel->object.isActive)
     {
-        //handle input every frame
-        HandleInput(player);    
+        //react to input
+        ReactToInput(playerController);    
 
-        // Update the player view every frame
-        DrawPlayer(player);
+        //delegate drawing of the mode to player view
+        DrawPlayer(playerController->playerModel);
     }
 }
 

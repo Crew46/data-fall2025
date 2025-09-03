@@ -32,7 +32,6 @@ struct PlayerModel
 {
     //object is not a pointer, in order to imbed to struct for upcasting & downcasting.
     Object object;
-    int gamepadID; 
     float maxShootCooldownTime; //shoot cooldown in seconds
     float shootCooldownElapsed; //seconds elapsed since last shot
     PlayerMovementState state; // Current state of the player

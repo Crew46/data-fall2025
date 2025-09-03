@@ -10,7 +10,7 @@
 
 /** 
  * SUMMARY:
- * this part is for visualizing the data of the model
+ * this file is for visualizing the data of the player model
 **/
 
 void DrawPlayer(PlayerModel* player)

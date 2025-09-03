@@ -1,0 +1,4 @@
+#ifndef PLAYER_MODEL_H
+#define PLAYER_MODEL_H
+
+#endif //PLAYER_MODEL_H

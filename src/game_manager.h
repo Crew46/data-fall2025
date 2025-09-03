@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "video.h"
 #include "string.h"
+#include "math.h"
 //include texture, region, and audio definitions and configuration values
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
@@ -16,6 +17,7 @@
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 //other managers
 #include "audio_manager.h"
+#include "player/player_manager.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -32,7 +34,12 @@ enum GameState
 GameState currentState;
 
 //list of all objects in scene
-DoublyLinkedList* objectList;
+DoublyLinkedList* allObjectsList = CreateDoublyLinkedList();
+
+DoublyLinkedList* GetObjectList()
+{
+    return allObjectsList;
+}
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -49,14 +56,14 @@ void InitializeGameManager()
     //MANY INSTANCES OF PLAYER, WHEN PLAYER IS CREATED, THE PLAYER FILE HAS STORED IT IN A LINKED LIST
     //TO UPDATE ALL INSTANCES, ALL YOU HAVE TO CALL IS UpdateAllPlayers();
 
-    //create player, which is an extension of object, so need to pass in object params.
+    //create player, cast to object, and put in tobject list. player is an extension of object, so need to pass in object params.
 
     //           name,     texture,                region,       id, x,                y,    isActive, speed, shootCooldown, gamepadID
-    CreatePlayer("frfr", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 8, 1, 0);
-    CreatePlayer("Player1", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 1, screen_width / 2 -40, screen_height / 2, true, 4, 1, 1);
-    CreatePlayer("Player2", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 2, screen_width / 2 + 40, screen_height / 2, true, 3, 1, 1);
-    CreatePlayer("nocap", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 3, screen_width / 2 -80, screen_height / 2 + 80, true, 2, 1, 0);
-    CreatePlayer("Player4", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 4, screen_width / 2 + 80, screen_height / 2 + 100, true, 4, 1, 1);
+    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("frfr", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 8, 1, 0));
+    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("Player1", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 1, screen_width / 2 -40, screen_height / 2, true, 4, 1, 1));
+    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("Player2", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 2, screen_width / 2 + 40, screen_height / 2, true, 3, 1, 1));
+    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("nocap", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 3, screen_width / 2 -80, screen_height / 2 + 80, true, 2, 1, 0));
+    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("Player4", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 4, screen_width / 2 + 80, screen_height / 2 + 100, true, 4, 1, 1));
 
     // Initialize game state
     currentState = GAMESTATE_MENU;

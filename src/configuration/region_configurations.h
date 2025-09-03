@@ -24,7 +24,7 @@ void InitializeRegions()
     //player
     select_texture(PLAYER_SPRITES_TEXTURE);
     select_region(PLAYER_REGION);
-    define_region_topleft(0, 0, 31, 31); // Player sprite
+    define_region_topleft(0, 0, 31, 31); // PlayerModel sprite
 
     //PLAY
     select_texture( UI_TEXTURES );  

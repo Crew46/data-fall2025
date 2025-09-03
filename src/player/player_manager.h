@@ -1,6 +1,6 @@
 #ifndef PLAYER_MANAGER_H
 #define PLAYER_MANAGER_H
-#include "player.h"
+#include "player_model.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 //declarations
@@ -35,7 +35,7 @@ void UpdateAllPlayers()
         currentData = currentNode->data;
         if(currentData != NULL)
         {
-            PlayerUpdate((Player*)currentData);
+            PlayerUpdate((PlayerModel*)currentData);
         }
         currentNode = currentNode->next;
     }
@@ -58,10 +58,10 @@ void DeconstructAllPlayers()
 //=========================================================
 
 //constructor
-Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime, int gamepadID)
+PlayerModel* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime, int gamepadID)
 {
     //allocate memory for player
-    Player* player = (Player*)malloc(sizeof(Player));
+    PlayerModel* player = (PlayerModel*)malloc(sizeof(PlayerModel));
 
     //player object properties initialization
     InitializeObject(&player->object, name, textureID, regionID, id, x, y, isActive, speed);    
@@ -80,7 +80,7 @@ Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int 
 }
 
 //deconstructor
-void DeconstructPlayer(Player* player)
+void DeconstructPlayer(PlayerModel* player)
 {
     //free player struct
     free(player);

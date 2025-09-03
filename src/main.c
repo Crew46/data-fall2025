@@ -13,6 +13,9 @@
 
 int  xpos;
 int  ypos;
+int  position;
+int i;
+
 
 struct Object
 {
@@ -69,6 +72,32 @@ void deleteEnemyA (Object * headEnemyA)
     }
 }
 
+
+void insertEnemyA ( Object * headEnemyA, int position)
+{
+i = 0;
+	Object *tmp			  = headEnemyA;
+		while(i != position)
+			{
+				i = i+1;
+				tmp = tmp->next;	
+			}
+		Object *EnemyA      = (Object *) malloc (sizeof (Object));
+		EnemyA ->next		= NULL;
+		EnemyA -> x			= xpos;
+		EnemyA -> y			= ypos;
+		EnemyA -> textureID = ENEMYA_TEXTURE;
+		EnemyA -> regionID  = ENEMYA_REGION;
+		xpos = xpos + 10;
+		Object *deletetmp 	= tmp->next;
+		tmp ->next = EnemyA;
+		tmp = tmp -> next;
+		tmp->next = deletetmp;
+}
+
+
+
+
 void main (void)
 {        
     Object *tmp          = NULL;
@@ -95,7 +124,9 @@ void main (void)
     appendEnemyA (headEnemyA);
     appendEnemyA (headEnemyA);
     appendEnemyA (headEnemyA);
-
+	insertEnemyA (headEnemyA, 0);
+	insertEnemyA (headEnemyA, 0);
+	insertEnemyA (headEnemyA, 0);
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance

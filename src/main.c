@@ -6,11 +6,16 @@
 #define  BACKGROUND_TEXTURE 0
 #define  PLAYER_TEXTURE     1
 #define  ENEMYA_TEXTURE     2
+#define  LASER_TEXTURE		3
 
 #define  BACKGROUND_REGION  0
 #define  PLAYER_REGION      1
 #define  ENEMYA_REGION      2
+#define	 LASER_REGION		3
 
+
+
+#define LASERSPEED			1
 int  xpos;
 int  ypos;
 int  position;
@@ -27,6 +32,10 @@ struct Object
     int     xdir;
     int     ydir;
     bool    isActive;
+	bool	laser;
+	bool	laserFired;
+	int		laserX;
+	int		laserY;
     int     speed;
     Object *next;
 };
@@ -50,10 +59,11 @@ void appendEnemyA (Object *headEnemyA)
     EnemyA -> next      = NULL;
     EnemyA -> x         = xpos;
     EnemyA -> y         = ypos;
+	EnemyA -> isActive	= true;
     EnemyA -> textureID = ENEMYA_TEXTURE;
     EnemyA -> regionID  = ENEMYA_REGION;
     tmp    -> next      = EnemyA;    
-    xpos                = xpos + 10;
+    xpos                = xpos + 20;
 }
 
 // The delete function used to delete enemies.
@@ -63,7 +73,7 @@ void deleteEnemyA (Object * headEnemyA)
     Object *tmp           = headEnemyA;
     Object *deletetmp     = headEnemyA;
 
-    if (tmp -> next -> y >  300)
+    if (tmp ->next-> isActive == false) 
     {
         deletetmp         = tmp -> next;
         tmp -> next       = deletetmp -> next;
@@ -86,9 +96,10 @@ i = 0;
 		EnemyA ->next		= NULL;
 		EnemyA -> x			= xpos;
 		EnemyA -> y			= ypos;
+		EnemyA -> isActive 	= true;
 		EnemyA -> textureID = ENEMYA_TEXTURE;
 		EnemyA -> regionID  = ENEMYA_REGION;
-		xpos = xpos + 10;
+		xpos = xpos + 20;
 		Object *deletetmp 	= tmp->next;
 		tmp ->next = EnemyA;
 		tmp = tmp -> next;
@@ -125,8 +136,8 @@ void main (void)
     appendEnemyA (headEnemyA);
     appendEnemyA (headEnemyA);
 	insertEnemyA (headEnemyA, 0);
-	insertEnemyA (headEnemyA, 0);
-	insertEnemyA (headEnemyA, 0);
+	insertEnemyA (headEnemyA, 3);
+	insertEnemyA (headEnemyA, 1);
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -135,6 +146,9 @@ void main (void)
     player -> next       = NULL;
     player -> x          = 360;
     player -> y          = 300;
+	player -> isActive	 = true;
+	player -> laser		 = false;
+	player -> laserFired = false;
     player -> textureID  = PLAYER_TEXTURE;
     player -> regionID   = PLAYER_REGION;
 
@@ -160,6 +174,11 @@ void main (void)
     select_texture (ENEMYA_TEXTURE);
     select_region (ENEMYA_REGION);
     define_region_topleft (0, 0 , 9, 9 );
+///////////////////////////////////////////////////////////////////////////////////////
+	select_texture (LASER_TEXTURE);
+	select_region (LASER_REGION);
+	define_region_topleft (0 ,0 , 19, 9);
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -193,7 +212,27 @@ void main (void)
         //
         player -> x      = player -> x + player -> xdir;
         player -> y      = player -> y + player -> ydir;
-
+// player laser will fire if x is pressed pressed. Only 1 laser can be fired.
+		if((gamepad_button_a() == 1))
+			{
+			player->laserFired = true;
+			}
+			if(player->laserFired && !player->laser)				
+				{
+					player->laser = true;
+					player->laserX = player->x + 10;	
+					player->laserY = player->y;
+					player->laserFired = false;
+				}
+			// This will move the laser up. it will deactivate once it goes far enough.
+			if(player->laser == true)
+		{ 
+			player->laserY = player->laserY - 10;
+			if(player->laserY < 20)
+			{
+				player->laser = false;
+			}
+		}
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Player/playfield bounds checking
@@ -226,7 +265,18 @@ void main (void)
         select_region  (player -> regionID);
         draw_region_at (player -> x, player -> y);
     
-       
+       ///////////////////////////////////////////////////////////////////////////////
+		if(player->laser)
+			{
+		select_texture(LASER_TEXTURE);
+		select_region(LASER_REGION);
+		draw_region_at(player->laserX, player->laserY);
+			}
+	
+
+
+
+
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust enemy positions based on randomness
@@ -235,6 +285,12 @@ void main (void)
         while(tmp -> next != NULL)
         {
             tmp = tmp->next;
+		if( tmp -> y > 300)
+			{
+				tmp -> isActive = false;
+			}
+		if(tmp->isActive == true)
+			{
             tmp -> xdir    = rand () % 3 - 1;
             tmp -> ydir    = 1; //rand () % 3 - 1;
             tmp -> x       = tmp -> x + tmp -> xdir;
@@ -242,7 +298,9 @@ void main (void)
             select_texture (ENEMYA_TEXTURE);
             select_region  (ENEMYA_REGION);
             draw_region_at (tmp  -> x, tmp  -> y);
-        }  
+		
+        	}
+		}  
 
         // use the deleteEnemyA function to delete nodes that hit a certain Y value.
         deleteEnemyA (headEnemyA);

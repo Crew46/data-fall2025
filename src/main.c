@@ -5,87 +5,45 @@
 
 #define  BACKGROUND_TEXTURE 0
 #define  PLAYER_TEXTURE     1
-#define  ENEMYA_TEXTURE     2
 
 #define  BACKGROUND_REGION  0
 #define  PLAYER_REGION      1
-#define  ENEMYA_REGION      2
 
-int xpos;
-int ypos;
-
-struct Object
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// Essence struct - what could describe the essence of all in-game items
+//
+struct Essence
 {
-    int     textureID;
-    int     regionID;
-    int     id;
-    int     x;
-    int     y;
-    int     xdir;
-    int     ydir;
-    bool    isActive;
-    int     speed;
-    Object *next;
+    int      textureID;
+    int      regionID;
+    int      id;
+    int      x;
+    int      y;
+    int      xdir;
+    int      ydir;
+    bool     isActive;
+    int      speed;
+    Essence *next;
 };
-////////////////////////////////////////////////////////////////////////////////////
- 
 
-// Prepping what we need.
-    Object * headEnemyA = NULL;
-	Object * tmp = NULL;
-    Object * deletetmp = NULL;
-// This function will create a single EnemyA everytime it is used.
-void createEnemyA(Object * headEnemyA)
-    {
-                
-               tmp = headEnemyA;
-					while(tmp->next != NULL)
-                {
-                tmp=tmp->next;
-                }    
-                    Object * EnemyA = (Object *)malloc (sizeof(Object));
-                    EnemyA -> next = NULL;
-                    EnemyA -> x = xpos;
-                    EnemyA -> y = ypos;
-                    EnemyA -> textureID = ENEMYA_TEXTURE;
-                    EnemyA -> regionID = ENEMYA_REGION;
-                    tmp -> next = EnemyA;    
-                    xpos = xpos + 10;
-    }
-
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// main() function - where everything starts
+//
 void main (void)
 {        
-    xpos = 20;
-    ypos = 0;
-    
-    // creating the head and malloc it.
-    Object *headEnemyA = (Object *) malloc (sizeof (Object));
-    if (headEnemyA == NULL)
-    {
-        exit ();
-    }
-    headEnemyA -> next = NULL;
-
-    // Prepping these for later use. tmp is a temporary node that will traverse
-    // the list and deletetmp will be used to free nodes.
-	
-    createEnemyA (headEnemyA);
-	createEnemyA (headEnemyA);
-	createEnemyA (headEnemyA);
-	createEnemyA (headEnemyA);
-	createEnemyA (headEnemyA);
-
-
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
     //
-    Object *player       = (Object *) malloc (sizeof (Object) * 1); 
+    Essence *player      = (Essence *) malloc (sizeof (Essence) * 1); 
     player -> next       = NULL;
     player -> x          = 360;
     player -> y          = 300;
     player -> textureID  = PLAYER_TEXTURE;
     player -> regionID   = PLAYER_REGION;
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the background texture and region
@@ -101,19 +59,8 @@ void main (void)
     select_texture (PLAYER_TEXTURE);
     select_region (PLAYER_REGION);
     define_region (0, 0, 31, 31, 0, 0);
-    
  
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
-    // Define the enemy texture and region
-    select_texture (ENEMYA_TEXTURE);
-    select_region (ENEMYA_REGION);
-    define_region_topleft (0, 0 , 9, 9 );
-
-
-
-
-   ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
     //
     // Select the first gamepad
     //
@@ -177,38 +124,7 @@ void main (void)
         select_texture (player -> textureID);
         select_region  (player -> regionID);
         draw_region_at (player -> x, player -> y);
-    
        
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Adjust enemy positions based on randomness
-        //
-
-    tmp = headEnemyA;
-    while(tmp->next != NULL)
-    {
-		tmp = tmp->next;
-        tmp  -> xdir   = rand () % 3 - 1;
-        tmp  -> ydir   = 1; //rand () % 3 - 1;
-        tmp  -> x      = tmp  -> x + tmp  -> xdir;
-        tmp  -> y      = tmp  -> y + tmp  -> ydir;
-		select_texture (ENEMYA_TEXTURE);
-		select_region  (ENEMYA_REGION);
-		draw_region_at (tmp  -> x, tmp  -> y);
-    }  
-// delete nodes if they hit a certain y value
-// Do not put these 2 together. Vircon32 does not like it.
-		tmp = headEnemyA;
-		if( tmp->next->y > 300)
-		{
-			deletetmp = tmp->next;
-			tmp->next = deletetmp->next;
-			free(deletetmp);
-			tmp = tmp->next;
-		}
-
-
-  
-       end_frame ();
+        end_frame ();
     }
 }

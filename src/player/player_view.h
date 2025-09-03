@@ -19,4 +19,8 @@ void DrawPlayer(PlayerModel* player)
     select_region(player->object.regionID);
     draw_region_at(player->object.x, player->object.y);
 }
+
+
+void Create
+
 #endif //PLAYER_MODEL_H

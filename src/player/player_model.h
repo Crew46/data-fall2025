@@ -18,9 +18,8 @@
 
 /** 
  * SUMMARY:
- * this entire file is split into different sections for different concerns regarding the player,
- * including part 1: the model, part 2: visual functions, part 3: logical connections between model and view,
- * part 4: instance management, part 5: construction and desconstruction
+ * This is the model of the player: ie. the fundamental 
+ * behaviors and properties that define the player
 **/
 
 enum PlayerMovementState
@@ -37,15 +36,7 @@ struct PlayerModel
     float maxShootCooldownTime; //shoot cooldown in seconds
     float shootCooldownElapsed; //seconds elapsed since last shot
     PlayerMovementState state; // Current state of the player
-    WeaponType weaponType; //weapon that player has equipped
 };
-
-
-/** 
- * SUMMARY:
- * This is the model of the player: ie. the fundamental 
- * behaviors of the player. logical connection between these functions is in part 3
-**/
 
 //move player in a direction, where then direction is scaled by the player's speed
 void PlayerMoveInDirection(PlayerModel* player)
@@ -62,7 +53,7 @@ void PlayerMoveInDirection(PlayerModel* player)
 }
 
 //shoot selected weapon
-void PlayerShoot(PlayerModel* player)
+void UseWeapon(PlayerModel* player)
 {
     //if not in cooldown, shoot
     if(player->shootCooldownElapsed == 0)
@@ -73,7 +64,5 @@ void PlayerShoot(PlayerModel* player)
         player->shootCooldownElapsed = player->maxShootCooldownTime;
     }
 }
-
-
 
 #endif // PLAYER_MODEL_H 

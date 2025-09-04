@@ -1,5 +1,5 @@
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
+#ifndef DOUBLY_LINKED_LIST_H
+#define DOUBLY_LINKED_LIST_H
 #include "misc.h"
 #include "doubly_node.h"
 #include "../../component/component.h"
@@ -120,4 +120,4 @@ Component* DoublyLinkedListGetObjectAtTail(DoublyLinkedList* list)
   return list->tail->data;
 }
 
-#endif // LINKED_LIST_H
+#endif // DOUBLY_LINKED_LIST_H

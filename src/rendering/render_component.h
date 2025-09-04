@@ -1,5 +1,5 @@
-#ifndef RENDEROBJECT_H
-#define RENDEROBJECT_H
+#ifndef RENDER_COMPONENT_H
+#define RENDER_COMPONENT_H
 #include "../component/component.h"
 
 struct RenderComponent
@@ -15,4 +15,4 @@ void DrawRenderComponent(RenderComponent* renderComponent)
     select_region(renderComponent->regionID);
 }
 
-#endif // RENDEROBJECT_H
+#endif // RENDER_COMPONENT_H

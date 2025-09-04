@@ -1,5 +1,5 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#ifndef COMPONENT_H
+#define COMPONENT_H
 #include "string.h"
 #include "../vector/vector2.h"
 
@@ -10,8 +10,6 @@
 struct Component
 {
     int* name; //string for name of object
-    Component* children; //children of this object
-    Vector2 position; //position in scene
     int id; //object id
     bool isActive; //active in scene
 };
@@ -20,39 +18,37 @@ struct Component
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-void InitializeComponent(Component* object, int* name, int id)
+void InitializeComponent(Component* component, int* name, int id)
 {
     //copy the string that was passed in into the player name field
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
     strcpy(playerName, name); 
 
     //initialize fields given in parameters
-    object->name = playerName;
-    object->id = id;
+    component->name = playerName;
+    component->id = id;
 
     //initialize garbage values
-    object->isActive = true; //default to active
-    object->position.x = 0;
-    object->position.y = 0;
+    component->isActive = true; //default to active
 }
 
 Component* CreateComponent(int* name, int id)
 {
     //allocate object
-    Component* object = (Component*)malloc(sizeof(Component));
+    Component* component = (Component*)malloc(sizeof(Component));
     //initialize object
-    InitializeComponent(object, name, id);
+    InitializeComponent(component, name, id);
     //return object
-    return object;
+    return component;
 }
 
 //string needs to be freed alongside the entire object, because object owns the string
-void DeconstructComponent(Component* object)
+void DeconstructComponent(Component* component)
 {
     //free string
-    free(object->name);
+    free(component->name);
     //free struct
-    free(object);
+    free(component);
 }
 
-#endif //OBJECT_H
+#endif //COMPONENT_H

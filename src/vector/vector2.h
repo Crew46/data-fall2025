@@ -46,16 +46,16 @@ void SubtractVector2Components(Vector2* a, Vector2* b, Vector2* out)
   out->y = a->y - b->y;
 }
 
-void MultiplyVector2ByScalar(Vector2* vector2, float scalar)
+void MultiplyVector2ByScalar(Vector2* vector2, float scalar, Vector2* out)
 {
-  vector2->x *= scalar;
-  vector2->y *= scalar;
+  out->x = vector2->x * scalar;
+  out->y = vector2->y * scalar;
 }
 
-void DivideVector2ByScalar(Vector2* vector2, float scalar)
+void DivideVector2ByScalar(Vector2* vector2, float scalar, Vector2* out)
 {
-  vector2->x /= scalar;
-  vector2->y /= scalar;
+  out->x = vector2->x / scalar;
+  out->y = vector2->y / scalar;
 }
 
 float GetVector2Magnitude(Vector2* vector2)
@@ -70,13 +70,15 @@ float GetDistanceBetweenVector2s(Vector2* a, Vector2* b)
   return sqrt(pow(dx, 2) + pow(dy, 2));
 }
 
-void NormalizeVector2(Vector2* vector2)
+void NormalizeVector2(Vector2* vector2, Vector2* out)
 {
   float len = GetVector2Magnitude(vector2);
+  out->x = 0;
+  out->y = 0;
   if(len != 0)
   {
-    vector2->x = vector2->x / len;
-    vector2->y = vector2->y / len;
+    out->x = vector2->x / len;
+    out->y = vector2->y / len;
   }
 }
 

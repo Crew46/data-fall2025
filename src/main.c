@@ -205,6 +205,40 @@ DoublyLinkedList* append(DoublyLinkedList* list, Node* targetNode, Object* newOb
   return list;
 }
 
+Node* obtain(DoublyLinkedList** list, Node* node)
+{
+  if(!list || !(*list) || !node)
+    return NULL;
+
+  // Only one node in the list
+  if(node == (*list)->head && node == (*list)->tail)
+  {
+    (*list)->head == NULL;
+    (*list)->tail == NULL;
+  }
+  else if(node == (*list)->head)
+  {
+    (*list)->head = node->next;
+    node->next->prev = NULL;
+    node->next = NULL;
+  }
+  else if(node == (*list)->tail)
+  {
+    (*list)->tail = node->prev;
+    node->prev->next = NULL;
+    node->prev = NULL;
+  }
+  else
+  {
+    node->prev->next = node->next;
+    node->next->prev = node->prev;
+    node->next = NULL;
+    node->prev = NULL;
+  }
+
+  return node;
+}
+
 // Checks bounds but should only be used for objects that don't need to check which side they are exceeding
 bool exceedsBounds(Object* obj)
 {

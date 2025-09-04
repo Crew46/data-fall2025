@@ -3,11 +3,6 @@
 #include "video.h"
 #include "time.h"
 
-<<<<<<< HEAD
-void main(void)
-{
-    InitializeGameManager();
-=======
 #define  BACKGROUND_TEXTURE 0
 #define  PLAYER_TEXTURE     1
 
@@ -31,7 +26,6 @@ struct Essence
     int      speed;
     Essence *next;
 };
->>>>>>> c347161d6bd93ebf9fa64b00ae2770a2ee448b06
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -78,11 +72,6 @@ void main (void)
     //
     while (true)
     {
-<<<<<<< HEAD
-        //update game manager
-        UpdateGameManager();
-        end_frame();
-=======
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background
@@ -137,6 +126,5 @@ void main (void)
         draw_region_at (player -> x, player -> y);
        
         end_frame ();
->>>>>>> c347161d6bd93ebf9fa64b00ae2770a2ee448b06
     }
 }

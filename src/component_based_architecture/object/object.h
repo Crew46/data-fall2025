@@ -9,17 +9,14 @@ struct Object
     int objectID;
 };
 
-Object* CreateObject(int* name)
+void InitializeObject(Object* object, int* name, int objectID)
 {
-    Object* object = (Object*)malloc(sizeof(Object));
     //copy the string that was passed in into the player name field
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
     strcpy(playerName, name); 
     object->name = playerName;
     object->isActive = true;
-
-    //
-    return object;
+    object->objectID = objectID;
 }
 
 void DeconstructObject(Object* object)

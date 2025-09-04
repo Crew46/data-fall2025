@@ -1,7 +1,7 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
-#include "../object/object.h"
-#include "../component/component.h"
+#include "../component/component_manager.h"
+#include "../object/object_manager.h"   
 #include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 struct GameObject
@@ -11,22 +11,23 @@ struct GameObject
     int gameObjectID;
 };
 
-GameObject* CreateGameObject(int gameObjectID)
+GameObject* InitializeGameObject(GameObject* gameObject, int* name, int gameObjectID)
 {
-    GameObject* gameObject = malloc(sizeof(GameObject));
     //initialize base object through object manager
+    ObjectManagerInitializeObject(gameObject->base, name);
     //initialize gameobject
     gameObject->gameObjectID = gameObjectID;
-
     //initialize linked list
-
-    //return object
-    return gameObject; 
+    componentList = CreateDoublyLinkedList();
 }
 
 void DeconstructGameObject(GameObject* gameObject)
 {
-    //deinitialize object through object manager 
+    //deconstruct object through object manager
+    ObjectManagerDeconstructObject(gameObject->base);
+    //deconstuct all components of linked list
+    //here//
+
     //free game object
     free(gameObject);
 }

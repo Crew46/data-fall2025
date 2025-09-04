@@ -5,26 +5,28 @@
 
 DoublyLinkedList* componentList = CreateDoublyLinkedList();
 
-int nextObjectID = 0; //keeps track of the next object ID to assign
+int nextComponentID = 0; //keeps track of the next compoent ID to assign
 
-void ComponentManagerInitializeComponent(Component* component, int* name)
+void ComponentManagerInitializeComponent(Component* component, int* name, ComponentType type)
 {
-    InitializeComponent(component, name, nextObjectID);
-    nextObjectID++;
+    InitializeComponent(component, name, type, nextObjectID);
+    nextComponentID++;
     DoublyLinkedListInsertAtTail(componentList, component);
 }
 
-Component* ComponentManagerCreateComponent(int* name)
+Component* ComponentManagerCreateComponent(int* name, ComponentType type)
 {
     //create and initialize object
     Component* component = (Component*)malloc(sizeof(Component));
-    ComponentManagerInitializeComponent(component, name);
+    ComponentManagerInitializeComponent(component, name, type);
     //return object
     return component;
 }
 
 void ComponentManagerDeconstructComponent(Component* component)
 {
+    //remove from list
+    //deconstuct
     DeconstructComponent(component);
 }
 

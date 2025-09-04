@@ -2,7 +2,7 @@
 #define COMPONENT_H
 #include "string.h"
 #include "../vector/vector2.h"
-#include "../object/object.h"
+#include "../object/object_manager.h"
 
 ////////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////////
@@ -29,34 +29,20 @@ struct Component
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-void InitializeComponent(Component* component, ComponentType type, int componentID)
+void InitializeComponent(Component* component, int* name, ComponentType type, int componentID)
 {
-    //allocate component
-    Component* component = (Component*)malloc(sizeof(Component));
     //initialize base object through object manager
-
+    ObjectManagerInitializeObject(&component->object, name);
     //initialize component
-    componentID = componentID;
-
-    //return component
-    return component;
-}
-
-Component* CreateComponent(int* name, int id)
-{
-    //allocate object
-    Component* component = (Component*)malloc(sizeof(Component));
-    //initialize object
-    InitializeComponent(component, name, id);
-    //return object
-    return component;
+    component->componentID = componentID;
+    component->type = type;
 }
 
 //string needs to be freed alongside the entire object, because object owns the string
 void DeconstructComponent(Component* component)
 {
-    //free string
-    free(component->name);
+    //tell object manager to deconstuct object
+    ObjectManagerDeconstructObject(component->object);
     //free struct
     free(component);
 }

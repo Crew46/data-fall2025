@@ -5,9 +5,11 @@
 #include "../object/object_manager.h"
 #include "../../player/player_controller.h"
 
+//==============================================================
 ////////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
+//==============================================================
 
 //this enum will be used to identify component types
 
@@ -27,10 +29,6 @@ struct Component
     ComponentType type; //type of component
     int componentID; //object id
 };
-
-////////////////////////////////////////////////////////////////
-///////////Constructor & Deconstructor//////////////////////////
-////////////////////////////////////////////////////////////////
 
 void InitializeComponent(Component* component, int* name, ComponentType type, int componentID)
 {

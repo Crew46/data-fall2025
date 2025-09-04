@@ -17,11 +17,16 @@ struct Vector2
 ///////////Constructor and Deconstructor///////////////////
 ///////////////////////////////////////////////////////////
 
+void InitializeVector2(Vector2* vector, float x, float y)
+{
+  vector2->x = x;
+  vector2->y = y;
+}
+
 Vector2* CreateVector2(float x, float y)
 {
   Vector2* vector2 = (Vector2*)malloc(sizeof(Vector2));
-  vector2->x = x;
-  vector2->y = y;
+  InitializeVector2(vector2, x, y);
   return vector2;
 }
 

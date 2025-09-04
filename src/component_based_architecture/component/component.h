@@ -2,14 +2,26 @@
 #define COMPONENT_H
 #include "string.h"
 #include "../vector/vector2.h"
+#include "../object/object.h"
 
 ////////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
+//this enum will be used to identify component types
+
+enum ComponentType
+{
+    TRANSFORM_COMPONENT,
+    RENDER_COMPONENT,
+    RIGIDBODY_COMPONENT,
+    COLLIDER_COMPONENT
+};
+
 struct Component
 {
-    int* name; //string for name of object
+    Object base; //base object
+    ComponentType type; //type of component
     int id; //object id
     bool isActive; //active in scene
 };

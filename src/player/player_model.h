@@ -34,6 +34,7 @@ struct PlayerModel
     float maxShootCooldownTime; //shoot cooldown in seconds
     float shootCooldownElapsed; //seconds elapsed since last shot
     PlayerMovementState state; // Current state of the player
+    int speed; //speed in scene
 };
 
 //=========================================================
@@ -79,11 +80,12 @@ void PlayerModelUseWeapon(PlayerModel* playerModel)
 void InitializePlayerModel(PlayerModel* playerModel, int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime)
 {
     //player object properties initialization
-    InitializeObject(&playerModel->object, name, textureID, regionID, id, x, y, isActive, speed);    
+    InitializeObject(&playerModel->object, name, textureID, regionID, id, x, y, isActive);    
 
     //initialize passed in properties
     playerModel->maxShootCooldownTime = maxShootCooldownTime;
     playerModel->shootCooldownElapsed = 0; // Start with no cooldown
+    playerModel->speed = speed;
 
     //intialize garbage values
     playerModel->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state

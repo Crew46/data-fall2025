@@ -34,23 +34,11 @@ void UpdateAllPlayerControllers()
         currentData = currentNode->data;
         if(currentData != NULL)
         {
-            //change to player model
-            //PlayerUpdate((PlayerModel*)currentData);
+            PlayerControllerUpdate((PlayerController*)currentData);
         }
         currentNode = currentNode->next;
     }
 }
-
-void DeconstructAllPlayerControllers()
-{
-    //loop through all player controller instances
-    //for(int i = 0; i < instancesOfPlayerController; i++)
-    //{
-        //DeconstructPlayerController();
-    //}
-}
-
-//create a player controller, add to linked list, and return pointer to it
 
 //=========================================================
 ///////////////////////////////////////////////////////////

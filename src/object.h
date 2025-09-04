@@ -10,22 +10,19 @@
 struct Object
 {
     int* name; //string for name of object
-    int textureID; //texture id
-    int regionID; //region id
     int id; //object id
     int x; //x
     int y; //y
     float xdir; //input direction x
     float ydir; //input direction y
     bool isActive; //active in scene
-    int speed; //speed in scene
 };
 
 ////////////////////////////////////////////////////////////////
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-void InitializeObject(Object* object, int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
+void InitializeObject(Object* object, int* name, int id, int x, int y, bool isActive)
 {
     //copy the string that was passed in into the player name field
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
@@ -35,18 +32,15 @@ void InitializeObject(Object* object, int* name, int textureID, int regionID, in
     object->name = playerName;
     object->x = x;
     object->y = y;
-    object->textureID = textureID;
-    object->regionID = regionID;
     object->id = id;
     object->isActive = isActive;
-    object->speed = speed;
 
     //initialize garbage values
     object->xdir = 0;
     object->ydir = 0;
 }
 
-Object* CreateObject(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
+Object* CreateObject(int* name, int id, int x, int y, bool isActive)
 {
     //allocate object
     Object* object = (Object*)malloc(sizeof(Object));

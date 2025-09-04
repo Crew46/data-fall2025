@@ -3,50 +3,86 @@
 #include "math.h"
 #include "misc.h"
 
-//components of x, followed by components of y, with pointers to result components
-void AddVector2Components(float xA, float xB, float yA, float yB, float* resultX, float* resultY)
+///////////////////////////////////////////////////////////////
+///////////Vector2 Struct//////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+struct Vector2 
 {
-  *resultX = xA + xB;
-  *resultY = yA + yB;
+  float x;
+  float y;
+};
+
+///////////////////////////////////////////////////////////
+///////////Constructor and Deconstructor///////////////////
+///////////////////////////////////////////////////////////
+
+Vector2* CreateVector2(float x, float y)
+{
+  Vector2* vector2 = (Vector2*)malloc(sizeof(Vector2));
+  vector2->x = x;
+  vector2->y = y;
+  return vector2;
 }
 
-void SubtractVector2Components(float xA, float xB, float yA, float yB, float* resultX, float* resultY)
+void DeconstructVector2(Vector2* vector2)
 {
-  AddVector2Components(xA, -xB, yA, -yB, resultX, resultY);
+  free(vector2);
 }
 
-void MultiplyVector2ByScalar(float x, float y, float scalar, float* resultX, float* resultY)
+///////////////////////////////////////////////////////////
+///////////Vector2 Functions////////////////////////////////
+///////////////////////////////////////////////////////////
+
+void AddVector2Components(Vector2* a, Vector2* b, Vector2* out)
 {
-  *resultX = x * scalar; 
-  *resultY = y * scalar;
+  out->x = a->x + b->x;
+  out->y = a->y + b->y;
 }
 
-void DivideVector2ByScalar(float x, float y, float scalar, float* resultX, float* resultY)
+void SubtractVector2Components(Vector2* a, Vector2* b, Vector2* out)
 {
-  *resultX = x / scalar; 
-  *resultY = y / scalar;
+  out->x = a->x - b->x;
+  out->y = a->y - b->y;
 }
 
-float GetVector2Magnitude(float x, float y)
+void MultiplyVector2ByScalar(Vector2* vector2, float scalar)
 {
-  return sqrt(pow(x, 2) + pow(y, 2));
+  vector2->x *= scalar;
+  vector2->y *= scalar;
 }
 
-float GetDistanceBetweenVector2s(float xA, float yA, float xB, float yB)
+void DivideVector2ByScalar(Vector2* vector2, float scalar)
 {
-  float dX = xA - xB;
-  float dY = yA - yB;
-  return GetVector2Magnitude(dX, dY);
+  vector2->x /= scalar;
+  vector2->y /= scalar;
 }
 
-void NormalizeVector2(float x, float y, float* resultX, float* resultY)
+float GetVector2Magnitude(Vector2* vector2)
 {
-  float len = GetVector2Magnitude(x, y);
+  return sqrt(pow(vector2->x, 2) + pow(vector2->y, 2));
+}
+
+float GetDistanceBetweenVector2s(Vector2* a, Vector2* b)
+{
+  float dx = a->x - b->x;
+  float dy = a->y - b->y;
+  return sqrt(pow(dx, 2) + pow(dy, 2));
+}
+
+void NormalizeVector2(Vector2* vector2)
+{
+  float len = GetVector2Magnitude(vector2);
   if(len != 0)
   {
-    *resultX = x / len;
-    *resultY = y / len;
+    vector2->x = vector2->x / len;
+    vector2->y = vector2->y / len;
   }
+}
+
+float GetDotProductBetweenVector2s(Vector2* a, Vector2* b)
+{
+  return (a->x * b->x) + (a->y * b->y);
 }
 
 #endif // VECTOR_H

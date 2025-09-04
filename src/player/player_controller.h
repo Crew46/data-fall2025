@@ -18,7 +18,9 @@
 
 struct PlayerController 
 {
+    //has a player model, which is also an object
     PlayerModel* playerModel;
+    //maps to a gamepad
     int gamepadID; 
 };
 

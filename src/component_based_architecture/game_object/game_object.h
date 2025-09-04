@@ -7,7 +7,7 @@
 struct GameObject
 {
     Object base; //base object
-    DoublyLinkedList* components; //list of components
+    DoublyLinkedList* children; //list of children
     int gameObjectID;
 };
 
@@ -18,14 +18,14 @@ GameObject* InitializeGameObject(GameObject* gameObject, int* name, int gameObje
     //initialize gameobject
     gameObject->gameObjectID = gameObjectID;
     //initialize linked list
-    componentList = CreateDoublyLinkedList();
+    children = CreateDoublyLinkedList();
 }
 
 void DeconstructGameObject(GameObject* gameObject)
 {
     //deconstruct object through object manager
     ObjectManagerDeconstructObject(gameObject->base);
-    //deconstuct all components of linked list
+    //deconstuct all children of linked list
     //here//
 
     //free game object

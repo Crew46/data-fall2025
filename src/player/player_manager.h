@@ -1,10 +1,11 @@
 #ifndef PLAYER_MANAGER_H
 #define PLAYER_MANAGER_H
 #include "player_controller.h"
+#include "../component_based_architecture/component/component_manager.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 //player linked list
-DoublyLinkedList* playerList = CreateDoublyLinkedList();
+DoublyLinkedList* playerComponentList = CreateDoublyLinkedList();
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -21,7 +22,7 @@ DoublyLinkedList* playerList = CreateDoublyLinkedList();
 //return linked list of player controllers
 DoublyLinkedList* GetPlayerList()
 {
-    return playerList; 
+    return playerComponentList; 
 }
 
 //update all player controller in instances list
@@ -34,7 +35,7 @@ void UpdateAllPlayerControllers()
         currentData = currentNode->data;
         if(currentData != NULL)
         {
-            PlayerControllerUpdate((PlayerController*)currentData);
+            PlayerControllerUpdate((Component*)currentData);
         }
         currentNode = currentNode->next;
     }

@@ -14,7 +14,7 @@ void ComponentManagerInitializeComponent(Component* component, int* name, Compon
     DoublyLinkedListInsertAtTail(componentList, (Object*)component);
 }
 
-Component* ComponentManagerCreateComponent(int* name, ComponentType type)
+Component* ComponentManagerConstructComponent(int* name, ComponentType type)
 {
     //create and initialize object
     Component* component = (Component*)malloc(sizeof(Component));
@@ -29,5 +29,12 @@ void ComponentManagerDeconstructComponent(Component* component)
     //deconstuct
     DeconstructComponent(component);
 }
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////UPDATE ALL COMPONENTS///////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
 
 #endif //COMPONENT_MANAGER_H

@@ -2,6 +2,7 @@
 #define PLAYER_CONTROLLER_H
 #include "player_model.h"
 #include "player_view.h"
+#include "../component_based_architecture/component/component_manager.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -16,9 +17,10 @@
  * the player's model, view, and input.
 **/
 
+//is a component
 struct PlayerController 
 {
-    //has a player model, which is also an object
+    Component component;
     PlayerModel* playerModel;
     //maps to a gamepad
     int gamepadID; 
@@ -62,14 +64,16 @@ void PlayerControllerUpdate(PlayerController* playerController)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializePlayerController(PlayerController* playerController, PlayerModel* playerModel, int gamepadID)
+void InitializePlayerController(PlayerController* playerController, int* name, PlayerModel* playerModel, int gamepadID)
 {
+    //initialize as PLAYER_COMPONENT component enum
+    ComponentManagerInitializeComponent(playerController->component, name, PLAYER_CONTROLLER_COMPONENT);
     playerController->playerModel = playerModel;
     playerController->gamepadID = gamepadID;
 }
 
 //player controller constructor
-PlayerController* CreatePlayerController(int* name, float speed, float maxShootCooldownTime, int gamepadID)
+PlayerController* ConstructPlayerController(int* name, float speed, float maxShootCooldownTime, int gamepadID)
 {
     //allocate player controller
     PlayerController* playerController = (PlayerController*)malloc(sizeof(PlayerController));
@@ -82,6 +86,8 @@ PlayerController* CreatePlayerController(int* name, float speed, float maxShootC
 //player controller deconstructor
 void DeconstructPlayerController(PlayerController* playerController)
 {
+    //deconsruct component
+    ComponentManagerDeconstructComponent(&playerController->component);
     //deconstruct player model
     DeconstructPlayerModel(playerController->playerModel);
     //free player controller struct

@@ -27,6 +27,7 @@ enum PlayerMovementState
     PLAYER_MOVEMENT_STATE_MOVING
 };
 
+//is an object
 struct PlayerModel 
 {
     //object is not a pointer, in order to imbed to struct for upcasting & downcasting.

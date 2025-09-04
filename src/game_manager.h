@@ -13,8 +13,9 @@
 //linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 //other managers
-#include "audio_manager.h"
+#include "/audio/audio_manager.h"
 #include "player/player_manager.h"
+#include "component/component_manager.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -29,14 +30,6 @@ enum GameState
 };
 
 GameState currentState;
-
-//list of all objects in scene
-DoublyLinkedList* allObjectsList = CreateDoublyLinkedList();
-
-DoublyLinkedList* GetObjectList()
-{
-    return allObjectsList;
-}
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -74,9 +67,6 @@ void UpdateGameManager()
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
     UpdateAudioManager();
-
-    //updates all player controllers
-    UpdateAllPlayerControllers();
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

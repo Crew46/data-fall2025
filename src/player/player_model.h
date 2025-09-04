@@ -77,7 +77,7 @@ void PlayerModelUseWeapon(PlayerModel* playerModel)
 void InitializePlayerModel(PlayerModel* playerModel, int* name, int speed, float maxShootCooldownTime)
 {
     //player object properties initialization
-    ObjectManagerInitializeObject(&playerModel->object, name);    
+    ComponentManagerInitializeComponent(&playerModel->object, name);    
 
     //initialize passed in properties
     playerModel->maxShootCooldownTime = maxShootCooldownTime;

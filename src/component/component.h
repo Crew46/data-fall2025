@@ -10,6 +10,7 @@
 struct Component
 {
     int* name; //string for name of object
+    Component* children; //children of this object
     Vector2 position; //position in scene
     int id; //object id
     bool isActive; //active in scene
@@ -19,7 +20,7 @@ struct Component
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-void InitializeObject(Component* object, int* name, int id)
+void InitializeComponent(Component* object, int* name, int id)
 {
     //copy the string that was passed in into the player name field
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
@@ -35,18 +36,18 @@ void InitializeObject(Component* object, int* name, int id)
     object->position.y = 0;
 }
 
-Component* CreateObject(int* name, int id)
+Component* CreateComponent(int* name, int id)
 {
     //allocate object
     Component* object = (Component*)malloc(sizeof(Component));
     //initialize object
-    InitializeObject(object, name, id);
+    InitializeComponent(object, name, id);
     //return object
     return object;
 }
 
 //string needs to be freed alongside the entire object, because object owns the string
-void DeconstructObject(Component* object)
+void DeconstructComponent(Component* object)
 {
     //free string
     free(object->name);

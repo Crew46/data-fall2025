@@ -7,25 +7,25 @@ DoublyLinkedList* objectList = CreateDoublyLinkedList();
 
 int nextObjectID = 0; //keeps track of the next object ID to assign
 
-void ObjectManagerInitializeObject(Component* object, int* name)
+void ComponentManagerInitializeComponent(Component* object, int* name)
 {
-    InitializeObject(object, name, nextObjectID);
+    InitializeComponent(object, name, nextObjectID);
     nextObjectID++;
     DoublyLinkedListInsertAtTail(objectList, object);
 }
 
-Component* ObjectManagerCreateObject(int* name)
+Component* ComponentManagerCreateComponent(int* name)
 {
     //create and initialize object
     Component* object = (Component*)malloc(sizeof(Component));
-    ObjectManagerInitializeObject(object, name);
+    ComponentManagerInitializeComponent(object, name);
     //return object
     return object;
 }
 
-void ObjectManagerDeconstructObject(Component* object)
+void ComponentManagerDeconstructComponent(Component* object)
 {
-    DeconstructObject(object);
+    DeconstructComponent(object);
 }
 
 #endif //OBJECT_MANAGER_H

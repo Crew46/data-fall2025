@@ -1,7 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 #include "string.h"
-#include "video.h"
+#include "vector/vector2.h"
 
 ////////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////////
@@ -10,11 +10,8 @@
 struct Object
 {
     int* name; //string for name of object
+    Vector2 position; //position in scene
     int id; //object id
-    int x; //x
-    int y; //y
-    float xdir; //input direction x
-    float ydir; //input direction y
     bool isActive; //active in scene
 };
 
@@ -22,7 +19,7 @@ struct Object
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-void InitializeObject(Object* object, int* name, int id, int x, int y, bool isActive)
+void InitializeObject(Object* object, int* name, int id)
 {
     //copy the string that was passed in into the player name field
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
@@ -30,22 +27,20 @@ void InitializeObject(Object* object, int* name, int id, int x, int y, bool isAc
 
     //initialize fields given in parameters
     object->name = playerName;
-    object->x = x;
-    object->y = y;
     object->id = id;
-    object->isActive = isActive;
 
     //initialize garbage values
-    object->xdir = 0;
-    object->ydir = 0;
+    object->isActive = true; //default to active
+    object->position.x = 0;
+    object->position.y = 0;
 }
 
-Object* CreateObject(int* name, int id, int x, int y, bool isActive)
+Object* CreateObject(int* name, int id)
 {
     //allocate object
     Object* object = (Object*)malloc(sizeof(Object));
     //initialize object
-    InitializeObject(object, name, textureID, regionID, id, x, y, isActive, speed);
+    InitializeObject(object, name, id);
     //return object
     return object;
 }

@@ -6,7 +6,7 @@
 #include "input.h"
 #include "math.h"
 //custom libraries
-#include "../object.h"
+#include "../object_manager.h"
 #include "../weapon/weapon.h"
 
 //=========================================================
@@ -35,6 +35,7 @@ struct PlayerModel
     float shootCooldownElapsed; //seconds elapsed since last shot
     PlayerMovementState state; // Current state of the player
     int speed; //speed in scene
+    Vector2 inputDirection; //input vector
 };
 
 //=========================================================
@@ -46,15 +47,11 @@ struct PlayerModel
 //move player in a direction, where then direction is scaled by the player's speed
 void PlayerModelMoveInDirection(PlayerModel* playerModel)
 {
-    float resultX;
-    float resultY;
+    Vector2* results = CreateVector2(0, 0);
     //add player position and direction to player position
-    MultiplyVector2ByScalar(playerModel->object.xdir, playerModel->object.ydir, playerModel->object.speed, &resultX, &resultY); // Scale the movement vector by the player's speed
-    float resultsX2;
-    float resultsY2;
-    AddVector2Components(resultX, playerModel->object.x, resultY, playerModel->object.y, &resultsX2, &resultsY2);
-    playerModel->object.x = round(resultsX2);
-    playerModel->object.y = round(resultsY2);
+    MultiplyVector2ByScalar(&playerModel->inputDirection, playerModel->speed, results); // Scale the movement vector by the player's speed
+    AddVector2Components(results, &playerModel->object.position, &playerModel->object.position);
+    free(results);
 }
 
 //shoot selected weapon
@@ -77,10 +74,10 @@ void PlayerModelUseWeapon(PlayerModel* playerModel)
 //=========================================================
 
 //initialize player model
-void InitializePlayerModel(PlayerModel* playerModel, int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime)
+void InitializePlayerModel(PlayerModel* playerModel, int* name, int speed, float maxShootCooldownTime)
 {
     //player object properties initialization
-    InitializeObject(&playerModel->object, name, textureID, regionID, id, x, y, isActive);    
+    ObjectManagerInitializeObject(&playerModel->object, name);    
 
     //initialize passed in properties
     playerModel->maxShootCooldownTime = maxShootCooldownTime;
@@ -89,15 +86,17 @@ void InitializePlayerModel(PlayerModel* playerModel, int* name, int textureID, i
 
     //intialize garbage values
     playerModel->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
+    playerModel->inputDirection.x = 0;
+    playerModel->inputDirection.y = 0;
 }
 
 //construct player model
-PlayerModel* CreatePlayerModel(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime)
+PlayerModel* CreatePlayerModel(int* name, int speed, float maxShootCooldownTime)
 {
     //allocate memory for player model
     PlayerModel* playerModel = (PlayerModel*)malloc(sizeof(PlayerModel));
     //initialize player model
-    InitializePlayerModel(playerModel, name, textureID, regionID, id, x, y, isActive, speed, maxShootCooldownTime);
+    InitializePlayerModel(playerModel, name, speed, maxShootCooldownTime);
     //return player model
     return playerModel;
 }

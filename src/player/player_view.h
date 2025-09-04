@@ -15,9 +15,9 @@
 
 void DrawPlayerView(PlayerModel* player)
 {
-    select_texture(player->object.textureID);
-    select_region(player->object.regionID);
-    draw_region_at(player->object.x, player->object.y);
+    //select_texture(player->object.textureID);
+    //select_region(player->object.regionID);
+    //draw_region_at(player->object.x, player->object.y);
 }
 
 #endif //PLAYER_MODEL_H

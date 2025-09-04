@@ -37,8 +37,8 @@ void ReactToInput(PlayerController* playerController)
     float deltaX;
     float deltaY;
     gamepad_direction_normalized(&deltaX, &deltaY); //get the direction from the gamepad
-    playerController->playerModel->object.xdir = deltaX;
-    playerController->playerModel->object.ydir = deltaY;
+    playerController->playerModel->inputDirection.x = deltaX;
+    playerController->playerModel->inputDirection.y = deltaY;
     //delegate movement to player model
     PlayerModelMoveInDirection(playerController->playerModel);
 }
@@ -69,12 +69,12 @@ void InitializePlayerController(PlayerController* playerController, PlayerModel*
 }
 
 //player controller constructor
-PlayerController* CreatePlayerController(int* name, int textureID, int regionID, int id, float x, float y, bool isActive, float speed, float maxShootCooldownTime, int gamepadID)
+PlayerController* CreatePlayerController(int* name, float speed, float maxShootCooldownTime, int gamepadID)
 {
     //allocate player controller
     PlayerController* playerController = (PlayerController*)malloc(sizeof(PlayerController));
     //initialize player controller
-    InitializePlayerController(playerController, CreatePlayerModel(name, textureID, regionID, id, x, y, isActive, speed, maxShootCooldownTime), gamepadID);
+    InitializePlayerController(playerController, CreatePlayerModel(name, speed, maxShootCooldownTime), gamepadID);
     //return player controller
     return playerController;
 }

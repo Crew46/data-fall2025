@@ -11,7 +11,7 @@ void ComponentManagerInitializeComponent(Component* component, int* name, Compon
 {
     InitializeComponent(component, name, type, nextObjectID);
     nextComponentID++;
-    DoublyLinkedListInsertAtTail(componentList, component);
+    DoublyLinkedListInsertAtTail(componentList, (Object*)component);
 }
 
 Component* ComponentManagerCreateComponent(int* name, ComponentType type)

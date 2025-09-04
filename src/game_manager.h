@@ -14,8 +14,6 @@
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 //other managers
 #include "/audio/audio_manager.h"
-#include "player/player_manager.h"
-#include "component/component_manager.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////

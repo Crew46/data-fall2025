@@ -3,7 +3,7 @@
 #include "misc.h"
 #include "video.h"
 #include "../vector/vector2.h"
-#include "../component/component.h"
+#include "../component_based_architecture/object/object_manager.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 //=========================================================
@@ -25,8 +25,8 @@ enum WeaponType
 };
 
 struct Weapon {
-    Component* object;
-    WeaponType* type;
+    Object base;
+    WeaponType type;
     float lifetime; // Lifetime of the weapon's projectile in seconds
 };
 
@@ -34,16 +34,17 @@ struct Weapon {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Weapon* CreateWeapon(Component* object, float speed, float lifetime)
+void InitializeWeapon(Weapon* weapon, int* name, float lifetime, WeaponType type)
 {
     Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
-    weapon->object = object;
+    ObjectManagerInitializeObject(weapon->base, name);
     weapon->lifetime = lifetime;
-    return weapon;
+    weapon->type = type;
 }
 
 void DeconstructWeapon(Weapon* weapon)
 {
+    ObjectManagerDeconstructObject(weapon->base);
     free(weapon);
 }
 

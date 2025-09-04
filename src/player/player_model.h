@@ -6,7 +6,7 @@
 #include "input.h"
 #include "math.h"
 //custom libraries
-#include "../component/component_manager.h"
+#include "../component_based_architecture/object/object_manager.h"
 #include "../weapon/weapon.h"
 
 //=========================================================
@@ -30,7 +30,7 @@ enum PlayerMovementState
 struct PlayerModel 
 {
     //object is not a pointer, in order to imbed to struct for upcasting & downcasting.
-    Component object;
+    Object base;
     float maxShootCooldownTime; //shoot cooldown in seconds
     float shootCooldownElapsed; //seconds elapsed since last shot
     PlayerMovementState state; // Current state of the player
@@ -77,7 +77,7 @@ void PlayerModelUseWeapon(PlayerModel* playerModel)
 void InitializePlayerModel(PlayerModel* playerModel, int* name, int speed, float maxShootCooldownTime)
 {
     //player object properties initialization
-    ComponentManagerInitializeComponent(&playerModel->object, name);    
+    ObjectManagerInitializeObject(&playerModel->object, name);    
 
     //initialize passed in properties
     playerModel->maxShootCooldownTime = maxShootCooldownTime;
@@ -104,6 +104,7 @@ PlayerModel* CreatePlayerModel(int* name, int speed, float maxShootCooldownTime)
 //deconstruct player model
 void DeconstructPlayerModel(PlayerModel* playerModel)
 {
+    ObjectManagerDeconstructObject(playerModel->base);
     //free player model
     free(playerModel);
 }

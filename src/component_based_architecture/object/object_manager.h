@@ -18,6 +18,7 @@ Object* ObjectManagerConstructObject(int* name)
 {
     Object* object = (Object*)malloc(sizeof(Object));
     ObjectManagerInitializeObject(object, name);
+    return object;
 }
 
 void ObjectManagerDeconstructObject(Object* object)

@@ -1,7 +1,7 @@
 #ifndef COMPONENT_MANAGER_H
 #define COMPONENT_MANAGER_H
 #include "component.h"
-#include "../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 DoublyLinkedList* componentList = CreateDoublyLinkedList();
 
@@ -35,6 +35,11 @@ void ComponentManagerDeconstructComponent(Component* component)
 ///////////UPDATE ALL COMPONENTS///////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
+
+void UpdateComponent(Component* component)
+{
+    //invoke events based on component type
+}
 
 void UpdateAllComponents()
 {

@@ -17,7 +17,7 @@ struct Vector2
 ///////////Constructor and Deconstructor///////////////////
 ///////////////////////////////////////////////////////////
 
-void InitializeVector2(Vector2* vector, float x, float y)
+void InitializeVector2(Vector2* vector2, float x, float y)
 {
   vector2->x = x;
   vector2->y = y;

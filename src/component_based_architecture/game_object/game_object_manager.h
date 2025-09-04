@@ -24,7 +24,7 @@ GameObject* GameObjectManagerConstructGameObject(int* name)
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///////////Game Object Functions///////////////////////////
+///////////Game Object / Component Functions///////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
@@ -71,8 +71,8 @@ GameObject* GetGameObjectOfComponent(Component* component)
 //get component of a specific type from a game object
 Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType type)
 {
-    DoublyNode* currentComponentNode = gameObject->children->head;
-    GameObject* currentComponent = NULL;
+    DoublyNode* currentComponentNode = gameObject->components->head;
+    Component* currentComponent = NULL;
 
     while(currentComponentNode != NULL)
     {
@@ -92,12 +92,32 @@ Component* GetComponentFromComponent(Component* component, ComponentType type)
     GameObject* gameObject = GetGameObjectOfComponent(component);
     if(gameObject != NULL)
     {
-        return GameObjectManagerGetGamemanagerComponentByType(gameObject, type);
+        return GameObjectGetComponentByType(gameObject, type);
     }
     return NULL;
 }
 
-void UpdateAllGameObjects()
+void GameObjectUpdate(GameObject* gameObject)
+{
+    DoublyNode* currentComponentNode = gameObject->components->head;
+    Component* currentComponent = NULL;
+    //if game object not null & is active
+    if(gameObject != NULL && gameObject->base.isActive)
+    {
+        while(currentComponentNode != NULL)
+        {
+            currentComponent = (Component*)currentComponentNode->data;
+
+            //update component
+            UpdateComponent(currentComponent);
+
+            //move to next component in list
+            currentComponentNode = currentComponentNode->next;
+        }
+    }
+}
+
+void GameObjectManagerUpdateAllGameObjects()
 {
     DoublyNode* currentNode = gameObjectList->head;
     GameObject* currentGameObject = NULL;

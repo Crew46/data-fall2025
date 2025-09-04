@@ -4,8 +4,8 @@
 #include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 int nextObjectID = 0; //keeps track of the next object ID to assign
-DoublyLinkedList* objectList = CreateDoublyLinkedList(); //OBJECT LINKED LIST
 
+DoublyLinkedList* objectList = CreateDoublyLinkedList(); //OBJECT LINKED LIST
 
 void ObjectManagerInitializeObject(Object* object, int* name)
 {

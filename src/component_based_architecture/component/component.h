@@ -1,17 +1,6 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
-#include "string.h"
-#include "../vector/vector2.h"
 #include "../object/object_manager.h"
-#include "../../player/player_controller.h"
-
-//==============================================================
-////////////////////////////////////////////////////////////////
-///////////Struct///////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-//==============================================================
-
-//this enum will be used to identify component types
 
 enum ComponentType
 {
@@ -43,40 +32,9 @@ void InitializeComponent(Component* component, int* name, ComponentType type, in
 void DeconstructComponent(Component* component)
 {
     //tell object manager to deconstuct object
-    ObjectManagerDeconstructObject(component->base);
+    ObjectManagerDeconstructObject(&component->base);
     //free struct
     free(component);
 }
-
-//=========================================================
-///////////////////////////////////////////////////////////
-///////////UPDATE COMPONENT////////////////////////////////
-///////////////////////////////////////////////////////////
-//=========================================================
-
-void UpdateComponent(Component* component)
-{
-    //if component is active
-    if(component->base->isActive)
-    {
-        switch (component->type)
-        {
-        case PLAYER_CONTROLLER_COMPONENT:
-            PlayerControllerUpdate((PlayerController*)component);
-            break;
-        case WEAPON_CONTROLLER_COMPONENT:
-            //update weapon controller component
-        case RIGIDBODY_COMPONENT 
-            //update rigidbody component
-            break;
-        case TRANSFORM_COMPONENT
-            //update transform component
-            break;
-        default:
-            break;
-        }
-    }
-}
-
 
 #endif //COMPONENT_H

@@ -14,6 +14,7 @@
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 //other managers
 #include "/audio/audio_manager.h"
+#include "component_based_architecture/game_object/game_object_manager.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -40,12 +41,9 @@ void InitializeGameManager()
     //initialize regions
     InitializeRegions();
     InitializeAudioManager();
+
+    GameObjectManagerConstructGameObject("Player");
     
-    //MANY INSTANCES OF PLAYER, WHEN PLAYER IS CREATED, THE PLAYER FILE HAS STORED IT IN A LINKED LIST
-    //TO UPDATE ALL INSTANCES, ALL YOU HAVE TO CALL IS UpdateAllPlayers();
-
-    //create player, cast to object, and put in tobject list. player is an extension of object, so need to pass in object params.
-
     // Initialize game state
     currentState = GAMESTATE_MENU;
 }
@@ -65,6 +63,9 @@ void UpdateGameManager()
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
     UpdateAudioManager();
+
+
+    GameObjectManagerUpdateAllGameObjects();
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

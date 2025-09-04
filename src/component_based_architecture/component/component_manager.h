@@ -32,9 +32,28 @@ void ComponentManagerDeconstructComponent(Component* component)
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///////////UPDATE ALL COMPONENTS///////////////////////
+///////////UPDATE ALL COMPONENTS///////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
+
+void UpdateAllComponents()
+{
+    DoublyNode* currentNode = componentList->head;
+    Component* currentComponent = NULL;
+
+    //loop through all components
+    while(currentNode != NULL)
+    {
+        //set current component to next element in list
+        currentComponent = (Component*)currentNode->data;
+
+        //update component
+        UpdateComponent(currentComponent);
+
+        //move to next component in list
+        currentNode = currentNode->next;
+    }
+}
 
 
 #endif //COMPONENT_MANAGER_H

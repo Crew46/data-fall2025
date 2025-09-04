@@ -44,5 +44,25 @@ void GameObjectAddComponent(GameObject* gameObject, Component* component)
     DoublyLinkedListInsertAtTail(gameObject->components, (Object*)component);
 }
 
+void GameObjectUpdate(GameObject* gameObject)
+{
+    DoublyNode* currentComponentNode = gameObject->children->head;
+    Component* currentComponent = NULL;
+    //if game object not null & is active
+    if(currentGameObject != NULL && currentGameObject->base->isActive)
+    {
+        while(currentComponentNode != NULL)
+        {
+            currentComponent = (Component*)currentComponentNode->data;
+
+            //update component
+            UpdateComponent(currentComponent);
+
+            //move to next component in list
+            currentComponentNode = currentComponentNode->next;
+        }
+    }
+}
+
 
 #endif // GAME_OBJECT_H

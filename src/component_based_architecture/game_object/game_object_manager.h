@@ -97,5 +97,23 @@ Component* GetComponentFromComponent(Component* component, ComponentType type)
     return NULL;
 }
 
+void UpdateAllGameObjects()
+{
+    DoublyNode* currentNode = gameObjectList->head;
+    GameObject* currentGameObject = NULL;
+
+    //loop through all game objects
+    while(currentNode != NULL)
+    {
+        //set current game object to next element in list
+        currentGameObject = (GameObject*)currentNode->data;
+
+        GameObjectUpdate(currentGameObject);
+
+        //move to next game object in list
+        currentNode = currentNode->next;
+    }
+}
+
 
 #endif //GAME_OBJECT_MANAGER_H

@@ -58,13 +58,6 @@ void InitializeGameManager()
 
     //create player, cast to object, and put in tobject list. player is an extension of object, so need to pass in object params.
 
-    //           name,     texture,                region,       id, x,                y,    isActive, speed, shootCooldown, gamepadID
-    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("frfr", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 8, 1, 0));
-    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("Player1", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 1, screen_width / 2 -40, screen_height / 2, true, 4, 1, 1));
-    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("Player2", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 2, screen_width / 2 + 40, screen_height / 2, true, 3, 1, 1));
-    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("nocap", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 3, screen_width / 2 -80, screen_height / 2 + 80, true, 2, 1, 0));
-    DoublyLinkedListInsertAtTail(allObjectsList, (Object*)CreatePlayer("Player4", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 4, screen_width / 2 + 80, screen_height / 2 + 100, true, 4, 1, 1));
-
     // Initialize game state
     currentState = GAMESTATE_MENU;
 }
@@ -99,11 +92,6 @@ void UpdateGameManager()
         select_region(CREDITS_REGION);
         draw_region_at(420, 40);
     }
-
-    VisualizeLinkedList(GetPlayerList());
-    //print statistics
-    PrintObjectDataAt(10, 60, GetPlayerList()->head->data);
-    PrintObjectDataAt(screen_width - 180, 60, GetPlayerList()->head->next->next->next->data);
 }
 
 #endif // GAME_MANAGER_H

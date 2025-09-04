@@ -8,7 +8,6 @@
 //custom libraries
 #include "../object.h"
 #include "../weapon/weapon.h"
-#include "../tools/debugger.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////

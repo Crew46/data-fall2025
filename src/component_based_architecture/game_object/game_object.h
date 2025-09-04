@@ -32,4 +32,17 @@ void DeconstructGameObject(GameObject* gameObject)
     free(gameObject);
 }
 
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////Game Object Functions///////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+void GameObjectAddComponent(GameObject* gameObject, Component* component)
+{
+    //add component to linked list of components
+    DoublyLinkedListInsertAtTail(gameObject->components, (Object*)component);
+}
+
+
 #endif // GAME_OBJECT_H

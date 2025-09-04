@@ -33,7 +33,7 @@ struct Component
 void InitializeComponent(Component* component, int* name, ComponentType type, int componentID)
 {
     //initialize base object through object manager
-    ObjectManagerInitializeObject(&component->object, name);
+    ObjectManagerInitializeObject(&component->base, name);
     //initialize component
     component->componentID = componentID;
     component->type = type;
@@ -43,7 +43,7 @@ void InitializeComponent(Component* component, int* name, ComponentType type, in
 void DeconstructComponent(Component* component)
 {
     //tell object manager to deconstuct object
-    ObjectManagerDeconstructObject(component->object);
+    ObjectManagerDeconstructObject(component->base);
     //free struct
     free(component);
 }

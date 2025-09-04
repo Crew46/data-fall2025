@@ -22,26 +22,24 @@ struct Component
 {
     Object base; //base object
     ComponentType type; //type of component
-    int id; //object id
-    bool isActive; //active in scene
+    int componentID; //object id
 };
 
 ////////////////////////////////////////////////////////////////
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-void InitializeComponent(Component* component, int* name, int id)
+void InitializeComponent(Component* component, ComponentType type, int componentID)
 {
-    //copy the string that was passed in into the player name field
-    int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
-    strcpy(playerName, name); 
+    //allocate component
+    Component* component = (Component*)malloc(sizeof(Component));
+    //initialize base object through object manager
 
-    //initialize fields given in parameters
-    component->name = playerName;
-    component->id = id;
+    //initialize component
+    componentID = componentID;
 
-    //initialize garbage values
-    component->isActive = true; //default to active
+    //return component
+    return component;
 }
 
 Component* CreateComponent(int* name, int id)

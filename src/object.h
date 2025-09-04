@@ -31,7 +31,7 @@ void InitializeObject(Object* object, int* name, int textureID, int regionID, in
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
     strcpy(playerName, name); 
 
-    //initialize object fields
+    //initialize fields given in parameters
     object->name = playerName;
     object->x = x;
     object->y = y;
@@ -41,23 +41,27 @@ void InitializeObject(Object* object, int* name, int textureID, int regionID, in
     object->isActive = isActive;
     object->speed = speed;
 
-    //default values
+    //initialize garbage values
     object->xdir = 0;
     object->ydir = 0;
 }
 
 Object* CreateObject(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
 {
-    //malloc object and initialize then return
+    //allocate object
     Object* object = (Object*)malloc(sizeof(Object));
+    //initialize object
     InitializeObject(object, name, textureID, regionID, id, x, y, isActive, speed);
+    //return object
     return object;
 }
 
-//string needs to be freed alongside the entire object
+//string needs to be freed alongside the entire object, because object owns the string
 void DeconstructObject(Object* object)
 {
+    //free string
     free(object->name);
+    //free struct
     free(object);
 }
 

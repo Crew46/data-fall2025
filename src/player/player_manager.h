@@ -1,6 +1,6 @@
 #ifndef PLAYER_MANAGER_H
 #define PLAYER_MANAGER_H
-#include "player_model.h"
+#include "player_controller.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 //player linked list
@@ -8,24 +8,24 @@ DoublyLinkedList* playerList = CreateDoublyLinkedList();
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///////////INSTANCES MANAGEMENT////////////////////////////
+///////////PLAYER CONTROLLER MANAGEMENT////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
 /** 
  * SUMMARY:
- * This part keeps tracks of all the instances of player in a linked list, and provides functions to manage,
- * create, destroy, and update all players.
+ * This part keeps tracks of all the instances of player controller in a linked list, and provides functions to manage,
+ * create, destroy, and update all player controllers.
 **/
 
-//return linked list of players
+//return linked list of player controllers
 DoublyLinkedList* GetPlayerList()
 {
     return playerList; 
 }
 
 //update all player controller in instances list
-void UpdateAllPlayers()
+void UpdateAllPlayerControllers()
 {
     DoublyNode* currentNode = playerList->head;
     Object* currentData = NULL;
@@ -34,13 +34,14 @@ void UpdateAllPlayers()
         currentData = currentNode->data;
         if(currentData != NULL)
         {
-            PlayerUpdate((PlayerModel*)currentData);
+            //change to player model
+            //PlayerUpdate((PlayerModel*)currentData);
         }
         currentNode = currentNode->next;
     }
 }
 
-void DeconstructAllPlayers()
+void DeconstructAllPlayerControllers()
 {
     //loop through all player controller instances
     //for(int i = 0; i < instancesOfPlayerController; i++)
@@ -49,39 +50,14 @@ void DeconstructAllPlayers()
     //}
 }
 
+//create a player controller, add to linked list, and return pointer to it
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///////////PART 5: CONSTRUCTION////////////////////////////
+///////////PLAYER MODEL CONSTRUCTION///////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-//constructor
-PlayerModel* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime, int gamepadID)
-{
-    //allocate memory for player
-    PlayerModel* player = (PlayerModel*)malloc(sizeof(PlayerModel));
 
-    //player object properties initialization
-    InitializeObject(&player->object, name, textureID, regionID, id, x, y, isActive, speed);    
 
-    //player properties initialization
-    player->gamepadID = gamepadID;
-    player->maxShootCooldownTime = maxShootCooldownTime;
-    player->shootCooldownElapsed = 0; // Start with no cooldown
-    player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
-    player->weaponType = WEAPON_TYPE_LASER_CANNON; // Default weapon type
-
-    DoublyLinkedListInsertAtTail(playerList, &player->object);
-
-    //return pointer to player
-    return player;
-}
-
-//deconstructor
-void DeconstructPlayer(PlayerModel* player)
-{
-    //free player struct
-    free(player);
-}
 #endif //PLAYER_MANAGER_H

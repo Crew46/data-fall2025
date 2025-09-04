@@ -10,9 +10,6 @@
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 #include "configuration/sound_configurations.h"
-//objects
-#include "object.h"
-#include "player/player_controller.h"
 //linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 //other managers
@@ -78,8 +75,8 @@ void UpdateGameManager()
     draw_region_at( 0, 0 );
     UpdateAudioManager();
 
-    //updates all players in players list
-    UpdateAllPlayers();
+    //updates all player controllers
+    UpdateAllPlayerControllers();
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

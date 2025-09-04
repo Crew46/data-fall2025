@@ -36,31 +36,75 @@ struct PlayerModel
     PlayerMovementState state; // Current state of the player
 };
 
+//=========================================================
+///////////////////////////////////////////////////////////
+/////////// PLAYER MODEL BEHAVIOURS ///////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
 //move player in a direction, where then direction is scaled by the player's speed
-void PlayerMoveInDirection(PlayerModel* player)
+void PlayerModelMoveInDirection(PlayerModel* playerModel)
 {
     float resultX;
     float resultY;
     //add player position and direction to player position
-    MultiplyVector2ByScalar(player->object.xdir, player->object.ydir, player->object.speed, &resultX, &resultY); // Scale the movement vector by the player's speed
+    MultiplyVector2ByScalar(playerModel->object.xdir, playerModel->object.ydir, playerModel->object.speed, &resultX, &resultY); // Scale the movement vector by the player's speed
     float resultsX2;
     float resultsY2;
-    AddVector2Components(resultX, player->object.x, resultY, player->object.y, &resultsX2, &resultsY2);
-    player->object.x = round(resultsX2);
-    player->object.y = round(resultsY2);
+    AddVector2Components(resultX, playerModel->object.x, resultY, playerModel->object.y, &resultsX2, &resultsY2);
+    playerModel->object.x = round(resultsX2);
+    playerModel->object.y = round(resultsY2);
 }
 
 //shoot selected weapon
-void UseWeapon(PlayerModel* player)
+void PlayerModelUseWeapon(PlayerModel* playerModel)
 {
     //if not in cooldown, shoot
-    if(player->shootCooldownElapsed == 0)
+    if(playerModel->shootCooldownElapsed == 0)
     {
         //shoot logic here 
 
         // Reset cooldown
-        player->shootCooldownElapsed = player->maxShootCooldownTime;
+        playerModel->shootCooldownElapsed = playerModel->maxShootCooldownTime;
     }
+}
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////PLAYER MODEL CONSTRUCTION///////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+//initialize player model
+void InitializePlayerModel(PlayerModel* playerModel, int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime)
+{
+    //player object properties initialization
+    InitializeObject(&playerModel->object, name, textureID, regionID, id, x, y, isActive, speed);    
+
+    //initialize passed in properties
+    playerModel->maxShootCooldownTime = maxShootCooldownTime;
+    playerModel->shootCooldownElapsed = 0; // Start with no cooldown
+
+    //intialize garbage values
+    playerModel->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
+}
+
+//construct player model
+PlayerModel* CreatePlayerModel(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime)
+{
+    //allocate memory for player model
+    PlayerModel* playerModel = (PlayerModel*)malloc(sizeof(PlayerModel));
+    //initialize player model
+    InitializePlayerModel(playerModel, name, textureID, regionID, id, x, y, isActive, speed, maxShootCooldownTime);
+    //return player model
+    return playerModel;
+}
+
+//deconstruct player model
+void DeconstructPlayerModel(PlayerModel* playerModel)
+{
+    //free player model
+    free(playerModel);
 }
 
 #endif // PLAYER_MODEL_H 

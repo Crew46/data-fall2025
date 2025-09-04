@@ -22,6 +22,12 @@ struct PlayerController
     int gamepadID; 
 };
 
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////LOGIC///////////////////////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
 void ReactToInput(PlayerController* playerController)
 {
     //select the gamepad mapped to this player controller
@@ -29,10 +35,10 @@ void ReactToInput(PlayerController* playerController)
     float deltaX;
     float deltaY;
     gamepad_direction_normalized(&deltaX, &deltaY); //get the direction from the gamepad
-    player->object.xdir = deltaX;
-    player->object.ydir = deltaY;
+    playerController->playerModel->object.xdir = deltaX;
+    playerController->playerModel->object.ydir = deltaY;
     //delegate movement to player model
-    PlayerMoveInDirection(playerController);
+    PlayerModelMoveInDirection(playerController->playerModel);
 }
 
 void PlayerControllerUpdate(PlayerController* playerController)
@@ -44,8 +50,40 @@ void PlayerControllerUpdate(PlayerController* playerController)
         ReactToInput(playerController);    
 
         //delegate drawing of the mode to player view
-        DrawPlayer(playerController->playerModel);
+        DrawPlayerView(playerController->playerModel);
     }
+}
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////PLAYER MODEL CONSTRUCTION///////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+void InitializePlayerController(PlayerController* playerController, PlayerModel* playerModel, int gamepadID)
+{
+    playerController->playerModel = playerModel;
+    playerController->gamepadID = gamepadID;
+}
+
+//player controller constructor
+PlayerController* CreatePlayerController(int* name, int textureID, int regionID, int id, float x, float y, bool isActive, float speed, float maxShootCooldownTime, int gamepadID)
+{
+    //allocate player controller
+    PlayerController* playerController = (PlayerController*)malloc(sizeof(PlayerController));
+    //initialize player controller
+    InitializePlayerController(playerController, CreatePlayerModel(name, textureID, regionID, id, x, y, isActive, speed, maxShootCooldownTime), gamepadID);
+    //return player controller
+    return playerController;
+}
+
+//player controller deconstructor
+void DeconstructPlayerController(PlayerController* playerController)
+{
+    //deconstruct player model
+    DeconstructPlayerModel(playerController->playerModel);
+    //free player controller struct
+    free(playerController);
 }
 
 #endif //PLAYER_CONTROLLER_H

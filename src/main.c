@@ -143,41 +143,66 @@ void deleteList(DoublyLinkedList** list)
   *list = NULL;
 }
 
-DoublyLinkedList* addFront(DoublyLinkedList* list, Object* data)
+// Insert a new object
+DoublyLinkedList* insert(DoublyLinkedList* list, Node* targetNode, Object* newObj)
 {
-  Node* node = createNode(data);
-  if(list->head == NULL)
+  if(!list || !newObj)
+    return list;
+
+  Node* newNode = createNode(newObj);
+
+  // List is empty
+  if( !list->head && !list->tail )
   {
-    list->head = node;
-    list->tail = node;
+    list->head = newNode;
+    list->tail = newNode;
+  }
+  else if(list->head == targetNode)
+  {
+    list->head = newNode;
+    newNode->next = targetNode;
+    targetNode->prev = newNode;
   }
   else
   {
-    list->head->prev = node;
-    node->next = list->head;
-    list->head = node;
+    newNode->prev = targetNode->prev;
+    targetNode->prev->next = newNode;
+    targetNode->prev = newNode;
+    newNode->next = targetNode;
   }
 
   return list;
 }
 
-DoublyLinkedList* addBack(DoublyLinkedList* list, Object* data)
+// Append a new object
+DoublyLinkedList* append(DoublyLinkedList* list, Node* targetNode, Object* newObj)
 {
-  Node* node = createNode(data);
-  if(list->head == NULL)
+  if(!list || !newObj)
+    return list;
+
+  Node* newNode = createNode(newObj);
+
+  // List is empty
+  if( !list->head && !list->tail )
   {
-   list->head = node;
-   list->tail = node;
+    list->head = newNode;
+    list->tail = newNode;
+  }
+  else if(list->tail == targetNode)
+  {
+    list->tail = newNode;
+    newNode->prev = targetNode;
+    targetNode->next = newNode;
   }
   else
   {
-    list->tail->next = node;
-    node->prev = list->tail;
-    list->tail = node;
+    newNode->next = targetNode->next;
+    targetNode->next->prev = newNode;
+    targetNode->next = newNode;
+    newNode->prev = targetNode;
   }
 
   return list;
-
 }
 
 // Checks bounds but should only be used for objects that don't need to check which side they are exceeding
@@ -236,7 +261,7 @@ void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_W
 DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos)
 {
   Object* enemy = createObject( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, true, NULL );
-  list = addBack( list, enemy );
+  list = append( list, list->tail, enemy );
 
   return list;
 
@@ -281,7 +306,7 @@ DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
     // Spawn an enemy every 3 seconds
     if( get_frame_counter() % 180 == 0 )
     {
-      spawnEnemy( enemyList, rand() % 630, 0 );
+      enemyList = spawnEnemy( enemyList, rand() % 630, 0 );
     }
 
     return enemyList;
@@ -349,7 +374,7 @@ void main (void)
       bool isActive = true;
       Object* enemy = createObject( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, isActive, NULL );
 
-      addBack(enemyList, enemy);
+      enemyList = append(enemyList, enemyList->tail, enemy);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

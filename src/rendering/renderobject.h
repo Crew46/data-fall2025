@@ -4,7 +4,7 @@
 
 struct RenderObject
 {
-    Object object; //base object
+    Component object; //base object
     int textureID; //texture id
     int regionID; //region id
 }

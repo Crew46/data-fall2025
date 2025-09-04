@@ -60,7 +60,7 @@ void DrawLine(int startingX, int startingY, int endX, int endY, int* character)
     }
 }
 
-void PrintObjectDataAt(int x, int y, Object* object)
+void PrintObjectDataAt(int x, int y, Component* object)
 {
     int leading = 20;
     int tracking = 20;
@@ -116,7 +116,7 @@ void PrintObjectDataAt(int x, int y, Object* object)
  {
     DoublyNode* previousNode = NULL;
     DoublyNode* currentNode = list->head;
-    Object* currentData = NULL;
+    Component* currentData = NULL;
     while(currentNode != NULL)
     {
         currentData = currentNode->data;

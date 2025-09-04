@@ -28,7 +28,7 @@ DoublyLinkedList* GetPlayerList()
 void UpdateAllPlayerControllers()
 {
     DoublyNode* currentNode = playerList->head;
-    Object* currentData = NULL;
+    Component* currentData = NULL;
     while(currentNode != NULL)
     {
         currentData = currentNode->data;

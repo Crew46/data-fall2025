@@ -3,7 +3,7 @@
 #include "misc.h"
 #include "video.h"
 #include "../vector/vector2.h"
-#include "../object.h"
+#include "../component/component.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 //=========================================================
@@ -25,7 +25,7 @@ enum WeaponType
 };
 
 struct Weapon {
-    Object* object;
+    Component* object;
     WeaponType* type;
     float lifetime; // Lifetime of the weapon's projectile in seconds
 };
@@ -34,7 +34,7 @@ struct Weapon {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Weapon* CreateWeapon(Object* object, float speed, float lifetime)
+Weapon* CreateWeapon(Component* object, float speed, float lifetime)
 {
     Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
     weapon->object = object;

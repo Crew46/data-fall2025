@@ -2,7 +2,7 @@
 #define LINKED_LIST_H
 #include "misc.h"
 #include "doubly_node.h"
-#include "../../object.h"
+#include "../../component/component.h"
 
 ////////////////////////////////////////////////////////////
 ///////////Structs///////////////////////////////////////////
@@ -30,7 +30,7 @@ DoublyLinkedList* CreateDoublyLinkedList()
 ///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Component* data)
 {
   //if tail exists
   if(doublyLinkedList->tail != NULL)
@@ -75,7 +75,7 @@ void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* da
   }
 }
 
-void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Component* data)
 {
   //if head exists
   if(doublyLinkedList->head != NULL)
@@ -110,12 +110,12 @@ void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* da
 ///////////ACCESS///////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-Object* DoublyLinkedListGetObjectAtHead(DoublyLinkedList* list)
+Component* DoublyLinkedListGetObjectAtHead(DoublyLinkedList* list)
 {
   return list->head->data;
 }
 
-Object* DoublyLinkedListGetObjectAtTail(DoublyLinkedList* list)
+Component* DoublyLinkedListGetObjectAtTail(DoublyLinkedList* list)
 {
   return list->tail->data;
 }

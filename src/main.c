@@ -117,7 +117,7 @@ bool collision( Object* Thing1, Object * Thing2)
 	if (( Thing1->y - Thing1->height/2) >= (Thing2->y + Thing2->height/2) )
 		return false;
 // if Thing1 + height/2 < Thing2 y there is no collision
-	if (( Thing1->y - Thing1->width/2) <= (Thing2->y + Thing2->width/2) )
+	if (( Thing1->y + Thing1->height/2) <= (Thing2->y - Thing2->height/2) )
 		return false;
 // If it makes it here then there is a collision
 	return true;

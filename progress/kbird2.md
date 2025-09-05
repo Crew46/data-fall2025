@@ -9,3 +9,4 @@ insertEnemyA works.
 
 Week 2
 lasers have been added.
+collision has been added between lasers and enemies.

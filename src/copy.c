@@ -24,26 +24,24 @@ int i;
 
 struct Object
 {
-    int     textureID;
-    int     regionID;
-    int     id;
     int     x;
     int     y;
     int     xdir;
-    int     ydir;
+    int     ydir;//// DO NOT PUT ANY MORE INTS HERE. IT WILL CRASH
+// danger area 
     bool    isActive;
 	bool	laser;
 	bool	laserFired;
-	int		laserX;
-	int		laserY;
     int     speed;
+	int		height;
+	int		width;// Ints after here seem to work.
     Object *next;
 };
 ////////////////////////////////////////////////////////////////////////////////////
 
 // Prepping what we need.
 Object *headEnemyA;
-
+Object *laser;
 // This function will create a single EnemyA everytime it is used.
 void appendEnemyA (Object *headEnemyA)
 {
@@ -59,9 +57,9 @@ void appendEnemyA (Object *headEnemyA)
     EnemyA -> next      = NULL;
     EnemyA -> x         = xpos;
     EnemyA -> y         = ypos;
+	EnemyA -> height	= 10;
+	EnemyA -> width		= 10;
 	EnemyA -> isActive	= true;
-    EnemyA -> textureID = ENEMYA_TEXTURE;
-    EnemyA -> regionID  = ENEMYA_REGION;
     tmp    -> next      = EnemyA;    
     xpos                = xpos + 20;
 }
@@ -96,9 +94,9 @@ i = 0;
 		EnemyA ->next		= NULL;
 		EnemyA -> x			= xpos;
 		EnemyA -> y			= ypos;
+		EnemyA -> height	= 10;
+		EnemyA -> width		= 10;
 		EnemyA -> isActive 	= true;
-		EnemyA -> textureID = ENEMYA_TEXTURE;
-		EnemyA -> regionID  = ENEMYA_REGION;
 		xpos = xpos + 20;
 		Object *deletetmp 	= tmp->next;
 		tmp ->next = EnemyA;
@@ -106,13 +104,18 @@ i = 0;
 		tmp->next = deletetmp;
 }
 
+///////////////////////////////////////////////////////////////////////////////// Time for collision detection
+
+
+
+
 
 
 
 void main (void)
 {        
     Object *tmp          = NULL;
-
+	laser 				 = NULL;
     headEnemyA           = NULL;
     xpos                 = 20;
     ypos                 = 0;
@@ -124,7 +127,6 @@ void main (void)
         exit ();
     }
     headEnemyA -> next   = NULL;
-
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Prepping these for later use. tmp is a temporary node that will traverse
@@ -146,11 +148,11 @@ void main (void)
     player -> next       = NULL;
     player -> x          = 360;
     player -> y          = 300;
+	player -> height	 = 32;
+	player -> width		 = 32;
 	player -> isActive	 = true;
 	player -> laser		 = false;
 	player -> laserFired = false;
-    player -> textureID  = PLAYER_TEXTURE;
-    player -> regionID   = PLAYER_REGION;
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -166,18 +168,18 @@ void main (void)
     //
     select_texture (PLAYER_TEXTURE);
     select_region (PLAYER_REGION);
-    define_region (0, 0, 31, 31, 0, 0);
+    define_region_center (0, 0, 31, 31);
  
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // Define the enemy texture and region
     select_texture (ENEMYA_TEXTURE);
     select_region (ENEMYA_REGION);
-    define_region_topleft (0, 0 , 9, 9 );
+    define_region_center (0, 0 , 9, 9 );
 ///////////////////////////////////////////////////////////////////////////////////////
 	select_texture (LASER_TEXTURE);
 	select_region (LASER_REGION);
-	define_region_topleft (0 ,0 , 19, 9);
+	define_region_center (0 ,0 , 19, 9);
 
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -217,20 +219,29 @@ void main (void)
 			{
 			player->laserFired = true;
 			}
+			
 			if(player->laserFired && !player->laser)				
 				{
+					if(laser == NULL)
+					{
+						Object * laser = (Object *)malloc(sizeof(Object));
+						laser -> next = NULL;
+					}
 					player->laser = true;
-					player->laserX = player->x + 10;	
-					player->laserY = player->y;
+					laser->height = 20;
+					laser->width  = 10;
+					laser->x = player->x + 4;	
+					laser->y = player->y;
 					player->laserFired = false;
 				}
 			// This will move the laser up. it will deactivate once it goes far enough.
 			if(player->laser == true)
 		{ 
-			player->laserY = player->laserY - 10;
-			if(player->laserY < 20)
+			laser->y = laser->y - 10;
+			if(laser->y < 20)
 			{
 				player->laser = false;
+				free(laser);
 			}
 		}
         ////////////////////////////////////////////////////////////////////////////////
@@ -261,8 +272,8 @@ void main (void)
         //
         // Select texture and region for the player, and draw it
         //
-        select_texture (player -> textureID);
-        select_region  (player -> regionID);
+        select_texture (PLAYER_TEXTURE);
+        select_region  (PLAYER_REGION);
         draw_region_at (player -> x, player -> y);
     
        ///////////////////////////////////////////////////////////////////////////////
@@ -270,7 +281,7 @@ void main (void)
 			{
 		select_texture(LASER_TEXTURE);
 		select_region(LASER_REGION);
-		draw_region_at(player->laserX, player->laserY);
+		draw_region_at(laser->x, laser->y);
 			}
 	
 

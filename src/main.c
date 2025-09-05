@@ -105,12 +105,23 @@ i = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////// Time for collision detection
-
-
-
-
-
-
+bool collision( Object* Thing1, Object * Thing2)
+{
+// if Thing1 X > Thing2 X + width/2 + width there is no collision
+	if (( Thing1->x - Thing1->width/2) >= (Thing2->x + Thing2->width/2) )
+		return false;
+// if Thing1 X + width/2 < Thing2 there is no collision
+	if (( Thing1->x + Thing1->width/2) <= (Thing2->x - Thing2->width/2) )
+		return false;
+// if Thing1 Y > Thing2Y + height/2 there is no collision
+	if (( Thing1->y - Thing1->height/2) >= (Thing2->y + Thing2->height/2) )
+		return false;
+// if Thing1 + height/2 < Thing2 y there is no collision
+	if (( Thing1->y - Thing1->width/2) <= (Thing2->y + Thing2->width/2) )
+		return false;
+// If it makes it here then there is a collision
+	return true;
+}
 
 void main (void)
 {        
@@ -127,6 +138,10 @@ void main (void)
         exit ();
     }
     headEnemyA -> next   = NULL;
+
+/// Creating the laser.
+	Object * laser = (Object *)malloc(sizeof(Object));
+	laser -> next = NULL;
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Prepping these for later use. tmp is a temporary node that will traverse
@@ -150,9 +165,6 @@ void main (void)
     player -> y          = 300;
 	player -> height	 = 32;
 	player -> width		 = 32;
-	player -> isActive	 = true;
-	player -> laser		 = false;
-	player -> laserFired = false;
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -217,30 +229,24 @@ void main (void)
 // player laser will fire if x is pressed pressed. Only 1 laser can be fired.
 		if((gamepad_button_a() == 1))
 			{
-			player->laserFired = true;
-			}
-			
-			if(player->laserFired && !player->laser)				
+			laser->laserFired = true;
+			}		
+			if(laser->laserFired && !laser->isActive)				
 				{
-					if(laser == NULL)
-					{
-						Object * laser = (Object *)malloc(sizeof(Object));
-						laser -> next = NULL;
-					}
-					player->laser = true;
+					laser->isActive = true;
 					laser->height = 20;
 					laser->width  = 10;
 					laser->x = player->x + 4;	
 					laser->y = player->y;
-					player->laserFired = false;
+					laser->laserFired = false;
 				}
 			// This will move the laser up. it will deactivate once it goes far enough.
-			if(player->laser == true)
+			if(laser->isActive == true)
 		{ 
 			laser->y = laser->y - 10;
 			if(laser->y < 20)
 			{
-				player->laser = false;
+				laser->isActive = false;
 				free(laser);
 			}
 		}
@@ -277,13 +283,15 @@ void main (void)
         draw_region_at (player -> x, player -> y);
     
        ///////////////////////////////////////////////////////////////////////////////
-		if(player->laser)
+	if(laser != NULL)
+	{
+		if(laser->isActive)
 			{
 		select_texture(LASER_TEXTURE);
 		select_region(LASER_REGION);
 		draw_region_at(laser->x, laser->y);
 			}
-	
+	}
 
 
 
@@ -291,7 +299,7 @@ void main (void)
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust enemy positions based on randomness
-        //
+        //	
         tmp                = headEnemyA;
         while(tmp -> next != NULL)
         {
@@ -314,8 +322,20 @@ void main (void)
 		}  
 
         // use the deleteEnemyA function to delete nodes that hit a certain Y value.
-        deleteEnemyA (headEnemyA);
+      tmp = headEnemyA; 
+		while(tmp->next != NULL)
+		{
+			tmp = tmp->next;
+			 if(laser->isActive == true && tmp->isActive == true && collision(laser, tmp) )
+			{	
+				laser->isActive = false;
+				tmp->isActive = false;
+			}
+		}
 
+
+
+		deleteEnemyA (headEnemyA);
         end_frame ();
     }
 }

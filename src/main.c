@@ -127,9 +127,6 @@ void main (void)
         exit ();
     }
     headEnemyA -> next   = NULL;
-	Object *laser = (Object *)malloc(sizeof(Object) * 1);
-	laser-> next = NULL;
-	
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Prepping these for later use. tmp is a temporary node that will traverse
@@ -222,8 +219,14 @@ void main (void)
 			{
 			player->laserFired = true;
 			}
+			
 			if(player->laserFired && !player->laser)				
 				{
+					if(laser == NULL)
+					{
+						Object * laser = (Object *)malloc(sizeof(Object));
+						laser -> next = NULL;
+					}
 					player->laser = true;
 					laser->height = 20;
 					laser->width  = 10;
@@ -238,6 +241,7 @@ void main (void)
 			if(laser->y < 20)
 			{
 				player->laser = false;
+				free(laser);
 			}
 		}
         ////////////////////////////////////////////////////////////////////////////////

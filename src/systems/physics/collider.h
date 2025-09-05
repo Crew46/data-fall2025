@@ -1,6 +1,6 @@
 #ifndef COLLIDER_H
 #define COLLIDER_H
-#include "../component_based_architecture/component/component_manager.h"
+#include "../architecture/component/component_manager.h"
 
 struct Collider
 {

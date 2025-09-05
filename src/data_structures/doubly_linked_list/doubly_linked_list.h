@@ -2,7 +2,7 @@
 #define DOUBLY_LINKED_LIST_H
 #include "misc.h"
 #include "doubly_node.h"
-#include "../../component_based_architecture/object/object.h"
+#include "../../architecture/object/object.h"
 
 ////////////////////////////////////////////////////////////
 ///////////Structs///////////////////////////////////////////

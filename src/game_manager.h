@@ -13,8 +13,10 @@
 //linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 //other managers
-#include "/audio/audio_manager.h"
-#include "component_based_architecture/game_object/game_object_manager.h"
+#include "systems/audio/audio_manager.h"
+#include "architecture/game_object/game_object_manager.h"
+#include "architecture/component/component_manager.h"
+#include "architecture/object/object_manager.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -30,6 +32,12 @@ enum GameState
 
 GameState currentState;
 
+ObjectManager* objectManager;
+ComponentManager* componentManager;
+GameObjectManager* gameObjectManager;
+
+GameObject* player;
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///////////INITIALIZATION//////////////////////////////////
@@ -42,7 +50,15 @@ void InitializeGameManager()
     InitializeRegions();
     InitializeAudioManager();
 
-    GameObjectManagerConstructGameObject("Player");
+    // Initialize object manager
+    objectManager = ConstructObjectManager();
+    // Initialize component manager
+    componentManager = ConstructComponentManager(objectManager);
+    // Initialize game object manager
+    gameObjectManager = ConstructGameObjectManager(componentManager, objectManager);
+
+    player = GameObjectManagerConstructGameObject(gameObjectManager, "Player");
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "player position", TRANSFORM_COMPONENT);
     
     // Initialize game state
     currentState = GAMESTATE_MENU;
@@ -64,8 +80,7 @@ void UpdateGameManager()
     draw_region_at( 0, 0 );
     UpdateAudioManager();
 
-
-    GameObjectManagerUpdateAllGameObjects();
+    UpdateAllGameObjects(gameObjectManager);
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

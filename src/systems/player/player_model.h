@@ -6,7 +6,7 @@
 #include "input.h"
 #include "math.h"
 //custom libraries
-#include "../component_based_architecture/object/object_manager.h"
+#include "../../architecture/object/object.h"
 #include "../weapon/weapon.h"
 
 //=========================================================
@@ -35,7 +35,6 @@ struct PlayerModel
     float maxShootCooldownTime; //shoot cooldown in seconds
     float shootCooldownElapsed; //seconds elapsed since last shot
     PlayerMovementState state; // Current state of the player
-    int speed; //speed in scene
     Vector2 inputDirection; //input vector
 };
 
@@ -68,46 +67,5 @@ void PlayerModelUseWeapon(PlayerModel* playerModel)
     }
 }
 
-//=========================================================
-///////////////////////////////////////////////////////////
-///////////PLAYER MODEL CONSTRUCTION///////////////////////
-///////////////////////////////////////////////////////////
-//=========================================================
-
-//initialize player model
-void InitializePlayerModel(PlayerModel* playerModel, int* name, int speed, float maxShootCooldownTime)
-{
-    //player object properties initialization
-    ObjectManagerInitializeObject(&playerModel->object, name);    
-
-    //initialize passed in properties
-    playerModel->maxShootCooldownTime = maxShootCooldownTime;
-    playerModel->speed = speed;
-
-    //intialize garbage values
-    playerModel->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
-    playerModel->inputDirection.x = 0;
-    playerModel->inputDirection.y = 0;
-    playerModel->shootCooldownElapsed = 0; // Start with no cooldown
-}
-
-//construct player model
-PlayerModel* CreatePlayerModel(int* name, int speed, float maxShootCooldownTime)
-{
-    //allocate memory for player model
-    PlayerModel* playerModel = (PlayerModel*)malloc(sizeof(PlayerModel));
-    //initialize player model
-    InitializePlayerModel(playerModel, name, speed, maxShootCooldownTime);
-    //return player model
-    return playerModel;
-}
-
-//deconstruct player model
-void DeconstructPlayerModel(PlayerModel* playerModel)
-{
-    ObjectManagerDeconstructObject(playerModel->base);
-    //free player model
-    free(playerModel);
-}
 
 #endif // PLAYER_MODEL_H 

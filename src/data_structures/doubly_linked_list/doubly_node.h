@@ -1,7 +1,7 @@
 #ifndef DOUBLY_NODE_H
 #define DOUBLY_NODE_H
 #include "misc.h"
-#include "../../component_based_architecture/object/object.h"
+#include "../../architecture/object/object.h"
 
 struct DoublyNode
 {

@@ -1,6 +1,5 @@
 #ifndef DOUBLY_NODE_DECLARATION_H
 #define DOUBLY_NODE_DECLARATION_H
-#include "misc.h"
 #include "../../architecture/object/object_declaration.h"
 
 struct DoublyNode

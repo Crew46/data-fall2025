@@ -1,5 +1,6 @@
 #ifndef OBJECT_MANAGER_H
 #define OBJECT_MANAGER_H
+#include "object_manager_declaration.h"
 
 void InitializeObjectManager(ObjectManager* objectManager)
 {

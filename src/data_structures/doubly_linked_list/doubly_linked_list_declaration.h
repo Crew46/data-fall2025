@@ -8,8 +8,4 @@ struct DoublyLinkedList
   DoublyNode* tail;
 };
 
-DoublyLinkedList* CreateDoublyLinkedList();
-void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* data);
-void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* data);
-
 #endif // DOUBLY_LINKED_LIST_DECLARATION_H

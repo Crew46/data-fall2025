@@ -1,5 +1,6 @@
 #ifndef COMPONENT_MANAGER_H
 #define COMPONENT_MANAGER_H
+#include "component_manager_declaration.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////

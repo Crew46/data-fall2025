@@ -2,14 +2,6 @@
 #define GAME_OBJECT_MANAGER_H
 #include "game_object_manager_declaration.h"
 
-struct GameObjectManager
-{
-    DoublyLinkedList* gameObjectList; //list of game objects
-    int nextGameObjectID; //keeps track of the next game object ID to assign
-    ComponentManager* componentManager; //reference to component manager
-    ObjectManager* objectManager; //reference to object manager
-};
-
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///GAME OBJECT MANAGER CONSTRUCTION & DECONSTRUCTION///////

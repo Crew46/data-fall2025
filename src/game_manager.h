@@ -10,9 +10,9 @@
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 #include "configuration/sound_configurations.h"
-//linked list
+//implementations
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
-//other managers
+#include "data_structures/doubly_linked_list/doubly_node.h"
 #include "systems/audio/audio_manager.h"
 #include "architecture/game_object/game_object_manager.h"
 #include "architecture/component/component_manager.h"

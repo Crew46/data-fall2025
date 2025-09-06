@@ -1,5 +1,6 @@
 #ifndef COMPONENT_DECLARATION_H
 #define COMPONENT_DECLARATION_H
+#include "../object/object_declaration.h"
 
 enum ComponentType
 {

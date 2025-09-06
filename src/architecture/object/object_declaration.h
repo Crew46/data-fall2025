@@ -1,5 +1,6 @@
 #ifndef OBJECT_DECLARATION_H
 #define OBJECT_DECLARATION_H
+#include "misc.h"
 
 struct Object
 {

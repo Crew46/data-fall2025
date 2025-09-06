@@ -1,5 +1,5 @@
-#ifndef AUDIO_MANAGER_H
-#define AUDIO_MANAGER_H
+#ifndef AUDIO_MANAGER_C
+#define AUDIO_MANAGER_C
 #include "misc.h"
 #include "audio.h"
 
@@ -51,4 +51,4 @@ void UpdateAudioManager()
 {
 
 }
-#endif //AUDIO_MANAGER_H
+#endif //AUDIO_MANAGER_C

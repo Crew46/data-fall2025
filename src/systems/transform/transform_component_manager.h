@@ -26,4 +26,9 @@ void DeconstructTransformComponent(TransformComponent* transform)
     free(transform);
 }
 
+void UpdateTransformComponent(TransformComponent* transformComponent)
+{
+    //update transform component
+}
+
 #endif // TRANSFORM_COMPONENT_MANAGER_H

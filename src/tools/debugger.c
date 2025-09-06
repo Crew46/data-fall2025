@@ -1,13 +1,13 @@
-#ifndef DEBUGGER_H
-#define DEBUGGER_H
+#ifndef DEBUGGER_C
+#define DEBUGGER_C
 #include "string.h"
 #include "video.h"
-#include "../architecture/object/object_declaration.h"
+#include "../architecture/object/object.h"
 #include "../vector/vector2.h"
-#include "../architecture/game_object/game_object_declaration.h"
+#include "../architecture/game_object/game_object.h"
 #include "math.h"
-#include "../architecture/component/component_declaration.h"
-#include "../data_structures/doubly_linked_list/doubly_linked_list_declaration.h"
+#include "../architecture/component/component.h"
+#include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 void PrintIntAt (int x, int y, int value)
 {
@@ -185,4 +185,4 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
 
 }
 
-#endif //DEBUGGER_H
+#endif //DEBUGGER_C

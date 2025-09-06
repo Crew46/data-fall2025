@@ -1,5 +1,5 @@
-#ifndef OBJECT_DECLARATION_H
-#define OBJECT_DECLARATION_H
+#ifndef OBJECT_H
+#define OBJECT_H
 #include "misc.h"
 
 struct Object
@@ -9,4 +9,4 @@ struct Object
     int objectID;
 };
 
-#endif // OBJECT_DECLARATION_H
+#endif // OBJECT_H

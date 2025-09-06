@@ -1,6 +1,6 @@
-#ifndef UPDATE_COMPONENTS_DISPATCHER_H
-#define UPDATE_COMPONENTS_DISPATCHER_H
-#include "component_declaration.h"
+#ifndef UPDATE_COMPONENTS_DISPATCHER_C
+#define UPDATE_COMPONENTS_DISPATCHER_C
+#include "component.h"
 
 void DispatchUpdateFunctionToComponents(Component* component)
 {
@@ -29,4 +29,4 @@ void DispatchUpdateFunctionToComponents(Component* component)
     }
 }
 
-#endif
+#endif // UPDATE_COMPONENTS_DISPATCHER_C

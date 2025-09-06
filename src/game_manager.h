@@ -11,13 +11,12 @@
 #include "configuration/region_configurations.h"
 #include "configuration/sound_configurations.h"
 //implementations
-#include "data_structures/doubly_linked_list/doubly_linked_list.h"
-#include "data_structures/doubly_linked_list/doubly_node.h"
-#include "systems/audio/audio_manager.h"
-#include "architecture/game_object/game_object_manager.h"
-#include "architecture/component/component_manager.h"
-#include "architecture/object/object_manager.h"
-#include "tools/debugger.h"
+#include "data_structures/doubly_linked_list/doubly_linked_list.c"
+#include "systems/audio/audio_manager.c"
+#include "architecture/game_object/game_object_manager.c"
+#include "architecture/component/component_manager.c"
+#include "architecture/object/object_manager.c"
+#include "tools/debugger.c"
 
 //=========================================================
 ///////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
-#ifndef COMPONENT_DECLARATION_H
-#define COMPONENT_DECLARATION_H
-#include "../object/object_declaration.h"
+#ifndef COMPONENT_H
+#define COMPONENT_H
+#include "../object/object.h"
 
 enum ComponentType
 {
@@ -19,4 +19,4 @@ struct Component
     int componentID; //object id
 };
 
-#endif // COMPONENT_DECLARATION_H
+#endif // COMPONENT_H

@@ -1,6 +1,7 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
-#include "../object/object.h"
+#ifndef COMPONENT_DECLARATION_H
+#define COMPONENT_DECLARATION_H
+#include "../object/object_declaration.h"
+#include "../game_object/game_object_declaration.h"
 
 enum ComponentType
 {
@@ -19,4 +20,4 @@ struct Component
     int componentID; //object id
 };
 
-#endif //COMPONENT_H
+#endif //COMPONENT_DECLARATION_H

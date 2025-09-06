@@ -1,5 +1,5 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#ifndef OBJECT_DECLARATION_H
+#define OBJECT_DECLARATION_H
 
 struct Object
 {
@@ -8,4 +8,4 @@ struct Object
     int objectID;
 };
 
-#endif // OBJECT_H
+#endif // OBJECT_DECLARATION_H

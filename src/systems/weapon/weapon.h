@@ -3,7 +3,7 @@
 #include "misc.h"
 #include "video.h"
 #include "../vector/vector2.h"
-#include "../component_based_architecture/object/object_manager.h"
+#include "../architecture/object/object_manager_declaration.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 //=========================================================

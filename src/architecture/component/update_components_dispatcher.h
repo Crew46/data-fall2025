@@ -1,6 +1,6 @@
 #ifndef UPDATE_COMPONENTS_DISPATCHER_H
 #define UPDATE_COMPONENTS_DISPATCHER_H
-#include "component.h"
+#include "component_declaration.h"
 
 void DispatchUpdateFunctionToComponents(Component* component)
 {

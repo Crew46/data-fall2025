@@ -2,7 +2,7 @@
 #define PLAYER_CONTROLLER_H
 #include "player_model.h"
 #include "player_view.h"
-#include "../../architecture/component/component.h"
+#include "../../architecture/component/component_declaration.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////

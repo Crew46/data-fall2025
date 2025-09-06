@@ -1,8 +1,8 @@
 #ifndef GAME_OBJECT_MANAGER_H
 #define GAME_OBJECT_MANAGER_H
-#include "game_object.h"
-#include "../component/component_manager.h"
-#include "../object/object_manager.h"
+#include "game_object_declaration.h"
+#include "../component/component_manager_declaration.h"
+#include "../object/object_manager_declaration.h"
 #include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 struct GameObjectManager

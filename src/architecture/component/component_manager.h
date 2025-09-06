@@ -1,16 +1,9 @@
 #ifndef COMPONENT_MANAGER_H
 #define COMPONENT_MANAGER_H
-#include "../object/object_manager.h"
-#include "component.h"
+#include "../object/object_manager_declaration.h"
+#include "component_manager_declaration.h"
+#include "component_declaration.h"
 #include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
-#include "update_components_dispatcher.h"
-
-struct ComponentManager
-{
-    DoublyLinkedList* componentList; //list of components
-    int nextComponentID; //keeps track of the next compoent ID to assign
-    ObjectManager* objectManager; //reference to object manager
-};
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -85,7 +78,6 @@ void ComponentManagerDeconstructComponent(ComponentManager* componentManager, Co
 void UpdateComponent(Component* component)
 {
     //update component
-    DispatchUpdateFunctionToComponents(component);
 }
 
 #endif // COMPONENT_MANAGER_H

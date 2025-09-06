@@ -29,4 +29,9 @@ void DispatchConstructionFunctionToComponentManager(int* name, ComponentType typ
     }
 }
 
+void InitializeConstructComponentsDispatcher()
+{
+
+}
+
 #endif // CONSTRUCT_COMPONENTS_DISPATCHER_C

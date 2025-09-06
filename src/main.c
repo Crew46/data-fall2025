@@ -20,8 +20,11 @@ int  xpos;
 int  ypos;
 int  position;
 int i;
-
-
+int status; // This will be used for checking
+int mask;
+int result;   // this will be used to bitmask
+// status will be divided like this 00000000
+//  first 0 is game active the next 000 will be used for an enemy counter.
 struct Object
 {
     int     x;
@@ -204,8 +207,15 @@ void main (void)
     //
     // Game loop
     //
+int result	=  	10000000;
+int mask	=	10000000;
     while (true)
     {
+		status = (result & mask);
+		if( status != 10000000)
+			{
+				exit();
+			}
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background

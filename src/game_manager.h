@@ -17,6 +17,7 @@
 #include "architecture/game_object/game_object_manager.h"
 #include "architecture/component/component_manager.h"
 #include "architecture/object/object_manager.h"
+#include "tools/debugger.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -37,6 +38,7 @@ ComponentManager* componentManager;
 GameObjectManager* gameObjectManager;
 
 GameObject* player;
+GameObject* player1;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -58,7 +60,13 @@ void InitializeGameManager()
     gameObjectManager = ConstructGameObjectManager(componentManager, objectManager);
 
     player = GameObjectManagerConstructGameObject(gameObjectManager, "Player");
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "player position", TRANSFORM_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerTransform", TRANSFORM_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerRigidbody", RIGIDBODY_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerRenderer", RENDER_COMPONENT);
+    player1 = GameObjectManagerConstructGameObject(gameObjectManager, "Player1");
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, "PlayerRigidbody", RIGIDBODY_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, "PlayerRenderer", RENDER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, "PlayerTransform", TRANSFORM_COMPONENT);
     
     // Initialize game state
     currentState = GAMESTATE_MENU;
@@ -81,6 +89,9 @@ void UpdateGameManager()
     UpdateAudioManager();
 
     UpdateAllGameObjects(gameObjectManager);
+
+    PrintGameObjectDataAt(10, 50, player);
+    PrintGameObjectDataAt(350, 50, player1);
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

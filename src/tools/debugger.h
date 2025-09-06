@@ -2,10 +2,12 @@
 #define DEBUGGER_H
 #include "string.h"
 #include "video.h"
-#include "../object.h"
+#include "../architecture/object/object_declaration.h"
 #include "../vector/vector2.h"
+#include "../architecture/game_object/game_object_declaration.h"
 #include "math.h"
-#include "../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "../architecture/component/component_declaration.h"
+#include "../data_structures/doubly_linked_list/doubly_linked_list_declaration.h"
 
 void PrintIntAt (int x, int y, int value)
 {
@@ -25,16 +27,16 @@ void PrintIntAt (int x, int y, int value)
     free (stringValue);
 }
 
-void DrawLine(int startingX, int startingY, int endX, int endY, int* character)
+void DrawLine(Vector2* starting, Vector2* ending, int* character)
 {
     //find the change in x and y
-    int deltaX = endX - startingX;
-    int deltaY = endY - startingY;
+    int deltaX = ending->x - starting->x;
+    int deltaY = ending->y - starting->y;
 
     //distance between the visual dots
     int distanceBetweenDots = 6;
     //distance betweent he two passed in vectors
-    float distance = GetDistanceBetweenVector2s(startingX, startingY, endX, endY);
+    float distance = GetDistanceBetweenVector2s(starting, ending);
     //number of dots that will fit into distance
     int numberOfDots = floor(distance / distanceBetweenDots);
     //if they are actually apart from eachother
@@ -52,15 +54,15 @@ void DrawLine(int startingX, int startingY, int endX, int endY, int* character)
         for(int i = 1; i < (numberOfDots); i++)
         {
             //find the x of that dot
-            float newY = startingY + (cosineRatio * (i * distanceBetweenDots)); 
+            float newY = starting->y + (cosineRatio * (i * distanceBetweenDots)); 
             //find the y of that dot
-            float newX = startingX + (deltaXNegative * sqrt(pow(distanceBetweenDots * i, 2) - pow(startingY - newY, 2))); 
+            float newX = starting->x + (deltaXNegative * sqrt(pow(distanceBetweenDots * i, 2) - pow(starting->y - newY, 2))); 
             print_at(round(newX), round(newY), character);
         }
     }
 }
 
-void PrintObjectDataAt(int x, int y, Component* object)
+void PrintObjectDataAt(int x, int y, Object* object)
 {
     int leading = 20;
     int tracking = 20;
@@ -68,32 +70,32 @@ void PrintObjectDataAt(int x, int y, Component* object)
     print_at(x, y + leading, "Position: ");
 
     //x and y
-    print_at(x + tracking * 1, y + leading * 2, "X: ");
-    PrintIntAt(x + tracking * 5, y + leading * 2, object->x);
+    //print_at(x + tracking * 1, y + leading * 2, "X: ");
+    //PrintIntAt(x + tracking * 5, y + leading * 2, object->x);
 
-    print_at(x + tracking * 1, y + leading * 3, "Y: ");
-    PrintIntAt(x + tracking * 5, y + leading * 3, object->y);
+    //print_at(x + tracking * 1, y + leading * 3, "Y: ");
+    //PrintIntAt(x + tracking * 5, y + leading * 3, object->y);
 
 
 
     //x and y dir
-    print_at(x, y + leading * 4, "Dir: ");
+    //print_at(x, y + leading * 4, "Dir: ");
 
-    print_at(x + tracking * 1, y + leading * 5, "xdir: ");
-    PrintIntAt(x + tracking * 5, y + leading * 5, object->xdir);
+    //print_at(x + tracking * 1, y + leading * 5, "xdir: ");
+    //PrintIntAt(x + tracking * 5, y + leading * 5, object->xdir);
 
-    print_at(x + tracking * 1, y + leading * 6, "ydir: ");
-    PrintIntAt(x + tracking * 5, y + leading * 6, object->ydir);
+    //print_at(x + tracking * 1, y + leading * 6, "ydir: ");
+    //PrintIntAt(x + tracking * 5, y + leading * 6, object->ydir);
 
 
     //sprite region and texture
-    print_at(x, y + leading * 7, "Sprite: ");
+    //print_at(x, y + leading * 7, "Sprite: ");
 
-    print_at(x + tracking * 1, y + leading * 8, "rID: ");
-    PrintIntAt(x + tracking * 5, y + leading * 8, object->regionID);
+    //print_at(x + tracking * 1, y + leading * 8, "rID: ");
+    //PrintIntAt(x + tracking * 5, y + leading * 8, object->regionID);
     
-    print_at(x + tracking * 1, y + leading * 9, "tID: ");
-    PrintIntAt(x + tracking * 5, y + leading * 9, object->textureID);
+    //print_at(x + tracking * 1, y + leading * 9, "tID: ");
+    //PrintIntAt(x + tracking * 5, y + leading * 9, object->textureID);
 
 
 
@@ -103,20 +105,18 @@ void PrintObjectDataAt(int x, int y, Component* object)
     print_at(x + tracking * 1, y + leading * 11, "active: ");
     PrintIntAt(x + tracking * 5, y + leading * 11, object->isActive);
     print_at(x + tracking * 1, y + leading * 12, "id: ");
-    PrintIntAt(x + tracking * 5, y + leading * 12, object->id);
+    PrintIntAt(x + tracking * 5, y + leading * 12, object->objectID);
 
     print_at(x + tracking * 1, y + leading * 13, "name: ");
     print_at(x + tracking * 5, y + leading * 13, object->name);
 
-    print_at(x + tracking * 1, y + leading * 14, "speed: ");
-    PrintIntAt(x + tracking * 5, y + leading * 14, object->speed);
 }
-
+/*
  void VisualizeLinkedList(DoublyLinkedList* list)
  {
     DoublyNode* previousNode = NULL;
     DoublyNode* currentNode = list->head;
-    Component* currentData = NULL;
+    Object* currentData = NULL;
     while(currentNode != NULL)
     {
         currentData = currentNode->data;
@@ -141,6 +141,48 @@ void PrintObjectDataAt(int x, int y, Component* object)
         previousNode = currentNode;
         currentNode = currentNode->next;
     }
+}
+    */
+
+void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
+{
+    int leading = 20;
+    int tracking = 20;
+
+    print_at(x, y + leading, "GameObject: ");
+
+    print_at(x + tracking * 1, y + leading * 2, "gID: ");
+    PrintIntAt(x + tracking * 5, y + leading * 2, gameObject->gameObjectID);
+    
+    print_at(x + tracking, y + leading * 3, "components: ");
+    DoublyNode* currentNode = gameObject->components->head;
+    Component* currentComponent = NULL;
+    int index = 0;
+    while(currentNode != NULL)
+    {
+        currentComponent = (Component*)currentNode->data;
+        if(currentComponent != NULL)
+        {
+            print_at(x + tracking * 2, y + leading * 4, "type: ");
+            if(index > 0)
+            {
+                print_at(x + (tracking * (5 + (2 * (index - 1)))) + 7, y + leading * 4, ",");
+                print_at(x + (tracking * (5 + (2 * (index - 1)))) + 7, y + leading * 5, ",");
+            }
+            PrintIntAt(x + tracking * (5 + (2 * index)), y + leading * 4, currentComponent->type);
+
+            print_at(x + tracking * 2, y + leading * 5, "cID: ");
+            PrintIntAt(x + tracking * (5 + (2 * index)), y + leading * 5, currentComponent->componentID);
+        }
+        currentNode = currentNode->next;
+        index++;
+    }
+    print_at(x + tracking, y + leading * 6, "Object: ");
+    print_at(x + tracking * 2, y + leading * 7, "active: ");
+    PrintIntAt(x + tracking * 6, y + leading * 7, gameObject->base.isActive);
+    print_at(x + tracking * 2, y + leading * 8, "name: ");
+    print_at(x + tracking * 6, y + leading * 8, gameObject->base.name);
+
 }
 
 #endif //DEBUGGER_H

@@ -107,6 +107,33 @@ void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* da
 }
 
 ////////////////////////////////////////////////////////////
+///////////REMOVING/////////////////////////////////////////
+////////////////////////////////////////////////////////////
+void DoublyLinkedListRemoveNode(DoublyLinkedList* doublyLinkedList, DoublyNode* node)
+{
+  //Remove from list
+  RemoveDoublyNode(node);
+
+  //Check head for update
+  if(doublyLinkedList->head == node)
+  {
+    doublyLinkedList->head = node->next;
+  }
+
+  //Check tail for update
+  if(doublyLinkedList->tail == node)
+  {
+    doublyLinkedList->tail = node->previous;
+  }
+}
+
+void DoublyLinkedListDeleteNode(DoublyLinkedList* doublyLinkedList, DoublyNode* node)
+{
+  DoublyLinkedListRemoveNode(doublyLinkedList, node);
+  DeconstructDoublyNode(node);
+}
+
+////////////////////////////////////////////////////////////
 ///////////ACCESS///////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 

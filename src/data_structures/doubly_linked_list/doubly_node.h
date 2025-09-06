@@ -51,7 +51,7 @@ void InsertDoublyNodeBeforeDoublyNode(DoublyNode* nodeToInsertBefore, DoublyNode
   nodeToInsertBefore->previous = newNode;
 }
 
-void DeleteDoublyNode(DoublyNode* node)
+void RemoveDoublyNode(DoublyNode* node)
 {
   if(node->next != NULL)
   {
@@ -61,6 +61,11 @@ void DeleteDoublyNode(DoublyNode* node)
   {
     node->previous->next = node->next;
   }
+}
+
+void DeleteDoublyNode(DoublyNode* node)
+{
+  RemoveDoublyNode(node);
   DeconstructDoublyNode(node);
 }
 

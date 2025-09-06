@@ -1,6 +1,6 @@
 #ifndef TRANSFORM_COMPONENT_H
 #define TRANSFORM_COMPONENT_H
-#include "../../architecture/component/component_manager_declaration.h"
+#include "../../architecture/component/component.h"
 #include "../../vector/vector2.h"
 
 struct TransformComponent

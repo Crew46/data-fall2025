@@ -182,6 +182,8 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
     PrintIntAt(x + tracking * 6, y + leading * 7, gameObject->base.isActive);
     print_at(x + tracking * 2, y + leading * 8, "name: ");
     print_at(x + tracking * 6, y + leading * 8, gameObject->base.name);
+    print_at(x + tracking * 2, y + leading * 9, "oID: ");
+    PrintIntAt(x + tracking * 6, y + leading * 9, gameObject->base.objectID);
 
 }
 

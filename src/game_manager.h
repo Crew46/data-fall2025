@@ -17,6 +17,8 @@
 #include "architecture/component/component_manager.c"
 #include "architecture/object/object_manager.c"
 #include "tools/debugger.c"
+//systems implementations
+#include "systems/transform/transform_manager.c"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -35,6 +37,8 @@ GameState currentState;
 ObjectManager* objectManager;
 ComponentManager* componentManager;
 GameObjectManager* gameObjectManager;
+
+TransformManager* transformManager;
 
 GameObject* player;
 GameObject* player1;
@@ -58,10 +62,16 @@ void InitializeGameManager()
     // Initialize game object manager
     gameObjectManager = ConstructGameObjectManager(componentManager, objectManager);
 
+
+    //systems managagers
+    transformManager = ConstructTransformManager(componentManager);
+
+    //create player with components
     player = GameObjectManagerConstructGameObject(gameObjectManager, "Player");
     GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerTransform", TRANSFORM_COMPONENT);
     GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerRigidbody", RIGIDBODY_COMPONENT);
     GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerRenderer", RENDER_COMPONENT);
+    //create another player with components
     player1 = GameObjectManagerConstructGameObject(gameObjectManager, "Player1");
     GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, "PlayerRigidbody", RIGIDBODY_COMPONENT);
     GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, "PlayerRenderer", RENDER_COMPONENT);

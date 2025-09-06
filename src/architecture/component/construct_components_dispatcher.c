@@ -1,16 +1,16 @@
 #ifndef CONSTRUCT_COMPONENTS_DISPATCHER_C
 #define CONSTRUCT_COMPONENTS_DISPATCHER_C
 #include "component.h"
+#include "../../systems/transform/transform_manager.h"
 
-void DispatchConstructionFunctionToComponentManager(Component* component)
+void DispatchConstructionFunctionToComponentManager(int* name, ComponentType type)
 {
-    switch(component->type)
+    switch(type)
     {
         case PLAYER_CONTROLLER_COMPONENT:
             //construct player controller component
             break;
         case TRANSFORM_COMPONENT:
-            //construct transform component
             break;
         case RENDER_COMPONENT:
             //construct render component

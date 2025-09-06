@@ -51,6 +51,7 @@ void ComponentManagerInitializeComponent(ComponentManager* componentManager, Com
 
 Component* ComponentManagerConstructComponent(ComponentManager* componentManager, int* name, ComponentType type)
 {
+    DispatchConstructionFunctionToComponentManager(name, type);
     //create and initialize object
     Component* component = (Component*)malloc(sizeof(Component));
     ComponentManagerInitializeComponent(componentManager, component, name, type);

@@ -1,8 +1,5 @@
 #ifndef COMPONENT_MANAGER_DECLARATION_H
 #define COMPONENT_MANAGER_DECLARATION_H
-#include "../object/object_manager_declaration.h"
-#include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
-#include "component_declaration.h"
 
 struct ComponentManager
 {

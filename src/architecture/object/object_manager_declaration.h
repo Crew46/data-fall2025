@@ -1,6 +1,7 @@
 #ifndef OBJECT_MANAGER_DECLARATION_H
 #define OBJECT_MANAGER_DECLARATION_H
-#include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "object_declaration.h"
+#include "../../data_structures/doubly_linked_list/doubly_linked_list_declaration.h"
 
 struct ObjectManager
 {

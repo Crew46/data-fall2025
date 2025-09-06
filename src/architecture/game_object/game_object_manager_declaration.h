@@ -1,7 +1,5 @@
 #ifndef GAME_OBJECT_MANAGER_DECLARATION_H
 #define GAME_OBJECT_MANAGER_DECLARATION_H
-#include "../component/component_manager_declaration.h"
-#include "../object/object_manager_declaration.h"
 
 struct GameObjectManager
 {

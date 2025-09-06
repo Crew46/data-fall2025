@@ -1,7 +1,5 @@
 #ifndef GAME_OBJECT_DECLARATION_H
 #define GAME_OBJECT_DECLARATION_H
-#include "../object/object_declaration.h"
-#include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 struct GameObject
 {

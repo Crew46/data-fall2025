@@ -1,8 +1,5 @@
 #ifndef OBJECT_MANAGER_H
 #define OBJECT_MANAGER_H
-#include "object_declaration.h"
-#include "object_manager_declaration.h"
-#include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 void InitializeObjectManager(ObjectManager* objectManager)
 {

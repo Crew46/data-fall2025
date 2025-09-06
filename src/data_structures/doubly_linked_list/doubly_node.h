@@ -1,14 +1,6 @@
 #ifndef DOUBLY_NODE_H
 #define DOUBLY_NODE_H
-#include "misc.h"
-#include "../../architecture/object/object_declaration.h"
-
-struct DoublyNode
-{
-  Object* data;
-  DoublyNode* next;
-  DoublyNode* previous;
-};
+#include "doubly_node_declaration.h"
 
 DoublyNode* CreateDoublyNode(Object* data)
 {

@@ -19,12 +19,14 @@
 int  xpos;
 int  ypos;
 int  position;
+int spawn;
 int i;
 int status; // This will be used for checking
-int mask;
-int result;   // this will be used to bitmask
+int mask;	// This is used to find out what bits we need.
+int value;  // This will be used to reset status after a check.
 // status will be divided like this 00000000
 //  first 0 is game active the next 000 will be used for an enemy counter.
+int counter;
 struct Object
 {
     int     x;
@@ -65,6 +67,10 @@ void appendEnemyA (Object *headEnemyA)
 	EnemyA -> isActive	= true;
     tmp    -> next      = EnemyA;    
     xpos                = xpos + 20;
+	if(xpos > 610)
+		{
+			xpos = 10;
+		}
 }
 
 // The delete function used to delete enemies.
@@ -76,6 +82,7 @@ void deleteEnemyA (Object * headEnemyA)
 
     if (tmp ->next-> isActive == false) 
     {
+		appendEnemyA(headEnemyA);
         deletetmp         = tmp -> next;
         tmp -> next       = deletetmp -> next;
         free (deletetmp);
@@ -101,10 +108,14 @@ i = 0;
 		EnemyA -> width		= 10;
 		EnemyA -> isActive 	= true;
 		xpos = xpos + 20;
+		if (xpos > 610)
+			{
+				xpos = 10;
+			}
 		Object *deletetmp 	= tmp->next;
 		tmp ->next = EnemyA;
 		tmp = tmp -> next;
-		tmp->next = deletetmp;
+		tmp->next = deletetmp;	
 }
 
 ///////////////////////////////////////////////////////////////////////////////// Time for collision detection
@@ -133,7 +144,6 @@ void main (void)
     headEnemyA           = NULL;
     xpos                 = 20;
     ypos                 = 0;
-    
     // creating the head and malloc it.
     Object *headEnemyA   = (Object *) malloc (sizeof (Object));
     if (headEnemyA      == NULL)
@@ -155,6 +165,7 @@ void main (void)
     appendEnemyA (headEnemyA);
     appendEnemyA (headEnemyA);
     appendEnemyA (headEnemyA);
+	appendEnemyA (headEnemyA);
 	insertEnemyA (headEnemyA, 0);
 	insertEnemyA (headEnemyA, 3);
 	insertEnemyA (headEnemyA, 1);
@@ -166,6 +177,7 @@ void main (void)
     player -> next       = NULL;
     player -> x          = 360;
     player -> y          = 300;
+	player -> isActive 	 = true;
 	player -> height	 = 32;
 	player -> width		 = 32;
 
@@ -207,16 +219,24 @@ void main (void)
     //
     // Game loop
     //
-int result	=  	10000000;
-int mask	=	10000000;
+status = 10000000;
     while (true)
     {
-		status = (result & mask);
-		if( status != 10000000)
+		int mask = 10000000;
+		status = ( status & mask); // Check the first bit which represents that the game is active.
+		
+		if( status != 10000000) // If the game is not active. End it.
 			{
 				exit();
-			}
-        ////////////////////////////////////////////////////////////////////////////////
+			} 
+
+
+
+
+
+
+
+			////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background
         //
@@ -234,8 +254,8 @@ int mask	=	10000000;
         //
         // Adjust player position based on recently obtained gamepad information
         //
-        player -> x      = player -> x + player -> xdir;
-        player -> y      = player -> y + player -> ydir;
+        player -> x      = player -> x + player -> xdir * 3;
+        player -> y      = player -> y + player -> ydir * 3;
 // player laser will fire if x is pressed pressed. Only 1 laser can be fired.
 		if((gamepad_button_a() == 1))
 			{
@@ -340,12 +360,34 @@ int mask	=	10000000;
 			{	
 				laser->isActive = false;
 				tmp->isActive = false;
+				counter = counter + 1; // Defeat an enemy and add one to the counter.
+			}
+			if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
+			{
+				player->isActive = false;
 			}
 		}
 
 
 
+
 		deleteEnemyA (headEnemyA);
+// If the player is no longer active then the game ends.
+		if(player->isActive == false)
+			{
+			mask = 00000000;
+			status = status & mask;
+			}
+
+// After defeating a certain amount of enemies add another one to the max.
+if(counter >= 8)
+	{
+		appendEnemyA(headEnemyA);
+		counter = 0;
+	}
+
+
+
         end_frame ();
     }
 }

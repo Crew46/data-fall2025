@@ -27,6 +27,7 @@ int value;  // This will be used to reset status after a check.
 // status will be divided like this 00000000
 //  first 0 is game active the next 000 will be used for an enemy counter.
 int counter;
+int max;
 struct Object
 {
     int     x;
@@ -144,6 +145,7 @@ void main (void)
     headEnemyA           = NULL;
     xpos                 = 20;
     ypos                 = 0;
+	max					 = 0;
     // creating the head and malloc it.
     Object *headEnemyA   = (Object *) malloc (sizeof (Object));
     if (headEnemyA      == NULL)
@@ -360,7 +362,7 @@ status = 10000000;
 			{	
 				laser->isActive = false;
 				tmp->isActive = false;
-				counter = counter + 1; // Defeat an enemy and add one to the counter.
+				counter = counter + 8; // Defeat an enemy and add one to the counter.
 			}
 			if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
 			{
@@ -380,14 +382,23 @@ status = 10000000;
 			}
 
 // After defeating a certain amount of enemies add another one to the max.
-if(counter >= 8)
+
+
+// I do know that this code is slightly pointless. I just want to mess with bit masking.
+if(counter >= 8 && max != 8)
 	{
-		appendEnemyA(headEnemyA);
+		value = status;
+		mask = 01000000;
+		status = status & mask;
+			if (status == 01000000) // check the second bit to see if an enemy can be added.
+				{
+					appendEnemyA(headEnemyA);
+					max = max + 1;
+					status = value;
+				}
+		
 		counter = 0;
 	}
-
-
-
         end_frame ();
     }
 }

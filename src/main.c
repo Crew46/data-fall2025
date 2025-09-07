@@ -146,6 +146,7 @@ void main (void)
     xpos                 = 20;
     ypos                 = 0;
 	max					 = 0;
+	status				 = 0x1000000000000000;
     // creating the head and malloc it.
     Object *headEnemyA   = (Object *) malloc (sizeof (Object));
     if (headEnemyA      == NULL)
@@ -221,16 +222,18 @@ void main (void)
     //
     // Game loop
     //
-status = 10000000;
+
     while (true)
     {
-		int mask = 10000000;
-		status = ( status & mask); // Check the first bit which represents that the game is active.
-		
-		if( status != 10000000) // If the game is not active. End it.
-			{
-				exit();
-			} 
+	// If the player is inactive. Stop the game
+	if(player->isActive == false)
+		{
+		clear_screen(color_black);
+		draw_region();
+		set_drawing_point( 200, 180);
+		print( " You have died. Restart to try again");
+		exit();
+		}
 
 
 
@@ -374,12 +377,7 @@ status = 10000000;
 
 
 		deleteEnemyA (headEnemyA);
-// If the player is no longer active then the game ends.
-		if(player->isActive == false)
-			{
-			mask = 00000000;
-			status = status & mask;
-			}
+
 
 // After defeating a certain amount of enemies add another one to the max.
 
@@ -388,14 +386,15 @@ status = 10000000;
 if(counter >= 8 && max != 8)
 	{
 		value = status;
-		mask = 01000000;
+		mask = 0x0100000000000000;
 		status = status & mask;
-			if (status == 01000000) // check the second bit to see if an enemy can be added.
+			if (status == 0x0100000000000000) // check the second bit to see if an enemy can be added.
 				{
 					appendEnemyA(headEnemyA);
 					max = max + 1;
 					status = value;
 				}
+// If the player is inactive then the game ends.
 		
 		counter = 0;
 	}

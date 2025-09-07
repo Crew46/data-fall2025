@@ -10,3 +10,7 @@ insertEnemyA works.
 Week 2
 lasers have been added.
 collision has been added between lasers and enemies.
+collision has been added between enemies and the player.
+The game will end if the player is deactivated (by getting hit by an enemy)
+bitmasking is being used to spawn enemies and to make a bigger max enemy limit. 
+Respawning enemies have been added.

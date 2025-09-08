@@ -93,6 +93,7 @@ void UpdateGameManager()
     draw_region_at( 0, 0 );
     UpdateAudioManager();
 
+    //updates all gameobject in scenes, allong with the attatched components
     UpdateAllGameObjects();
     PrintGameObjectDataAt(20, 50, player); 
     PrintGameObjectDataAt(200, 50, player1); 

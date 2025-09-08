@@ -27,20 +27,20 @@ void DeconstructTransformManager(TransformManager* transformManager)
     free(transformManager);
 }
 
-void InitializeTransformComponent(TransformManager* transformManager, TransformComponent* transformComponent, int* name)
+void InitializeTransformComponent(TransformManager* transformManager, TransformComponent* transformComponent)
 {
     //initialize component base
-    ComponentManagerInitializeComponent(transformManager->componentManager, &transformComponent->base, name, TRANSFORM_COMPONENT);
+    ComponentManagerInitializeComponent(transformManager->componentManager, &transformComponent->base, TRANSFORM_COMPONENT);
     //initialize vector to 0, 0
     InitializeVector2(&transformComponent->position, 0, 0);
 }
 
-TransformComponent* ConstructTransformComponent(TransformManager* transformManager, int* name)
+TransformComponent* ConstructTransformComponent(TransformManager* transformManager)
 {
     //allocate memory
     TransformComponent* transformComponent = (TransformComponent*)malloc(sizeof(TransformComponent));
     //initialize
-    InitializeTransformComponent(transformManager, transformComponent, name);
+    InitializeTransformComponent(transformManager, transformComponent);
     return transformComponent;
 }
 

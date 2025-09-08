@@ -38,10 +38,10 @@ void DeconstructGameObjectManager(ComponentManager* componentManager)
 //=========================================================
 
 //initialize game object
-void GameObjectManagerInitializeGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject, int* name)
+void GameObjectManagerInitializeGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject)
 {
     //initialize base object through object manager
-    ObjectManagerInitializeObject(gameObjectManager->objectManager, &gameObject->base, name);
+    ObjectManagerInitializeObject(gameObjectManager->objectManager, &gameObject->base);
     //initialize gameobject
     gameObject->gameObjectID = gameObjectManager->nextGameObjectID;
     gameObjectManager->nextGameObjectID++;
@@ -52,10 +52,10 @@ void GameObjectManagerInitializeGameObject(GameObjectManager* gameObjectManager,
 }
 
 //construct game object
-GameObject* GameObjectManagerConstructGameObject(GameObjectManager* gameObjectManager, int* name)
+GameObject* GameObjectManagerConstructGameObject(GameObjectManager* gameObjectManager)
 {
     GameObject* gameObject = (GameObject*)malloc(sizeof(GameObject));
-    GameObjectManagerInitializeGameObject(gameObjectManager, gameObject, name);
+    GameObjectManagerInitializeGameObject(gameObjectManager, gameObject);
     return gameObject;
 }
 
@@ -192,9 +192,9 @@ void UpdateAllGameObjects(GameObjectManager* gameObjectManager)
     }
 }
 
-void GameObjectManagerAddComponentToGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject, int* componentName, ComponentType type)
+void GameObjectManagerAddComponentToGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject, ComponentType type)
 {
-    Component* component = ComponentManagerConstructComponent(gameObjectManager->componentManager, componentName, type);
+    Component* component = ComponentManagerConstructComponent(gameObjectManager->componentManager, type);
     DoublyLinkedListInsertAtTail(gameObject->components, (Object*)component);
 }
 

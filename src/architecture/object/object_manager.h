@@ -12,8 +12,8 @@ struct ObjectManager
 void InitializeObjectManager(ObjectManager* objectManager);
 ObjectManager* ConstructObjectManager();
 void DeconstructObjectManager(ObjectManager* objectManager);
-void ObjectManagerInitializeObject(ObjectManager* objectManager, Object* object, int* name);
-Object* ObjectManagerConstructObject(ObjectManager* objectManager, int* name);
+void ObjectManagerInitializeObject(ObjectManager* objectManager, Object* object);
+Object* ObjectManagerConstructObject(ObjectManager* objectManager);
 void ObjectManagerDeconstructObject(ObjectManager* ObjectManager, Object* object);
 
 #endif // OBJECT_MANAGER_H

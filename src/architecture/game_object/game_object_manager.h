@@ -15,14 +15,14 @@ struct GameObjectManager
 void InitializeGameObjectManager(GameObjectManager* gameObjectManager, ComponentManager* componentManager, ObjectManager* objectManager);
 GameObjectManager* ConstructGameObjectManager(ComponentManager* componentManager, ObjectManager* objectManager);
 void DeconstructGameObjectManager(ComponentManager* componentManager);
-void GameObjectManagerInitializeGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject, int* name);
-GameObject* GameObjectManagerConstructGameObject(GameObjectManager* gameObjectManager, int* name);
+void GameObjectManagerInitializeGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject);
+GameObject* GameObjectManagerConstructGameObject(GameObjectManager* gameObjectManager);
 void DeconstructGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject);
 GameObject* GetGameObjectOfComponent(GameObjectManager* gameObjectManager, Component* component);
 Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType type);
 void UpdateAllComponentsInGameObject(GameObject* gameObject);
 void GameObjectUpdate(GameObject* gameObject);
 void UpdateAllGameObjects(GameObjectManager* gameObjectManager);
-void GameObjectManagerAddComponentToGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject, int* componentName, ComponentType type);
+void GameObjectManagerAddComponentToGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject, ComponentType type);
 
 #endif // GAME_OBJECT_MANAGER_H

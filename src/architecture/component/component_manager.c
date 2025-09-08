@@ -38,10 +38,10 @@ void DeconstructComponentManager(ComponentManager* componentManager)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void ComponentManagerInitializeComponent(ComponentManager* componentManager, Component* component, int* name, ComponentType type)
+void ComponentManagerInitializeComponent(ComponentManager* componentManager, Component* component, ComponentType type)
 {
     //initialize base object through object manager
-    ObjectManagerInitializeObject(componentManager->objectManager, &component->base, name);
+    ObjectManagerInitializeObject(componentManager->objectManager, &component->base);
     //initialize component
     component->componentID = componentManager->nextComponentID;
     component->type = type;
@@ -49,14 +49,9 @@ void ComponentManagerInitializeComponent(ComponentManager* componentManager, Com
     DoublyLinkedListInsertAtTail(componentManager->componentList, (Object*)component);
 }
 
-Component* ComponentManagerConstructComponent(ComponentManager* componentManager, int* name, ComponentType type)
+Component* ComponentManagerConstructComponent(ComponentManager* componentManager, ComponentType type)
 {
-    DispatchConstructionFunctionToComponentManager(name, type);
-    //create and initialize object
-    Component* component = (Component*)malloc(sizeof(Component));
-    ComponentManagerInitializeComponent(componentManager, component, name, type);
-    //return object
-    return component;
+    return DispatchComponentConstructionFunction(type);
 }
 
 void ComponentManagerDeconstructComponent(ComponentManager* componentManager, Component* component)

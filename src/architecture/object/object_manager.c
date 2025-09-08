@@ -23,8 +23,9 @@ void DeconstructObjectManager(ObjectManager* objectManager)
     free(objectManager);
 }
 
-void ObjectManagerInitializeObject(ObjectManager* objectManager, Object* object, int* name)
+void ObjectManagerInitializeObject(ObjectManager* objectManager, Object* object)
 {
+    int* name = "unnamed";
     //copy the string that was passed in into the player name field
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
     strcpy(playerName, name); 
@@ -35,10 +36,10 @@ void ObjectManagerInitializeObject(ObjectManager* objectManager, Object* object,
     DoublyLinkedListInsertAtTail(objectManager->objectList, object);
 }
 
-Object* ObjectManagerConstructObject(ObjectManager* objectManager, int* name)
+Object* ObjectManagerConstructObject(ObjectManager* objectManager)
 {
     Object* object = (Object*)malloc(sizeof(Object));
-    ObjectManagerInitializeObject(objectManager, object, name);
+    ObjectManagerInitializeObject(objectManager, object);
     return object;
 }
 

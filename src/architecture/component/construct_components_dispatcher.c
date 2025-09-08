@@ -1,10 +1,10 @@
 #ifndef CONSTRUCT_COMPONENTS_DISPATCHER_C
 #define CONSTRUCT_COMPONENTS_DISPATCHER_C
 #include "component.h"
-#include "../../systems/transform/transform_manager.h"
 
-void DispatchConstructionFunctionToComponentManager(int* name, ComponentType type)
+Component* DispatchComponentConstructionFunction(ComponentType type)
 {
+    Component* componentToReturn = NULL;
     switch(type)
     {
         case PLAYER_CONTROLLER_COMPONENT:
@@ -27,11 +27,7 @@ void DispatchConstructionFunctionToComponentManager(int* name, ComponentType typ
         default:
             break;
     }
-}
-
-void InitializeConstructComponentsDispatcher()
-{
-
+    return componentToReturn;
 }
 
 #endif // CONSTRUCT_COMPONENTS_DISPATCHER_C

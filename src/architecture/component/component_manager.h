@@ -14,8 +14,8 @@ struct ComponentManager
 void InitializeComponentManager(ComponentManager* componentManager, ObjectManager* objectManager);
 ComponentManager* ConstructComponentManager(ObjectManager* objectManager);
 void DeconstructComponentManager(ComponentManager* componentManager);
-void ComponentManagerInitializeComponent(ComponentManager* componentManager, Component* component, int* name, ComponentType type);
-Component* ComponentManagerConstructComponent(ComponentManager* componentManager, int* name, ComponentType type);
+void ComponentManagerInitializeComponent(ComponentManager* componentManager, Component* component, ComponentType type);
+Component* ComponentManagerConstructComponent(ComponentManager* componentManager, ComponentType type);
 void ComponentManagerDeconstructComponent(ComponentManager* componentManager, Component* component);
 void UpdateComponent(Component* component);
 

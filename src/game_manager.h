@@ -67,15 +67,15 @@ void InitializeGameManager()
     transformManager = ConstructTransformManager(componentManager);
 
     //create player with components
-    player = GameObjectManagerConstructGameObject(gameObjectManager, "Player");
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerTransform", TRANSFORM_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerRigidbody", RIGIDBODY_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, "PlayerRenderer", RENDER_COMPONENT);
+    player = GameObjectManagerConstructGameObject(gameObjectManager);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, TRANSFORM_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, RIGIDBODY_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, RENDER_COMPONENT);
     //create another player with components
-    player1 = GameObjectManagerConstructGameObject(gameObjectManager, "Player1");
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, "PlayerRigidbody", RIGIDBODY_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, "PlayerRenderer", RENDER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, "PlayerTransform", TRANSFORM_COMPONENT);
+    player1 = GameObjectManagerConstructGameObject(gameObjectManager);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, RIGIDBODY_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, RENDER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, TRANSFORM_COMPONENT);
     
     // Initialize game state
     currentState = GAMESTATE_MENU;

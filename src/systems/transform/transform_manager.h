@@ -13,8 +13,8 @@ struct TransformManager
 
 TransformManager* ConstructTransformManager(ComponentManager* componentManager);
 void DeconstructTransformManager(TransformManager* transformManager);
-void InitializeTransformComponent(TransformManager* transformManager, TransformComponent* transformComponent, int* name);
-TransformComponent* ConstructTransformComponent(TransformManager* transformManager, int* name);
+void InitializeTransformComponent(TransformManager* transformManager, TransformComponent* transformComponent);
+TransformComponent* ConstructTransformComponent(TransformManager* transformManager);
 void DeconstructTransformComponent(TransformManager* transformManager, TransformComponent* transform);
 void UpdateTransformComponent(TransformComponent* transformComponent);
 void UpdateAllTransformComponents(TransformManager* transformManager);

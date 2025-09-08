@@ -15,5 +15,6 @@ void DeconstructObjectManager(ObjectManager* objectManager);
 void ObjectManagerInitializeObject(ObjectManager* objectManager, Object* object);
 Object* ObjectManagerConstructObject(ObjectManager* objectManager);
 void ObjectManagerDeconstructObject(ObjectManager* ObjectManager, Object* object);
+void ObjectManagerSetObjectName(ObjectManager* objectManager, Object* object, int* name);
 
 #endif // OBJECT_MANAGER_H

@@ -52,4 +52,11 @@ void ObjectManagerDeconstructObject(ObjectManager* ObjectManager, Object* object
     free(object);
 }
 
+void ObjectManagerSetObjectName(ObjectManager* objectManager, Object* object, int* name)
+{
+    int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
+    strcpy(playerName, name);
+    object->name = playerName;
+}
+
 #endif // OBJECT_MANAGER_C

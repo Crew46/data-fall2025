@@ -68,6 +68,8 @@ void InitializeGameManager()
 
     //create player with components
     player = GameObjectManagerConstructGameObject(gameObjectManager);
+    //set the ojects name
+    ObjectManagerSetObjectName(objectManager, &player->base, "hi");
     GameObjectManagerAddComponentToGameObject(gameObjectManager, player, TRANSFORM_COMPONENT);
     GameObjectManagerAddComponentToGameObject(gameObjectManager, player, RIGIDBODY_COMPONENT);
     GameObjectManagerAddComponentToGameObject(gameObjectManager, player, RENDER_COMPONENT);

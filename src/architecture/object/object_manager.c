@@ -2,20 +2,21 @@
 #define OBJECT_MANAGER_C
 #include "object_manager.h"
 
-void InitializeObjectManager(ObjectManager* objectManager)
+ObjectManager* objectManager;
+
+ObjectManager* GetObjectManager()
 {
+    return objectManager;
+}
+
+void InitializeObjectManager()
+{
+    objectManager = (ObjectManager*)malloc(sizeof(ObjectManager));
     objectManager->objectList = CreateDoublyLinkedList();
     objectManager->nextObjectID = 0;
 }
 
-ObjectManager* ConstructObjectManager()
-{
-    ObjectManager* objectManager = (ObjectManager*)malloc(sizeof(ObjectManager));
-    InitializeObjectManager(objectManager);
-    return objectManager;
-}
-
-void DeconstructObjectManager(ObjectManager* objectManager)
+void DeinitializeObjectManager()
 {
     //deconstruct all objects in list
     //here//
@@ -23,7 +24,7 @@ void DeconstructObjectManager(ObjectManager* objectManager)
     free(objectManager);
 }
 
-void ObjectManagerInitializeObject(ObjectManager* objectManager, Object* object)
+void ObjectManagerInitializeObject(Object* object)
 {
     int* name = "unnamed";
     //copy the string that was passed in into the player name field
@@ -36,14 +37,14 @@ void ObjectManagerInitializeObject(ObjectManager* objectManager, Object* object)
     DoublyLinkedListInsertAtTail(objectManager->objectList, object);
 }
 
-Object* ObjectManagerConstructObject(ObjectManager* objectManager)
+Object* ObjectManagerConstructObject()
 {
     Object* object = (Object*)malloc(sizeof(Object));
-    ObjectManagerInitializeObject(objectManager, object);
+    ObjectManagerInitializeObject(object);
     return object;
 }
 
-void ObjectManagerDeconstructObject(ObjectManager* ObjectManager, Object* object)
+void ObjectManagerDeconstructObject(Object* object)
 {
     //remove from linked list
 
@@ -52,7 +53,7 @@ void ObjectManagerDeconstructObject(ObjectManager* ObjectManager, Object* object
     free(object);
 }
 
-void ObjectManagerSetObjectName(ObjectManager* objectManager, Object* object, int* name)
+void ObjectManagerSetObjectName(Object* object, int* name)
 {
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
     strcpy(playerName, name);

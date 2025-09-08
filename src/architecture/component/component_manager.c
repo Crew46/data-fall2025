@@ -4,27 +4,27 @@
 #include "update_components_dispatcher.c"
 #include "construct_components_dispatcher.c"
 
+ComponentManager* componentManager;
+
+ComponentManager* GetComponentManager()
+{
+    return componentManager;
+}
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///COMPONENT MANAGER CONSTRUCTION & DECONSTRUCTION/////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializeComponentManager(ComponentManager* componentManager, ObjectManager* objectManager)
+void InitializeComponentManager()
 {
+    componentManager = (ComponentManager*)malloc(sizeof(ComponentManager));
     componentManager->componentList = CreateDoublyLinkedList();
     componentManager->nextComponentID = 0;
-    componentManager->objectManager = objectManager;
 }
 
-ComponentManager* ConstructComponentManager(ObjectManager* objectManager)
-{
-    ComponentManager* componentManager = (ComponentManager*)malloc(sizeof(ComponentManager));
-    InitializeComponentManager(componentManager, objectManager);
-    return componentManager;
-}
-
-void DeconstructComponentManager(ComponentManager* componentManager)
+void DeinitializeComponentManager(ComponentManager* componentManager)
 {
     //deconstruct all components in list
     //here//
@@ -38,10 +38,10 @@ void DeconstructComponentManager(ComponentManager* componentManager)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void ComponentManagerInitializeComponent(ComponentManager* componentManager, Component* component, ComponentType type)
+void ComponentManagerInitializeComponent(Component* component, ComponentType type)
 {
     //initialize base object through object manager
-    ObjectManagerInitializeObject(componentManager->objectManager, &component->base);
+    ObjectManagerInitializeObject(&component->base);
     //initialize component
     component->componentID = componentManager->nextComponentID;
     component->type = type;
@@ -49,17 +49,17 @@ void ComponentManagerInitializeComponent(ComponentManager* componentManager, Com
     DoublyLinkedListInsertAtTail(componentManager->componentList, (Object*)component);
 }
 
-Component* ComponentManagerConstructComponent(ComponentManager* componentManager, ComponentType type)
+Component* ComponentManagerConstructComponent(ComponentType type)
 {
     return DispatchComponentConstructionFunction(type);
 }
 
-void ComponentManagerDeconstructComponent(ComponentManager* componentManager, Component* component)
+void ComponentManagerDeconstructComponent(Component* component)
 {
     //remove from list
     //deconstuct
     //tell object manager to deconstuct object
-    ObjectManagerDeconstructObject(componentManager->objectManager, &component->base);
+    ObjectManagerDeconstructObject(&component->base);
     //free struct
     free(component);
 }

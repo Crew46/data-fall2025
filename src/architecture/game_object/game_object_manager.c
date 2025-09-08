@@ -1,6 +1,16 @@
 #ifndef GAME_OBJECT_MANAGER_C
 #define GAME_OBJECT_MANAGER_C
 #include "game_object_manager.h"
+#include "../component/component_manager.h"
+#include "../object/object_manager.h"
+
+//declarations
+GameObjectManager* gameObjectManager;
+
+GameObjectManager* GetGameObjectManager()
+{
+    return gameObjectManager;
+}
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -8,27 +18,18 @@
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializeGameObjectManager(GameObjectManager* gameObjectManager, ComponentManager* componentManager, ObjectManager* objectManager)
+void InitializeGameObjectManager()
 {
+    gameObjectManager = (GameObjectManager*)malloc(sizeof(GameObjectManager));
     gameObjectManager->gameObjectList = CreateDoublyLinkedList();
     gameObjectManager->nextGameObjectID = 0;
-    gameObjectManager->componentManager = componentManager;
-    gameObjectManager->objectManager = objectManager;
 }
 
-GameObjectManager* ConstructGameObjectManager(ComponentManager* componentManager, ObjectManager* objectManager)
-{
-    GameObjectManager* gameObjectManager = (GameObjectManager*)malloc(sizeof(GameObjectManager));
-    InitializeGameObjectManager(gameObjectManager, componentManager, componentManager->objectManager);
-    return gameObjectManager;
-}
-
-void DeconstructGameObjectManager(ComponentManager* componentManager)
+void DeinitializeGameObjectManager()
 {
     //deconstruct all components in list
     //here//
-    //free component manager struct
-    free(componentManager);
+    free(gameObjectManager);
 }
 
 //=========================================================
@@ -38,10 +39,10 @@ void DeconstructGameObjectManager(ComponentManager* componentManager)
 //=========================================================
 
 //initialize game object
-void GameObjectManagerInitializeGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject)
+void GameObjectManagerInitializeGameObject(GameObject* gameObject)
 {
     //initialize base object through object manager
-    ObjectManagerInitializeObject(gameObjectManager->objectManager, &gameObject->base);
+    ObjectManagerInitializeObject(&gameObject->base);
     //initialize gameobject
     gameObject->gameObjectID = gameObjectManager->nextGameObjectID;
     gameObjectManager->nextGameObjectID++;
@@ -52,18 +53,18 @@ void GameObjectManagerInitializeGameObject(GameObjectManager* gameObjectManager,
 }
 
 //construct game object
-GameObject* GameObjectManagerConstructGameObject(GameObjectManager* gameObjectManager)
+GameObject* GameObjectManagerConstructGameObject()
 {
     GameObject* gameObject = (GameObject*)malloc(sizeof(GameObject));
-    GameObjectManagerInitializeGameObject(gameObjectManager, gameObject);
+    GameObjectManagerInitializeGameObject(gameObject);
     return gameObject;
 }
 
 //deconstruct game object
-void DeconstructGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject)
+void DeconstructGameObject(GameObject* gameObject)
 {
     //deconstruct object through object manager
-    ObjectManagerDeconstructObject(gameObjectManager->objectManager, &gameObject->base);
+    ObjectManagerDeconstructObject(&gameObject->base);
     //deconstuct all children of linked list
     //here//
 
@@ -78,7 +79,7 @@ void DeconstructGameObject(GameObjectManager* gameObjectManager, GameObject* gam
 //=========================================================
 
 //find the game object that a component belongs to
-GameObject* GetGameObjectOfComponent(GameObjectManager* gameObjectManager, Component* component)
+GameObject* GetGameObjectOfComponent(Component* component)
 {
     DoublyNode* currentGameObjectNode = gameObjectManager->gameObjectList->head;
     GameObject* currentGameObject = NULL;
@@ -136,9 +137,9 @@ Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType ty
 }
 
 //find a component of a specific type, given a component that belongs to the same game object
-Component* GetComponentFromComponent(GameObjectManager* gameObjectManager, Component* component, ComponentType type)
+Component* GetComponentFromComponent(Component* component, ComponentType type)
 {
-    GameObject* gameObject = GetGameObjectOfComponent(gameObjectManager, component);
+    GameObject* gameObject = GetGameObjectOfComponent(component);
     if(gameObject != NULL)
     {
         return GameObjectGetComponentByType(gameObject, type);
@@ -174,7 +175,7 @@ void GameObjectUpdate(GameObject* gameObject)
 }
 
 //update all gameobjects
-void UpdateAllGameObjects(GameObjectManager* gameObjectManager)
+void UpdateAllGameObjects()
 {
     DoublyNode* currentNode = gameObjectManager->gameObjectList->head;
     GameObject* currentGameObject = NULL;
@@ -192,9 +193,9 @@ void UpdateAllGameObjects(GameObjectManager* gameObjectManager)
     }
 }
 
-void GameObjectManagerAddComponentToGameObject(GameObjectManager* gameObjectManager, GameObject* gameObject, ComponentType type)
+void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
-    Component* component = ComponentManagerConstructComponent(gameObjectManager->componentManager, type);
+    Component* component = ComponentManagerConstructComponent(type);
     DoublyLinkedListInsertAtTail(gameObject->components, (Object*)component);
 }
 

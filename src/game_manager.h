@@ -34,12 +34,6 @@ enum GameState
 
 GameState currentState;
 
-ObjectManager* objectManager;
-ComponentManager* componentManager;
-GameObjectManager* gameObjectManager;
-
-TransformManager* transformManager;
-
 GameObject* player;
 GameObject* player1;
 
@@ -55,30 +49,6 @@ void InitializeGameManager()
     InitializeRegions();
     InitializeAudioManager();
 
-    // Initialize object manager
-    objectManager = ConstructObjectManager();
-    // Initialize component manager
-    componentManager = ConstructComponentManager(objectManager);
-    // Initialize game object manager
-    gameObjectManager = ConstructGameObjectManager(componentManager, objectManager);
-
-
-    //systems managagers
-    transformManager = ConstructTransformManager(componentManager);
-
-    //create player with components
-    player = GameObjectManagerConstructGameObject(gameObjectManager);
-    //set the ojects name
-    ObjectManagerSetObjectName(objectManager, &player->base, "hi");
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, TRANSFORM_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, RIGIDBODY_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player, RENDER_COMPONENT);
-    //create another player with components
-    player1 = GameObjectManagerConstructGameObject(gameObjectManager);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, RIGIDBODY_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, RENDER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(gameObjectManager, player1, TRANSFORM_COMPONENT);
-    
     // Initialize game state
     currentState = GAMESTATE_MENU;
 }
@@ -98,11 +68,6 @@ void UpdateGameManager()
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
     UpdateAudioManager();
-
-    UpdateAllGameObjects(gameObjectManager);
-
-    PrintGameObjectDataAt(10, 50, player);
-    PrintGameObjectDataAt(350, 50, player1);
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

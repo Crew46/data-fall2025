@@ -73,7 +73,10 @@ void ComponentManagerDeconstructComponent(Component* component)
 
 void UpdateComponent(Component* component)
 {
-    //update component
+    if(&component->base.isActive)
+    {
+        DispatchUpdateFunctionToComponents(component);
+    }
 }
 
 #endif // COMPONENT_MANAGER_C

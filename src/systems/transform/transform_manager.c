@@ -60,7 +60,7 @@ void DeconstructTransformComponent(TransformComponent* transform)
 
 void UpdateTransformComponent(TransformComponent* transformComponent)
 {
-    print_at(screen_width / 2, screen_height / 2, "Updating Transform Component");
+    print_at(screen_width / 2, screen_height - 30, "Updating Transform Component");
     //update transform component
 }
 

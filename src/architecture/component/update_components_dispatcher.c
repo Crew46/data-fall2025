@@ -1,6 +1,7 @@
 #ifndef UPDATE_COMPONENTS_DISPATCHER_C
 #define UPDATE_COMPONENTS_DISPATCHER_C
 #include "component.h"
+#include "../../systems/transform/transform_manager.h"
 
 void DispatchUpdateFunctionToComponents(Component* component)
 {
@@ -10,7 +11,7 @@ void DispatchUpdateFunctionToComponents(Component* component)
             //call player controller update function
             break;
         case TRANSFORM_COMPONENT:
-            //call transform update function
+            UpdateTransformComponent((TransformComponent*)component); 
             break;
         case RENDER_COMPONENT:
             //call render update function

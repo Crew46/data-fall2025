@@ -226,7 +226,10 @@ void main (void)
     while (true)
     {
 	// If the player is inactive. Stop the game
-	if(player->isActive == false)
+	value = status;
+	mask = 0x10000000;
+	status = status & mask;
+	if(status != 0x10000000) // The first bit represents that the game is active.
 		{
 		clear_screen(color_black);
 		draw_region();
@@ -234,7 +237,7 @@ void main (void)
 		print( " You have died. Restart to try again");
 		exit();
 		}
-
+	status = value;
 
 
 
@@ -370,6 +373,7 @@ void main (void)
 			if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
 			{
 				player->isActive = false;
+				status = 0x00000000;
 			}
 		}
 

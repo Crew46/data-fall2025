@@ -25,8 +25,8 @@ enum WeaponType
 };
 
 struct Weapon {
-    Object* object;
-    WeaponType* type;
+    Object object;
+    WeaponType type;
     float lifetime; // Lifetime of the weapon's projectile in seconds
 };
 
@@ -34,10 +34,11 @@ struct Weapon {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Weapon* CreateWeapon(Object* object, float speed, float lifetime)
+Weapon* CreateWeapon(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, WeaponType type, float lifetime)
 {
     Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
-    weapon->object = object;
+    InitializeObject(&weapon->object, name, textureID, regionID, id, x, y, isActive, speed);
+    weapon->type = type;
     weapon->lifetime = lifetime;
     return weapon;
 }
@@ -55,6 +56,7 @@ void DeconstructWeapon(Weapon* weapon)
 
 void DrawWeapon(Weapon* weapon)
 {
+    DrawObject(&weapon->object);
 }
 
 //=========================================================

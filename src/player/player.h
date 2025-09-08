@@ -91,9 +91,7 @@ void PlayerShoot(Player* player)
 
 void DrawPlayer(Player* player)
 {
-    select_texture(player->object.textureID);
-    select_region(player->object.regionID);
-    draw_region_at(player->object.x, player->object.y);
+    DrawObject(&player->object);
 }
 
 //=========================================================

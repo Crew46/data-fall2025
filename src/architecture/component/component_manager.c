@@ -45,8 +45,8 @@ void ComponentManagerInitializeComponent(Component* component, ComponentType typ
     ObjectManagerInitializeObject(&component->base);
     //initialize component
     component->componentID = componentManager->nextComponentID;
-    component->type = type;
     componentManager->nextComponentID++;
+    component->type = type;
     DoublyLinkedListInsertAtTail(componentManager->componentList, (Object*)component);
 }
 

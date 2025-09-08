@@ -1,6 +1,7 @@
 #ifndef CONSTRUCT_COMPONENTS_DISPATCHER_C
 #define CONSTRUCT_COMPONENTS_DISPATCHER_C
 #include "component.h"
+#include "../../systems/transform/transform_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)
 {
@@ -11,6 +12,7 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             //construct player controller component
             break;
         case TRANSFORM_COMPONENT:
+            componentToReturn = &ConstructTransformComponent()->base;
             break;
         case RENDER_COMPONENT:
             //construct render component

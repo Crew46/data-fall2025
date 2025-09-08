@@ -10,16 +10,20 @@ struct GameObjectManager
     int nextGameObjectID; //keeps track of the next game object ID to assign
 };
 
+//manager initialization
 void InitializeGameObjectManager();
 void DeinitializeGameObjectManager();
+//gameobject creation
 void GameObjectManagerInitializeGameObject(GameObject* gameObject);
 GameObject* GameObjectManagerConstructGameObject();
 void DeconstructGameObject(GameObject* gameObject);
+//gameobject-component related functions
 GameObject* GetGameObjectOfComponent(Component* component);
 Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType type);
 void UpdateAllComponentsInGameObject(GameObject* gameObject);
 void GameObjectUpdate(GameObject* gameObject);
 void UpdateAllGameObjects();
 void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type);
+//getters and setters
 GameObjectManager* GetGameObjectManager();
 #endif // GAME_OBJECT_MANAGER_H

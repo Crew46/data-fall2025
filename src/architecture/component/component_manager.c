@@ -1,6 +1,7 @@
 #ifndef COMPONENT_MANAGER_C
 #define COMPONENT_MANAGER_C
 #include "component_manager.h"
+#include "../object/object_manager.h"
 #include "update_components_dispatcher.c"
 #include "construct_components_dispatcher.c"
 

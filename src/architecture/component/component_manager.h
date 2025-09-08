@@ -9,11 +9,14 @@ struct ComponentManager
     int nextComponentID; //keeps track of the next compoent ID to assign
 };
 
+//manager initialization
 void InitializeComponentManager();
 void DeinitializeComponentManager(ComponentManager* componentManager);
+//component construction
 void ComponentManagerInitializeComponent(Component* component, ComponentType type);
 Component* ComponentManagerConstructComponent(ComponentType type);
 void ComponentManagerDeconstructComponent(Component* component);
+//functions
 void UpdateComponent(Component* component);
 ComponentManager* GetComponentManager();
 

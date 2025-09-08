@@ -45,12 +45,29 @@ GameObject* player1;
 
 void InitializeGameManager() 
 {
+    // Initialize game manager state
+    currentState = GAMESTATE_MENU;
+
     //initialize regions
     InitializeRegions();
     InitializeAudioManager();
+    //component-based architecture initialization
+    InitializeObjectManager();
+    InitializeComponentManager();
+    InitializeGameObjectManager();
+    //systems initialization
 
-    // Initialize game state
-    currentState = GAMESTATE_MENU;
+
+    //game object creation
+    player = GameObjectManagerConstructGameObject();
+    GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
+    player1 = GameObjectManagerConstructGameObject();
+    GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
+}
+
+void DeinitializeGameManager()
+{
+
 }
 
 //=========================================================
@@ -68,6 +85,10 @@ void UpdateGameManager()
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
     UpdateAudioManager();
+
+
+    PrintGameObjectDataAt(20, 50, player); 
+    PrintGameObjectDataAt(300, 50, player1); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

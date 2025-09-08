@@ -1,7 +1,14 @@
 #ifndef TRANSFORM_MANAGER_C
 #define TRANSFORM_MANAGER_C
 #include "transform_manager.h"
-#include "video.h"
+#include "../../architecture/component/component_manager.h"
+
+TransformManager* transformManager;
+
+TransformManager* GetTransformManager()
+{
+    return transformManager;
+}
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -9,25 +16,23 @@
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-TransformManager* ConstructTransformManager(ComponentManager* componentManager)
+void InitializeTransformManager()
 {
     //allocate memory
-    TransformManager* transformManager = (TransformManager*)malloc(sizeof(TransformManager));
+    transformManager = (TransformManager*)malloc(sizeof(TransformManager));
     //initialize
     transformManager->transformComponents = CreateDoublyLinkedList();
-    transformManager->componentManager = componentManager;
-    return transformManager;
 }
 
 //deconstruct transform manager
-void DeconstructTransformManager(TransformManager* transformManager)
+void DeinitializeTransformManager(TransformManager* transformManager)
 {
     //free linked list
     ///////////////
     free(transformManager);
 }
 
-void InitializeTransformComponent(TransformManager* transformManager, TransformComponent* transformComponent)
+void InitializeTransformComponent(TransformComponent* transformComponent)
 {
     //initialize component base
     ComponentManagerInitializeComponent(&transformComponent->base, TRANSFORM_COMPONENT);
@@ -35,16 +40,16 @@ void InitializeTransformComponent(TransformManager* transformManager, TransformC
     InitializeVector2(&transformComponent->position, 0, 0);
 }
 
-TransformComponent* ConstructTransformComponent(TransformManager* transformManager)
+TransformComponent* ConstructTransformComponent()
 {
     //allocate memory
     TransformComponent* transformComponent = (TransformComponent*)malloc(sizeof(TransformComponent));
     //initialize
-    InitializeTransformComponent(transformManager, transformComponent);
+    InitializeTransformComponent(transformComponent);
     return transformComponent;
 }
 
-void DeconstructTransformComponent(TransformManager* transformManager, TransformComponent* transform)
+void DeconstructTransformComponent(TransformComponent* transform)
 {
     //deconstuct component
     ComponentManagerDeconstructComponent(&transform->base);
@@ -59,7 +64,7 @@ void UpdateTransformComponent(TransformComponent* transformComponent)
     //update transform component
 }
 
-void UpdateAllTransformComponents(TransformManager* transformManager)
+void UpdateAllTransformComponents()
 {
     DoublyNode* currentNode = transformManager->transformComponents->head;
     TransformComponent* currentData = NULL;

@@ -9,11 +9,14 @@ struct ObjectManager
     int nextObjectID; //keeps track of the next object ID to assign
 };
 
+//manager initialization
 void InitializeObjectManager();
 void DeinitializeObjectManager();
+//object creation
 void ObjectManagerInitializeObject(Object* object);
 Object* ObjectManagerConstructObject();
 void ObjectManagerDeconstructObject(Object* object);
+//getters and setters
 void ObjectManagerSetObjectName(Object* object, int* name);
 ObjectManager* GetObjectManager();
 

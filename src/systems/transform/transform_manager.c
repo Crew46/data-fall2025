@@ -60,7 +60,7 @@ void DeconstructTransformComponent(TransformComponent* transform)
 
 void UpdateTransformComponent(TransformComponent* transformComponent)
 {
-    print_at(screen_width / 2, screen_height - 30, "Updating Transform Component");
+    print_at(transformComponent->position.x, transformComponent->position.y, "*&*");
     //update transform component
 }
 
@@ -77,6 +77,14 @@ void UpdateAllTransformComponents()
         }
         currentNode = currentNode->next;
     }
+}
+
+// transform component functions
+
+void TransformComponentSetPosition(TransformComponent* transformComponent, int x, int y)
+{
+    transformComponent->position.x = x;
+    transformComponent->position.y = y;
 }
 
 #endif // TRANSFORM_MANAGER_C

@@ -57,15 +57,19 @@ void InitializeGameManager()
     InitializeComponentManager();
     InitializeGameObjectManager();
     //systems initialization
+    InitializeTransformManager();
 
 
     //game object creation
     player = GameObjectManagerConstructGameObject();
     GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
+    TransformComponentSetPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 200, 300);
     player1 = GameObjectManagerConstructGameObject();
     GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
+    TransformComponentSetPosition((TransformComponent*)GameObjectGetComponentByType(player1, TRANSFORM_COMPONENT), 0, 300);
     player2 = GameObjectManagerConstructGameObject();
     GameObjectManagerAddComponentToGameObject(player2, TRANSFORM_COMPONENT);
+    TransformComponentSetPosition((TransformComponent*)GameObjectGetComponentByType(player2, TRANSFORM_COMPONENT), 200, 0);
 }
 
 void DeinitializeGameManager()

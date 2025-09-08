@@ -146,7 +146,7 @@ void main (void)
     xpos                 = 20;
     ypos                 = 0;
 	max					 = 0;
-	status				 = 0x1000000000000000;
+	status				 = 0x10000000;
     // creating the head and malloc it.
     Object *headEnemyA   = (Object *) malloc (sizeof (Object));
     if (headEnemyA      == NULL)
@@ -386,9 +386,9 @@ void main (void)
 if(counter >= 8 && max != 8)
 	{
 		value = status;
-		mask = 0x0100000000000000;
-		status = status & mask;
-			if (status == 0x0100000000000000) // check the second bit to see if an enemy can be added.
+		mask = 0x01000000;
+		status = status | mask;
+			if (status == 0x11000000) // check the second bit to see if an enemy can be added.
 				{
 					appendEnemyA(headEnemyA);
 					max = max + 1;

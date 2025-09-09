@@ -80,6 +80,8 @@ void UpdateGameManager()
 
     //updates all players in players list
     UpdateAllPlayers();
+    UpdateAllWeapons();
+    UpdateAllLasers();
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

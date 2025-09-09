@@ -6,6 +6,10 @@
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 
+//initialize instances list
+DoublyLinkedList* laserList = CreateDoublyLinkedList();
+int laserIdCounter = 0;
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///////////PART 1: MODEL///////////////////////////////////
@@ -38,9 +42,13 @@ struct Laser {
 Laser* CreateLaser(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, LaserType type, float lifetime)
 {
     Laser* laser = (Laser*)malloc(sizeof(Laser));
-    InitializeObject(&laser->object, name, textureID, regionID, id, x, y, isActive, speed);
+    InitializeObject(&laser->object, name, textureID, regionID, laserIdCounter++, x, y, isActive, speed);
     laser->type = type;
     laser->lifetime = lifetime;
+    laser->age = 0.0;
+
+    DoublyLinkedListInsertAtTail(laserList, &laser->object);
+
     return laser;
 }
 
@@ -80,18 +88,23 @@ void LaserUpdate(Laser* laser)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-//initialize instances list
-DoublyLinkedList* lasersList = CreateDoublyLinkedList();
+//return linked list of lasers
+DoublyLinkedList* GetLaserList()
+{
+    return laserList;
+}
 
 //update all laser controller in the laser controller list
 void UpdateAllLasers()
 {
     //loop through all instances of laser controller
-    DoublyNode* currentNode = lasersList->head;
+    DoublyNode* currentNode = laserList->head;
 
     while(currentNode != NULL)
     {
         LaserUpdate((Laser*)currentNode->data);
+
+        currentNode = currentNode->next;
     }
 }
 
@@ -99,12 +112,14 @@ void UpdateAllLasers()
 void DeconstructAllLasers()
 {
     //loop through all instances of laser controller
-    DoublyNode* currentNode = lasersList->head;
+    DoublyNode* currentNode = laserList->head;
 
     while(currentNode != NULL)
     {
         DeconstructLaser((Laser*)currentNode->data);
-        DoublyLinkedListDeleteNode(lasersList, currentNode);
+        DoublyLinkedListDeleteNode(laserList, currentNode);
+
+        currentNode = currentNode->next;
     }
 }
 

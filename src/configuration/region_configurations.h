@@ -13,6 +13,8 @@
 #define EXIT_GAME_REGION 3
 #define CREDITS_REGION 4
 #define SETTINGS_REGION 5
+#define WEAPON_REGION 6
+#define LASER_REGION 7
 
 void InitializeRegions()
 {
@@ -40,6 +42,16 @@ void InitializeRegions()
     select_texture( UI_TEXTURES );  
     select_region(CREDITS_REGION);
     define_region_topleft(0, 48, 191, 71);
+
+    //WEAPON
+    select_texture(WEAPON_TEXTURES );
+    select_region(WEAPON_REGION);
+    define_region_topleft(0, 0, 9, 19);
+
+    //LASER
+    select_texture(LASER_TEXTURES);
+    select_region(LASER_REGION);
+    define_region_topleft(0, 0, 9, 19);
 }
 
 #endif //REGIONS_CONFIGURATIONS_H

@@ -33,10 +33,8 @@ struct Player
     //object is not a pointer, in order to imbed to struct for upcasting & downcasting.
     Object object;
     int gamepadID; 
-    float maxShootCooldownTime; //shoot cooldown in seconds
-    float shootCooldownElapsed; //seconds elapsed since last shot
     PlayerMovementState state; // Current state of the player
-    WeaponType weaponType; //weapon that player has equipped
+    Weapon* weapon; //weapon that player has equipped
 };
 
 //=========================================================
@@ -65,18 +63,6 @@ void PlayerMoveInDirection(Player* player)
     player->object.y = round(resultsY2);
 }
 
-//shoot selected weapon
-void PlayerShoot(Player* player)
-{
-    //if not in cooldown, shoot
-    if(player->shootCooldownElapsed == 0)
-    {
-        //shoot logic here 
-
-        // Reset cooldown
-        player->shootCooldownElapsed = player->maxShootCooldownTime;
-    }
-}
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -117,6 +103,21 @@ void HandleInput(Player* player)
     player->object.xdir = deltaX;
     player->object.ydir = deltaY;
     PlayerMoveInDirection(player);
+
+    player->weapon->object.x = player->object.x;
+    player->weapon->object.y = player->object.y;
+
+    if(player->weapon != NULL)
+    {
+        if(gamepad_button_a() > 0)
+        {
+            player->weapon->isFiring = true;
+        }
+        else
+        {
+            player->weapon->isFiring = false;
+        }
+    }
 }
 
 void PlayerUpdate(Player* player)
@@ -124,7 +125,7 @@ void PlayerUpdate(Player* player)
     if(player->object.isActive)
     {
         //handle input every frame
-        HandleInput(player);    
+        HandleInput(player);
 
         // Update the player view every frame
         DrawPlayer(player);
@@ -190,10 +191,8 @@ Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int 
 
     //player properties initialization
     player->gamepadID = gamepadID;
-    player->maxShootCooldownTime = maxShootCooldownTime;
-    player->shootCooldownElapsed = 0; // Start with no cooldown
     player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
-    player->weaponType = WEAPON_TYPE_LASER_CANNON; // Default weapon type
+    player->weapon = CreateWeapon("gun", WEAPON_TEXTURES, WEAPON_REGION, 0, player->object.x, player->object.y, true, player->object.speed, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);// Default weapon type
 
     DoublyLinkedListInsertAtTail(playerList, &player->object);
 

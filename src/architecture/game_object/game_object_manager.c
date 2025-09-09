@@ -53,14 +53,17 @@ void GameObjectManagerInitializeGameObject(GameObject* gameObject)
     ObjectManagerInitializeObject(&gameObject->base);
     //initialize gameobject
     gameObject->gameObjectID = gameObjectManager->nextGameObjectID;
-    gameObjectManager->nextGameObjectID++;
     //initialize linked list
     gameObject->components = CreateDoublyLinkedList();
     //children list
     gameObject->children = CreateDoublyLinkedList();
-
+    if(gameObjectManager->nextGameObjectID != 0)
+    {
+        GameObjectAddChild(GetRootGameObject(), gameObject);
+    }
     //add to object list
     DoublyLinkedListInsertAtTail(gameObjectManager->gameObjectList, (Object*)gameObject);
+    gameObjectManager->nextGameObjectID++;
 }
 
 //construct game object
@@ -212,7 +215,7 @@ void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, Component
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///////////Game Object / Component Functions///////////////
+///////////Game Object / Game Object Functions/////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 

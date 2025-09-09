@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "video.h"
 #include "string.h"
+#include "input.h"
 #include "math.h"
 //include texture, region, and audio definitions and configuration values
 #include "configuration/texture_configurations.h"
@@ -19,6 +20,7 @@
 #include "tools/debugger.c"
 //systems implementations
 #include "systems/transform/transform_manager.c"
+#include "vector/vector2.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -46,6 +48,11 @@ GameObject* player2;
 
 void InitializeGameManager() 
 {
+    //temporary
+    select_gamepad(0);
+
+
+
     // Initialize game manager state
     currentState = GAMESTATE_MENU;
 
@@ -63,10 +70,13 @@ void InitializeGameManager()
     //game object creation
     player = GameObjectManagerConstructGameObject();
     GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
+    ObjectManagerSetObjectName((Object*)player, "player");
+    TransformComponentSetGlobalPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
+
+
     player1 = GameObjectManagerConstructGameObject();
     GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
-    player2 = GameObjectManagerConstructGameObject();
-    GameObjectManagerAddComponentToGameObject(player2, TRANSFORM_COMPONENT);
+    ObjectManagerSetObjectName((Object*)player1, "player1");
 }
 
 void DeinitializeGameManager()
@@ -95,6 +105,18 @@ void UpdateGameManager()
     PrintGameObjectDataAt(20, 50, player); 
     PrintGameObjectDataAt(200, 50, player1); 
     PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
+
+    //test
+    TransformComponent* transform = (TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT);
+    Vector2* movement = CreateVector2(0, 0);
+    gamepad_direction_normalized(&movement->x, &movement->y);
+    Vector2* result = CreateVector2(0, 0);
+    int speed = 2;
+    MultiplyVector2ByScalar(movement, speed, result);
+    Vector2* result2 = CreateVector2(0, 0);
+    AddVector2Components(&transform->position, result, result2);
+    TransformComponentSetGlobalPosition(transform, result2->x, result2->y);
+
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

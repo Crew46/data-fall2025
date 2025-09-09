@@ -177,13 +177,28 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
         currentNode = currentNode->next;
         index++;
     }
-    print_at(x + tracking, y + leading * 6, "Object: ");
-    print_at(x + tracking * 2, y + leading * 7, "active: ");
-    PrintIntAt(x + tracking * 6, y + leading * 7, gameObject->base.isActive);
-    print_at(x + tracking * 2, y + leading * 8, "name: ");
-    print_at(x + tracking * 6, y + leading * 8, gameObject->base.name);
-    print_at(x + tracking * 2, y + leading * 9, "oID: ");
-    PrintIntAt(x + tracking * 6, y + leading * 9, gameObject->base.objectID);
+    print_at(x + tracking * 1, y + leading * 6, "children:");
+    print_at(x + tracking * 2, y + leading * 7, "gID:");
+    DoublyNode* currentChildNode = gameObject->children->head;
+    GameObject* currentGameObject = NULL;
+    int gameObjectIndex = 0;
+    while(currentChildNode != NULL)
+    {
+        currentGameObject = (GameObject*)currentChildNode->data;
+        currentChildNode = currentChildNode->next;
+        if(currentGameObject != NULL)
+        {
+            PrintIntAt(x + tracking * (5 + (2 * gameObjectIndex)), y + leading * 7, currentGameObject->gameObjectID);
+        }
+        gameObjectIndex++;
+    }
+    print_at(x + tracking, y + leading * 8, "Object: ");
+    print_at(x + tracking * 2, y + leading * 9, "active: ");
+    PrintIntAt(x + tracking * 6, y + leading * 9, gameObject->base.isActive);
+    print_at(x + tracking * 2, y + leading * 10, "name: ");
+    print_at(x + tracking * 6, y + leading * 10, gameObject->base.name);
+    print_at(x + tracking * 2, y + leading * 11, "oID: ");
+    PrintIntAt(x + tracking * 6, y + leading * 11, gameObject->base.objectID);
 
 }
 

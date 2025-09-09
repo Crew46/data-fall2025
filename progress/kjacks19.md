@@ -1,4 +1,4 @@
-=Weekly Progress=
+d=Weekly Progress=
 
 SEPTEMBER 1, 2025
 
@@ -12,3 +12,9 @@ Struggled mightily with getting vircon32 installed on my pi. Through
 conference with the professor and my classmates, I scrapped the preinstalled
 32-bit pi build and restarted with a 64-bit build. Next plans are to begin
 tinkering with the software if I can finally get it installed.
+
+SEPTEMBER 6, 2025
+
+Scrapped my 32-bit Pi OS and installed a 64-bit version. With further
+assistance, installed all necessary libraries and got vircon32 functional on 
+my Pi 4. Also installed Legcord to facilitate discord communication on my pi.

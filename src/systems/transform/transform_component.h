@@ -7,6 +7,9 @@ struct TransformComponent
 {
     Component base; //base component
     Vector2 position; //position in scene
+    Vector2 localPosition; //local position relative to parent
+    float rotation; //about origin; clockwise in radians
+    float localRotation; //about parent; clockwise in radians
 };
 
 #endif // RENDER_COMPONENT_H

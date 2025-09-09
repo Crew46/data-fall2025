@@ -3,6 +3,7 @@
 #include "../object/object.h"
 #include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
+//forward declaration of game object
 struct GameObject
 {
     Object base; //base object

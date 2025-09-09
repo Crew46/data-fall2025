@@ -2,6 +2,7 @@
 #define TRANSFORM_MANAGER_C
 #include "transform_manager.h"
 #include "../../architecture/component/component_manager.h"
+#include "../../architecture/game_object/game_object_manager.h"
 
 TransformManager* transformManager;
 
@@ -63,28 +64,42 @@ void UpdateTransformComponent(TransformComponent* transformComponent)
     print_at(transformComponent->position.x, transformComponent->position.y, "*&*");
     //update transform component
 }
-
-void UpdateAllTransformComponents()
-{
-    DoublyNode* currentNode = transformManager->transformComponents->head;
-    TransformComponent* currentData = NULL;
-    while(currentNode != NULL)
-    {
-        currentData = (TransformComponent*)currentNode->data;
-        if(currentData != NULL)
-        {
-            UpdateTransformComponent((TransformComponent*)currentData);
-        }
-        currentNode = currentNode->next;
-    }
-}
-
 // transform component functions
 
-void TransformComponentSetPosition(TransformComponent* transformComponent, int x, int y)
+void TransformComponentSetGlobalPosition(TransformComponent* transformComponent, int x, int y)
 {
     transformComponent->position.x = x;
     transformComponent->position.y = y;
+}
+
+void TransformComponentSetLocalPosition(TransformComponent* transformComponent, int x, int y)
+{
+}
+
+//=========================================================
+///////////////////////////////////////////////////////////
+/////////////LOCAL ROTATION AND POSITION///////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+Vector2* CalculateGlobalPosition(TransformComponent* transformComponent)
+{
+    //calculate global position based on local position and parent's position
+}
+
+Vector2* CalculateLocalPosition(TransformComponent* transformComponent)
+{
+    //calculate local position based on parent's position
+    GameObject* parentGameObject = GetGameObjectOfComponent((Component*)transformComponent);
+    if(parentGameObject != NULL)
+    {
+       TransformComponent* parentTransform = (TransformComponent*)GameObjectGetComponentByType(parentGameObject, TRANSFORM_COMPONENT); 
+    }
+}
+
+Vector2* CalculateLocalRotation(TransformComponent* transformComponent)
+{
+    //calculate local rotation based on parent's rotation
 }
 
 #endif // TRANSFORM_MANAGER_C

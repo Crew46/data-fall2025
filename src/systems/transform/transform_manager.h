@@ -14,7 +14,14 @@ void InitializeTransformComponent(TransformComponent* transformComponent);
 TransformComponent* ConstructTransformComponent();
 void DeconstructTransformComponent(TransformComponent* transform);
 void UpdateTransformComponent(TransformComponent* transformComponent);
-void UpdateAllTransformComponents();
 TransformManager* GetTransformManager();
+void TransformComponentSetGlobalPosition(TransformComponent* transformComponent, int x, int y);
+void TransformComponentSetLocalPosition(TransformComponent* transformComponent, int x, int y);
+
+//functions
+Vector2* CalculateGlobalPosition(TransformComponent* transformComponent);
+Vector2* CalculateLocalPosition(TransformComponent* transformComponent);
+Vector2* CalculateLocalRotation(TransformComponent* transformComponent);    
+
 
 #endif //TRANSFORM_MANAGER_H

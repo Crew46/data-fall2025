@@ -3,6 +3,7 @@
 #include "game_object_manager.h"
 #include "../component/component_manager.h"
 #include "../object/object_manager.h"
+#include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 //declarations
 GameObjectManager* gameObjectManager;
@@ -10,6 +11,11 @@ GameObjectManager* gameObjectManager;
 GameObjectManager* GetGameObjectManager()
 {
     return gameObjectManager;
+}
+
+GameObject* GetRootGameObject()
+{
+    return gameObjectManager->root;
 }
 
 //=========================================================
@@ -23,6 +29,8 @@ void InitializeGameObjectManager()
     gameObjectManager = (GameObjectManager*)malloc(sizeof(GameObjectManager));
     gameObjectManager->gameObjectList = CreateDoublyLinkedList();
     gameObjectManager->nextGameObjectID = 0;
+    gameObjectManager->root = GameObjectManagerConstructGameObject();
+    ObjectManagerSetObjectName((Object*)gameObjectManager->root, "Root");
 }
 
 void DeinitializeGameObjectManager()
@@ -48,6 +56,9 @@ void GameObjectManagerInitializeGameObject(GameObject* gameObject)
     gameObjectManager->nextGameObjectID++;
     //initialize linked list
     gameObject->components = CreateDoublyLinkedList();
+    //children list
+    gameObject->children = CreateDoublyLinkedList();
+
     //add to object list
     DoublyLinkedListInsertAtTail(gameObjectManager->gameObjectList, (Object*)gameObject);
 }
@@ -197,6 +208,46 @@ void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, Component
 {
     Component* component = ComponentManagerConstructComponent(type);
     DoublyLinkedListInsertAtTail(gameObject->components, (Object*)component);
+}
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////Game Object / Component Functions///////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+void GameObjectAddChild(GameObject* parent, GameObject* child)
+{
+    DoublyLinkedListInsertAtTail(parent->children, (Object*)child);
+}
+
+void GameObjectRemoveChild(GameObject* parent, GameObject* child)
+{
+
+}
+
+GameObject* GameObjectGetParent(GameObject* child)
+{
+    DoublyNode* currentNode = gameObjectManager->gameObjectList->head;
+    GameObject* currentGameObject = NULL;
+
+    while(currentNode != NULL)
+    {
+        currentGameObject = (GameObject*)currentNode->data;
+        //loop through children list
+        DoublyNode* currentChildNode = currentGameObject->children->head;
+        GameObject* currentChild = NULL;
+        while(currentChildNode != NULL)
+        {
+            currentChild = (GameObject*)currentChildNode->data;
+            if(currentChild == child)
+            {
+                return currentGameObject;
+            }
+            currentChildNode = currentChildNode->next;
+        }
+        currentNode = currentNode->next;
+    }
 }
 
 #endif // GAME_OBJECT_MANAGER_C

@@ -12,7 +12,7 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             //construct player controller component
             break;
         case TRANSFORM_COMPONENT:
-            componentToReturn = &ConstructTransformComponent()->base;
+            componentToReturn = (Component*)ConstructTransformComponent();
             break;
         case RENDER_COMPONENT:
             //construct render component

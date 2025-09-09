@@ -3,7 +3,7 @@
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
 
-void DispatchUpdateFunctionToComponents(Component* component)
+void DispatchComponentsUpdateFunction(Component* component)
 {
     switch(component->type)
     {

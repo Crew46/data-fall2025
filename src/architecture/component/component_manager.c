@@ -75,7 +75,7 @@ void UpdateComponent(Component* component)
 {
     if(&component->base.isActive)
     {
-        DispatchUpdateFunctionToComponents(component);
+        DispatchComponentsUpdateFunction(component);
     }
 }
 

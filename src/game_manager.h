@@ -111,11 +111,13 @@ void UpdateGameManager()
     Vector2* movement = CreateVector2(0, 0);
     gamepad_direction_normalized(&movement->x, &movement->y);
     Vector2* result = CreateVector2(0, 0);
-    int speed = 2;
+    int speed = 8;
     MultiplyVector2ByScalar(movement, speed, result);
     Vector2* result2 = CreateVector2(0, 0);
     AddVector2Components(&transform->position, result, result2);
     TransformComponentSetGlobalPosition(transform, result2->x, result2->y);
+    free(result);
+    free(result2);
 
 
     //main menu UI

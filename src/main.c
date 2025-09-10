@@ -76,7 +76,7 @@ void appendEnemyA (Object *headEnemyA)
 
 // The delete function used to delete enemies.
 
-void deleteEnemyA (Object * headEnemyA)
+void obtainEnemyA (Object * headEnemyA)
 {
     Object *tmp           = headEnemyA;
     Object *deletetmp     = headEnemyA;
@@ -380,7 +380,7 @@ void main (void)
 
 
 
-		deleteEnemyA (headEnemyA);
+		obtainEnemyA (headEnemyA);
 
 
 // After defeating a certain amount of enemies add another one to the max.

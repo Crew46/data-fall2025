@@ -125,7 +125,11 @@ void UpdateAllWeapons()
 
     while(currentNode != NULL)
     {
-        WeaponUpdate((Weapon*)currentNode->data);
+        if(currentNode->data != NULL)
+        {
+            WeaponUpdate((Weapon*)currentNode->data);
+            LaserUpdate((Laser*)currentNode->data);
+        }
 
         currentNode = currentNode->next;
     }
@@ -136,13 +140,15 @@ void DeconstructAllWeapons()
 {
     //loop through all instances of weapon controller
     DoublyNode* currentNode = weaponsList->head;
+    DoublyNode* next;
 
     while(currentNode != NULL)
     {
+        next = currentNode->next;
         DeconstructWeapon((Weapon*)currentNode->data);
         DoublyLinkedListDeleteNode(weaponsList, currentNode);
 
-        currentNode = currentNode->next;
+        currentNode = next;
     }
 }
 

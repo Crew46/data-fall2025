@@ -18,8 +18,6 @@
 #define LASERSPEED			1
 int  xpos;
 int  ypos;
-int  position;
-int spawn;
 int i;
 int status; // This will be used for checking
 int mask;	// This is used to find out what bits we need.
@@ -28,6 +26,7 @@ int value;  // This will be used to reset status after a check.
 //  first 0 is game active the next 000 will be used for an enemy counter.
 int counter;
 int max;
+int position;
 struct Object
 {
     int     x;
@@ -74,7 +73,7 @@ void appendEnemyA (Object *headEnemyA)
 		}
 }
 
-// The delete function used to delete enemies.
+// The obtain function that is currently used to delete enemies.
 
 void obtainEnemyA (Object * headEnemyA)
 {
@@ -91,7 +90,7 @@ void obtainEnemyA (Object * headEnemyA)
     }
 }
 
-
+// This will insert the enemy at the desired position.
 void insertEnemyA ( Object * headEnemyA, int position)
 {
 i = 0;
@@ -160,9 +159,9 @@ void main (void)
 	laser -> next = NULL;
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    // Prepping these for later use. tmp is a temporary node that will traverse
-    // the list and deletetmp will be used to free nodes.
-    //    
+    // 
+    // 
+    // We are spawning and inserting the enemies.   
     appendEnemyA (headEnemyA);
     appendEnemyA (headEnemyA);
     appendEnemyA (headEnemyA);
@@ -207,6 +206,8 @@ void main (void)
     select_region (ENEMYA_REGION);
     define_region_center (0, 0 , 9, 9 );
 ///////////////////////////////////////////////////////////////////////////////////////
+	//
+	// Define the laser texture and region
 	select_texture (LASER_TEXTURE);
 	select_region (LASER_REGION);
 	define_region_center (0 ,0 , 19, 9);
@@ -226,10 +227,10 @@ void main (void)
     while (true)
     {
 	// If the player is inactive. Stop the game
-	value = status;
 	mask = 0x10000000;
-	status = status & mask;
-	if(status != 0x10000000) // The first bit represents that the game is active.
+	value = status & mask;
+	if(value != 0x10000000) // The first bit represents that the game is active.
+		
 		{
 		clear_screen(color_black);
 		draw_region();
@@ -237,7 +238,6 @@ void main (void)
 		print( " You have died. Restart to try again");
 		exit();
 		}
-	status = value;
 
 
 
@@ -261,7 +261,7 @@ void main (void)
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust player position based on recently obtained gamepad information
-        //
+        // I am multiplying ydir and xdir by 3 to make the ship move faster.
         player -> x      = player -> x + player -> xdir * 3;
         player -> y      = player -> y + player -> ydir * 3;
 // player laser will fire if x is pressed pressed. Only 1 laser can be fired.
@@ -269,6 +269,7 @@ void main (void)
 			{
 			laser->laserFired = true;
 			}		
+			// FIRING THE LASER!!!!!
 			if(laser->laserFired && !laser->isActive)				
 				{
 					laser->isActive = true;
@@ -321,7 +322,8 @@ void main (void)
         draw_region_at (player -> x, player -> y);
     
        ///////////////////////////////////////////////////////////////////////////////
-	if(laser != NULL)
+	// This draws the laser if it is active.
+		if(laser != NULL)
 	{
 		if(laser->isActive)
 			{
@@ -336,7 +338,7 @@ void main (void)
 
         ////////////////////////////////////////////////////////////////////////////////
         //
-        // Adjust enemy positions based on randomness
+        // Adjust enemy positions based on randomness and draw them.
         //	
         tmp                = headEnemyA;
         while(tmp -> next != NULL)
@@ -359,7 +361,7 @@ void main (void)
         	}
 		}  
 
-        // use the deleteEnemyA function to delete nodes that hit a certain Y value.
+        // use the obtainEnemyA function to delete nodes that hit a certain Y value.
       tmp = headEnemyA; 
 		while(tmp->next != NULL)
 		{
@@ -370,6 +372,7 @@ void main (void)
 				tmp->isActive = false;
 				counter = counter + 8; // Defeat an enemy and add one to the counter.
 			}
+// This checks for player and enemy collision. If they collide the game ends.
 			if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
 			{
 				player->isActive = false;
@@ -379,7 +382,7 @@ void main (void)
 
 
 
-
+// This will obtain the enemy and delete them
 		obtainEnemyA (headEnemyA);
 
 
@@ -389,10 +392,9 @@ void main (void)
 // I do know that this code is slightly pointless. I just want to mess with bit masking.
 if(counter >= 8 && max != 8)
 	{
-		value = status;
 		mask = 0x01000000;
-		status = status | mask;
-			if (status == 0x11000000) // check the second bit to see if an enemy can be added.
+		value = status | mask;
+			if (value == 0x11000000) // check the second bit to see if an enemy can be added.
 				{
 					appendEnemyA(headEnemyA);
 					max = max + 1;

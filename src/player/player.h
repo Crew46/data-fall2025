@@ -122,7 +122,7 @@ void HandleInput(Player* player)
 
 void PlayerUpdate(Player* player)
 {
-    if(player->object.isActive)
+    if(player->object.status & IsActiveFlag)
     {
         //handle input every frame
         HandleInput(player);

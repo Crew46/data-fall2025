@@ -5,6 +5,8 @@
 #include "../vector/vector2.h"
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "weapon.h"
+#include "../tools/debugger.h"
 
 //initialize instances list
 DoublyLinkedList* laserList = CreateDoublyLinkedList();
@@ -77,6 +79,11 @@ void DrawLaser(Laser* laser)
 void LaserUpdate(Laser* laser)
 {
     //logical operations here
+    laser->age += 1.0 / 60.0;
+    if(laser->age > laser->lifetime)
+    {
+        laser->object.status |= DeletionMarkFlag;
+    }
 
     //draw
     DrawLaser(laser);
@@ -102,9 +109,27 @@ void UpdateAllLasers()
 
     while(currentNode != NULL)
     {
-        LaserUpdate((Laser*)currentNode->data);
+        if(currentNode->data != NULL)
+        {
+            LaserUpdate((Laser*)currentNode->data);
+            if(currentNode->data->status & DeletionMarkFlag)
+            //if(false)
+            {
+                DoublyNode* temp = currentNode;
+                currentNode = currentNode->next;
 
-        currentNode = currentNode->next;
+                DeconstructLaser((Laser*)temp->data);
+                DoublyLinkedListDeleteNode(laserList, temp);
+            }
+            else
+            {
+                currentNode = currentNode->next;
+            }
+        }
+        else
+        {
+            currentNode = currentNode->next;
+        }
     }
 }
 
@@ -113,13 +138,15 @@ void DeconstructAllLasers()
 {
     //loop through all instances of laser controller
     DoublyNode* currentNode = laserList->head;
+    DoublyNode* next;
 
     while(currentNode != NULL)
     {
+        next = currentNode->next;
         DeconstructLaser((Laser*)currentNode->data);
         DoublyLinkedListDeleteNode(laserList, currentNode);
 
-        currentNode = currentNode->next;
+        currentNode = next;
     }
 }
 

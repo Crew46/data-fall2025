@@ -3,6 +3,9 @@
 #include "string.h"
 #include "video.h"
 
+#define IsActiveFlag 0x00000001
+#define DeletionMarkFlag 0x00000002
+
 ////////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -10,6 +13,7 @@
 struct Object
 {
     int* name; //string for name of object
+    int status; //Current status of the object
     int textureID; //texture id
     int regionID; //region id
     int id; //object id
@@ -17,7 +21,6 @@ struct Object
     int y; //y
     float xdir; //input direction x
     float ydir; //input direction y
-    bool isActive; //active in scene
     int speed; //speed in scene
 };
 
@@ -33,12 +36,20 @@ void InitializeObject(Object* object, int* name, int textureID, int regionID, in
 
     //initialize object fields
     object->name = playerName;
+    object->status = 0;
+    if(isActive)
+    {
+        object->status |= IsActiveFlag;
+    }
+    else
+    {
+        object->status &= ~IsActiveFlag;
+    }
     object->x = x;
     object->y = y;
     object->textureID = textureID;
     object->regionID = regionID;
     object->id = id;
-    object->isActive = isActive;
     object->speed = speed;
 
     //default values

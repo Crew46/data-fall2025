@@ -101,7 +101,7 @@ void PrintObjectDataAt(int x, int y, Object* object)
     print_at(x, y + leading * 10, "Misc: ");
 
     print_at(x + tracking * 1, y + leading * 11, "active: ");
-    PrintIntAt(x + tracking * 5, y + leading * 11, object->isActive);
+    PrintIntAt(x + tracking * 5, y + leading * 11, object->status);
     print_at(x + tracking * 1, y + leading * 12, "id: ");
     PrintIntAt(x + tracking * 5, y + leading * 12, object->id);
 

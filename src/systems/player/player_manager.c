@@ -1,5 +1,7 @@
 #ifndef PLAYER_MANAGER_C
 #define PLAYER_MANAGER_C
+#include "misc.h"
+#include "player_manager.h"
 #include "player_controller.h"
 #include "player_model.h"
 #include "player_view.h"
@@ -8,6 +10,7 @@
 #include "../../architecture/game_object/game_object_manager.h"
 #include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
+PlayerManager* playerManager;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -17,11 +20,13 @@
 
 void InitializePlayerManager()
 {
+    playerManager = (PlayerManager*)malloc(sizeof(PlayerManager));
 }
 
-void DeinitializePlayerManager()
+void DeinitializePlayerManager(PlayerManager* playerManager)
 {
-
+    //free linked list
+    free(playerManager);
 }
 
 //=========================================================
@@ -30,18 +35,22 @@ void DeinitializePlayerManager()
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializePlayerController(PlayerController* playerController, PlayerModel* playerModel)
+void InitializePlayer(Player* player, float speed)
 {
-
+    ObjectManagerInitializeObject((Object*)player);
+    player->speed = speed;
+    player->state = PLAYER_MOVEMENT_STATE_IDLE;
 }
 
-PlayerController* ConstructPlayerController(float speed, float maxShootCooldownTime)
+Player* ConstructPlayerController(float speed)
 {
-
+    Player* player = (Player*)malloc(sizeof(Player));
+    InitializePlayer(player);
+    return player;
 }
 
 //player controller deconstructor
-void DeconstructPlayerController(PlayerController* playerController)
+void DeconstructPlayerController(Player* player)
 {
 }
 

@@ -75,13 +75,17 @@ void appendEnemyA (Object *enemyList)
 		}
 	xpos = xpos + 35;
 }
+// rmnode checks
 void rmnode(Object * tmp2)
 	{
 		if(tmp2 ->isActive == false)
-		{
+	{
 		free(tmp2);
+		if(tmp2 != NULL)
+		{
 		tmp2 = NULL;
 		}
+	}
 	}
 
 

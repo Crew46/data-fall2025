@@ -40,19 +40,22 @@ struct Object
     int     speed;
 	int		height;
 	int		width;// Ints after here seem to work.
-    Object *next;
+    Object *head;
+	Object *tail;
+	Object *next;
+	Object *previous;
 };
 ////////////////////////////////////////////////////////////////////////////////////
 
 // Prepping what we need.
-Object *headEnemyA;
+Object *enemyList;
 Object *laser;
 // This function will create a single EnemyA everytime it is used.
-void appendEnemyA (Object *headEnemyA)
+void appendEnemyA (Object *enemyList)
 {
     Object *tmp         = NULL;
                 
-    tmp                 = headEnemyA;
+    tmp                 = enemyList;
     while (tmp -> next != NULL)
     {
         tmp             = tmp -> next;
@@ -66,35 +69,35 @@ void appendEnemyA (Object *headEnemyA)
 	EnemyA -> width		= 10;
 	EnemyA -> isActive	= true;
     tmp    -> next      = EnemyA;    
-    xpos                = xpos + 20;
 	if(xpos > 610)
 		{
 			xpos = 10;
 		}
+	xpos = xpos + 35;
 }
 
 // The obtain function that is currently used to delete enemies.
 
-void obtainEnemyA (Object * headEnemyA)
+void obtainEnemyA (Object * enemyList)
 {
-    Object *tmp           = headEnemyA;
-    Object *deletetmp     = headEnemyA;
+    Object *tmp           = enemyList;
+    Object *tmp2     	  = enemyList;
 
     if (tmp ->next-> isActive == false) 
     {
-		appendEnemyA(headEnemyA);
-        deletetmp         = tmp -> next;
-        tmp -> next       = deletetmp -> next;
-        free (deletetmp);
+		appendEnemyA(enemyList);
+        tmp2         	  = tmp -> next;
+        tmp -> next       = tmp2 -> next;
+        free (tmp2);
         tmp               = tmp -> next;
     }
 }
 
 // This will insert the enemy at the desired position.
-void insertEnemyA ( Object * headEnemyA, int position)
+void insertEnemyA ( Object * enemyList, int position)
 {
 i = 0;
-	Object *tmp			  = headEnemyA;
+	Object *tmp			  = enemyList;
 		while(i != position)
 			{
 				i = i+1;
@@ -107,15 +110,16 @@ i = 0;
 		EnemyA -> height	= 10;
 		EnemyA -> width		= 10;
 		EnemyA -> isActive 	= true;
-		xpos = xpos + 20;
+
 		if (xpos > 610)
 			{
 				xpos = 10;
 			}
-		Object *deletetmp 	= tmp->next;
+		xpos = xpos + 35;
+		Object *tmp2 	= tmp->next;
 		tmp ->next = EnemyA;
 		tmp = tmp -> next;
-		tmp->next = deletetmp;	
+		tmp->next = tmp2;	
 }
 
 ///////////////////////////////////////////////////////////////////////////////// Time for collision detection
@@ -141,18 +145,19 @@ void main (void)
 {        
     Object *tmp          = NULL;
 	laser 				 = NULL;
-    headEnemyA           = NULL;
+    enemyList            = NULL;
     xpos                 = 20;
     ypos                 = 0;
 	max					 = 0;
+	position			 = 0;
 	status				 = 0x10000000;
     // creating the head and malloc it.
-    Object *headEnemyA   = (Object *) malloc (sizeof (Object));
-    if (headEnemyA      == NULL)
+    Object *enemyList   = (Object *) malloc (sizeof (Object));
+    if (enemyList       == NULL)
     {
         exit ();
     }
-    headEnemyA -> next   = NULL;
+    enemyList -> next   = NULL;
 
 /// Creating the laser.
 	Object * laser = (Object *)malloc(sizeof(Object));
@@ -162,15 +167,15 @@ void main (void)
     // 
     // 
     // We are spawning and inserting the enemies.   
-    appendEnemyA (headEnemyA);
-    appendEnemyA (headEnemyA);
-    appendEnemyA (headEnemyA);
-    appendEnemyA (headEnemyA);
-    appendEnemyA (headEnemyA);
-	appendEnemyA (headEnemyA);
-	insertEnemyA (headEnemyA, 0);
-	insertEnemyA (headEnemyA, 3);
-	insertEnemyA (headEnemyA, 1);
+    appendEnemyA (enemyList);
+    appendEnemyA (enemyList);
+    appendEnemyA (enemyList);
+    appendEnemyA (enemyList);
+    appendEnemyA (enemyList);
+	appendEnemyA (enemyList);
+	insertEnemyA (enemyList, 0);
+	insertEnemyA (enemyList, 3);
+	insertEnemyA (enemyList, 1);
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -340,7 +345,7 @@ void main (void)
         //
         // Adjust enemy positions based on randomness and draw them.
         //	
-        tmp                = headEnemyA;
+        tmp                = enemyList;
         while(tmp -> next != NULL)
         {
             tmp = tmp->next;
@@ -362,7 +367,7 @@ void main (void)
 		}  
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
-      tmp = headEnemyA; 
+      tmp = enemyList; 
 		while(tmp->next != NULL)
 		{
 			tmp = tmp->next;
@@ -383,7 +388,7 @@ void main (void)
 
 
 // This will obtain the enemy and delete them
-		obtainEnemyA (headEnemyA);
+		obtainEnemyA (enemyList);
 
 
 // After defeating a certain amount of enemies add another one to the max.
@@ -396,7 +401,7 @@ if(counter >= 8 && max != 8)
 		value = status | mask;
 			if (value == 0x11000000) // check the second bit to see if an enemy can be added.
 				{
-					appendEnemyA(headEnemyA);
+					appendEnemyA(enemyList);
 					max = max + 1;
 					status = value;
 				}

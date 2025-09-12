@@ -19,18 +19,25 @@ void InitializePlayerManager()
 {
 }
 
+void DeinitializePlayerManager()
+{
+
+}
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///////////PLAYER CONTROLLER CONSTRUCTION//////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializePlayerController(PlayerController* playerController, int* name, PlayerModel* playerModel, int gamepadID)
+void InitializePlayerController(PlayerController* playerController, PlayerModel* playerModel)
 {
+
 }
 
-PlayerController* ConstructPlayerController(float speed, float maxShootCooldownTime, int gamepadID)
+PlayerController* ConstructPlayerController(float speed, float maxShootCooldownTime)
 {
+
 }
 
 //player controller deconstructor

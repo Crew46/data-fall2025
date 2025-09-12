@@ -41,7 +41,9 @@ struct Object
 	int		height;
 	int		width;// Ints after here seem to work.
     Object *head;
+	Object *tail;
 	Object *next;
+	Object *previous;
 };
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,27 +54,12 @@ Object *laser;
 void appendEnemyA (Object *enemyList)
 {
     Object *tmp         = NULL;
-// If there is no head make one.
-	if(enemyList->head == NULL)
-		{
-	tmp 				= enemyList;
-	Object * EnemyA 	= (Object *) malloc (sizeof (Object));
-	EnemyA ->next 		= NULL;
-	EnemyA ->x			= xpos;
-	EnemyA ->y			= ypos;
-	EnemyA ->height		= 10;
-	EnemyA ->width		= 10;
-	EnemyA -> isActive  = true;
-	tmp	   -> head 		= EnemyA;
-	xpos = xpos + 35;
-		} 
-	else
-{
-	tmp					= enemyList->head;
+                
+    tmp                 = enemyList;
     while (tmp -> next != NULL)
     {
         tmp             = tmp -> next;
-    }   
+    }    
 
     Object *EnemyA      = (Object *) malloc (sizeof (Object));
     EnemyA -> next      = NULL;
@@ -87,7 +74,6 @@ void appendEnemyA (Object *enemyList)
 			xpos = 10;
 		}
 	xpos = xpos + 35;
-}
 }
 // rmnode checks
 void rmnode(Object * tmp2)
@@ -108,21 +94,9 @@ void rmnode(Object * tmp2)
 
 void obtainEnemyA (Object * enemyList)
 {
-	Object *tmp			  = enemyList;
-	Object *tmp2		  = enemyList;
-	if(enemyList->head->isActive == false)
-		{
-		appendEnemyA(enemyList);
-		tmp2			  = enemyList->head;
-		enemyList->head   = tmp2->next;
-		rmnode(tmp2);
-		}	
 
-
-
-
-	tmp           = enemyList->head;
-    tmp2     	  = enemyList->head;
+	Object *tmp           = enemyList;
+    Object *tmp2     	  = enemyList;
 	while( tmp-> next != NULL)
 	{
     if (tmp ->next-> isActive == false) 
@@ -140,7 +114,7 @@ void obtainEnemyA (Object * enemyList)
 void insertEnemyA ( Object * enemyList, int position)
 {
 i = 0;
-	Object *tmp			  = enemyList->head;
+	Object *tmp			  = enemyList;
 		while(i != position)
 			{
 				i = i+1;
@@ -200,7 +174,7 @@ void main (void)
     {
         exit ();
     }
-    enemyList -> head   = NULL;
+    enemyList -> next   = NULL;
 
 /// Creating the laser.
 	Object * laser = (Object *)malloc(sizeof(Object));
@@ -210,7 +184,7 @@ void main (void)
     // 
     // 
     // We are spawning and inserting the enemies.   
-	appendEnemyA (enemyList);
+    appendEnemyA (enemyList);
     appendEnemyA (enemyList);
     appendEnemyA (enemyList);
     appendEnemyA (enemyList);
@@ -238,7 +212,7 @@ void main (void)
     select_texture (BACKGROUND_TEXTURE);
     select_region (BACKGROUND_REGION);
     define_region_topleft (0, 0, 639, 359);
-
+    
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the player texture and region
@@ -388,7 +362,7 @@ void main (void)
         //
         // Adjust enemy positions based on randomness and draw them.
         //	
-        tmp                = enemyList->head;
+        tmp                = enemyList;
         while(tmp -> next != NULL)
         {
             tmp = tmp->next;
@@ -410,7 +384,7 @@ void main (void)
 		}  
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
-      tmp = enemyList->head; 
+      tmp = enemyList; 
 		while(tmp->next != NULL)
 		{
 			tmp = tmp->next;

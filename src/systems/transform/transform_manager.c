@@ -33,12 +33,17 @@ void DeinitializeTransformManager(TransformManager* transformManager)
     free(transformManager);
 }
 
+//transform components
+
 void InitializeTransformComponent(TransformComponent* transformComponent)
 {
     //initialize component base
     ComponentManagerInitializeComponent(&transformComponent->base, TRANSFORM_COMPONENT);
     //initialize vector to 0, 0
     InitializeVector2(&transformComponent->position, 0, 0);
+    InitializeVector2(&transformComponent->localPosition, 0, 0);
+    transformComponent->localRotation = 0;
+    transformComponent->rotation = 0;
 }
 
 TransformComponent* ConstructTransformComponent()
@@ -56,6 +61,8 @@ void DeconstructTransformComponent(TransformComponent* transform)
     ComponentManagerDeconstructComponent(&transform->base);
     //position
     DeconstructVector2(&transform->position); 
+    DeconstructVector2(&transform->localPosition);
+    //free struct
     free(transform);
 }
 
@@ -70,10 +77,16 @@ void TransformComponentSetGlobalPosition(TransformComponent* transformComponent,
 {
     transformComponent->position.x = x;
     transformComponent->position.y = y;
+    //if parent is not root, calculate and set local position
+    //if parent is root, local and globa position are equal
 }
 
 void TransformComponentSetLocalPosition(TransformComponent* transformComponent, int x, int y)
 {
+    //if parent is not root, set local position
+    transformComponent->localPosition.x = x;
+    transformComponent->localPosition.y = y;
+    //if parent is root, local position is global position
 }
 
 //=========================================================

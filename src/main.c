@@ -75,22 +75,35 @@ void appendEnemyA (Object *enemyList)
 		}
 	xpos = xpos + 35;
 }
+void rmnode(Object * tmp2)
+	{
+		if(tmp2 ->isActive == false)
+		{
+		free(tmp2);
+		tmp2 = NULL;
+		}
+	}
+
+
 
 // The obtain function that is currently used to delete enemies.
 
 void obtainEnemyA (Object * enemyList)
 {
-    Object *tmp           = enemyList;
-    Object *tmp2     	  = enemyList;
 
+	Object *tmp           = enemyList;
+    Object *tmp2     	  = enemyList;
+	while( tmp-> next != NULL)
+	{
     if (tmp ->next-> isActive == false) 
-    {
+    	{	
 		appendEnemyA(enemyList);
         tmp2         	  = tmp -> next;
         tmp -> next       = tmp2 -> next;
-        free (tmp2);
-        tmp               = tmp -> next;
-    }
+        rmnode(tmp2);
+    	}
+	tmp = tmp->next;
+	}
 }
 
 // This will insert the enemy at the desired position.

@@ -14,3 +14,8 @@ collision has been added between enemies and the player.
 The game will end if the player is deactivated (by getting hit by an enemy)
 bitmasking is being used to spawn enemies and to make a bigger max enemy limit. 
 Respawning enemies have been added.
+
+
+
+Week 3
+Edge cases have been added for the head node. Addition of rmnode().

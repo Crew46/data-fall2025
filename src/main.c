@@ -45,6 +45,32 @@ struct Object
 };
 ////////////////////////////////////////////////////////////////////////////////////
 
+// I don't know why I didn't make this sooner '_'
+// This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
+Object * mknode(void)
+	{
+	Object * EnemyA		= (Object *) malloc (sizeof (Object));
+	EnemyA ->next		= NULL;
+	EnemyA -> x			= xpos;
+	EnemyA -> y			= ypos;
+	EnemyA ->height		= 10;
+	EnemyA ->width		= 10;
+	EnemyA -> isActive	= true;
+	if (xpos > 610)
+	{
+		xpos = 10;
+	}
+	xpos =	xpos + 35;
+	return EnemyA;
+	}
+
+
+
+
+
+
+
+
 // Prepping what we need.
 Object *enemyList;
 Object *laser;
@@ -56,14 +82,7 @@ void appendEnemyA (Object *enemyList)
 	if(enemyList->head == NULL)
 		{
 	tmp 				= enemyList;
-	Object * EnemyA 	= (Object *) malloc (sizeof (Object));
-	EnemyA ->next 		= NULL;
-	EnemyA ->x			= xpos;
-	EnemyA ->y			= ypos;
-	EnemyA ->height		= 10;
-	EnemyA ->width		= 10;
-	EnemyA -> isActive  = true;
-	tmp	   -> head 		= EnemyA;
+	tmp	   -> head 		= mknode();
 	xpos = xpos + 35;
 		} 
 	else
@@ -146,18 +165,7 @@ void insertEnemyA ( Object * enemyList, int position)
 	if(position == 0)
 	{
 		Object *EnemyA      = (Object *) malloc (sizeof (Object));
-		EnemyA ->next       = NULL;
-		EnemyA -> x         = xpos;
-		EnemyA -> y			= ypos;
-		EnemyA -> height	= 10;
-		EnemyA -> width		= 10;
-		EnemyA -> isActive  = true;
-		if(xpos > 610)
-			{
-				xpos = 10;
-			}
-		xpos = xpos + 35;
-		enemyList->head		= EnemyA;
+		enemyList->head		= mknode();
 		enemyList->head->next = tmp;
 	}
 
@@ -170,21 +178,8 @@ void insertEnemyA ( Object * enemyList, int position)
 				i = i+1;
 				tmp = tmp->next;	
 			}
-		Object *EnemyA      = (Object *) malloc (sizeof (Object));
-		EnemyA ->next		= NULL;
-		EnemyA -> x			= xpos;
-		EnemyA -> y			= ypos;
-		EnemyA -> height	= 10;
-		EnemyA -> width		= 10;
-		EnemyA -> isActive 	= true;
-
-		if (xpos > 610)
-			{
-				xpos = 10;
-			}
-		xpos = xpos + 35;
 		Object *tmp2 	= tmp->next;
-		tmp ->next = EnemyA;
+		tmp ->next = mknode();
 		tmp = tmp -> next;
 		tmp->next = tmp2;	
 	}

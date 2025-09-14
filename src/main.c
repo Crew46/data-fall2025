@@ -68,6 +68,7 @@ void appendEnemyA (Object *enemyList)
 		} 
 	else
 {
+// If there is a head append and enemy to the end of the list.
 	tmp					= enemyList->head;
     while (tmp -> next != NULL)
     {
@@ -108,6 +109,8 @@ void rmnode(Object * tmp2)
 
 void obtainEnemyA (Object * enemyList)
 {
+// Edge case where head is inactive and needs to be replaced after being
+// marked for deletion.
 	Object *tmp			  = enemyList;
 	Object *tmp2		  = enemyList;
 	if(enemyList->head->isActive == false)
@@ -117,10 +120,7 @@ void obtainEnemyA (Object * enemyList)
 		enemyList->head   = tmp2->next;
 		rmnode(tmp2);
 		}	
-
-
-
-
+// If there is no edge case continue as normal.
 	tmp           = enemyList->head;
     tmp2     	  = enemyList->head;
 	while( tmp-> next != NULL)
@@ -139,8 +139,32 @@ void obtainEnemyA (Object * enemyList)
 // This will insert the enemy at the desired position.
 void insertEnemyA ( Object * enemyList, int position)
 {
-i = 0;
-	Object *tmp			  = enemyList->head;
+	// Edge case where we want to replace the head.
+
+
+	Object * tmp			= enemyList->head;
+	if(position == 0)
+	{
+		Object *EnemyA      = (Object *) malloc (sizeof (Object));
+		EnemyA ->next       = NULL;
+		EnemyA -> x         = xpos;
+		EnemyA -> y			= ypos;
+		EnemyA -> height	= 10;
+		EnemyA -> width		= 10;
+		EnemyA -> isActive  = true;
+		if(xpos > 610)
+			{
+				xpos = 10;
+			}
+		xpos = xpos + 35;
+		enemyList->head		= EnemyA;
+		enemyList->head->next = tmp;
+	}
+
+	else
+	{
+	i = 0;
+	tmp			  			= enemyList->head;
 		while(i != position)
 			{
 				i = i+1;
@@ -163,6 +187,7 @@ i = 0;
 		tmp ->next = EnemyA;
 		tmp = tmp -> next;
 		tmp->next = tmp2;	
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////// Time for collision detection
@@ -192,7 +217,7 @@ void main (void)
     xpos                 = 20;
     ypos                 = 0;
 	max					 = 0;
-	position			 = 0;
+	position			 = 2; 
 	status				 = 0x10000000;
     // creating the head and malloc it.
     Object *enemyList   = (Object *) malloc (sizeof (Object));
@@ -388,10 +413,9 @@ void main (void)
         //
         // Adjust enemy positions based on randomness and draw them.
         //	
-        tmp                = enemyList->head;
-        while(tmp -> next != NULL)
+        tmp                	= enemyList->head;
+        while(tmp -> next  != NULL)
         {
-            tmp = tmp->next;
 		if( tmp -> y > 300)
 			{
 				tmp -> isActive = false;
@@ -407,13 +431,13 @@ void main (void)
             draw_region_at (tmp  -> x, tmp  -> y);
 		
         	}
+		tmp					= tmp->next;	
 		}  
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
       tmp = enemyList->head; 
 		while(tmp->next != NULL)
 		{
-			tmp = tmp->next;
 			 if(laser->isActive == true && tmp->isActive == true && collision(laser, tmp) )
 			{	
 				laser->isActive = false;
@@ -426,6 +450,7 @@ void main (void)
 				player->isActive = false;
 				status = 0x00000000;
 			}
+		tmp						= tmp->next;
 		}
 
 

@@ -13,6 +13,7 @@
 #include "configuration/sound_configurations.h"
 //implementations
 #include "data_structures/doubly_linked_list/doubly_linked_list.c"
+#include "data_structures/singly_linked_list/linked_list.h"
 #include "systems/audio/audio_manager.c"
 #include "architecture/game_object/game_object_manager.c"
 #include "architecture/component/component_manager.c"

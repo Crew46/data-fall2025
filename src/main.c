@@ -41,6 +41,7 @@ struct Object
 	int		height;
 	int		width;// Ints after here seem to work.
     Object *head;
+	Object *tail;
 	Object *next;
 };
 ////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,7 @@ Object * mknode(void)
 	{
 	Object * EnemyA		= (Object *) malloc (sizeof (Object));
 	EnemyA ->next		= NULL;
+	EnemyA ->tail		= NULL;
 	EnemyA -> x			= xpos;
 	EnemyA -> y			= ypos;
 	EnemyA ->height		= 10;
@@ -78,35 +80,33 @@ Object *laser;
 void appendEnemyA (Object *enemyList)
 {
     Object *tmp         = NULL;
+	Object *tmp2		= NULL;
 // If there is no head make one.
 	if(enemyList->head == NULL)
 		{
-	tmp 				= enemyList;
-	tmp	   -> head 		= mknode();
-	xpos = xpos + 35;
-		} 
+	enemyList->head 		= mknode();
+		} 		
 	else
 {
-// If there is a head append and enemy to the end of the list.
+// If there is a head append an enemy to the end of the list.
 	tmp					= enemyList->head;
     while (tmp -> next != NULL)
     {
         tmp             = tmp -> next;
     }   
-
-    Object *EnemyA      = (Object *) malloc (sizeof (Object));
-    EnemyA -> next      = NULL;
-    EnemyA -> x         = xpos;
-    EnemyA -> y         = ypos;
-	EnemyA -> height	= 10;
-	EnemyA -> width		= 10;
-	EnemyA -> isActive	= true;
-    tmp    -> next      = EnemyA;    
-	if(xpos > 610)
-		{
-			xpos = 10;
-		}
-	xpos = xpos + 35;
+// if there is no tail then make one.
+	if(tmp->tail		   == NULL)
+	{
+		tmp->tail			= mknode();
+	}
+// if there is a tail then we can move pointers around.
+	else
+	{
+	tmp2					= tmp->tail;
+	tmp->next				= mknode();
+	tmp->next->tail			= tmp2;
+	tmp->tail				= NULL;
+	}
 }
 }
 // rmnode checks
@@ -138,7 +138,8 @@ void obtainEnemyA (Object * enemyList)
 		tmp2			  = enemyList->head;
 		enemyList->head   = tmp2->next;
 		rmnode(tmp2);
-		}	
+		}
+
 // If there is no edge case continue as normal.
 	tmp           = enemyList->head;
     tmp2     	  = enemyList->head;
@@ -151,7 +152,22 @@ void obtainEnemyA (Object * enemyList)
         tmp -> next       = tmp2 -> next;
         rmnode(tmp2);
     	}
-	tmp = tmp->next;
+// if tail is inactive we will have to remove it.
+	if(tmp->next->tail != NULL)
+	{
+		if(tmp->next->tail->isActive == false)
+		{
+		tmp2                = tmp->next;
+		tmp->tail           = tmp2;
+		tmp->next			= NULL;
+		tmp2				= tmp2->tail;
+		tmp->tail->tail		= NULL;
+		rmnode(tmp2);
+		appendEnemyA(enemyList);
+		}	
+	}
+
+tmp = tmp->next;
 	}
 }
 
@@ -164,11 +180,10 @@ void insertEnemyA ( Object * enemyList, int position)
 	Object * tmp			= enemyList->head;
 	if(position == 0)
 	{
-		Object *EnemyA      = (Object *) malloc (sizeof (Object));
 		enemyList->head		= mknode();
 		enemyList->head->next = tmp;
 	}
-
+// If there is no edge case then insert at a certain spot.
 	else
 	{
 	i = 0;
@@ -237,8 +252,7 @@ void main (void)
     appendEnemyA (enemyList);
 	appendEnemyA (enemyList);
 	insertEnemyA (enemyList, 0);
-	insertEnemyA (enemyList, 3);
-	insertEnemyA (enemyList, 1);
+	insertEnemyA (enemyList, 2);
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -409,8 +423,12 @@ void main (void)
         // Adjust enemy positions based on randomness and draw them.
         //	
         tmp                	= enemyList->head;
-        while(tmp -> next  != NULL)
+        while(tmp->next != NULL || tmp->tail != NULL)
         {
+			if(tmp->next == NULL)
+			{
+				tmp = tmp->tail;
+			}
 		if( tmp -> y > 300)
 			{
 				tmp -> isActive = false;
@@ -426,13 +444,20 @@ void main (void)
             draw_region_at (tmp  -> x, tmp  -> y);
 		
         	}
+		if(tmp->next != NULL)
+		{
 		tmp					= tmp->next;	
+		}
 		}  
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
       tmp = enemyList->head; 
-		while(tmp->next != NULL)
+		while(tmp->next != NULL || tmp->tail != NULL) // Tail check to make sure we get the information from the node.
 		{
+			if(tmp ->next == NULL)
+			{
+				tmp = tmp->tail;
+			}
 			 if(laser->isActive == true && tmp->isActive == true && collision(laser, tmp) )
 			{	
 				laser->isActive = false;
@@ -445,7 +470,10 @@ void main (void)
 				player->isActive = false;
 				status = 0x00000000;
 			}
+		if(tmp ->next != NULL)
+		{
 		tmp						= tmp->next;
+		}
 		}
 
 

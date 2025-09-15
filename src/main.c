@@ -354,12 +354,12 @@ void main (void)
 			// FIRING THE LASER!!!!!
 			if(laser->laserFired && !laser->isActive)				
 				{
-					laser->isActive = true;
-					laser->height = 20;
-					laser->width  = 10;
-					laser->x = player->x + 4;	
-					laser->y = player->y;
-					laser->laserFired = false;
+			laser->isActive = true;
+			laser->height = 20;
+			laser->width  = 10;
+			laser->x = player->x + 4;	
+			laser->y = player->y;
+			laser->laserFired = false;
 				}
 			// This will move the laser up. it will deactivate once it goes far enough.
 			if(laser->isActive == true)
@@ -423,12 +423,9 @@ void main (void)
         // Adjust enemy positions based on randomness and draw them.
         //	
         tmp                	= enemyList->head;
-        while(tmp->next != NULL || tmp->tail != NULL)
+        while(tmp != NULL)
         {
-			if(tmp->next == NULL)
-			{
-				tmp = tmp->tail;
-			}
+	
 		if( tmp -> y > 300)
 			{
 				tmp -> isActive = false;
@@ -445,19 +442,19 @@ void main (void)
 		
         	}
 		if(tmp->next != NULL)
-		{
+			{
 		tmp					= tmp->next;	
-		}
+			}
+		else
+			{
+			tmp = tmp->tail;
+			}
 		}  
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
       tmp = enemyList->head; 
-		while(tmp->next != NULL || tmp->tail != NULL) // Tail check to make sure we get the information from the node.
+		while(tmp != NULL)
 		{
-			if(tmp ->next == NULL)
-			{
-				tmp = tmp->tail;
-			}
 			 if(laser->isActive == true && tmp->isActive == true && collision(laser, tmp) )
 			{	
 				laser->isActive = false;
@@ -470,10 +467,14 @@ void main (void)
 				player->isActive = false;
 				status = 0x00000000;
 			}
-		if(tmp ->next != NULL)
-		{
+		if(tmp->next != NULL)
+			{
 		tmp						= tmp->next;
-		}
+			}
+		else
+			{
+		tmp 					= tmp->tail;
+			}
 		}
 
 

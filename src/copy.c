@@ -100,7 +100,6 @@ void appendEnemyA (Object *enemyList)
 	if(tmp->tail		   == NULL)
 	{
 		tmp->tail			= mknode();
-		enemyList->tail		= tmp->tail;
 		tmp->tail->prev		= tmp;
 	}
 // if there is a tail then we can move pointers around.
@@ -171,7 +170,6 @@ void obtainEnemyA (Object * enemyList)
 		tmp2				= tmp2->tail;
 		tmp2->prev			= NULL;
 		tmp->tail->tail		= NULL;
-		enemyList->tail		= tmp->tail;
 		rmnode(tmp2);
 		appendEnemyA(enemyList);
 		}	
@@ -435,7 +433,7 @@ void main (void)
         //
         // Adjust enemy positions based on randomness and draw them.
         //	
-        tmp                	= enemyList->tail;
+        tmp                	= enemyList->head;
         while(tmp != NULL)
         {
 	
@@ -454,11 +452,18 @@ void main (void)
             draw_region_at (tmp  -> x, tmp  -> y);
 		
         	}
-		tmp					= tmp->prev;
+		if(tmp->next != NULL)
+			{
+		tmp					= tmp->next;	
+			}
+		else
+			{
+			tmp = tmp->tail;
+			}
 		}  
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
-      tmp = enemyList->tail; 
+      tmp = enemyList->head; 
 		while(tmp != NULL)
 		{
 			 if(laser->isActive == true && tmp->isActive == true && collision(laser, tmp) )
@@ -473,7 +478,14 @@ void main (void)
 				player->isActive = false;
 				status = 0x00000000;
 			}
-		tmp						= tmp->prev;
+		if(tmp->next != NULL)
+			{
+		tmp						= tmp->next;
+			}
+		else
+			{
+		tmp 					= tmp->tail;
+			}
 		}
 
 

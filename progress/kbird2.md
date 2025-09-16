@@ -18,4 +18,6 @@ Respawning enemies have been added.
 
 
 Week 3
-Edge cases have been added for the head node. Addition of rmnode().
+Edge cases have been added for the head node and tail node. Addition of rmnode(). Addition of mknode(). The doubly linked list has been added. Restructured and changed 
+a lot of names to make it more clear such as headEnemyA turning into enemyList. Fixed bugs that skipped an extra node.
+head and tail now hold information and can be deleted and made again.

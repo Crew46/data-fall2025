@@ -128,7 +128,6 @@ void UpdateAllWeapons()
         if(currentNode->data != NULL)
         {
             WeaponUpdate((Weapon*)currentNode->data);
-            LaserUpdate((Laser*)currentNode->data);
         }
 
         currentNode = currentNode->next;

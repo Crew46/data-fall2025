@@ -1,5 +1,6 @@
 #ifndef RENDER_COMPONENT_H
 #define RENDER_COMPONENT_H
+#include "../../architecture/component/component.h"
 
 struct RenderComponent
 {

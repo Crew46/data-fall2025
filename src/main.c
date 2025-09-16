@@ -76,11 +76,76 @@ Node* createNode(Object* data)
   return node;
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+// SinglyLinkedList Implementation
+//
+/*
+struct Node
+{
+  Node* next;
+};
+struct SinglyLinkedList
+{
+  Node* head;
+};
 
+SinglyLinkedList* insert(SinglyLinkedList* list, Node* targetNode, Object* obj)
+{
+  if(!list || !newObj)
+    return list;
+
+  Node* newNode = createNode(newObj);
+
+  // List is empty
+  if( !list->head )
+  {
+    list->head = newNode;
+  }
+  else if(list->head == targetNode)
+  {
+    list->head = newNode;
+    newNode->next = targetNode;
+    targetNode->prev = newNode;
+  }
+  else
+  {
+    newNode->prev = targetNode->prev;
+    targetNode->prev->next = newNode;
+    targetNode->prev = newNode;
+    newNode->next = targetNode;
+  }
+
+  return list;
+}
+
+SinglyLinkedList* append(SinglyLinkedList* list, Node* targetNode, Object* obj)
+{
+  if(!list || !newObj)
+      return list;
+
+    Node* newNode = createNode(newObj);
+
+    // List is empty
+    if( !list->head )
+    {
+      list->head = newNode;
+    }
+    else
+    {
+      newNode->next = targetNode->next;
+      targetNode->next->prev = newNode;
+      targetNode->next = newNode;
+      newNode->prev = targetNode;
+    }
+
+    return list;
+} 
+*/
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-//  Linked List struct and helpers
+//  Doubly Linked List struct and helpers
 //
 struct DoublyLinkedList
 {

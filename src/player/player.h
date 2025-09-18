@@ -181,18 +181,18 @@ void DeconstructAllPlayers()
 //=========================================================
 
 //constructor
-Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, float maxShootCooldownTime, int gamepadID)
+Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int team, int speed, float maxShootCooldownTime, int gamepadID)
 {
     //allocate memory for player
     Player* player = (Player*)malloc(sizeof(Player));
 
     //player object properties initialization
-    InitializeObject(&player->object, name, textureID, regionID, id, x, y, isActive, speed);    
+    InitializeObject(&player->object, name, textureID, regionID, id, x, y, isActive, team, speed);
 
     //player properties initialization
     player->gamepadID = gamepadID;
     player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
-    player->weapon = CreateWeapon("gun", WEAPON_TEXTURES, WEAPON_REGION, 0, player->object.x, player->object.y, true, player->object.speed, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);// Default weapon type
+    player->weapon = CreateWeapon("gun", WEAPON_TEXTURES, WEAPON_REGION, 0, player->object.x, player->object.y, true, team, player->object.speed, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);// Default weapon type
 
     DoublyLinkedListInsertAtTail(playerList, &player->object);
 

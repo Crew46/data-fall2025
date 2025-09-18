@@ -2,9 +2,12 @@
 #define OBJECT_H
 #include "string.h"
 #include "video.h"
+#include "math.h"
 
 #define IsActiveFlag 0x00000001
 #define DeletionMarkFlag 0x00000002
+#define TeamFlagMask 0x000000C
+#define TeamFlagOffset 2
 
 ////////////////////////////////////////////////////////////////
 ///////////Struct///////////////////////////////////////////////
@@ -28,7 +31,7 @@ struct Object
 ///////////Constructor & Deconstructor//////////////////////////
 ////////////////////////////////////////////////////////////////
 
-void InitializeObject(Object* object, int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
+void InitializeObject(Object* object, int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int team, int speed)
 {
     //copy the string that was passed in into the player name field
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
@@ -36,6 +39,7 @@ void InitializeObject(Object* object, int* name, int textureID, int regionID, in
 
     //initialize object fields
     object->name = playerName;
+
     object->status = 0;
     if(isActive)
     {
@@ -45,6 +49,8 @@ void InitializeObject(Object* object, int* name, int textureID, int regionID, in
     {
         object->status &= ~IsActiveFlag;
     }
+    object->status |= (team << TeamFlagOffset) & TeamFlagMask;
+
     object->x = x;
     object->y = y;
     object->textureID = textureID;
@@ -57,11 +63,11 @@ void InitializeObject(Object* object, int* name, int textureID, int regionID, in
     object->ydir = 0;
 }
 
-Object* CreateObject(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed)
+Object* CreateObject(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int team, int speed)
 {
     //malloc object and initialize then return
     Object* object = (Object*)malloc(sizeof(Object));
-    InitializeObject(object, name, textureID, regionID, id, x, y, isActive, speed);
+    InitializeObject(object, name, textureID, regionID, id, x, y, isActive, team, speed);
     return object;
 }
 
@@ -80,7 +86,26 @@ void DrawObject(Object* object)
 {
     select_texture(object->textureID);
     select_region(object->regionID);
-    draw_region_at(object->x, object->y);
+    int team = (object->status & TeamFlagMask) >> TeamFlagOffset;
+    switch(team)
+    {
+        case 0:
+            set_drawing_angle(0.0);
+            break;
+        case 1:
+            set_drawing_angle(pi / 2.0);
+            break;
+        case 2:
+            set_drawing_angle(pi);
+            break;
+        case 3:
+            set_drawing_angle(3.0 * pi / 2.0);
+            break;
+        default:
+            set_drawing_angle(0.0);
+            break;
+    }
+    draw_region_rotated_at(object->x, object->y);
 }
 
 #endif //OBJECT_H

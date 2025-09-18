@@ -41,10 +41,10 @@ struct Laser {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Laser* CreateLaser(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int speed, LaserType type, float lifetime)
+Laser* CreateLaser(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int team, int speed, LaserType type, float lifetime)
 {
     Laser* laser = (Laser*)malloc(sizeof(Laser));
-    InitializeObject(&laser->object, name, textureID, regionID, laserIdCounter++, x, y, isActive, speed);
+    InitializeObject(&laser->object, name, textureID, regionID, laserIdCounter++, x, y, isActive, team, speed);
     laser->type = type;
     laser->lifetime = lifetime;
     laser->age = 0.0;

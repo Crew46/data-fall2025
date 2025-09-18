@@ -17,21 +17,32 @@
 #define  ENEMY_WIDTH         10
 #define  ENEMY_HEIGHT        10
 
+// We need to know if the object is embedded so we can free memory properly
+enum ObjectType
+{
+  Object_Type_None,
+  Object_Type_Laser,
+  Object_Type_Weapon,
+  Object_Type_Entity
+};
 // Object struct which will be our base struct 
 struct Object
 {
-  int     textureID;
-  int     regionID;
-  int     id;
-  int     x;
-  int     y;
-  int     xDir;
-  int     yDir;
-  bool    isActive;
+  ObjectType  type;
+  int         textureID;
+  int         regionID;
+  int         id;
+  int         x;
+  int         y;
+  int         xDir;
+  int         yDir;
+  bool        isActive;
 };
 
-void initObject(Object* obj, int textureID, int regionID, int xPos, int yPos, bool isActive)
+// This function is mainly for our embedded object 
+void initObject(Object* obj, ObjectType objT, int textureID, int regionID, int xPos, int yPos, bool isActive)
 {
+  obj->type       = objT;
   obj->textureID  = textureID;
   obj->regionID   = regionID;
   obj->x          = xPos;
@@ -43,6 +54,7 @@ void initObject(Object* obj, int textureID, int regionID, int xPos, int yPos, bo
 Object* createObject(int textureID, int regionID, int x, int y, bool isActive)
 {
   Object* obj     = (Object*)malloc(sizeof(Object));
+  obj->type       = Object_Type_None; // Has no parent
   obj->textureID  = textureID;
   obj->regionID   = regionID;
   obj->x          = x;
@@ -52,7 +64,16 @@ Object* createObject(int textureID, int regionID, int x, int y, bool isActive)
   return obj;
 }
 
+struct Laser
+{
+  Object obj;
+};
 
+Laser* createLaser(int textureID, int regionID, int x, int y, bool isActive)
+{
+  Laser* laser = (Laser*)malloc(sizeof(Laser));
+  initObject(&laser->obj, Object_Type_Laser, textureID, regionID, x, y, isActive);
+}
 enum WeaponType
 {
   Weapon_Type_None,
@@ -78,16 +99,40 @@ struct Entity
   Weapon* weapon;
 };
 
-Object* deleteObject(Object** obj)
+void deleteObject(Object** obj)
 {
-  Entity* parent = (Entity*)*obj;
-  free(parent);
+  
+  switch((*obj)->type)
+  {
+    case Object_Type_None: {
+      free(*obj);
+      break;
+    }
+    case Object_Type_Laser: {
+      Laser* laser = (Laser*)*obj;
+      free(laser);
+      break;
+    }
+    case Object_Type_Weapon: {
+      Weapon* weapon = (Weapon*)*obj;
+      free(weapon);
+      break;
+    }
+    case Object_Type_Entity: {
+      Entity* entity = (Entity*)*obj;
+      free(entity);
+      break;
+    }
+    default:
+      break;
+  }
   *obj = NULL;
 }
+
 Entity* createEntity(int textureID, int regionID, int x, int y, bool isActive, WeaponType wType)
 {
   Entity* entity = (Entity*)malloc(sizeof(Entity));
-  initObject(&entity->obj, textureID, regionID, x, y, isActive);
+  initObject(&entity->obj, Object_Type_Entity, textureID, regionID, x, y, isActive);
   entity->weapon  = createWeapon(wType);
   return entity;
 }
@@ -335,7 +380,6 @@ DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos, WeaponT
   list = append( list, list->tail, &entity->obj );
 
   return list;
-
 }
 
 DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
@@ -483,7 +527,7 @@ void main (void)
         //
         // Update the player
         //
-        updatePlayer( player );
+        player = updatePlayer( player );
 
         ////////////////////////////////////////////////////////////////////////////////
         //

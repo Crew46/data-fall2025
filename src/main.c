@@ -103,15 +103,16 @@ void appendEnemyA (Object *enemyList)
 		enemyList->tail		= tmp->tail;
 		tmp->tail->prev		= tmp;
 	}
-// if there is a tail then we can move pointers around.
+// if there is a tail then we will make a new tail.
 	else
 	{
 	tmp2					= tmp->tail;
-	tmp->next				= mknode();
-	tmp->next->prev				= tmp;
-	tmp->next->tail			= tmp2;
+	tmp->next				= tmp2;
+	tmp->tail			 	= NULL;
+	tmp->next->prev			= tmp;
+	tmp->next->tail			= mknode();
 	tmp->next->tail->prev	= tmp->next;
-	tmp->tail				= NULL;
+	enemyList->tail			= tmp->next->tail;
 	}
 }
 }

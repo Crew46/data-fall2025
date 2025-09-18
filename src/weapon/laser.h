@@ -76,6 +76,12 @@ void DrawLaser(Laser* laser)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
+//move laser in a direction, where then direction is scaled by the laser's speed
+void LaserMoveInDirection(Laser* laser)
+{
+    ObjectMoveInDirection(&laser->object);
+}
+
 void LaserUpdate(Laser* laser)
 {
     //logical operations here
@@ -84,6 +90,29 @@ void LaserUpdate(Laser* laser)
     {
         laser->object.status |= DeletionMarkFlag;
     }
+
+    switch(StatusGetTeam(laser->object.status))
+    {
+        case 0:
+            laser->object.xdir = 0.0;
+            laser->object.ydir = -1.0;
+            break;
+        case 1:
+            laser->object.xdir = 1.0;
+            laser->object.ydir = 0.0;
+            break;
+        case 2:
+            laser->object.xdir = 0.0;
+            laser->object.ydir = 1.0;
+            break;
+        case 3:
+            laser->object.xdir = -1.0;
+            laser->object.ydir = 0.0;
+            break;
+        default:
+            break;
+    }
+    LaserMoveInDirection(laser);
 
     //draw
     DrawLaser(laser);

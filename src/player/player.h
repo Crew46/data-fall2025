@@ -52,15 +52,7 @@ struct Player
 //move player in a direction, where then direction is scaled by the player's speed
 void PlayerMoveInDirection(Player* player)
 {
-    float resultX;
-    float resultY;
-    //add player position and direction to player position
-    MultiplyVector2ByScalar(player->object.xdir, player->object.ydir, player->object.speed, &resultX, &resultY); // Scale the movement vector by the player's speed
-    float resultsX2;
-    float resultsY2;
-    AddVector2Components(resultX, player->object.x, resultY, player->object.y, &resultsX2, &resultsY2);
-    player->object.x = round(resultsX2);
-    player->object.y = round(resultsY2);
+    ObjectMoveInDirection(&player->object);
 }
 
 

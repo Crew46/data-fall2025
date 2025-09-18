@@ -3,6 +3,8 @@
 #include "string.h"
 #include "video.h"
 #include "math.h"
+#include "vector/vector2.h"
+
 
 #define IsActiveFlag 0x00000001
 #define DeletionMarkFlag 0x00000002
@@ -106,6 +108,25 @@ void DrawObject(Object* object)
             break;
     }
     draw_region_rotated_at(object->x, object->y);
+}
+
+//move object in a direction, where then direction is scaled by the object's speed
+void ObjectMoveInDirection(Object* object)
+{
+    float resultX;
+    float resultY;
+    //add object position and direction to object position
+    MultiplyVector2ByScalar(object->xdir, object->ydir, object->speed, &resultX, &resultY); // Scale the movement vector by the object's speed
+    float resultsX2;
+    float resultsY2;
+    AddVector2Components(resultX, object->x, resultY, object->y, &resultsX2, &resultsY2);
+    object->x = round(resultsX2);
+    object->y = round(resultsY2);
+}
+
+int StatusGetTeam(int status)
+{
+    return (status & TeamFlagMask) >> TeamFlagOffset;
 }
 
 #endif //OBJECT_H

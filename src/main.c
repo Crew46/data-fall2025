@@ -17,42 +17,81 @@
 #define  ENEMY_WIDTH         10
 #define  ENEMY_HEIGHT        10
 
-////////////////////////////////////////////////////////////////////////////////////
-//
-//  Object struct and helpers
-//
+// Object struct which will be our base struct 
 struct Object
 {
-    int     textureID;
-    int     regionID;
-    int     id;
-    int     x;
-    int     y;
-    int     xdir;
-    int     ydir;
-    bool    isActive;
-    int     speed;
-    Object  *next;
+  int     textureID;
+  int     regionID;
+  int     id;
+  int     x;
+  int     y;
+  int     xDir;
+  int     yDir;
+  bool    isActive;
 };
 
-Object* createObject(int textureID, int regionID, int xPos, int yPos, bool isActive, Object* next)
+void initObject(Object* obj, int textureID, int regionID, int xPos, int yPos, bool isActive)
 {
-  Object* obj = (Object*)malloc(sizeof(Object));
-  obj->textureID = textureID;
-  obj->regionID = regionID;
-  obj->x = xPos;
-  obj->y = yPos;
-  obj->isActive = isActive;
-  obj->next = next;
+  obj->textureID  = textureID;
+  obj->regionID   = regionID;
+  obj->x          = xPos;
+  obj->y          = yPos;
+  obj->isActive   = isActive;
+  
+}
 
+Object* createObject(int textureID, int regionID, int x, int y, bool isActive)
+{
+  Object* obj     = (Object*)malloc(sizeof(Object));
+  obj->textureID  = textureID;
+  obj->regionID   = regionID;
+  obj->x          = x;
+  obj->y          = y;
+  obj->isActive   = isActive;
+  
   return obj;
 }
 
+
+enum WeaponType
+{
+  Weapon_Type_None,
+  Weapon_Type_Laser,
+};
+
+struct Weapon
+{
+  WeaponType weaponType;
+};
+
+Weapon* createWeapon(WeaponType wType)
+{
+  Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
+  weapon->weaponType = wType;
+  return weapon;
+}
+
+// Entity struct which is a substruct of Object
+struct Entity
+{
+  Object obj;
+  Weapon* weapon;
+};
+
 Object* deleteObject(Object** obj)
 {
-  free(*obj);
+  Entity* parent = (Entity*)*obj;
+  free(parent);
   *obj = NULL;
 }
+Entity* createEntity(int textureID, int regionID, int x, int y, bool isActive, WeaponType wType)
+{
+  Entity* entity = (Entity*)malloc(sizeof(Entity));
+  initObject(&entity->obj, textureID, regionID, x, y, isActive);
+  entity->weapon  = createWeapon(wType);
+  return entity;
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -75,73 +114,6 @@ Node* createNode(Object* data)
 
   return node;
 }
-
-////////////////////////////////////////////////////////////////////////////////////
-//
-// SinglyLinkedList Implementation
-//
-/*
-struct Node
-{
-  Node* next;
-};
-struct SinglyLinkedList
-{
-  Node* head;
-};
-
-SinglyLinkedList* insert(SinglyLinkedList* list, Node* targetNode, Object* obj)
-{
-  if(!list || !newObj)
-    return list;
-
-  Node* newNode = createNode(newObj);
-
-  // List is empty
-  if( !list->head )
-  {
-    list->head = newNode;
-  }
-  else if(list->head == targetNode)
-  {
-    list->head = newNode;
-    newNode->next = targetNode;
-    targetNode->prev = newNode;
-  }
-  else
-  {
-    newNode->prev = targetNode->prev;
-    targetNode->prev->next = newNode;
-    targetNode->prev = newNode;
-    newNode->next = targetNode;
-  }
-
-  return list;
-}
-
-SinglyLinkedList* append(SinglyLinkedList* list, Node* targetNode, Object* obj)
-{
-  if(!list || !newObj)
-      return list;
-
-    Node* newNode = createNode(newObj);
-
-    // List is empty
-    if( !list->head )
-    {
-      list->head = newNode;
-    }
-    else
-    {
-      newNode->next = targetNode->next;
-      targetNode->next->prev = newNode;
-      targetNode->next = newNode;
-      newNode->prev = targetNode;
-    }
-
-    return list;
-} 
-*/
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
@@ -278,8 +250,8 @@ Node* obtain(DoublyLinkedList** list, Node* node)
   // Only one node in the list
   if(node == (*list)->head && node == (*list)->tail)
   {
-    (*list)->head == NULL;
-    (*list)->tail == NULL;
+    (*list)->head = NULL;
+    (*list)->tail = NULL;
   }
   else if(node == (*list)->head)
   {
@@ -315,12 +287,12 @@ bool exceedsBounds(Object* obj)
   return false;
 }
 
-void moveObject(Object* obj, int xdir, int ydir)
+void moveObject(Object* obj, int xDir, int yDir)
 {
-  obj  -> xdir   = xdir;
-  obj  -> ydir   = ydir; 
-  obj  -> x      = obj  -> x + obj  -> xdir;
-  obj  -> y      = obj  -> y + obj  -> ydir;
+  obj  -> xDir   = xDir;
+  obj  -> yDir   = yDir;
+  obj  -> x      = obj  -> x + obj  -> xDir;
+  obj  -> y      = obj  -> y + obj  -> yDir;
 }
 void drawObject(Object* obj)
 {
@@ -348,19 +320,19 @@ void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_W
   int bBottom = objB->y + objB_Height;
 
 
-  if( aLeft <= bRight 
-      && aRight >= bLeft 
-      && aBottom >= bTop 
+  if( aLeft <= bRight
+      && aRight >= bLeft
+      && aBottom >= bTop
       && aTop <= bBottom) {
 
     print_at(300, 120, "COLLISION");
   }
 }
 
-DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos)
+DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos, WeaponType wType)
 {
-  Object* enemy = createObject( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, true, NULL );
-  list = append( list, list->tail, enemy );
+  Entity* entity = createEntity( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, true, wType);
+  list = append( list, list->tail, &entity->obj );
 
   return list;
 
@@ -376,12 +348,12 @@ DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
   {
     next  = current->next;
     enemy = current->data;
-    
+
     for(Node* b = next; b != NULL; b = b->next)
     {
       checkObjectCollision ( enemy, b->data, ENEMY_WIDTH, ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_HEIGHT );
     }
-  
+
     if(enemy != NULL) // Make sure enemy was not deleted
     {
       moveObject( enemy, rand() % 3 - 1, 1 ); // Move enemy
@@ -405,85 +377,69 @@ DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
     // Spawn an enemy every 3 seconds
     if( get_frame_counter() % 180 == 0 )
     {
-      enemyList = spawnEnemy( enemyList, rand() % 630, 0 );
+      enemyList = spawnEnemy( enemyList, rand() % 630, 0, Weapon_Type_Laser );
     }
 
     return enemyList;
 }
 
-void updatePlayer( Object* player )
+Entity* updatePlayer(Entity* player)
 {
-  // Obtain directional information (per axis) from selected gamepad
-  gamepad_direction ( &player-> xdir, &player-> ydir );
+  Object* playerObj = &player->obj;
+  gamepad_direction(&playerObj->xDir, &playerObj->yDir);
+  moveObject(playerObj, playerObj->xDir, playerObj->yDir);
 
-  // Move the player
-  moveObject( player, player->xdir, player->ydir );
+  if (playerObj->x < 0)   playerObj->x = 1;
+  if (playerObj->x > 640) playerObj->x = 639;
+  if (playerObj->y < 0)   playerObj->y = 1;
+  if (playerObj->y > 360) playerObj->y = 359;
 
-  //Check the player bounds - this can go in a function later
-  if (player -> x <  0) // left side
-  {
-      player -> x  = 1;
-  }
-
-  if (player -> x >  640) // right side
-  {
-      player -> x  = 639;
-  }
-
-  if (player -> y <  0) // top of screen
-  {
-      player -> y  = 1;
-  }
-
-  if (player -> y >  360) // bottom of screen
-  {
-      player -> y  = 359;
-  }
-  
-  drawObject( player );
+  drawObject(playerObj);
+  return player;
 }
 
 
 void main (void)
 {
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Seed the rng
-    //
-    srand( get_time() );
+  ////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Seed the rng
+  //
+  srand( get_time() );
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Create our player instance
-    //
-    int xPos        = 360;
-    int yPos        = 300;
-    bool isActive   = true;
-    Object* player  = createObject( PLAYER_TEXTURE, PLAYER_REGION, xPos, yPos, isActive, NULL );
+  ////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Create our player instance
+  //
+  int xPos        = 360;
+  int yPos        = 300;
+  bool isActive   = true;
+  Entity* player = createEntity( PLAYER_TEXTURE, PLAYER_REGION, xPos, yPos, isActive, Weapon_Type_Laser );
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Create enemy list
-    //
-    DoublyLinkedList* enemyList = createList(); 
-    for(int i = 0; i < 5; ++i) // Add 5 enemies to start 
-    {
-      int  xPos     = rand() % 630;
-      int  yPos     = 0;
-      bool isActive = true;
-      Object* enemy = createObject( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, isActive, NULL );
+  ////////////////////////////////////////////////////////////////////////////////////
+  //
+  //
+  // Create enemy list
+    
+  DoublyLinkedList* enemyList = createList();
+  for(int i = 0; i < 5; ++i) // Add 5 enemies to start
+  {
+    int  xPos     = rand() % 630;
+    int  yPos     = 0;
+    bool isActive = true;
+    Entity* enemy = createEntity( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, isActive, Weapon_Type_Laser );
 
-      enemyList = append(enemyList, enemyList->tail, enemy);
-    }
+    enemyList = append(enemyList, enemyList->tail, &enemy->obj);
+  }
 
-    ////////////////////////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the background texture and region
     //
     select_texture ( BACKGROUND_TEXTURE );
     select_region ( BACKGROUND_REGION );
     define_region_topleft ( 0, 0, 639, 359 );
-    
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the player texture and region
@@ -491,7 +447,7 @@ void main (void)
     select_texture ( PLAYER_TEXTURE );
     select_region ( PLAYER_REGION );
     define_region ( 0, 0, 31, 31, 0, 0 );
-    
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Define the enemy texture and region
@@ -499,7 +455,7 @@ void main (void)
     select_texture( ENEMY_TEXTURE );
     select_region( ENEMY_REGION );
     define_region_topleft( 0, 0, 10, 10 );
-    
+
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Select the first gamepad
@@ -514,7 +470,7 @@ void main (void)
     {
         //clear screen -- do we really need this?
         clear_screen (get_color_red (0));
-        
+
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background
@@ -528,10 +484,10 @@ void main (void)
         // Update the player
         //
         updatePlayer( player );
-     
+
         ////////////////////////////////////////////////////////////////////////////////
         //
-        // Update the enemies 
+        // Update the enemies
         //
         enemyList = updateEnemies( enemyList );
 

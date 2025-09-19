@@ -16,8 +16,10 @@
 #define  SCREEN_WIDTH       640
 #define  SCREEN_HEIGHT      360
 
-#define  ENEMY_WIDTH         10
-#define  ENEMY_HEIGHT        10
+#define  ENEMY_WIDTH        10
+#define  ENEMY_HEIGHT       10
+#define  LASER_WIDTH        3
+#define  LASER_HEIGHT       10
 
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
@@ -361,11 +363,11 @@ void drawObject(Object* obj)
   select_region  ( obj->regionID );
   draw_region_at ( obj->x, obj->y );
 }
-void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_Width, int objA_Height, int objB_Height)
+bool checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_Width, int objA_Height, int objB_Height)
 {
   // Check if objects are NULL
   if(!objA || !objB)
-    return;
+    return false;
 
   // Make collision less sensitive
   int cushion = 2;
@@ -386,8 +388,10 @@ void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_W
       && aBottom >= bTop
       && aTop <= bBottom) {
 
-    print_at(300, 120, "COLLISION");
+    return true;
   }
+
+  return false;
 }
 
 DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos, WeaponType wType)
@@ -494,6 +498,35 @@ Entity* updatePlayer(Entity* player)
   return player;
 }
 
+void checkAmmoCollisionWithEnemies(DoublyLinkedList** ammoList, DoublyLinkedList** enemyList)
+{
+  Node* ammo = (*ammoList)->head;
+  Node* enemy = NULL;
+  while(ammo != NULL)
+  {
+    Node* ammoNext = ammo->next;
+    enemy = (*enemyList)->head;
+    while(enemy != NULL)
+    {
+      Node* enemyNext = enemy->next;
+      if(enemy && checkObjectCollision(enemy->data, ammo->data, ENEMY_WIDTH, LASER_WIDTH, ENEMY_HEIGHT, LASER_HEIGHT)) 
+      {
+        // Delete both the enemy and the bullet
+        deleteObject(&enemy->data);
+        deleteNode(*enemyList, &enemy);
+
+        deleteObject(&ammo->data);
+        deleteNode(*ammoList, &ammo);
+
+        break;
+      }
+      enemy = enemyNext;
+    }
+
+    ammo = ammoNext;
+  }
+}
+
 void renderPlayer(Entity* player)
 {
   Object* playerObj = &player->obj;
@@ -534,6 +567,8 @@ void main (void)
   int yPos        = 300;
   bool isActive   = true;
   Entity* player = createEntity( PLAYER_TEXTURE, PLAYER_REGION, xPos, yPos, isActive, Weapon_Type_Laser );
+  player->obj.vx = 3;
+  player->obj.vy = 1;
 
   ////////////////////////////////////////////////////////////////////////////////////
   //
@@ -614,6 +649,8 @@ void main (void)
         // Update the enemies
         //
         enemyList = updateEnemies( enemyList );
+
+        checkAmmoCollisionWithEnemies(&player->weapon->ammoList, &enemyList);
 
         
         renderPlayer(player);

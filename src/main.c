@@ -551,6 +551,29 @@ void renderAmmo(DoublyLinkedList* ammoList)
   }
 }
 
+void updateGame(Entity* player, DoublyLinkedList* enemyList, DoublyLinkedList* ammoList)
+{
+
+  player = updatePlayer( player );
+  ammoList = updateAmmo(ammoList);
+  enemyList = updateEnemies( enemyList );
+
+  checkAmmoCollisionWithEnemies(&ammoList, &enemyList);
+}
+
+void renderGame(Entity* player, DoublyLinkedList* enemyList, DoublyLinkedList* ammoList )
+{
+  renderPlayer(player);
+  renderEnemies(enemyList);
+  renderAmmo(ammoList);
+}
+
+void drawBackground(int textureID, int regionID)
+{
+  select_texture ( textureID );
+  select_region ( regionID );
+  draw_region_at ( 0, 0 );
+}
 void main (void)
 {
   ////////////////////////////////////////////////////////////////////////////////////
@@ -567,7 +590,7 @@ void main (void)
   int yPos        = 300;
   bool isActive   = true;
   Entity* player = createEntity( PLAYER_TEXTURE, PLAYER_REGION, xPos, yPos, isActive, Weapon_Type_Laser );
-  player->obj.vx = 3;
+  player->obj.vx = 3; // Set manually for now
   player->obj.vy = 1;
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -610,6 +633,10 @@ void main (void)
     select_region( ENEMY_REGION );
     define_region_topleft( 0, 0, 10, 10 );
   
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Define the laser texture and region
+    //
     select_texture( LASER_TEXTURE );
     select_region( LASER_REGION );
     define_region_topleft( 0, 0, 3, 10 );
@@ -628,34 +655,16 @@ void main (void)
     {
         //clear screen -- do we really need this?
         clear_screen (color_white);
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Draw the background
-        //
-        select_texture ( BACKGROUND_TEXTURE );
-        select_region ( BACKGROUND_REGION );
-        draw_region_at ( 0, 0 );
 
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Update the player
-        //
-        player = updatePlayer( player );
-        player->weapon->ammoList = updateAmmo(player->weapon->ammoList);
-        
+        // Draw Background
+        drawBackground( BACKGROUND_TEXTURE, BACKGROUND_REGION );
 
-        ////////////////////////////////////////////////////////////////////////////////
-        //
-        // Update the enemies
-        //
-        enemyList = updateEnemies( enemyList );
+        // Update Game
+        updateGame(player, enemyList, player->weapon->ammoList);
 
-        checkAmmoCollisionWithEnemies(&player->weapon->ammoList, &enemyList);
+        // Render Game
+        renderGame(player, enemyList, player->weapon->ammoList);
 
-        
-        renderPlayer(player);
-        renderEnemies(enemyList);
-        renderAmmo(player->weapon->ammoList);
         // End frame
         end_frame();
     }

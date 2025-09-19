@@ -51,6 +51,7 @@ struct Object
 // This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
 Object * mknode(void)
 	{
+	xpos = rand() % (639 - 2 + 1);
 	Object * EnemyA		= (Object *) malloc (sizeof (Object));
 	EnemyA ->next		= NULL;
 	EnemyA ->prev		= NULL;
@@ -59,12 +60,7 @@ Object * mknode(void)
 	EnemyA -> y			= ypos;
 	EnemyA ->height		= 10;
 	EnemyA ->width		= 10;
-	EnemyA -> isActive	= true;
-	if (xpos > 610)
-	{
-		xpos = 10;
-	}
-	xpos =	xpos + 35;
+	EnemyA -> isActive	= true;;
 	return EnemyA;
 	}
 

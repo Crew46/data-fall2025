@@ -4,3 +4,5 @@
 **Week 2** Still working in the main.c file for now. I reworked linked list functions so you can now append and insert anywhere in the list rather than just at the beginning and end.
 
 **Week 3** Refactored code so that there are substructs that hold object pointers rather than keeping everything in object.
+
+**Week 4** Added player ability shoot and added collision between the bullets and enemies. I also cleaned up my main function by separating all my game logic functions into an updateGame() function and all my rendering functions into a renderGame() function and then calling those two functions in main.

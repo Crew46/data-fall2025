@@ -6,10 +6,12 @@
 #define  BACKGROUND_TEXTURE 0
 #define  PLAYER_TEXTURE     1
 #define  ENEMY_TEXTURE      2
+#define  LASER_TEXTURE      3
 
 #define  BACKGROUND_REGION  0
 #define  PLAYER_REGION      1
 #define  ENEMY_REGION       2
+#define  LASER_REGION       3
 
 #define  SCREEN_WIDTH       640
 #define  SCREEN_HEIGHT      360
@@ -34,8 +36,10 @@ struct Object
   int         id;
   int         x;
   int         y;
-  int         xDir;
-  int         yDir;
+  int         dx;
+  int         dy;
+  int         vx;
+  int         vy;
   bool        isActive;
 };
 
@@ -47,6 +51,8 @@ void initObject(Object* obj, ObjectType objT, int textureID, int regionID, int x
   obj->regionID   = regionID;
   obj->x          = xPos;
   obj->y          = yPos;
+  obj->vx         = 1; // Set to 1 for now, will make it customizable eventually
+  obj->vy         = 1;
   obj->isActive   = isActive;
   
 }
@@ -63,81 +69,6 @@ Object* createObject(int textureID, int regionID, int x, int y, bool isActive)
   
   return obj;
 }
-
-struct Laser
-{
-  Object obj;
-};
-
-Laser* createLaser(int textureID, int regionID, int x, int y, bool isActive)
-{
-  Laser* laser = (Laser*)malloc(sizeof(Laser));
-  initObject(&laser->obj, Object_Type_Laser, textureID, regionID, x, y, isActive);
-}
-enum WeaponType
-{
-  Weapon_Type_None,
-  Weapon_Type_Laser,
-};
-
-struct Weapon
-{
-  WeaponType weaponType;
-};
-
-Weapon* createWeapon(WeaponType wType)
-{
-  Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
-  weapon->weaponType = wType;
-  return weapon;
-}
-
-// Entity struct which is a substruct of Object
-struct Entity
-{
-  Object obj;
-  Weapon* weapon;
-};
-
-void deleteObject(Object** obj)
-{
-  
-  switch((*obj)->type)
-  {
-    case Object_Type_None: {
-      free(*obj);
-      break;
-    }
-    case Object_Type_Laser: {
-      Laser* laser = (Laser*)*obj;
-      free(laser);
-      break;
-    }
-    case Object_Type_Weapon: {
-      Weapon* weapon = (Weapon*)*obj;
-      free(weapon);
-      break;
-    }
-    case Object_Type_Entity: {
-      Entity* entity = (Entity*)*obj;
-      free(entity);
-      break;
-    }
-    default:
-      break;
-  }
-  *obj = NULL;
-}
-
-Entity* createEntity(int textureID, int regionID, int x, int y, bool isActive, WeaponType wType)
-{
-  Entity* entity = (Entity*)malloc(sizeof(Entity));
-  initObject(&entity->obj, Object_Type_Entity, textureID, regionID, x, y, isActive);
-  entity->weapon  = createWeapon(wType);
-  return entity;
-}
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
@@ -321,6 +252,91 @@ Node* obtain(DoublyLinkedList** list, Node* node)
   return node;
 }
 
+
+struct Laser
+{
+  Object obj;
+};
+
+Laser* createLaser(int textureID, int regionID, int x, int y, bool isActive)
+{
+  Laser* laser = (Laser*)malloc(sizeof(Laser));
+  initObject(&laser->obj, Object_Type_Laser, textureID, regionID, x, y, isActive);
+
+  // Set these manually for now
+  laser->obj.dx = 0;
+  laser->obj.vx = 1;
+  laser->obj.dy = -1;
+  laser->obj.vy = 5;
+  return laser;
+}
+enum WeaponType
+{
+  Weapon_Type_None,
+  Weapon_Type_Laser,
+};
+
+struct Weapon
+{
+  WeaponType weaponType;
+  DoublyLinkedList* ammoList;
+};
+
+Weapon* createWeapon(WeaponType wType)
+{
+  Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
+  weapon->weaponType = wType;
+  weapon->ammoList = createList();
+  return weapon;
+}
+
+// Entity struct which is a substruct of Object
+struct Entity
+{
+  Object obj;
+  Weapon* weapon;
+};
+
+void deleteObject(Object** obj)
+{
+  
+  switch((*obj)->type)
+  {
+    case Object_Type_None: {
+      free(*obj);
+      break;
+    }
+    case Object_Type_Laser: {
+      Laser* laser = (Laser*)*obj;
+      free(laser);
+      break;
+    }
+    case Object_Type_Weapon: {
+      Weapon* weapon = (Weapon*)*obj;
+      free(weapon);
+      break;
+    }
+    case Object_Type_Entity: {
+      Entity* entity = (Entity*)*obj;
+      free(entity);
+      break;
+    }
+    default:
+      break;
+  }
+  *obj = NULL;
+}
+
+Entity* createEntity(int textureID, int regionID, int x, int y, bool isActive, WeaponType wType)
+{
+  Entity* entity = (Entity*)malloc(sizeof(Entity));
+  initObject(&entity->obj, Object_Type_Entity, textureID, regionID, x, y, isActive);
+  entity->weapon  = createWeapon(wType);
+  return entity;
+}
+
+
+
 // Checks bounds but should only be used for objects that don't need to check which side they are exceeding
 bool exceedsBounds(Object* obj)
 {
@@ -332,12 +348,12 @@ bool exceedsBounds(Object* obj)
   return false;
 }
 
-void moveObject(Object* obj, int xDir, int yDir)
+void moveObject(Object* obj, int dx, int dy)
 {
-  obj  -> xDir   = xDir;
-  obj  -> yDir   = yDir;
-  obj  -> x      = obj  -> x + obj  -> xDir;
-  obj  -> y      = obj  -> y + obj  -> yDir;
+  obj  -> dx   = dx;
+  obj  -> dy   = dy;
+  obj  -> x      = obj  -> x + obj  -> dx * obj->vx;
+  obj  -> y      = obj  -> y + obj  -> dy * obj->vy;
 }
 void drawObject(Object* obj)
 {
@@ -377,6 +393,8 @@ void checkObjectCollision(Object* objA, Object* objB, int objA_Width, int objB_W
 DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos, WeaponType wType)
 {
   Entity* entity = createEntity( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, true, wType);
+  entity->obj.vx = 1;
+  entity->obj.vy = 1;
   list = append( list, list->tail, &entity->obj );
 
   return list;
@@ -409,9 +427,6 @@ DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
         enemyList = deleteNode( enemyList, &current );
       }
 
-      // Draw enemy
-      if(enemy != NULL)
-        drawObject( enemy );
     }
 
     // Next node
@@ -427,21 +442,81 @@ DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
     return enemyList;
 }
 
+DoublyLinkedList* updateAmmo(DoublyLinkedList* ammoList)
+{
+  if(!ammoList)
+    return ammoList;
+
+  Node* temp = ammoList->head;
+  Node* next = NULL;
+  while(temp != NULL)
+  {
+    next = temp->next;
+    moveObject(temp->data, temp->data->dx, temp->data->dy);
+
+    if(exceedsBounds(temp->data))
+    {
+      deleteObject(&temp->data);
+      ammoList = deleteNode(ammoList, &temp);
+    }
+    
+    temp = next;
+  }
+
+  return ammoList;
+}
+
+Entity* playerShoot(Entity* player)
+{
+  Laser* laser = createLaser(LASER_TEXTURE, LASER_REGION, player->obj.x + 12, player->obj.y, true);
+  Object* laserObj = &laser->obj;
+  player->weapon->ammoList = append(player->weapon->ammoList, player->weapon->ammoList->head, laserObj );
+  
+  return player;
+} 
+
 Entity* updatePlayer(Entity* player)
 {
   Object* playerObj = &player->obj;
-  gamepad_direction(&playerObj->xDir, &playerObj->yDir);
-  moveObject(playerObj, playerObj->xDir, playerObj->yDir);
+  gamepad_direction(&playerObj->dx, &playerObj->dy);
+  moveObject(playerObj, playerObj->dx, playerObj->dy);
+
 
   if (playerObj->x < 0)   playerObj->x = 1;
   if (playerObj->x > 640) playerObj->x = 639;
   if (playerObj->y < 0)   playerObj->y = 1;
   if (playerObj->y > 360) playerObj->y = 359;
 
-  drawObject(playerObj);
+  if(gamepad_button_a() == 1)
+  {
+    player = playerShoot(player);
+  }
   return player;
 }
 
+void renderPlayer(Entity* player)
+{
+  Object* playerObj = &player->obj;
+  drawObject(playerObj);
+}
+void renderEnemies(DoublyLinkedList* enemyList)
+{
+  Node* temp = enemyList->head;
+  while(temp != NULL)
+  {
+    drawObject(temp->data);
+    temp = temp->next;
+  }
+}
+void renderAmmo(DoublyLinkedList* ammoList)
+{
+  Node* temp = ammoList->head;
+  while(temp != NULL)
+  {
+    drawObject(temp->data);
+    temp = temp->next;
+  }
+}
 
 void main (void)
 {
@@ -499,6 +574,10 @@ void main (void)
     select_texture( ENEMY_TEXTURE );
     select_region( ENEMY_REGION );
     define_region_topleft( 0, 0, 10, 10 );
+  
+    select_texture( LASER_TEXTURE );
+    select_region( LASER_REGION );
+    define_region_topleft( 0, 0, 3, 10 );
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -513,8 +592,7 @@ void main (void)
     while (true)
     {
         //clear screen -- do we really need this?
-        clear_screen (get_color_red (0));
-
+        clear_screen (color_white);
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background
@@ -528,6 +606,8 @@ void main (void)
         // Update the player
         //
         player = updatePlayer( player );
+        player->weapon->ammoList = updateAmmo(player->weapon->ammoList);
+        
 
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -535,6 +615,10 @@ void main (void)
         //
         enemyList = updateEnemies( enemyList );
 
+        
+        renderPlayer(player);
+        renderEnemies(enemyList);
+        renderAmmo(player->weapon->ammoList);
         // End frame
         end_frame();
     }

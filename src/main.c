@@ -2,7 +2,7 @@
 #include "misc.h"
 #include "video.h"
 #include "time.h"
-
+#include "Object.h"
 #define  BACKGROUND_TEXTURE 0
 #define  PLAYER_TEXTURE     1
 #define  ENEMYA_TEXTURE     2
@@ -16,36 +16,8 @@
 
 
 #define LASERSPEED			1
-int  xpos;
-int  ypos;
-int i;
-int status; // This will be used for checking
-int mask;	// This is used to find out what bits we need.
-int value;  // This will be used to reset status after a check.
-// status will be divided like this 00000000
-//  first 0 is game active the next 000 will be used for an enemy counter.
-int counter;
-int max;
-int position;
-struct Object
-{
-    int     x;
-    int     y;
-    int     xdir;
-    int     ydir;//// DO NOT PUT ANY MORE INTS HERE. IT WILL CRASH
-// danger area 
-    bool    isActive;
-	bool	laser;
-	bool	laserFired;
-    int     speed;
-	int		height;
-	int		width;// Ints after here seem to work.
-    Object *head;
-	Object *tail;
-	Object *next;
-	Object *prev;
-};
-////////////////////////////////////////////////////////////////////////////////////
+
+
 
 // I don't know why I didn't make this sooner '_'
 // This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
@@ -210,24 +182,29 @@ void insertEnemyA ( Object * enemyList, int position)
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////// Time for collision detection
 bool collision( Object* Thing1, Object * Thing2)
 {
 // if Thing1 X > Thing2 X + width/2 + width there is no collision
-	if (( Thing1->x - Thing1->width/2) >= (Thing2->x + Thing2->width/2) )
-		return false;
+if (( Thing1->x - Thing1->width/2) >= (Thing2->x + Thing2->width/2) )
+    return false;
 // if Thing1 X + width/2 < Thing2 there is no collision
-	if (( Thing1->x + Thing1->width/2) <= (Thing2->x - Thing2->width/2) )
-		return false;
-// if Thing1 Y > Thing2Y + height/2 there is no collision
-	if (( Thing1->y - Thing1->height/2) >= (Thing2->y + Thing2->height/2) )
-		return false;
+if (( Thing1->x + Thing1->width/2) <= (Thing2->x - Thing2->width/2) )
+    return false;
+// if Thing1 Y > Thing2Y + height/2 there is no collision 
+if (( Thing1->y - Thing1->height/2) >= (Thing2->y + Thing2->height/2) )
+ 	return false;
 // if Thing1 + height/2 < Thing2 y there is no collision
-	if (( Thing1->y + Thing1->height/2) <= (Thing2->y - Thing2->height/2) )
-		return false;
+if (( Thing1->y + Thing1->height/2) <= (Thing2->y - Thing2->height/2) )
+    return false;
 // If it makes it here then there is a collision
-	return true;
+    return true;
+  
+
 }
+
+
+
+
 
 void main (void)
 {        

@@ -2,6 +2,7 @@
 #define CONSTRUCT_COMPONENTS_DISPATCHER_C
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
+#include "../../systems/rendering/render_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)
 {
@@ -15,7 +16,7 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             componentToReturn = (Component*)ConstructTransformComponent();
             break;
         case RENDER_COMPONENT:
-            //construct render component
+            componentToReturn = (Component*)ConstructRenderComponent();
             break;
         case RIGIDBODY_COMPONENT:
             //construct rigidbody component

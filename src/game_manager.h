@@ -20,6 +20,7 @@
 #include "architecture/object/object_manager.c"
 #include "tools/debugger.c"
 //systems implementations
+#include "systems/rendering/render_manager.c"
 #include "systems/transform/transform_manager.c"
 #include "vector/vector2.h"
 
@@ -66,11 +67,13 @@ void InitializeGameManager()
     InitializeGameObjectManager();
     //systems initialization
     InitializeTransformManager();
+    InitializeRenderManager();
 
 
     //game object creation
     player = GameObjectManagerConstructGameObject();
     GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player, RENDER_COMPONENT);
     ObjectManagerSetObjectName((Object*)player, "player");
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
 

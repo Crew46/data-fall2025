@@ -2,6 +2,7 @@
 #define UPDATE_COMPONENTS_DISPATCHER_C
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
+#include "../../systems/rendering/render_manager.h"
 
 void DispatchComponentsUpdateFunction(Component* component)
 {
@@ -14,7 +15,7 @@ void DispatchComponentsUpdateFunction(Component* component)
             UpdateTransformComponent((TransformComponent*)component); 
             break;
         case RENDER_COMPONENT:
-            //call render update function
+            UpdateRenderComponent((RenderComponent*)component);
             break;
         case RIGIDBODY_COMPONENT:
             //call rigidbody update function

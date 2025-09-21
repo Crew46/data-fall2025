@@ -4,9 +4,9 @@
 
 struct RenderComponent
 {
-    Component component; //base component
+    Component base; //base component
     int textureID; //texture id
     int regionID; //region id
-}
+};
 
 #endif // RENDER_COMPONENT_H

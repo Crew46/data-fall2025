@@ -11,7 +11,7 @@ int value; // value is used to check to see if the values match for a flag.
 int counter;
 int max;
 int position;
-
+int a;
 
 
 // The main struct that we use.
@@ -29,6 +29,8 @@ struct Object
 	int speed;
 	int height;
 	int width;
+	int texture;
+	int region;
 	Object *head;
 	Object *tail;
 	Object *next;

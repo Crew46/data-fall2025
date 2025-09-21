@@ -21,7 +21,9 @@
 
 // I don't know why I didn't make this sooner '_'
 // This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
-Object * mknode(void)
+Object * mknode(int a)
+	{
+	if(a == 0)
 	{
 	xpos = rand() % (639 - 2 + 1);
 	Object * EnemyA		= (Object *) malloc (sizeof (Object));
@@ -32,8 +34,11 @@ Object * mknode(void)
 	EnemyA -> y			= ypos;
 	EnemyA ->height		= 10;
 	EnemyA ->width		= 10;
-	EnemyA -> isActive	= true;;
+	EnemyA -> isActive	= true;
+	EnemyA -> texture 	= ENEMYA_TEXTURE;
+	EnemyA -> region  	= ENEMYA_REGION;
 	return EnemyA;
+	}
 	}
 
 
@@ -54,7 +59,7 @@ void appendEnemyA (Object *enemyList)
 // If there is no head make one.
 	if(enemyList->head == NULL)
 		{
-	enemyList->head 		= mknode();
+	enemyList->head 		= mknode(0);
 		} 		
 	else
 {
@@ -67,7 +72,7 @@ void appendEnemyA (Object *enemyList)
 // if there is no tail then make one.
 	if(tmp->tail		   == NULL)
 	{
-		tmp->tail			= mknode();
+		tmp->tail			= mknode(0);
 		enemyList->tail		= tmp->tail;
 		tmp->tail->prev		= tmp;
 	}
@@ -78,7 +83,7 @@ void appendEnemyA (Object *enemyList)
 	tmp->next				= tmp2;
 	tmp->tail			 	= NULL;
 	tmp->next->prev			= tmp;
-	tmp->next->tail			= mknode();
+	tmp->next->tail			= mknode(0);
 	tmp->next->tail->prev	= tmp->next;
 	enemyList->tail			= tmp->next->tail;
 	}
@@ -159,7 +164,7 @@ void insertEnemyA ( Object * enemyList, int position)
 	Object * tmp			= enemyList->head;
 	if(position == 0)
 	{
-		enemyList->head		= mknode();
+		enemyList->head		= mknode(0);
 		enemyList->head->next = tmp;
 		enemyList->head->next->prev = enemyList->head;
 	}
@@ -174,7 +179,7 @@ void insertEnemyA ( Object * enemyList, int position)
 				tmp = tmp->next;	
 			}
 		Object *tmp2 		= tmp->next;
-		tmp ->next 			= mknode();
+		tmp ->next 			= mknode(0);
 		tmp	->next->prev	= tmp;
 		tmp 				= tmp -> next;
 		tmp->next			= tmp2;	
@@ -215,6 +220,7 @@ void main (void)
     ypos                 = 0;
 	max					 = 0;
 	position			 = 2; 
+	a 					 = NULL;
 	status				 = 0x10000000;
     // creating the head and malloc it.
     Object *enemyList   = (Object *) malloc (sizeof (Object));
@@ -423,8 +429,8 @@ void main (void)
             tmp -> ydir    = 1; //rand () % 3 - 1;
             tmp -> x       = tmp -> x + tmp -> xdir;
             tmp -> y       = tmp -> y + tmp -> ydir;
-            select_texture (ENEMYA_TEXTURE);
-            select_region  (ENEMYA_REGION);
+            select_texture (tmp->texture);
+            select_region  (tmp->region);
             draw_region_at (tmp  -> x, tmp  -> y);
 		
         	}

@@ -135,30 +135,21 @@ void UpdateAllLasers()
 {
     //loop through all instances of laser controller
     DoublyNode* currentNode = laserList->head;
+    DoublyNode* nextNode;
 
     while(currentNode != NULL)
     {
+        nextNode = currentNode->next;
         if(currentNode->data != NULL)
         {
             LaserUpdate((Laser*)currentNode->data);
             if(currentNode->data->status & DeletionMarkFlag)
-            //if(false)
             {
-                DoublyNode* temp = currentNode;
-                currentNode = currentNode->next;
-
-                DeconstructLaser((Laser*)temp->data);
-                DoublyLinkedListDeleteNode(laserList, temp);
-            }
-            else
-            {
-                currentNode = currentNode->next;
+                DeconstructLaser((Laser*)currentNode->data);
+                DoublyLinkedListDeleteNode(laserList, currentNode);
             }
         }
-        else
-        {
-            currentNode = currentNode->next;
-        }
+        currentNode = nextNode;
     }
 }
 

@@ -96,11 +96,11 @@ void HandleInput(Player* player)
     player->object.ydir = deltaY;
     PlayerMoveInDirection(player);
 
-    player->weapon->object.x = player->object.x;
-    player->weapon->object.y = player->object.y;
-
     if(player->weapon != NULL)
     {
+        player->weapon->object.x = player->object.x;
+        player->weapon->object.y = player->object.y;
+
         if(gamepad_button_a() > 0)
         {
             player->weapon->isFiring = true;
@@ -126,49 +126,7 @@ void PlayerUpdate(Player* player)
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///////////PART 4: INSTANCES MANAGEMENT////////////////////
-///////////////////////////////////////////////////////////
-//=========================================================
-
-/** 
- * SUMMARY: //NOT FULLY IMPLEMENTED UNTIL THE COMPLETION OF LINKED LIST
- * This part keeps tracks of all the instances of player in a linked list
-**/
-
-//return linked list of players
-DoublyLinkedList* GetPlayerList()
-{
-    return playerList; 
-}
-
-//update all player controller in instances list
-void UpdateAllPlayers()
-{
-    DoublyNode* currentNode = playerList->head;
-    Object* currentData = NULL;
-    while(currentNode != NULL)
-    {
-        currentData = currentNode->data;
-        if(currentData != NULL)
-        {
-            PlayerUpdate((Player*)currentData);
-        }
-        currentNode = currentNode->next;
-    }
-}
-
-void DeconstructAllPlayers()
-{
-    //loop through all player controller instances
-    //for(int i = 0; i < instancesOfPlayerController; i++)
-    //{
-        //DeconstructPlayerController();
-    //}
-}
-
-//=========================================================
-///////////////////////////////////////////////////////////
-///////////PART 5: CONSTRUCTION////////////////////////////
+///////////PART 4: CONSTRUCTION////////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
@@ -197,6 +155,88 @@ void DeconstructPlayer(Player* player)
 {
     //free player struct
     free(player);
+}
+
+void DeconstructPlayerAndWeapon(Player* player)
+{
+    if(player->weapon != NULL)
+    {
+        DoublyNode* weaponNode = DoublyLinkedListFindDataFromHead(GetWeaponList(), &player->weapon->object);
+        DeconstructWeapon(player->weapon);
+        DoublyLinkedListDeleteNode(GetWeaponList(), weaponNode);
+    }
+    DeconstructPlayer(player);
+}
+
+void DeconstructAllPlayers()
+{
+    //loop through all instances of players
+    DoublyNode* currentNode = playerList->head;
+    DoublyNode* next;
+
+    while(currentNode != NULL)
+    {
+        next = currentNode->next;
+        DeconstructPlayer((Player*)currentNode->data);
+        DoublyLinkedListDeleteNode(playerList, currentNode);
+
+        currentNode = next;
+    }
+}
+
+void DeconstructAllPlayersAndWeapons()
+{
+    //loop through all instances of players
+    DoublyNode* currentNode = playerList->head;
+    DoublyNode* next;
+
+    while(currentNode != NULL)
+    {
+        next = currentNode->next;
+        DeconstructPlayerAndWeapon((Player*)currentNode->data);
+        DoublyLinkedListDeleteNode(playerList, currentNode);
+
+        currentNode = next;
+    }
+}
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////PART 5: INSTANCES MANAGEMENT////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+/**
+ * SUMMARY: //NOT FULLY IMPLEMENTED UNTIL THE COMPLETION OF LINKED LIST
+ * This part keeps tracks of all the instances of player in a linked list
+**/
+
+//return linked list of players
+DoublyLinkedList* GetPlayerList()
+{
+    return playerList;
+}
+
+//update all player controller in instances list
+void UpdateAllPlayers()
+{
+    DoublyNode* currentNode = playerList->head;
+    DoublyNode* nextNode;
+
+    while(currentNode != NULL)
+    {
+        nextNode = currentNode->next;
+        if(currentNode->data != NULL)
+        {
+            PlayerUpdate((Player*)currentNode->data);
+            if(currentNode->data->status & DeletionMarkFlag)
+            {
+                DeconstructPlayerAndWeapon((Player*)currentNode->data);
+                DoublyLinkedListDeleteNode(playerList, currentNode);
+            }
+        }
+        currentNode = nextNode;
+    }
 }
 
 

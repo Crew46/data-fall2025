@@ -123,15 +123,22 @@ void UpdateAllWeapons()
 {
     //loop through all instances of weapon controller
     DoublyNode* currentNode = weaponsList->head;
+    DoublyNode* nextNode;
 
     while(currentNode != NULL)
     {
+        nextNode = currentNode->next;
         if(currentNode->data != NULL)
         {
             WeaponUpdate((Weapon*)currentNode->data);
+            if(currentNode->data->status & DeletionMarkFlag)
+            {
+                DeconstructWeapon((Weapon*)currentNode->data);
+                DoublyLinkedListDeleteNode(weaponsList, currentNode);
+            }
         }
 
-        currentNode = currentNode->next;
+        currentNode = nextNode;
     }
 }
 

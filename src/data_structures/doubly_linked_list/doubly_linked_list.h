@@ -147,4 +147,21 @@ Object* DoublyLinkedListGetObjectAtTail(DoublyLinkedList* list)
   return list->tail->data;
 }
 
+DoublyNode* DoublyLinkedListFindDataFromHead(DoublyLinkedList* list, Object* data)
+{
+  bool found = false;
+  DoublyNode* currentNode = list->head;
+
+  while(found == false && currentNode != NULL)
+  {
+    if(currentNode->data == data)
+    {
+      return currentNode;
+    }
+    currentNode = currentNode->next;
+  }
+
+  return NULL;
+}
+
 #endif // LINKED_LIST_H

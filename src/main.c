@@ -7,12 +7,13 @@
 #define  PLAYER_TEXTURE     1
 #define  ENEMYA_TEXTURE     2
 #define  LASER_TEXTURE		3
+#define	 ENEMYB_TEXTURE     4
 
 #define  BACKGROUND_REGION  0
 #define  PLAYER_REGION      1
 #define  ENEMYA_REGION      2
 #define	 LASER_REGION		3
-
+#define  ENEMYB_REGION		4
 
 
 #define LASERSPEED			1
@@ -23,22 +24,41 @@
 // This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
 Object * mknode(int a)
 	{
+	xpos = rand() % (639 - 2 + 1);
 	if(a == 0)
 	{
-	xpos = rand() % (639 - 2 + 1);
 	Object * EnemyA		= (Object *) malloc (sizeof (Object));
 	EnemyA ->next		= NULL;
 	EnemyA ->prev		= NULL;
 	EnemyA ->tail		= NULL;
 	EnemyA -> x			= xpos;
 	EnemyA -> y			= ypos;
-	EnemyA ->height		= 10;
-	EnemyA ->width		= 10;
+	EnemyA -> height	= 10;
+	EnemyA -> width		= 10;
 	EnemyA -> isActive	= true;
 	EnemyA -> texture 	= ENEMYA_TEXTURE;
 	EnemyA -> region  	= ENEMYA_REGION;
 	return EnemyA;
 	}
+	if(a == 1)
+	{
+	Object * EnemyB		= (Object *) malloc (sizeof(Object));
+	EnemyB -> next			= NULL;
+	EnemyB -> prev			= NULL;
+	EnemyB -> tail			= NULL;
+	EnemyB -> x				= xpos;
+	EnemyB -> y				= ypos;
+	EnemyB -> height		= 20;
+	EnemyB -> width			= 20;
+	EnemyB -> isActive		= true;
+	EnemyB -> texture	    = ENEMYB_TEXTURE;
+	EnemyB -> region		= ENEMYB_REGION;
+	return EnemyB;
+	}
+
+
+
+
 	}
 
 
@@ -59,7 +79,7 @@ void appendEnemyA (Object *enemyList)
 // If there is no head make one.
 	if(enemyList->head == NULL)
 		{
-	enemyList->head 		= mknode(0);
+	enemyList->head 		= mknode(1);
 		} 		
 	else
 {
@@ -72,7 +92,7 @@ void appendEnemyA (Object *enemyList)
 // if there is no tail then make one.
 	if(tmp->tail		   == NULL)
 	{
-		tmp->tail			= mknode(0);
+		tmp->tail			= mknode(1);
 		enemyList->tail		= tmp->tail;
 		tmp->tail->prev		= tmp;
 	}
@@ -175,8 +195,8 @@ void insertEnemyA ( Object * enemyList, int position)
 	tmp			  			= enemyList->head;
 		while(i != position)
 			{
-				i = i+1;
-				tmp = tmp->next;	
+			i = i+1;
+			tmp = tmp->next;	
 			}
 		Object *tmp2 		= tmp->next;
 		tmp ->next 			= mknode(0);
@@ -276,7 +296,7 @@ void main (void)
  
     ///////////////////////////////////////////////////////////////////////////////////
     //
-    // Define the enemy texture and region
+    // Define the ENEMYA texture and region
     select_texture (ENEMYA_TEXTURE);
     select_region (ENEMYA_REGION);
     define_region_center (0, 0 , 9, 9 );
@@ -286,7 +306,10 @@ void main (void)
 	select_texture (LASER_TEXTURE);
 	select_region (LASER_REGION);
 	define_region_center (0 ,0 , 19, 9);
-
+///////////////////////////////////////////////////////////////////////////////////////
+	select_texture (ENEMYB_TEXTURE);
+	select_region  (ENEMYB_REGION);
+	define_region_center ( 0, 0 , 19, 19);
 
     ////////////////////////////////////////////////////////////////////////////////////
     //

@@ -12,7 +12,7 @@ int counter;
 int max;
 int position;
 int a;
-
+int b;
 
 // The main struct that we use.
 

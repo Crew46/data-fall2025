@@ -4,7 +4,7 @@
 #include "time.h"
 #include "Object.h"
 #include "visuals.h"
-#include "collision.h"
+#include "functions.h"
 #define LASERSPEED			1
 
 
@@ -13,8 +13,8 @@
 // This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
 Object * mknode()
 	{
-	a = rand() % ( 100 - 0 + 1);
-	xpos = rand() % (639 - 2 + 1);
+	a = rand() % ( 100 + 1);
+	xpos = rand() % (639 + 1);
 	if(a <= 80)
 	{
 	Object * EnemyA			= (Object *) malloc (sizeof (Object));
@@ -200,7 +200,9 @@ void insertEnemyA ( Object * enemyList, int position)
 }
 
 void main (void)
-{        
+{   
+	b			     = get_time();
+	srand(b);     
     Object *tmp          = NULL;
 	laser 				 = NULL;
     enemyList            = NULL;
@@ -434,11 +436,8 @@ void main (void)
 		obtainEnemyA (enemyList);
 
 
-// After defeating a certain amount of enemies add another one to the max.
-
-
 // I do know that this code is slightly pointless. I just want to mess with bit masking.
-if(counter >= 8 && max != 8)
+if(counter >= 5 && max != 8)
 	{
 		mask = 0x01000000;
 		value = status | mask;

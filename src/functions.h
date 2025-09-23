@@ -1,5 +1,5 @@
-#ifndef COLLISION_H_
-#define COLLISION_H_
+#ifndef FUNCTIONS_H_
+#define FUNCTIONS_H_
 
 
 bool collision( Object* Thing1, Object * Thing2)
@@ -20,4 +20,11 @@ if (( Thing1->y + Thing1->height/2) <= (Thing2->y - Thing2->height/2) )
 	return true;
 }
 
-#endif  //COLLISION_H_
+
+
+
+
+
+
+
+#endif  //FUNCTIONS_H_

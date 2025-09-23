@@ -28,23 +28,23 @@ Object * mknode()
 	xpos = rand() % (639 - 2 + 1);
 	if(a <= 80)
 	{
-	Object * EnemyA		= (Object *) malloc (sizeof (Object));
-	EnemyA ->next		= NULL;
-	EnemyA ->prev		= NULL;
-	EnemyA ->tail		= NULL;
-	EnemyA -> x			= xpos;
-	EnemyA -> y			= ypos;
-	EnemyA -> height	= 10;
-	EnemyA -> width		= 10;
-	EnemyA -> isActive	= true;
-	EnemyA -> hp		= 1;
-	EnemyA -> texture 	= ENEMYA_TEXTURE;
-	EnemyA -> region  	= ENEMYA_REGION;
+	Object * EnemyA			= (Object *) malloc (sizeof (Object));
+	EnemyA ->next			= NULL;
+	EnemyA ->prev			= NULL;
+	EnemyA ->tail			= NULL;
+	EnemyA -> x				= xpos;
+	EnemyA -> y				= ypos;
+	EnemyA -> height		= 10;
+	EnemyA -> width			= 10;
+	EnemyA -> isActive		= true;
+	EnemyA -> hp			= 1;
+	EnemyA -> texture 		= ENEMYA_TEXTURE;
+	EnemyA -> region  		= ENEMYA_REGION;
 	return EnemyA;
 	}
 	if(a > 80)
 	{
-	Object * EnemyB		= (Object *) malloc (sizeof(Object));
+	Object * EnemyB			= (Object *) malloc (sizeof(Object));
 	EnemyB -> next			= NULL;
 	EnemyB -> prev			= NULL;
 	EnemyB -> tail			= NULL;
@@ -77,23 +77,23 @@ Object *laser;
 // This function will create a single EnemyA everytime it is used.
 void appendEnemyA (Object *enemyList)
 {
-    Object *tmp         = NULL;
-	Object *tmp2		= NULL;
+    Object *tmp         	= NULL;
+	Object *tmp2			= NULL;
 // If there is no head make one.
-	if(enemyList->head == NULL)
-		{
+	if(enemyList->head 		== NULL)
+	{
 	enemyList->head 		= mknode();
-		} 		
+	} 		
 	else
 {
 // If there is a head append an enemy to the end of the list.
-	tmp					= enemyList->head;
-    while (tmp -> next != NULL)
+	tmp						= enemyList->head;
+    while (tmp -> next !	= NULL)
     {
-        tmp             = tmp -> next;
+        tmp             	= tmp -> next;
     }   
 // if there is no tail then make one.
-	if(tmp->tail		   == NULL)
+	if(tmp->tail			== NULL)
 	{
 		tmp->tail			= mknode();
 		enemyList->tail		= tmp->tail;
@@ -115,14 +115,14 @@ void appendEnemyA (Object *enemyList)
 // rmnode checks
 void rmnode(Object * tmp2)
 	{
-		if(tmp2 ->isActive == false)
-	{
-		free(tmp2);
-		if(tmp2 != NULL)
+		if(tmp2 ->isActive 	== false)
 		{
-		tmp2 = NULL;
+		free(tmp2);
+		if(tmp2 			!= NULL)
+		{
+		tmp2 				= NULL;
 		}
-	}
+		}
 	}
 
 
@@ -133,28 +133,28 @@ void obtainEnemyA (Object * enemyList)
 {
 // Edge case where head is inactive and needs to be replaced after being
 // marked for deletion.
-	Object *tmp			  = enemyList;
-	Object *tmp2		  = enemyList;
+	Object *tmp			  	= enemyList;
+	Object *tmp2		  	= enemyList;
 	if(enemyList->head->isActive == false)
 		{
 		appendEnemyA(enemyList);
-		tmp2			  = enemyList->head;
-		enemyList->head   = tmp2->next;
-		tmp2->next->prev  = NULL;
+		tmp2			  	= enemyList->head;
+		enemyList->head   	= tmp2->next;
+		tmp2->next->prev  	= NULL;
 		rmnode(tmp2);
 		}
 
 // If there is no edge case continue as normal.
-	tmp           = enemyList->head;
-    tmp2     	  = enemyList->head;
-	while( tmp-> next != NULL)
+	tmp           			= enemyList->head;
+    tmp2     	  			= enemyList->head;
+	while( tmp-> next 		!= NULL)
 	{
     if (tmp ->next-> isActive == false) 
     	{	
 		appendEnemyA(enemyList);
-        tmp2         	  = tmp -> next;
-        tmp -> next       = tmp2 -> next;
-		tmp2->next->prev  = tmp;
+        tmp2         	  	= tmp -> next;
+        tmp -> next       	= tmp2 -> next;
+		tmp2->next->prev  	= tmp;
         rmnode(tmp2);
     	}
 // if tail is inactive we will have to remove it.
@@ -185,7 +185,7 @@ void insertEnemyA ( Object * enemyList, int position)
 
 
 	Object * tmp			= enemyList->head;
-	if(position == 0)
+	if(position		 		== 0)
 	{
 		enemyList->head		= mknode();
 		enemyList->head->next = tmp;

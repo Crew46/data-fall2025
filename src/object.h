@@ -84,6 +84,31 @@ void DeconstructObject(Object* object)
 ///////////Misc/////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
+int StatusGetTeam(int status)
+{
+    return (status & TeamFlagMask) >> TeamFlagOffset;
+}
+
+bool StatusGetActive(int status)
+{
+    if(status & IsActiveFlag == IsActiveFlag)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool StatusGetDeletionMark(int status)
+{
+    if(status & DeletionMarkFlag == DeletionMarkFlag)
+    {
+        return true;
+    }
+
+    return false;
+}
+
 void DrawObject(Object* object)
 {
     select_texture(object->textureID);
@@ -124,9 +149,5 @@ void ObjectMoveInDirection(Object* object)
     object->y = round(resultsY2);
 }
 
-int StatusGetTeam(int status)
-{
-    return (status & TeamFlagMask) >> TeamFlagOffset;
-}
 
 #endif //OBJECT_H

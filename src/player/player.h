@@ -101,6 +101,29 @@ void HandleInput(Player* player)
         player->weapon->object.x = player->object.x;
         player->weapon->object.y = player->object.y;
 
+        int xOffset = -10;
+        int yOffset = -5;
+
+        switch(StatusGetTeam(player->object.status))
+        {
+            case 0:
+                player->weapon->object.x += xOffset;
+                player->weapon->object.y += yOffset;
+                break;
+            case 1:
+                player->weapon->object.x -= yOffset;
+                player->weapon->object.y += xOffset;
+                break;
+            case 2:
+                player->weapon->object.x -= xOffset;
+                player->weapon->object.y -= yOffset;
+                break;
+            case 3:
+                player->weapon->object.x += yOffset;
+                player->weapon->object.y -= xOffset;
+                break;
+        }
+
         if(gamepad_button_a() > 0)
         {
             player->weapon->isFiring = true;

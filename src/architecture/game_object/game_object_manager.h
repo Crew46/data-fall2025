@@ -24,6 +24,7 @@ void DeconstructGameObject(GameObject* gameObject);
 //gameobject-component related functions
 GameObject* GetGameObjectOfComponent(Component* component);
 Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType type);
+Component* GetComponentFromComponent(Component* component, ComponentType componentType);
 void UpdateAllComponentsInGameObject(GameObject* gameObject);
 void GameObjectUpdate(GameObject* gameObject);
 void UpdateAllGameObjects();

@@ -49,7 +49,10 @@ void DeconstructRenderComponent(RenderComponent* renderComponent)
 void UpdateRenderComponent(RenderComponent* renderComponent)
 {
     //transform components of this gameobject
-    TransformComponent* transformComponent = (TransformComponent*)GetComponentFromComponent((Component*)renderComponent, TRANSFORM_COMPONENT);
+    //TransformComponent* transformComponent = (TransformComponent*)GetComponentFromComponent((Component*)renderComponent, TRANSFORM_COMPONENT);
+
+    //GETCOMPONENT FROM COMPONENT NOT WORKING, NEED TO FIX
+
     //if this gameobject has a transform
     if(transformComponent != NULL)
     {

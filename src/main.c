@@ -3,19 +3,8 @@
 #include "video.h"
 #include "time.h"
 #include "Object.h"
-#define  BACKGROUND_TEXTURE 0
-#define  PLAYER_TEXTURE     1
-#define  ENEMYA_TEXTURE     2
-#define  LASER_TEXTURE		3
-#define	 ENEMYB_TEXTURE     4
-
-#define  BACKGROUND_REGION  0
-#define  PLAYER_REGION      1
-#define  ENEMYA_REGION      2
-#define	 LASER_REGION		3
-#define  ENEMYB_REGION		4
-
-
+#include "visuals.h"
+#include "collision.h"
 #define LASERSPEED			1
 
 
@@ -210,30 +199,6 @@ void insertEnemyA ( Object * enemyList, int position)
 	}
 }
 
-bool collision( Object* Thing1, Object * Thing2)
-{
-// if Thing1 X > Thing2 X + width/2 + width there is no collision
-if (( Thing1->x - Thing1->width/2) >= (Thing2->x + Thing2->width/2) )
-    return false;
-// if Thing1 X + width/2 < Thing2 there is no collision
-if (( Thing1->x + Thing1->width/2) <= (Thing2->x - Thing2->width/2) )
-    return false;
-// if Thing1 Y > Thing2Y + height/2 there is no collision 
-if (( Thing1->y - Thing1->height/2) >= (Thing2->y + Thing2->height/2) )
- 	return false;
-// if Thing1 + height/2 < Thing2 y there is no collision
-if (( Thing1->y + Thing1->height/2) <= (Thing2->y - Thing2->height/2) )
-    return false;
-// If it makes it here then there is a collision
-    return true;
-  
-
-}
-
-
-
-
-
 void main (void)
 {        
     Object *tmp          = NULL;
@@ -283,37 +248,10 @@ void main (void)
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
-    // Define the background texture and region
-    //
-    select_texture (BACKGROUND_TEXTURE);
-    select_region (BACKGROUND_REGION);
-    define_region_topleft (0, 0, 639, 359);
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Define the player texture and region
-    //
-    select_texture (PLAYER_TEXTURE);
-    select_region (PLAYER_REGION);
-    define_region_center (0, 0, 31, 31);
+    // 
+    //Visuals will define and select textures.
+	visuals();
  
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
-    // Define the ENEMYA texture and region
-    select_texture (ENEMYA_TEXTURE);
-    select_region (ENEMYA_REGION);
-    define_region_center (0, 0 , 9, 9 );
-///////////////////////////////////////////////////////////////////////////////////////
-	//
-	// Define the laser texture and region
-	select_texture (LASER_TEXTURE);
-	select_region (LASER_REGION);
-	define_region_center (0 ,0 , 19, 9);
-///////////////////////////////////////////////////////////////////////////////////////
-	select_texture (ENEMYB_TEXTURE);
-	select_region  (ENEMYB_REGION);
-	define_region_center ( 0, 0 , 19, 19);
-
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Select the first gamepad

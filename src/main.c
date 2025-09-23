@@ -22,10 +22,11 @@
 
 // I don't know why I didn't make this sooner '_'
 // This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
-Object * mknode(int a)
+Object * mknode()
 	{
+	a = rand() % ( 100 - 0 + 1);
 	xpos = rand() % (639 - 2 + 1);
-	if(a == 0)
+	if(a <= 80)
 	{
 	Object * EnemyA		= (Object *) malloc (sizeof (Object));
 	EnemyA ->next		= NULL;
@@ -36,11 +37,12 @@ Object * mknode(int a)
 	EnemyA -> height	= 10;
 	EnemyA -> width		= 10;
 	EnemyA -> isActive	= true;
+	EnemyA -> hp		= 1;
 	EnemyA -> texture 	= ENEMYA_TEXTURE;
 	EnemyA -> region  	= ENEMYA_REGION;
 	return EnemyA;
 	}
-	if(a == 1)
+	if(a > 80)
 	{
 	Object * EnemyB		= (Object *) malloc (sizeof(Object));
 	EnemyB -> next			= NULL;
@@ -51,6 +53,7 @@ Object * mknode(int a)
 	EnemyB -> height		= 20;
 	EnemyB -> width			= 20;
 	EnemyB -> isActive		= true;
+	EnemyB -> hp			= 3;
 	EnemyB -> texture	    = ENEMYB_TEXTURE;
 	EnemyB -> region		= ENEMYB_REGION;
 	return EnemyB;
@@ -79,7 +82,7 @@ void appendEnemyA (Object *enemyList)
 // If there is no head make one.
 	if(enemyList->head == NULL)
 		{
-	enemyList->head 		= mknode(1);
+	enemyList->head 		= mknode();
 		} 		
 	else
 {
@@ -92,7 +95,7 @@ void appendEnemyA (Object *enemyList)
 // if there is no tail then make one.
 	if(tmp->tail		   == NULL)
 	{
-		tmp->tail			= mknode(1);
+		tmp->tail			= mknode();
 		enemyList->tail		= tmp->tail;
 		tmp->tail->prev		= tmp;
 	}
@@ -103,7 +106,7 @@ void appendEnemyA (Object *enemyList)
 	tmp->next				= tmp2;
 	tmp->tail			 	= NULL;
 	tmp->next->prev			= tmp;
-	tmp->next->tail			= mknode(0);
+	tmp->next->tail			= mknode();
 	tmp->next->tail->prev	= tmp->next;
 	enemyList->tail			= tmp->next->tail;
 	}
@@ -184,7 +187,7 @@ void insertEnemyA ( Object * enemyList, int position)
 	Object * tmp			= enemyList->head;
 	if(position == 0)
 	{
-		enemyList->head		= mknode(0);
+		enemyList->head		= mknode();
 		enemyList->head->next = tmp;
 		enemyList->head->next->prev = enemyList->head;
 	}
@@ -199,7 +202,7 @@ void insertEnemyA ( Object * enemyList, int position)
 			tmp = tmp->next;	
 			}
 		Object *tmp2 		= tmp->next;
-		tmp ->next 			= mknode(0);
+		tmp ->next 			= mknode();
 		tmp	->next->prev	= tmp;
 		tmp 				= tmp -> next;
 		tmp->next			= tmp2;	
@@ -466,10 +469,18 @@ void main (void)
 		{
 			 if(laser->isActive == true && tmp->isActive == true && collision(laser, tmp) )
 			{	
+				tmp->hp 		= tmp->hp - 1;
 				laser->isActive = false;
+			if(tmp->hp == 0)
+				{
 				tmp->isActive = false;
-				counter = counter + 8; // Defeat an enemy and add one to the counter.
+				counter = counter + 8;
+				}
+			 // Defeat an enemy and add one to the counter.
 			}
+
+
+
 // This checks for player and enemy collision. If they collide the game ends.
 			if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
 			{

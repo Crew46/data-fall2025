@@ -88,7 +88,7 @@ void appendEnemyA (Object *enemyList)
 {
 // If there is a head append an enemy to the end of the list.
 	tmp						= enemyList->head;
-    while (tmp -> next !	= NULL)
+    while (tmp -> next != NULL)
     {
         tmp             	= tmp -> next;
     }   

@@ -49,15 +49,19 @@ void DeconstructRenderComponent(RenderComponent* renderComponent)
 void UpdateRenderComponent(RenderComponent* renderComponent)
 {
     //transform components of this gameobject
-    TransformComponent* transformComponent = (TransformComponent*)GameObjectGetComponentByType(GetGameObjectOfComponent((Component*)renderComponent), TRANSFORM_COMPONENT);
-    print_at(screen_width / 2, screen_height / 2 + 150, "rendering");
+    TransformComponent* transformComponent = (TransformComponent*)GetComponentFromComponent((Component*)renderComponent, TRANSFORM_COMPONENT);
+
+    //GETCOMPONENT FROM COMPONENT NOT WORKING, NEED TO FIX
+
     //if this gameobject has a transform
     if(transformComponent != NULL)
     {
+        print_at(screen_width / 2, screen_height / 2 + 150, "rendering");
         select_texture(renderComponent->textureID);
         select_region(renderComponent->regionID);
         draw_region_at(transformComponent->position.x, transformComponent->position.y);
     }
+
 }
 
 RenderManager* GetRenderManager()

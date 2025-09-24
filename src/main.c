@@ -79,7 +79,7 @@ void appendEnemyA (Object *enemyList)
 	tmp						= enemyList->head;
     while (tmp -> next != NULL)
     {
-        tmp             	= tmp -> next;
+    tmp             	= tmp -> next;
     }   
 // if there is no tail then make one.
 	if(tmp->tail			== NULL)
@@ -176,26 +176,26 @@ void insertEnemyA ( Object * enemyList, int position)
 	Object * tmp			= enemyList->head;
 	if(position		 		== 0)
 	{
-		enemyList->head		= mknode();
-		enemyList->head->next = tmp;
-		enemyList->head->next->prev = enemyList->head;
+	enemyList->head			= mknode();
+	enemyList->head->next 	= tmp;
+	enemyList->head->next->prev = enemyList->head;
 	}
 // If there is no edge case then insert at a certain spot.
 	else
 	{
 	i = 0;
 	tmp			  			= enemyList->head;
-		while(i != position)
-			{
-			i = i+1;
-			tmp = tmp->next;	
-			}
-		Object *tmp2 		= tmp->next;
-		tmp ->next 			= mknode();
-		tmp	->next->prev	= tmp;
-		tmp 				= tmp -> next;
-		tmp->next			= tmp2;	
-		tmp2->prev 			= tmp;
+	while(i != position)
+		{
+		i = i+1;
+		tmp = tmp->next;	
+		}
+	Object *tmp2 		= tmp->next;
+	tmp ->next 			= mknode();
+	tmp	->next->prev	= tmp;
+	tmp 				= tmp -> next;
+	tmp->next			= tmp2;	
+	tmp2->prev 			= tmp;
 	}
 }
 

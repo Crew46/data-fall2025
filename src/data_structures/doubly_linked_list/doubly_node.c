@@ -1,10 +1,12 @@
 #ifndef DOUBLY_NODE_C
 #define DOUBLY_NODE_C
 #include "doubly_node.h"
+#include "../../architecture/object/object_manager.h"
 
-DoublyNode* CreateDoublyNode(Object* data)
+DoublyNode* ConstructDoublyNode()
 {
   DoublyNode* node = (DoublyNode*)malloc(sizeof(DoublyNode));
+  node->base = ObjectManagerConstructObject(); 
   node->next = NULL;
   node->previous = NULL;
   node->data = data;
@@ -13,6 +15,7 @@ DoublyNode* CreateDoublyNode(Object* data)
 
 void DeconstructDoublyNode(DoublyNode* doublyNode)
 {
+  ObjectManagerDeconstructObject(doublyNode->base);
   free(doublyNode);
 }
 
@@ -41,19 +44,6 @@ void InsertDoublyNodeBeforeDoublyNode(DoublyNode* nodeToInsertBefore, DoublyNode
   newNode->next = nodeToInsertBefore;
 
   nodeToInsertBefore->previous = newNode;
-}
-
-void DeleteDoublyNode(DoublyNode* node)
-{
-  if(node->next != NULL)
-  {
-    node->next->previous = node->previous;
-  }
-  if(node->previous != NULL)
-  {
-    node->previous->next = node->next;
-  }
-  DeconstructDoublyNode(node);
 }
 
 #endif //DOUBLY_NODE_C

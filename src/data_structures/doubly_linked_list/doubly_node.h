@@ -4,15 +4,14 @@
 
 struct DoublyNode
 {
-  Object* data;
+  Object* base;
   DoublyNode* next;
   DoublyNode* previous;
 };
 
-DoublyNode* CreateDoublyNode(Object* data);
+DoublyNode* ConstructDoublyNode();
 void DeconstructDoublyNode(DoublyNode* doublyNode);
 void InsertDoublyNodeAfterDoublyNode(DoublyNode* nodeToInsertAfter, DoublyNode* newNode);
 void InsertDoublyNodeBeforeDoublyNode(DoublyNode* nodeToInsertBefore, DoublyNode* newNode);
-void DeleteDoublyNode(DoublyNode* node);
 
 #endif // DOUBLY_NODE_H

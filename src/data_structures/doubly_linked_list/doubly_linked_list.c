@@ -6,7 +6,7 @@
 DoublyLinkedList* CreateDoublyLinkedList()
 {
   DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
-  list->head = CreateDoublyNode(NULL);
+  list->head = ConstructDoublyNode(NULL);
   list->tail = NULL;
   return list;
 }
@@ -23,7 +23,7 @@ void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* da
     //if tail has data in it, must create new node and insert it after tail, then set new tail to new node
     if(doublyLinkedList->tail->data != NULL)
     {
-      DoublyNode* newNode = CreateDoublyNode(data);
+      DoublyNode* newNode = ConstructDoublyNode(data);
       InsertDoublyNodeAfterDoublyNode(doublyLinkedList->tail, newNode);
       //inserted node, becomes new tail
       doublyLinkedList->tail = newNode;
@@ -48,14 +48,14 @@ void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* da
       //need to create tail node if head isn't empty
       else
       {
-        doublyLinkedList->tail = CreateDoublyNode(data);
+        doublyLinkedList->tail = ConstructDoublyNode(data);
         InsertDoublyNodeAfterDoublyNode(doublyLinkedList->head, doublyLinkedList->tail);
       }
     }
     //if head doesn't exist
     else
     {
-      doublyLinkedList->head = CreateDoublyNode(data);
+      doublyLinkedList->head = ConstructDoublyNode(data);
     }
   }
 }
@@ -68,7 +68,7 @@ void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* da
     //if head has has data in it already
     if(doublyLinkedList->head->data != NULL)
     {
-      DoublyNode* newNode = CreateDoublyNode(data);
+      DoublyNode* newNode = ConstructDoublyNode(data);
       InsertDoublyNodeBeforeDoublyNode(doublyLinkedList->head, newNode);
       //set head of list to the new node
       doublyLinkedList->head = newNode;
@@ -87,7 +87,7 @@ void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* da
   //if head doesn't exist
   else
   {
-    doublyLinkedList->head = CreateDoublyNode(data);
+    doublyLinkedList->head = ConstructDoublyNode(data);
   }
 }
 

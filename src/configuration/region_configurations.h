@@ -26,7 +26,7 @@ void InitializeRegions()
     //player
     select_texture(PLAYER_SPRITES_TEXTURE);
     select_region(PLAYER_REGION);
-    define_region_topleft(0, 0, 31, 31); // Player sprite
+    define_region_center(0, 0, 31, 31); // Player sprite
 
     //PLAY
     select_texture( UI_TEXTURES );  
@@ -46,12 +46,12 @@ void InitializeRegions()
     //WEAPON
     select_texture(WEAPON_TEXTURES );
     select_region(WEAPON_REGION);
-    define_region_topleft(0, 0, 9, 19);
+    define_region_center(0, 0, 9, 19);
 
     //LASER
     select_texture(LASER_TEXTURES);
     select_region(LASER_REGION);
-    define_region_topleft(0, 0, 9, 19);
+    define_region_center(0, 0, 9, 19);
 }
 
 #endif //REGIONS_CONFIGURATIONS_H

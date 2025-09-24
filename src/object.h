@@ -24,6 +24,8 @@ struct Object
     int id; //object id
     int x; //x
     int y; //y
+    int width; //width of object
+    int height; //height of object
     float xdir; //input direction x
     float ydir; //input direction y
     int speed; //speed in scene
@@ -55,6 +57,8 @@ void InitializeObject(Object* object, int* name, int textureID, int regionID, in
 
     object->x = x;
     object->y = y;
+    object->width = 10;
+    object->height = 10;
     object->textureID = textureID;
     object->regionID = regionID;
     object->id = id;
@@ -113,8 +117,7 @@ void DrawObject(Object* object)
 {
     select_texture(object->textureID);
     select_region(object->regionID);
-    int team = (object->status & TeamFlagMask) >> TeamFlagOffset;
-    switch(team)
+    switch(StatusGetTeam(object->status))
     {
         case 0:
             set_drawing_angle(0.0);
@@ -147,6 +150,77 @@ void ObjectMoveInDirection(Object* object)
     AddVector2Components(resultX, object->x, resultY, object->y, &resultsX2, &resultsY2);
     object->x = round(resultsX2);
     object->y = round(resultsY2);
+}
+
+bool CheckColliding(Object* Thing1, Object* Thing2)
+{
+    int Thing1Width;
+    int Thing1Height;
+    int Thing1LeftBound   = Thing1->x;
+    int Thing1RightBound  = Thing1->x;
+    int Thing1TopBound    = Thing1->y;
+    int Thing1BottomBound = Thing1->y;
+
+    if(StatusGetTeam(Thing1->status) % 2 == 0)
+    {
+        Thing1Width  = Thing1->width;
+        Thing1Height = Thing1->height;
+    }
+    else
+    {
+        Thing1Width  = Thing1->height;
+        Thing1Height = Thing1->width;
+    }
+
+    Thing1LeftBound   -= Thing1Width/2;
+    Thing1RightBound  += Thing1Width/2;
+    Thing1TopBound    -= Thing1Height/2;
+    Thing1BottomBound += Thing1Height/2;
+
+    int Thing2Width;
+    int Thing2Height;
+    int Thing2LeftBound   = Thing2->x;
+    int Thing2RightBound  = Thing2->x;
+    int Thing2TopBound    = Thing2->y;
+    int Thing2BottomBound = Thing2->y;
+
+    if(StatusGetTeam(Thing2->status) % 2 == 0)
+    {
+        Thing2Width  = Thing1->width;
+        Thing2Height = Thing1->height;
+    }
+    else
+    {
+        Thing2Width  = Thing1->height;
+        Thing2Height = Thing1->width;
+    }
+
+    Thing2LeftBound   -= Thing2Width/2;
+    Thing2RightBound  += Thing2Width/2;
+    Thing2TopBound    -= Thing2Height/2;
+    Thing2BottomBound += Thing2Height/2;
+
+    if(Thing1RightBound <= Thing2LeftBound)
+    {
+        return false;
+    }
+
+    if(Thing1TopBound >= Thing2BottomBound)
+    {
+        return false;
+    }
+
+    if(Thing1LeftBound >= Thing2RightBound)
+    {
+        return false;
+    }
+
+    if(Thing1BottomBound <= Thing2TopBound)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 

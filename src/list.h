@@ -49,7 +49,7 @@ List *append (List *myList, Object *place, Object *newNode)
     }
 }
 
-List *obtainNode (List *myList, Node **thatNode)
+List *obtain (List *myList, Node **thatNode)
 {
     if (!myList || !thatNode || !(*thatNode))
         return (myList);
@@ -92,17 +92,33 @@ List *createList ()
     return (myList);
 }
 
-void deleteList (List** myList)
+List *clearList (List *myList)
 {
-  Node *current   = (*myList) -> head;
-  while (current != NULL)
-  {
-    Node* next = current->next;
-    deleteNode((*list), &current);
-    current = next;
-  }
-  free(*list);
-  *list = NULL;
+    Node *tmp         = NULL;
+    if (myList       != NULL)
+    {
+        tmp           = myList -> head;
+        while (tmp   != NULL)
+        {
+            myList    = obtain (myList, &tmp);
+            tmp       = deleteNode (tmp);
+            tmp       = myList -> head;
+        }
+    }
+
+    return (myList);
+}
+
+List *deleteList (List *oldList)
+{
+    if (oldList      != NULL)
+    {
+        oldList       = clearList (oldList);
+        free (oldList);
+        oldList       = NULL;
+    }
+
+    return (oldList);
 }
 
 // Insert a new object

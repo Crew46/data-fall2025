@@ -1,7 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 #include "../object/object.h"
-#include "../game_object.h"
+#include "../game_object/game_object.h"
 
 enum ComponentType
 {
@@ -16,6 +16,7 @@ enum ComponentType
 struct Component
 {
     Object base; //base object
+    GameObject* gameObject; //reference to gameobject of this component
     ComponentType type; //type of component
     int componentID; //component id
 };

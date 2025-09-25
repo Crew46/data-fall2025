@@ -47,6 +47,8 @@ void InitializeComponent(Component* component, ComponentType type)
     component->componentID = componentManager->nextComponentID;
     componentManager->nextComponentID++;
     component->type = type;
+    //not attached to gameobject when created  
+    component->gameObject = NULL;
     DoublyLinkedListInsertToTail(componentManager->componentList, (Object*)component);
 }
 

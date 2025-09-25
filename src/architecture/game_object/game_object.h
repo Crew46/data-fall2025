@@ -7,6 +7,7 @@
 struct GameObject
 {
     Object base; //base object
+    GameObject* parent; //parent to gameobject
     DoublyLinkedList* components; //list of components
     DoublyLinkedList* children; //list of child game objects
     int gameObjectID;

@@ -60,6 +60,13 @@ void GameObjectManagerInitializeGameObject(GameObject* gameObject)
     if(gameObjectManager->nextGameObjectID != 0)
     {
         GameObjectAddChild(GetRootGameObject(), gameObject);
+        //set gameobjects parent to the root
+        gameObject->parent = GetRootGameObject();
+    }
+    else
+    {
+        //if root, set parent to NULL
+        gameObject->parent = NULL;
     }
     //add to object list
     DoublyLinkedListInsertToTail(gameObjectManager->gameObjectList, (Object*)gameObject);

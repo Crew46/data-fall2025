@@ -17,8 +17,8 @@ void InitializeGameObjectManager();
 void DeinitializeGameObjectManager();
 
 //gameobject creation
-void GameObjectManagerInitializeGameObject(GameObject* gameObject);
-GameObject* GameObjectManagerConstructGameObject();
+void InitializeGameObject(GameObject* gameObject);
+GameObject* ConstructGameObject();
 void DeconstructGameObject(GameObject* gameObject);
 
 //gameobject-component related functions
@@ -28,7 +28,7 @@ Component* GetComponentFromComponent(Component* component, ComponentType compone
 void UpdateAllComponentsInGameObject(GameObject* gameObject);
 void GameObjectUpdate(GameObject* gameObject);
 void UpdateAllGameObjects();
-void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type);
+void AddComponentToGameObject(GameObject* gameObject, ComponentType type);
 
 //gameobject-gameobject related functions
 void GameObjectAddChild(GameObject* parent, GameObject* child);

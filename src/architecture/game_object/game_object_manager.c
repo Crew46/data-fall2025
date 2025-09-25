@@ -29,7 +29,7 @@ void InitializeGameObjectManager()
     gameObjectManager = (GameObjectManager*)malloc(sizeof(GameObjectManager));
     gameObjectManager->gameObjectList = ConstructDoublyLinkedList();
     gameObjectManager->nextGameObjectID = 0;
-    gameObjectManager->root = GameObjectManagerConstructGameObject();
+    gameObjectManager->root = ConstructGameObject();
     ObjectManagerSetObjectName((Object*)gameObjectManager->root, "Root");
 }
 
@@ -47,7 +47,7 @@ void DeinitializeGameObjectManager()
 //=========================================================
 
 //initialize game object
-void GameObjectManagerInitializeGameObject(GameObject* gameObject)
+void InitializeGameObject(GameObject* gameObject)
 {
     //initialize base object through object manager
     ObjectManagerInitializeObject(&gameObject->base);
@@ -74,10 +74,10 @@ void GameObjectManagerInitializeGameObject(GameObject* gameObject)
 }
 
 //construct game object
-GameObject* GameObjectManagerConstructGameObject()
+GameObject* ConstructGameObject()
 {
     GameObject* gameObject = (GameObject*)malloc(sizeof(GameObject));
-    GameObjectManagerInitializeGameObject(gameObject);
+    InitializeGameObject(gameObject);
     return gameObject;
 }
 
@@ -214,7 +214,7 @@ void UpdateAllGameObjects()
     }
 }
 
-void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type)
+void AddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
     Component* component = ComponentManagerConstructComponent(type);
     DoublyLinkedListInsertToTail(gameObject->components, (Object*)component);

@@ -71,15 +71,15 @@ void InitializeGameManager()
 
 
     //game object creation
-    player = GameObjectManagerConstructGameObject();
-    GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player, RENDER_COMPONENT);
+    player = ConstructGameObject();
+    AddComponentToGameObject(player, TRANSFORM_COMPONENT);
+    AddComponentToGameObject(player, RENDER_COMPONENT);
     ObjectManagerSetObjectName((Object*)player, "player");
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
 
 
-    player1 = GameObjectManagerConstructGameObject();
-    GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
+    player1 = ConstructGameObject();
+    AddComponentToGameObject(player1, TRANSFORM_COMPONENT);
     ObjectManagerSetObjectName((Object*)player1, "player1");
 }
 

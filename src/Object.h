@@ -15,8 +15,6 @@ int a;
 int b;
 
 // The main struct that we use.
-
-
 struct Object
 {
 	int x;
@@ -32,13 +30,14 @@ struct Object
 	int hp	 ;
 	int texture;
 	int region;
-	Object *head;
-	Object *tail;
 	Object *next;
 	Object *prev;
-
-
-
 };
 
+// struct for the doubly linked list
+struct doublyLinkedList
+{
+	Object * head;
+	Object * tail;
+};
 #endif // OBJECT_H_

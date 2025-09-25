@@ -8,7 +8,17 @@
 #define LASERSPEED			1
 
 
-
+doublyLinkedList * mklist()
+{
+	doublyLinkedList * listA = (doublyLinkedList *) malloc (sizeof(doublyLinkedList));
+	if(listA == NULL)
+		{
+			exit();
+		}
+	listA->head = NULL;
+	listA->tail = NULL;
+return listA;
+}
 // I don't know why I didn't make this sooner '_'
 // This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
 Object * mknode()
@@ -20,7 +30,6 @@ Object * mknode()
 	Object * EnemyA			= (Object *) malloc (sizeof (Object));
 	EnemyA ->next			= NULL;
 	EnemyA ->prev			= NULL;
-	EnemyA ->tail			= NULL;
 	EnemyA -> x				= xpos;
 	EnemyA -> y				= ypos;
 	EnemyA -> height		= 10;
@@ -36,7 +45,6 @@ Object * mknode()
 	Object * EnemyB			= (Object *) malloc (sizeof(Object));
 	EnemyB -> next			= NULL;
 	EnemyB -> prev			= NULL;
-	EnemyB -> tail			= NULL;
 	EnemyB -> x				= xpos;
 	EnemyB -> y				= ypos;
 	EnemyB -> height		= 20;
@@ -61,130 +69,115 @@ Object * mknode()
 
 
 // Prepping what we need.
-Object *enemyList;
+doublyLinkedList * listA;
 Object *laser;
 // This function will create a single EnemyA everytime it is used.
-void appendEnemyA (Object *enemyList)
+void appendEnemyA (doublyLinkedList * listA)
 {
     Object *tmp         	= NULL;
 	Object *tmp2			= NULL;
+
 // If there is no head make one.
-	if(enemyList->head 		== NULL)
+	if(listA->head 		== NULL)
 	{
-	enemyList->head 		= mknode();
+
+	listA->head 		= mknode();
 	} 		
 	else
 {
+
 // If there is a head append an enemy to the end of the list.
-	tmp						= enemyList->head;
+	tmp						= listA->head;
     while (tmp -> next != NULL)
     {
     tmp             	= tmp -> next;
     }   
 // if there is no tail then make one.
-	if(tmp->tail			== NULL)
+	if(tmp->next			== NULL)
 	{
-		tmp->tail			= mknode();
-		enemyList->tail		= tmp->tail;
-		tmp->tail->prev		= tmp;
-	}
-// if there is a tail then we will make a new tail.
-	else
-	{
-	tmp2					= tmp->tail;
-	tmp->next				= tmp2;
-	tmp->tail			 	= NULL;
-	tmp->next->prev			= tmp;
-	tmp->next->tail			= mknode();
-	tmp->next->tail->prev	= tmp->next;
-	enemyList->tail			= tmp->next->tail;
+		tmp->next			= mknode();
+		listA->tail			= tmp->next;
+		tmp->next->prev		= tmp;
 	}
 }
 }
 // rmnode checks
 void rmnode(Object * tmp2)
+{
+	if(tmp2 ->isActive 	== false)
 	{
-		if(tmp2 ->isActive 	== false)
-		{
 		free(tmp2);
 		if(tmp2 			!= NULL)
 		{
 		tmp2 				= NULL;
 		}
-		}
 	}
+}
 
 
 
 // The obtain function that is currently used to delete enemies.
 
-void obtainEnemyA (Object * enemyList)
+void obtainEnemyA (doublyLinkedList * listA)
 {
+	Object * tmp;
+	Object * tmp2;
 // Edge case where head is inactive and needs to be replaced after being
 // marked for deletion.
-	Object *tmp			  	= enemyList;
-	Object *tmp2		  	= enemyList;
-	if(enemyList->head->isActive == false)
+	if(listA->head->isActive == false)
 		{
-		appendEnemyA(enemyList);
-		tmp2			  	= enemyList->head;
-		enemyList->head   	= tmp2->next;
+		appendEnemyA(listA);
+		tmp2			  	= listA->head;
+		listA->head   		= tmp2->next;
 		tmp2->next->prev  	= NULL;
 		rmnode(tmp2);
 		}
 
 // If there is no edge case continue as normal.
-	tmp           			= enemyList->head;
-    tmp2     	  			= enemyList->head;
+	tmp           			= listA->head;
+    tmp2     	  			= listA->head;
 	while( tmp-> next 		!= NULL)
+{
+		if(tmp->next->isActive == false && tmp->next->next == NULL)
+		{
+		tmp2=tmp->next;
+		rmnode(tmp2);
+		tmp->next = NULL;
+		}
+		if(tmp->next != NULL)
 	{
-    if (tmp ->next-> isActive == false) 
+		if (tmp ->next-> isActive == false) 
     	{	
-		appendEnemyA(enemyList);
+		appendEnemyA(listA);
         tmp2         	  	= tmp -> next;
         tmp -> next       	= tmp2 -> next;
 		tmp2->next->prev  	= tmp;
         rmnode(tmp2);
     	}
-// if tail is inactive we will have to remove it.
-	if(tmp->next->tail != NULL)
-	{
-		if(tmp->next->tail->isActive == false)
-		{
-		tmp2                = tmp->next;
-		tmp->tail           = tmp2;
-		tmp->next			= NULL;
-		tmp2				= tmp2->tail;
-		tmp2->prev			= NULL;
-		tmp->tail->tail		= NULL;
-		enemyList->tail		= tmp->tail;
-		rmnode(tmp2);
-		appendEnemyA(enemyList);
-		}	
 	}
-
-tmp = tmp->next;
-	}
+	tmp = tmp->next;
+}
 }
 
+
 // This will insert the enemy at the desired position.
-void insertEnemyA ( Object * enemyList, int position)
+void insertEnemyA ( doublyLinkedList * listA , int position)
 {
 	// Edge case where we want to replace the head.
 
 
-	Object * tmp			= enemyList->head;
+	Object * tmp			= listA->head;
 	if(position		 		== 0)
 	{
-	enemyList->head			= mknode();
-	enemyList->head->next 	= tmp;
-	enemyList->head->next->prev = enemyList->head;
+	listA->head			= mknode();
+	listA->head->next 	= tmp;
+	listA->head->next->prev = listA->head;
 	}
 // If there is no edge case then insert at a certain spot.
 	else
 	{
 	i = 0;
-	tmp			  			= enemyList->head;
+	tmp			  			= listA->head;
 	while(i != position)
 		{
 		i = i+1;
@@ -205,7 +198,6 @@ void main (void)
 	srand(b);     
     Object *tmp          = NULL;
 	laser 				 = NULL;
-    enemyList            = NULL;
     xpos                 = 20;
     ypos                 = 0;
 	max					 = 0;
@@ -213,12 +205,7 @@ void main (void)
 	a 					 = NULL;
 	status				 = 0x10000000;
     // creating the head and malloc it.
-    Object *enemyList   = (Object *) malloc (sizeof (Object));
-    if (enemyList       == NULL)
-    {
-        exit ();
-    }
-    enemyList -> head   = NULL;
+    listA = mklist();
 
 /// Creating the laser.
 	Object * laser = (Object *)malloc(sizeof(Object));
@@ -228,14 +215,15 @@ void main (void)
     // 
     // 
     // We are spawning and inserting the enemies.   
-	appendEnemyA (enemyList);
-    appendEnemyA (enemyList);
-    appendEnemyA (enemyList);
-    appendEnemyA (enemyList);
-    appendEnemyA (enemyList);
-	appendEnemyA (enemyList);
-	insertEnemyA (enemyList, 0);
-	insertEnemyA (enemyList, 2);
+
+	appendEnemyA (listA);
+    appendEnemyA (listA);
+    appendEnemyA (listA);
+    appendEnemyA (listA);
+    appendEnemyA (listA);
+	appendEnemyA (listA);
+	insertEnemyA (listA, 0);
+	insertEnemyA (listA, 2);
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -247,7 +235,6 @@ void main (void)
 	player -> isActive 	 = true;
 	player -> height	 = 32;
 	player -> width		 = 32;
-
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // 
@@ -381,7 +368,7 @@ void main (void)
         //
         // Adjust enemy positions based on randomness and draw them.
         //	
-        tmp                	= enemyList->tail;
+        tmp                	= listA->tail;
         while(tmp != NULL)
         {
 	
@@ -404,7 +391,7 @@ void main (void)
 		}  
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
-      tmp = enemyList->tail; 
+      tmp = listA->tail; 
 		while(tmp != NULL)
 		{
 			 if(laser->isActive == true && tmp->isActive == true && collision(laser, tmp) )
@@ -433,7 +420,7 @@ void main (void)
 
 
 // This will obtain the enemy and delete them
-		obtainEnemyA (enemyList);
+		obtainEnemyA (listA);
 
 
 // I do know that this code is slightly pointless. I just want to mess with bit masking.
@@ -443,7 +430,7 @@ if(counter >= 5 && max != 8)
 		value = status | mask;
 			if (value == 0x11000000) // check the second bit to see if an enemy can be added.
 				{
-					appendEnemyA(enemyList);
+					appendEnemyA(listA);
 					max = max + 1;
 					status = value;
 				}

@@ -42,7 +42,7 @@ void DrawLine(Vector2* starting, Vector2* ending, int* character)
     //if they are actually apart from eachother
     if(distance != 0)
     {
-        //how does does the height related to the hypotenuse
+        //how does does the height relate to the hypotenuse
         float cosineRatio = deltaY / distance;
         int deltaXNegative = 1;
         if(deltaX < 0)
@@ -192,13 +192,15 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
         }
         gameObjectIndex++;
     }
-    print_at(x + tracking, y + leading * 8, "Object: ");
-    print_at(x + tracking * 2, y + leading * 9, "active: ");
-    PrintIntAt(x + tracking * 6, y + leading * 9, gameObject->base.isActive);
-    print_at(x + tracking * 2, y + leading * 10, "name: ");
-    print_at(x + tracking * 6, y + leading * 10, gameObject->base.name);
-    print_at(x + tracking * 2, y + leading * 11, "oID: ");
-    PrintIntAt(x + tracking * 6, y + leading * 11, gameObject->base.objectID);
+    print_at(x + tracking, y + leading * 8, "ParentCID");
+    PrintIntAt(x + tracking * 6, y + leading * 8, gameObject->parent->gameObjectID);
+    print_at(x + tracking, y + leading * 9, "Object: ");
+    print_at(x + tracking * 2, y + leading * 10, "active: ");
+    PrintIntAt(x + tracking * 6, y + leading * 10, gameObject->base.isActive);
+    print_at(x + tracking * 2, y + leading * 11, "name: ");
+    print_at(x + tracking * 6, y + leading * 11, gameObject->base.name);
+    print_at(x + tracking * 2, y + leading * 12, "oID: ");
+    PrintIntAt(x + tracking * 6, y + leading * 12, gameObject->base.objectID);
 
 }
 

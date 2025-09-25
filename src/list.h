@@ -13,6 +13,10 @@ struct List
     Node *tail;
 };
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  append(): add a newNode into myList after indicated place
+//
 List *append (List *myList, Object *place, Object *newNode)
 {
     if (myList              == NULL)
@@ -47,8 +51,15 @@ List *append (List *myList, Object *place, Object *newNode)
             newNode -> next  = tmp;
         }
     }
+
+    return (myList);
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  obtain(): take thatNode and disconnect it (while maintaining list integrity)
+//            from myList.
+//
 List *obtain (List *myList, Node **thatNode)
 {
     if (!myList || !thatNode || !(*thatNode))
@@ -80,6 +91,10 @@ List *obtain (List *myList, Node **thatNode)
     return (myList);
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  createList(): allocate and initialize a new list
+//
 List *createList ()
 {
     List *myList        = (List*) malloc (sizeof (List));
@@ -92,6 +107,11 @@ List *createList ()
     return (myList);
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  clearList(): sanely obtain and deallocate all nodes in myList, leaving an
+//               empty list
+//
 List *clearList (List *myList)
 {
     Node *tmp         = NULL;
@@ -109,6 +129,10 @@ List *clearList (List *myList)
     return (myList);
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  deleteList(): clear and deallocate a list, returning a NULL
+//
 List *deleteList (List *oldList)
 {
     if (oldList      != NULL)

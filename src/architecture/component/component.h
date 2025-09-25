@@ -1,6 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 #include "../object/object.h"
+#include "../game_object.h"
 
 enum ComponentType
 {

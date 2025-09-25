@@ -9,51 +9,87 @@
 //
 struct List
 {
-	Node *head;
-	Node *tail;
+    Node *head;
+    Node *tail;
 };
+
+List *append (List *myList, Object *place, Object *newNode)
+{
+    if (myList              == NULL)
+    {
+        myList               = (List *) malloc (sizeof (List));
+    }
+
+    if ((myList             != NULL) &&
+        (newNode            != NULL))
+    {
+        Object *tmp          = NULL;
+        Object *tmp2         = NULL;
+
+        if (myList -> head  == NULL)
+        {
+            myList -> head   = newNode;
+            myList -> tail   = newNode;
+        }
+        else if (place      == myList -> tail)
+        {
+            tmp              = myList -> tail;
+            tmp -> next      = newNode;
+            newNode -> prev  = tmp;
+            myList -> tail   = newNode;
+        }
+        else
+        {
+            tmp              = place -> next;
+            tmp -> prev      = newNode;
+            newNode -> prev  = place;
+            place -> next    = newNode;
+            newNode -> next  = tmp;
+        }
+    }
+}
 
 List *obtainNode (List *myList, Node **thatNode)
 {
-	if (!myList || !thatNode || !(*thatNode))
-		return (myList);
+    if (!myList || !thatNode || !(*thatNode))
+        return (myList);
 
-	// Only one node
-	if (myList -> head              == (*thatNode) &&
-		myList -> tail              == (*thatNode))
-	{
-		myList -> head               = NULL;
-		myList -> tail               = NULL;
-	}
-	else if ((*thatNode)            == myList -> head)
-	{
-		myList -> head               = (*thatNode) -> next;
-		myList -> head -> prev       = NULL;
-	}
-	else if ((*thatNode)            == myList -> tail)
-	{
-		myList -> tail               = (*thatNode) -> prev;
-		myList -> tail -> next       = NULL;
-	}
-	else
-	{
-		(*thatNode) -> next -> prev  = (*thatNode) -> prev;
-		(*thatNode) -> prev -> next  = (*thatNode) -> next;
-	}
+    // Only one node
+    if (myList -> head              == (*thatNode) &&
+        myList -> tail              == (*thatNode))
+    {
+        myList -> head               = NULL;
+        myList -> tail               = NULL;
+    }
+    else if ((*thatNode)            == myList -> head)
+    {
+        myList -> head               = (*thatNode) -> next;
+        myList -> head -> prev       = NULL;
+    }
+    else if ((*thatNode)            == myList -> tail)
+    {
+        myList -> tail               = (*thatNode) -> prev;
+        myList -> tail -> next       = NULL;
+    }
+    else
+    {
+        (*thatNode) -> next -> prev  = (*thatNode) -> prev;
+        (*thatNode) -> prev -> next  = (*thatNode) -> next;
+    }
 
-	return (myList);
+    return (myList);
 }
 
 List *createList ()
 {
-	List *myList        = (List*) malloc (sizeof (List));
-	if (myList         != NULL)
-	{
-		myList -> head  = NULL;
-		myList -> tail  = NULL;
-	}
+    List *myList        = (List*) malloc (sizeof (List));
+    if (myList         != NULL)
+    {
+        myList -> head  = NULL;
+        myList -> tail  = NULL;
+    }
 
-	return (myList);
+    return (myList);
 }
 
 void deleteList (List** myList)

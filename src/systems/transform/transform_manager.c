@@ -22,7 +22,7 @@ void InitializeTransformManager()
     //allocate memory
     transformManager = (TransformManager*)malloc(sizeof(TransformManager));
     //initialize
-    transformManager->transformComponents = CreateDoublyLinkedList();
+    transformManager->transformComponents = ConstructDoublyLinkedList();
 }
 
 //deconstruct transform manager

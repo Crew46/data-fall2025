@@ -11,7 +11,7 @@ RenderManager* renderManager;
 void InitializeRenderManager()
 {
     renderManager = (RenderManager*)malloc(sizeof(RenderManager));
-    renderManager->renderComponents = CreateDoublyLinkedList();
+    renderManager->renderComponents = ConstructDoublyLinkedList();
 }
 
 void DeinitializeRenderManager()
@@ -25,7 +25,7 @@ void InitializeRenderComponent(RenderComponent* renderComponent, int region, int
     ComponentManagerInitializeComponent(&renderComponent->base, RENDER_COMPONENT);  
     renderComponent->regionID = region;
     renderComponent->textureID = texture;
-    DoublyLinkedListInsertAtTail(renderManager->renderComponents, (Object*)renderComponent);
+    DoublyLinkedListInsertToTail(renderManager->renderComponents, (Object*)renderComponent);
 }
 
 void DeinitializeRenderComponent(RenderComponent* renderComponent)

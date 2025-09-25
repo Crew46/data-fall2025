@@ -27,7 +27,7 @@ GameObject* GetRootGameObject()
 void InitializeGameObjectManager()
 {
     gameObjectManager = (GameObjectManager*)malloc(sizeof(GameObjectManager));
-    gameObjectManager->gameObjectList = CreateDoublyLinkedList();
+    gameObjectManager->gameObjectList = ConstructDoublyLinkedList();
     gameObjectManager->nextGameObjectID = 0;
     gameObjectManager->root = GameObjectManagerConstructGameObject();
     ObjectManagerSetObjectName((Object*)gameObjectManager->root, "Root");
@@ -54,15 +54,15 @@ void GameObjectManagerInitializeGameObject(GameObject* gameObject)
     //initialize gameobject
     gameObject->gameObjectID = gameObjectManager->nextGameObjectID;
     //initialize linked list
-    gameObject->components = CreateDoublyLinkedList();
+    gameObject->components = ConstructDoublyLinkedList();
     //children list
-    gameObject->children = CreateDoublyLinkedList();
+    gameObject->children = ConstructDoublyLinkedList();
     if(gameObjectManager->nextGameObjectID != 0)
     {
         GameObjectAddChild(GetRootGameObject(), gameObject);
     }
     //add to object list
-    DoublyLinkedListInsertAtTail(gameObjectManager->gameObjectList, (Object*)gameObject);
+    DoublyLinkedListInsertToTail(gameObjectManager->gameObjectList, (Object*)gameObject);
     gameObjectManager->nextGameObjectID++;
 }
 
@@ -210,7 +210,7 @@ void UpdateAllGameObjects()
 void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
     Component* component = ComponentManagerConstructComponent(type);
-    DoublyLinkedListInsertAtTail(gameObject->components, (Object*)component);
+    DoublyLinkedListInsertToTail(gameObject->components, (Object*)component);
 }
 
 //=========================================================
@@ -221,7 +221,7 @@ void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, Component
 
 void GameObjectAddChild(GameObject* parent, GameObject* child)
 {
-    DoublyLinkedListInsertAtTail(parent->children, (Object*)child);
+    DoublyLinkedListInsertToTail(parent->children, (Object*)child);
 }
 
 void GameObjectRemoveChild(GameObject* parent, GameObject* child)

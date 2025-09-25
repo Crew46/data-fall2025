@@ -21,7 +21,7 @@ ComponentManager* GetComponentManager()
 void InitializeComponentManager()
 {
     componentManager = (ComponentManager*)malloc(sizeof(ComponentManager));
-    componentManager->componentList = CreateDoublyLinkedList();
+    componentManager->componentList = ConstructDoublyLinkedList();
     componentManager->nextComponentID = 0;
 }
 
@@ -47,7 +47,7 @@ void ComponentManagerInitializeComponent(Component* component, ComponentType typ
     component->componentID = componentManager->nextComponentID;
     componentManager->nextComponentID++;
     component->type = type;
-    DoublyLinkedListInsertAtTail(componentManager->componentList, (Object*)component);
+    DoublyLinkedListInsertToTail(componentManager->componentList, (Object*)component);
 }
 
 Component* ComponentManagerConstructComponent(ComponentType type)

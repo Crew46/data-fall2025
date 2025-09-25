@@ -3,7 +3,7 @@
 #include "doubly_linked_list.h"
 #include "doubly_node.c"
 
-DoublyLinkedList* CreateDoublyLinkedList()
+DoublyLinkedList* ConstructDoublyLinkedList()
 {
   DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
   list->head = ConstructDoublyNode(NULL);
@@ -11,11 +11,27 @@ DoublyLinkedList* CreateDoublyLinkedList()
   return list;
 }
 
+void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList)
+{
+
+}
+
+DoublyNode* Detatch()
+{
+
+}
+
+DoublyNode* Peak()
+{
+
+}
+
+
 ////////////////////////////////////////////////////////////
 ///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data)
 {
   //if tail exists
   if(doublyLinkedList->tail != NULL)
@@ -60,7 +76,7 @@ void DoublyLinkedListInsertAtTail(DoublyLinkedList* doublyLinkedList, Object* da
   }
 }
 
-void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data)
 {
   //if head exists
   if(doublyLinkedList->head != NULL)
@@ -89,20 +105,6 @@ void DoublyLinkedListInsertAtHead(DoublyLinkedList* doublyLinkedList, Object* da
   {
     doublyLinkedList->head = ConstructDoublyNode(data);
   }
-}
-
-////////////////////////////////////////////////////////////
-///////////ACCESS///////////////////////////////////////////
-////////////////////////////////////////////////////////////
-
-Object* DoublyLinkedListGetObjectAtHead(DoublyLinkedList* list)
-{
-  return list->head->data;
-}
-
-Object* DoublyLinkedListGetObjectAtTail(DoublyLinkedList* list)
-{
-  return list->tail->data;
 }
 
 #endif // DOUBLY_LINKED_LIST_C

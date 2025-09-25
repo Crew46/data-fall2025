@@ -12,7 +12,7 @@ ObjectManager* GetObjectManager()
 void InitializeObjectManager()
 {
     objectManager = (ObjectManager*)malloc(sizeof(ObjectManager));
-    objectManager->objectList = CreateDoublyLinkedList();
+    objectManager->objectList = ConstructDoublyLinkedList();
     objectManager->nextObjectID = 0;
 }
 
@@ -34,7 +34,7 @@ void ObjectManagerInitializeObject(Object* object)
     object->isActive = true;
     object->objectID = objectManager->nextObjectID;
     objectManager->nextObjectID++;
-    DoublyLinkedListInsertAtTail(objectManager->objectList, object);
+    DoublyLinkedListInsertToTail(objectManager->objectList, object);
 }
 
 Object* ObjectManagerConstructObject()

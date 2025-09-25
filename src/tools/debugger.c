@@ -192,7 +192,7 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
         }
         gameObjectIndex++;
     }
-    print_at(x + tracking, y + leading * 8, "ParentCID");
+    print_at(x + tracking, y + leading * 8, "ParentCID: ");
     PrintIntAt(x + tracking * 6, y + leading * 8, gameObject->parent->gameObjectID);
     print_at(x + tracking, y + leading * 9, "Object: ");
     print_at(x + tracking * 2, y + leading * 10, "active: ");

@@ -65,7 +65,7 @@ void GameObjectManagerInitializeGameObject(GameObject* gameObject)
     }
     else
     {
-        //if root, set parent to -1
+        //if root, set parent to NULL
         gameObject->parent = NULL;
     }
     //add to object list

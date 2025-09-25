@@ -37,7 +37,7 @@ void DeinitializePlayerManager(PlayerManager* playerManager)
 
 void InitializePlayer(Player* player, float speed)
 {
-    ObjectManagerInitializeObject((Object*)player);
+    InitializeObject((Object*)player);
     player->speed = speed;
     player->state = PLAYER_MOVEMENT_STATE_IDLE;
 }

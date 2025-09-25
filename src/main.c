@@ -13,4 +13,3 @@ void main(void)
         end_frame();
     }
 }
-

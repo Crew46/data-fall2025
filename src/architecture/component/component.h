@@ -16,7 +16,7 @@ struct Component
 {
     Object base; //base object
     ComponentType type; //type of component
-    int componentID; //object id
+    int componentID; //component id
 };
 
 #endif // COMPONENT_H

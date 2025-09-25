@@ -74,13 +74,13 @@ void InitializeGameManager()
     player = ConstructGameObject();
     AddComponentToGameObject(player, TRANSFORM_COMPONENT);
     AddComponentToGameObject(player, RENDER_COMPONENT);
-    ObjectManagerSetObjectName((Object*)player, "player");
+    SetObjectName((Object*)player, "player");
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
 
 
     player1 = ConstructGameObject();
     AddComponentToGameObject(player1, TRANSFORM_COMPONENT);
-    ObjectManagerSetObjectName((Object*)player1, "player1");
+    SetObjectName((Object*)player1, "player1");
 }
 
 void DeinitializeGameManager()

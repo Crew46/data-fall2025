@@ -39,10 +39,10 @@ void DeinitializeComponentManager(ComponentManager* componentManager)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void ComponentManagerInitializeComponent(Component* component, ComponentType type)
+void InitializeComponent(Component* component, ComponentType type)
 {
     //initialize base object through object manager
-    ObjectManagerInitializeObject(&component->base);
+    InitializeObject(&component->base);
     //initialize component
     component->componentID = componentManager->nextComponentID;
     componentManager->nextComponentID++;
@@ -50,17 +50,17 @@ void ComponentManagerInitializeComponent(Component* component, ComponentType typ
     DoublyLinkedListInsertToTail(componentManager->componentList, (Object*)component);
 }
 
-Component* ComponentManagerConstructComponent(ComponentType type)
+Component* ConstructComponent(ComponentType type)
 {
     return DispatchComponentConstructionFunction(type);
 }
 
-void ComponentManagerDeconstructComponent(Component* component)
+void DeconstructComponent(Component* component)
 {
     //remove from list
     //deconstuct
     //tell object manager to deconstuct object
-    ObjectManagerDeconstructObject(&component->base);
+    DeconstructObject(&component->base);
     //free struct
     free(component);
 }

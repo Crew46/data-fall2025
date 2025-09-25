@@ -22,7 +22,7 @@ void DeinitializeRenderManager()
 
 void InitializeRenderComponent(RenderComponent* renderComponent, int region, int texture)
 {
-    ComponentManagerInitializeComponent(&renderComponent->base, RENDER_COMPONENT);  
+    InitializeComponent(&renderComponent->base, RENDER_COMPONENT);  
     renderComponent->regionID = region;
     renderComponent->textureID = texture;
     DoublyLinkedListInsertToTail(renderManager->renderComponents, (Object*)renderComponent);
@@ -30,7 +30,7 @@ void InitializeRenderComponent(RenderComponent* renderComponent, int region, int
 
 void DeinitializeRenderComponent(RenderComponent* renderComponent)
 {
-    ComponentManagerDeconstructComponent(&renderComponent->base);
+    DeconstructComponent(&renderComponent->base);
     free(renderComponent);
 }
 

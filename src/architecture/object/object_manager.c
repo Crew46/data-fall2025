@@ -24,7 +24,7 @@ void DeinitializeObjectManager()
     free(objectManager);
 }
 
-void ObjectManagerInitializeObject(Object* object)
+void InitializeObject(Object* object)
 {
     int* name = "unnamed";
     //copy the string that was passed in into the player name field
@@ -37,14 +37,14 @@ void ObjectManagerInitializeObject(Object* object)
     DoublyLinkedListInsertToTail(objectManager->objectList, object);
 }
 
-Object* ObjectManagerConstructObject()
+Object* ConstructObject()
 {
     Object* object = (Object*)malloc(sizeof(Object));
-    ObjectManagerInitializeObject(object);
+    InitializeObject(object);
     return object;
 }
 
-void ObjectManagerDeconstructObject(Object* object)
+void DeconstructObject(Object* object)
 {
     //remove from linked list
 
@@ -53,7 +53,7 @@ void ObjectManagerDeconstructObject(Object* object)
     free(object);
 }
 
-void ObjectManagerSetObjectName(Object* object, int* name)
+void SetObjectName(Object* object, int* name)
 {
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
     strcpy(playerName, name);

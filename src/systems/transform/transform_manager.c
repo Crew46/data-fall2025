@@ -38,7 +38,7 @@ void DeinitializeTransformManager(TransformManager* transformManager)
 void InitializeTransformComponent(TransformComponent* transformComponent)
 {
     //initialize component base
-    ComponentManagerInitializeComponent(&transformComponent->base, TRANSFORM_COMPONENT);
+    InitializeComponent(&transformComponent->base, TRANSFORM_COMPONENT);
     //initialize vector to 0, 0
     InitializeVector2(&transformComponent->position, 0, 0);
     InitializeVector2(&transformComponent->localPosition, 0, 0);
@@ -58,7 +58,7 @@ TransformComponent* ConstructTransformComponent()
 void DeconstructTransformComponent(TransformComponent* transform)
 {
     //deconstuct component
-    ComponentManagerDeconstructComponent(&transform->base);
+    DeconstructComponent(&transform->base);
     //position
     DeconstructVector2(&transform->position); 
     DeconstructVector2(&transform->localPosition);

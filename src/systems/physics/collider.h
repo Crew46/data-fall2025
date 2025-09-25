@@ -9,8 +9,6 @@ struct Collider
 
 void InitializeCollider(Collider* collider, int* name)
 {
-    //initialize component base
-    ComponentManagerInitializeComponent(collider->base, name, COLLIDER_COMPONENT);
 }
 
 void DeconstructCollider()

@@ -8,8 +8,10 @@ struct DoublyLinkedList
   DoublyNode* tail;
 };
 
+//create doubly linked list
 DoublyLinkedList* ConstructDoublyLinkedList();
 
+//deconstruct doubly linked list
 void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList);
 
 //insert to tail

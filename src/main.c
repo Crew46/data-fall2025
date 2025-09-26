@@ -17,7 +17,7 @@ doublyLinkedList * mklist()
 		}
 	listA->head = NULL;
 	listA->tail = NULL;
-return listA;
+return(listA);
 }
 // I don't know why I didn't make this sooner '_'
 // This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
@@ -72,7 +72,7 @@ Object * mknode()
 doublyLinkedList * listA;
 Object *laser;
 // This function will create a single EnemyA everytime it is used.
-void appendEnemyA (doublyLinkedList * listA)
+doublyLinkedList * appendEnemyA (doublyLinkedList * listA)
 {
     Object *tmp         	= NULL;
 	Object *tmp2			= NULL;
@@ -100,6 +100,7 @@ void appendEnemyA (doublyLinkedList * listA)
 		tmp->next->prev		= tmp;
 	}
 }
+return(listA);
 }
 // rmnode checks
 void rmnode(Object * tmp2)
@@ -118,7 +119,7 @@ void rmnode(Object * tmp2)
 
 // The obtain function that is currently used to delete enemies.
 
-void obtainEnemyA (doublyLinkedList * listA)
+doublyLinkedList * obtainEnemyA (doublyLinkedList * listA)
 {
 	Object * tmp;
 	Object * tmp2;
@@ -157,11 +158,12 @@ void obtainEnemyA (doublyLinkedList * listA)
 	}
 	tmp = tmp->next;
 }
+return(listA);
 }
 
 
 // This will insert the enemy at the desired position.
-void insertEnemyA ( doublyLinkedList * listA , int position)
+doublyLinkedList * insertEnemyA ( doublyLinkedList * listA , int position)
 {
 	// Edge case where we want to replace the head.
 
@@ -190,6 +192,7 @@ void insertEnemyA ( doublyLinkedList * listA , int position)
 	tmp->next			= tmp2;	
 	tmp2->prev 			= tmp;
 	}
+return(listA);
 }
 
 void main (void)
@@ -216,14 +219,14 @@ void main (void)
     // 
     // We are spawning and inserting the enemies.   
 
-	appendEnemyA (listA);
-    appendEnemyA (listA);
-    appendEnemyA (listA);
-    appendEnemyA (listA);
-    appendEnemyA (listA);
-	appendEnemyA (listA);
-	insertEnemyA (listA, 0);
-	insertEnemyA (listA, 2);
+	listA	= appendEnemyA (listA);
+    listA 	= appendEnemyA (listA);
+    listA	= appendEnemyA (listA);
+    listA   = appendEnemyA (listA);
+    listA	= appendEnemyA (listA);
+	listA	= appendEnemyA (listA);
+	listA	= insertEnemyA (listA, 0);
+	listA	=insertEnemyA (listA, 2);
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance

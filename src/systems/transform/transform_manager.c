@@ -102,12 +102,6 @@ Vector2* CalculateGlobalPosition(TransformComponent* transformComponent)
 
 Vector2* CalculateLocalPosition(TransformComponent* transformComponent)
 {
-    //calculate local position based on parent's position
-    GameObject* parentGameObject = GetGameObjectOfComponent((Component*)transformComponent);
-    if(parentGameObject != NULL)
-    {
-       TransformComponent* parentTransform = (TransformComponent*)GameObjectGetComponentByType(parentGameObject, TRANSFORM_COMPONENT); 
-    }
 }
 
 Vector2* CalculateLocalRotation(TransformComponent* transformComponent)

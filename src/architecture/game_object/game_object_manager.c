@@ -99,46 +99,6 @@ void DeconstructGameObject(GameObject* gameObject)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-//find the game object that a component belongs to
-GameObject* GetGameObjectOfComponent(Component* component)
-{
-    DoublyNode* currentGameObjectNode = gameObjectManager->gameObjectList->head;
-    GameObject* currentGameObject = NULL;
-
-    DoublyNode* currentComponentNode = ((GameObject*)currentGameObjectNode->data)->components->head;
-    Component* currentComponent = NULL;
-
-    //loop through all game objects
-    while(currentGameObjectNode != NULL)
-    {
-        //set current game object to next element
-        currentGameObject = (GameObject*)currentGameObjectNode->data;
-
-        if(currentGameObject != NULL)
-        {
-            //loop through children list
-            while(currentComponentNode != NULL)
-            {
-                //set current component to next element in list
-                currentComponent = (Component*)currentComponentNode->data;
-
-                //if component matches, return game object
-                if(currentComponent == component)
-                {
-                    return currentGameObject;
-                }
-
-                //move to next component in list
-                currentComponentNode = currentComponentNode->next;
-            }
-        }
-
-        //move to next game object in list
-        currentGameObjectNode = currentGameObjectNode->next;
-    }
-    return NULL;
-}
-
 //get component of a specific type from a game object
 Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType type)
 {
@@ -160,10 +120,9 @@ Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType ty
 //find a component of a specific type, given a component that belongs to the same game object
 Component* GetComponentFromComponent(Component* component, ComponentType type)
 {
-    GameObject* gameObject = GetGameObjectOfComponent(component);
-    if(gameObject != NULL)
+    if(component->gameObject != NULL)
     {
-        return GameObjectGetComponentByType(gameObject, type);
+        return GameObjectGetComponentByType(component->gameObject, type);
     }
     return NULL;
 }

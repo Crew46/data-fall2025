@@ -69,6 +69,7 @@ Object * mknode()
 doublyLinkedList * listA;
 Object * tmp;
 Object * tmp2;
+Object * tmp3;
 Object * newNode;
 Object * laser;
 // This function will create a single EnemyA everytime it is used.
@@ -100,62 +101,53 @@ doublyLinkedList * appendEnemyA (doublyLinkedList * listA, Object * tmp, Object 
 return(listA);
 }
 // rmnode checks
-void rmnode(Object * tmp2)
+Object * rmnode(Object * tmp3)
 {
-	if(tmp2 ->isActive 	== false)
+	if(tmp3 ->isActive 	== false)
 	{
-		free(tmp2);
-		if(tmp2 			!= NULL)
+		free(tmp3);
+		if(tmp3 			!= NULL)
 		{
-		tmp2 				= NULL;
+		tmp3 				= NULL;
 		}
 	}
+return(tmp3);
 }
 
 
 
 // The obtain function that is currently used to delete enemies.
 
-doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object * tmp2)
+doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object * tmp2, Object **thatNode)
 {
 // Edge case where head is inactive and needs to be replaced after being
 // marked for deletion.
-	if(listA->head->isActive == false)
-		{
-		tmp2			  	= listA->head;
-		listA->head   		= tmp2->next;
-		tmp2->next->prev  	= NULL;
-		rmnode(tmp2);
-		newNode				= mknode();
-		listA               = appendEnemyA(listA, tmp, newNode);
+	if(tmp == listA->head)
+	{
+		listA->head   		= tmp->next;
+		tmp->next->prev		= NULL;
+		tmp->next			= NULL;
+		tmp3				= tmp;
+	}
+// If there is no edge case continue as normal.
+	if(tmp == listA->tail)
+	{
+	listA->tail		= tmp->prev;
+	listA->tail->next= NULL;
+	tmp->prev		= NULL;
+	tmp3			= tmp;
+	}
+	if(tmp != listA->head && tmp!= listA->tail)    
+		{	
+			tmp2		= tmp->prev;
+			tmp2->next	= tmp->next;
+			tmp2->next->prev	= tmp2;
+			tmp->next			= NULL;
+			tmp->prev			= NULL;
+			tmp3				= tmp;
 		}
 
-// If there is no edge case continue as normal.
-	tmp           			= listA->head;
-	while( tmp		!= NULL)
-{
-		if(tmp->next->isActive == false && tmp->next->next == NULL)
-		{
-		tmp2=tmp->next;
-		rmnode(tmp2);
-		tmp->next 			= NULL;
-		newNode				= mknode();
-		listA				= appendEnemyA(listA, tmp, newNode);
-		}
-		if(tmp->next != NULL)
-	{
-		if (tmp ->next-> isActive == false) 
-    	{	
-        tmp2         	  	= tmp -> next;
-        tmp -> next       	= tmp2 -> next;
-		tmp2->next->prev  	= tmp;
-        rmnode(tmp2);
-		newNode				= mknode();
-		listA 				= appendEnemyA(listA, tmp, newNode);
-    	}
-	}
-	tmp = tmp->next;
-}
+	
 return(listA);
 }
 
@@ -429,8 +421,18 @@ void main (void)
 
 
 // This will obtain the enemy and delete them
-		listA = obtainEnemyA (listA, tmp, tmp2);
-
+		tmp					= listA->head;
+		while(tmp != NULL)
+	{
+		if(tmp->isActive == false)
+		{
+		listA 				= obtainEnemyA (listA, tmp, tmp2, &tmp3);
+		tmp3				= rmnode(tmp3);
+		newNode				= mknode();
+		listA  				= appendEnemyA(listA, tmp, newNode);
+		}
+		tmp					= tmp->next;
+	}
 
 // I do know that this code is slightly pointless. I just want to mess with bit masking.
 if(counter >= 5 && max != 8)

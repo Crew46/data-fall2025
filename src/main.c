@@ -101,50 +101,47 @@ doublyLinkedList * appendEnemyA (doublyLinkedList * listA, Object * tmp, Object 
 return(listA);
 }
 // rmnode checks
-Object * rmnode(Object * tmp3)
+Object * rmnode(Object *thatNode)
 {
-	if(tmp3 ->isActive 	== false)
+	if((thatNode) ->isActive 	== false)
 	{
-		free(tmp3);
-		if(tmp3 			!= NULL)
+		free(thatNode);
+		if((thatNode) 			!= NULL)
 		{
-		tmp3 				= NULL;
+		(thatNode) 				= NULL;
 		}
-	}
-return(tmp3);
+	
+	}	
+return(thatNode);	
 }
 
 
 
 // The obtain function that is currently used to delete enemies.
 
-doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object * tmp2, Object **thatNode)
+doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object **thatNode)
 {
 // Edge case where head is inactive and needs to be replaced after being
 // marked for deletion.
-	if(tmp == listA->head)
+	if((*thatNode) == listA->head)
 	{
-		listA->head   		= tmp->next;
-		tmp->next->prev		= NULL;
-		tmp->next			= NULL;
-		(*thatNode)			= tmp;
+		listA->head   		= (*thatNode)->next;
+		(*thatNode)->next->prev		= NULL;
+		(*thatNode)->next			= NULL;
 	}
 // If there is no edge case continue as normal.
-	if(tmp == listA->tail)
+	if((*thatNode) == listA->tail)
 	{
-	listA->tail		= tmp->prev;
-	listA->tail->next= NULL;
-	tmp->prev		= NULL;
-	(*thatNode)		= tmp;
+	listA->tail				= (*thatNode)->prev;
+	listA->tail->next		= NULL;
+	(*thatNode)->prev		= NULL;
 	}
-	if(tmp != listA->head && tmp!= listA->tail)    
+	if((*thatNode) != listA->head && (*thatNode) != listA->tail)    
 		{	
-			tmp2		= tmp->prev;
-			tmp2->next	= tmp->next;
-			tmp2->next->prev	= tmp2;
-			tmp->next			= NULL;
-			tmp->prev			= NULL;
-			(*thatNode)			= tmp;
+			(*thatNode)->prev->next		= (*thatNode)->next;
+			(*thatNode)->next->prev		= (*thatNode)->prev;
+			(*thatNode)->next			= NULL;
+			(*thatNode)->prev			= NULL;
 		}
 
 	
@@ -191,6 +188,7 @@ void main (void)
 	srand(b);     
    	tmp         			= NULL;
 	tmp2					= NULL;
+	tmp3					= NULL;
 	laser 				 	= NULL;
     xpos                 	= NULL;
     ypos                 	= 0;
@@ -424,14 +422,22 @@ void main (void)
 		tmp					= listA->head;
 		while(tmp != NULL)
 	{
+// If we delete a node we need to move tmp before tmp3 deletes the node.
 		if(tmp->isActive == false)
 		{
-		listA 				= obtainEnemyA (listA, tmp, tmp2, &tmp3);
-		tmp3				= rmnode(tmp3);
+		tmp3				= tmp;
+		tmp=tmp->next;
+		listA 				= obtainEnemyA (listA, &tmp3);
+		tmp3 				= rmnode(tmp3);
 		newNode				= mknode();
 		listA  				= appendEnemyA(listA, tmp, newNode);
+		tmp					= listA->head;
 		}
-		tmp					= tmp->next;
+		// If we didn't delete a node move on.
+		else
+		{
+			tmp 			= tmp->next;
+		}
 	}
 
 // I do know that this code is slightly pointless. I just want to mess with bit masking.

@@ -127,7 +127,7 @@ doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object 
 		listA->head   		= tmp->next;
 		tmp->next->prev		= NULL;
 		tmp->next			= NULL;
-		tmp3				= tmp;
+		(*thatNode)			= tmp;
 	}
 // If there is no edge case continue as normal.
 	if(tmp == listA->tail)
@@ -135,7 +135,7 @@ doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object 
 	listA->tail		= tmp->prev;
 	listA->tail->next= NULL;
 	tmp->prev		= NULL;
-	tmp3			= tmp;
+	(*thatNode)		= tmp;
 	}
 	if(tmp != listA->head && tmp!= listA->tail)    
 		{	
@@ -144,7 +144,7 @@ doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object 
 			tmp2->next->prev	= tmp2;
 			tmp->next			= NULL;
 			tmp->prev			= NULL;
-			tmp3				= tmp;
+			(*thatNode)			= tmp;
 		}
 
 	

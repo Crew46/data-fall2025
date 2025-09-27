@@ -13,7 +13,6 @@ int max;
 int position;
 int a;
 int b;
-bool spawner;
 
 // The main struct that we use.
 struct Object

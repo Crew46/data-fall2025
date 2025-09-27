@@ -72,7 +72,7 @@ Object * tmp2;
 Object * newNode;
 Object * laser;
 // This function will create a single EnemyA everytime it is used.
-doublyLinkedList * appendEnemyA (doublyLinkedList * listA, Object * tmp, Object * tmp2, Object * newNode )
+doublyLinkedList * appendEnemyA (doublyLinkedList * listA, Object * tmp, Object * newNode )
 {
 
 // If there is no head make one.
@@ -126,7 +126,8 @@ doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object 
 		listA->head   		= tmp2->next;
 		tmp2->next->prev  	= NULL;
 		rmnode(tmp2);
-		spawner				= true;
+		newNode				= mknode();
+		listA               = appendEnemyA(listA, tmp, newNode);
 		}
 
 // If there is no edge case continue as normal.
@@ -138,7 +139,8 @@ doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object 
 		tmp2=tmp->next;
 		rmnode(tmp2);
 		tmp->next 			= NULL;
-		spawner 			= true;
+		newNode				= mknode();
+		listA				= appendEnemyA(listA, tmp, newNode);
 		}
 		if(tmp->next != NULL)
 	{
@@ -148,7 +150,8 @@ doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object * tmp, Object 
         tmp -> next       	= tmp2 -> next;
 		tmp2->next->prev  	= tmp;
         rmnode(tmp2);
-		spawner 			= true;
+		newNode				= mknode();
+		listA 				= appendEnemyA(listA, tmp, newNode);
     	}
 	}
 	tmp = tmp->next;
@@ -158,7 +161,7 @@ return(listA);
 
 
 // This will insert the enemy at the desired position.
-doublyLinkedList * insertEnemyA ( doublyLinkedList * listA ,Object * tmp, Object * tmp2, Object * newNode, int position)
+doublyLinkedList * insertEnemyA ( doublyLinkedList * listA ,Object * tmp, Object * newNode, int position)
 {
 	// Edge case where we want to replace the head.
 
@@ -215,21 +218,21 @@ void main (void)
     // 
     // We are spawning and inserting the enemies.   
 	newNode = mknode();
-	listA	= appendEnemyA (listA, tmp, tmp2, newNode);
+	listA	= appendEnemyA (listA, tmp, newNode);
 	newNode = mknode();
-    listA 	= appendEnemyA (listA, tmp, tmp2, newNode);
+    listA 	= appendEnemyA (listA, tmp, newNode);
 	newNode = mknode();
-    listA	= appendEnemyA (listA, tmp, tmp2, newNode);
+    listA	= appendEnemyA (listA, tmp, newNode);
 	newNode = mknode();
-    listA   = appendEnemyA (listA, tmp, tmp2, newNode);
+    listA   = appendEnemyA (listA, tmp, newNode);
 	newNode = mknode();
-    listA	= appendEnemyA (listA, tmp, tmp2, newNode);
+    listA	= appendEnemyA (listA, tmp, newNode);
 	newNode = mknode();
-	listA	= appendEnemyA (listA, tmp, tmp2, newNode);
+	listA	= appendEnemyA (listA, tmp, newNode);
 	newNode = mknode();
-	listA	= insertEnemyA (listA, tmp, tmp2, newNode, 0);
+	listA	= insertEnemyA (listA, tmp, newNode, 0);
 	newNode = mknode();
-	listA	= insertEnemyA (listA, tmp, tmp2, newNode, 2);
+	listA	= insertEnemyA (listA, tmp, newNode, 2);
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -374,7 +377,7 @@ void main (void)
         //
         // Adjust enemy positions based on randomness and draw them.
         //	
-        tmp                	= listA->head;
+        tmp                	= listA->tail;
         while(tmp != NULL)
         {
 	
@@ -393,7 +396,7 @@ void main (void)
             draw_region_at (tmp  -> x, tmp  -> y);
 		
         	}
-		tmp					= tmp->next;
+		tmp					= tmp->prev;
 		}  
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
@@ -439,20 +442,13 @@ if(counter >= 5 && max != 8)
 					max 		= max + 1;
 					status 		= value;
 					newNode		= mknode();
-					listA = appendEnemyA(listA, tmp, tmp2, newNode);	
+					listA = appendEnemyA(listA, tmp, newNode);	
 					
 				}
 // If the player is inactive then the game ends.
 		
 		counter = 0;
 	}
-// We will respawn and add enemies with this bool.
-	if(spawner == true)
-		{
-			newNode					= mknode();
-			listA = appendEnemyA(listA, tmp, tmp2, newNode);
-			spawner 				= false;
-		}
 
 
 

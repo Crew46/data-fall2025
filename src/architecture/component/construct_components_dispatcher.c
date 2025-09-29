@@ -3,6 +3,7 @@
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
 #include "../../systems/rendering/render_manager.h"
+#include "../../systems/player/player_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)
 {
@@ -10,7 +11,7 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
     switch(type)
     {
         case PLAYER_CONTROLLER_COMPONENT:
-            //construct player controller component
+            componentToReturn = (Component*)ConstructPlayerController();
             break;
         case TRANSFORM_COMPONENT:
             componentToReturn = (Component*)ConstructTransformComponent();

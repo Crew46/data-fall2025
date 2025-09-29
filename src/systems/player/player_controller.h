@@ -1,6 +1,5 @@
-#ifndef PLAYER_MODEL_H
-#define PLAYER_MODEL_H
-//custom libraries
+#ifndef PLAYER_CONTROLLER_H
+#define PLAYER_CONTROLLER_H
 #include "../../architecture/component/component.h"
 
 enum PlayerMovementState
@@ -16,4 +15,4 @@ struct Player
     PlayerMovementState state; // Current state of the player
 };
 
-#endif // PLAYER_MODEL_H 
+#endif // PLAYER_CONTROLLER_H 

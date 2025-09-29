@@ -3,13 +3,14 @@
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
 #include "../../systems/rendering/render_manager.h"
+#include "../../systems/player/player_manager.h"
 
 void DispatchComponentsUpdateFunction(Component* component)
 {
     switch(component->type)
     {
         case PLAYER_CONTROLLER_COMPONENT:
-            //call player controller update function
+            UpdatePlayerController((Player*)component);
             break;
         case TRANSFORM_COMPONENT:
             UpdateTransformComponent((TransformComponent*)component); 

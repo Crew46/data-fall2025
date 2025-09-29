@@ -19,6 +19,7 @@
 #include "systems/audio/audio_manager.c"
 #include "systems/rendering/render_manager.c"
 #include "systems/transform/transform_manager.c"
+#include "systems/player/player_manager.c"
 #include "vector/vector2.h"
 //other implementations
 #include "data_structures/doubly_linked_list/doubly_linked_list.c"
@@ -77,6 +78,7 @@ void InitializeGameManager()
     SetObjectName((Object*)player, "player");
     AddComponentToGameObject(player, TRANSFORM_COMPONENT);
     AddComponentToGameObject(player, RENDER_COMPONENT);
+    AddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);

@@ -1,14 +1,7 @@
 #ifndef PLAYER_MANAGER_C
 #define PLAYER_MANAGER_C
-#include "misc.h"
 #include "player_manager.h"
-#include "player_controller.h"
-#include "player_model.h"
-#include "player_view.h"
 #include "../../architecture/component/component_manager.h"
-#include "../../architecture/object/object_manager.h"
-#include "../../architecture/game_object/game_object_manager.h"
-#include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 PlayerManager* playerManager;
 
@@ -23,7 +16,7 @@ void InitializePlayerManager()
     playerManager = (PlayerManager*)malloc(sizeof(PlayerManager));
 }
 
-void DeinitializePlayerManager(PlayerManager* playerManager)
+void DeinitializePlayerManager()
 {
     //free linked list
     free(playerManager);
@@ -35,14 +28,13 @@ void DeinitializePlayerManager(PlayerManager* playerManager)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializePlayer(Player* player, float speed)
+void InitializePlayer(Player* player)
 {
-    InitializeObject((Object*)player);
-    player->speed = speed;
+    InitializeComponent((Component*)player, PLAYER_CONTROLLER_COMPONENT);
     player->state = PLAYER_MOVEMENT_STATE_IDLE;
 }
 
-Player* ConstructPlayerController(float speed)
+Player* ConstructPlayerController()
 {
     Player* player = (Player*)malloc(sizeof(Player));
     InitializePlayer(player);
@@ -52,6 +44,19 @@ Player* ConstructPlayerController(float speed)
 //player controller deconstructor
 void DeconstructPlayerController(Player* player)
 {
+    DeconstructComponent((Component*)player);
+    free(player);
+}
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////BEHAVIOURAL FUNCTIONS///////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+void UpdatePlayerController(Player* player)
+{
+    print_at(screen_width / 2, screen_height / 2 + 150, "Updating Player");
 }
 
 #endif //PLAYER_MANAGER_C

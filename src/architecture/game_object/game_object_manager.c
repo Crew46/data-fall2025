@@ -176,6 +176,7 @@ void UpdateAllGameObjects()
 void AddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
     Component* component = ConstructComponent(type);
+    SetGameObjectOfComponent(component, gameObject);
     DoublyLinkedListInsertToTail(gameObject->components, (Object*)component);
 }
 

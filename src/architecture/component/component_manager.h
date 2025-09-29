@@ -2,6 +2,7 @@
 #define COMPONENT_MANAGER_H
 #include "../component/component.h"
 #include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "../game_object/game_object.h"
 
 struct ComponentManager
 {
@@ -19,5 +20,7 @@ void DeconstructComponent(Component* component);
 //functions
 void UpdateComponent(Component* component);
 ComponentManager* GetComponentManager();
+
+void SetGameObjectOfComponent(Component* component, GameObject* gameObject);
 
 #endif // COMPONENT_MANAGER_H

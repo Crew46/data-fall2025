@@ -62,87 +62,41 @@ void DrawLine(Vector2* starting, Vector2* ending, int* character)
     }
 }
 
-void PrintObjectDataAt(int x, int y, Object* object)
+void DrawDoublyNodeAt(int x, int y, DoublyNode* node)
 {
-    int leading = 20;
-    int tracking = 20;
-
-    print_at(x, y + leading, "Position: ");
-
-    //x and y
-    //print_at(x + tracking * 1, y + leading * 2, "X: ");
-    //PrintIntAt(x + tracking * 5, y + leading * 2, object->x);
-
-    //print_at(x + tracking * 1, y + leading * 3, "Y: ");
-    //PrintIntAt(x + tracking * 5, y + leading * 3, object->y);
-
-
-
-    //x and y dir
-    //print_at(x, y + leading * 4, "Dir: ");
-
-    //print_at(x + tracking * 1, y + leading * 5, "xdir: ");
-    //PrintIntAt(x + tracking * 5, y + leading * 5, object->xdir);
-
-    //print_at(x + tracking * 1, y + leading * 6, "ydir: ");
-    //PrintIntAt(x + tracking * 5, y + leading * 6, object->ydir);
-
-
-    //sprite region and texture
-    //print_at(x, y + leading * 7, "Sprite: ");
-
-    //print_at(x + tracking * 1, y + leading * 8, "rID: ");
-    //PrintIntAt(x + tracking * 5, y + leading * 8, object->regionID);
-    
-    //print_at(x + tracking * 1, y + leading * 9, "tID: ");
-    //PrintIntAt(x + tracking * 5, y + leading * 9, object->textureID);
-
-
-
-    //misc
-    print_at(x, y + leading * 10, "Misc: ");
-
-    print_at(x + tracking * 1, y + leading * 11, "active: ");
-    PrintIntAt(x + tracking * 5, y + leading * 11, object->isActive);
-    print_at(x + tracking * 1, y + leading * 12, "id: ");
-    PrintIntAt(x + tracking * 5, y + leading * 12, object->objectID);
-
-    print_at(x + tracking * 1, y + leading * 13, "name: ");
-    print_at(x + tracking * 5, y + leading * 13, object->name);
-
+    PrintIntAt(x, y, node->data->objectID);
 }
-/*
- void VisualizeLinkedList(DoublyLinkedList* list)
- {
-    DoublyNode* previousNode = NULL;
+
+void VisualizeDoublyLinkedList(DoublyLinkedList* list)
+{
     DoublyNode* currentNode = list->head;
-    Object* currentData = NULL;
+    int space = 40;
+    int xIterations = (screen_width / space) - 1;
+    int yIterations = (screen_height / space) - 1;
+    int indexX = 0;
+    int indexY = 0;
+
     while(currentNode != NULL)
     {
-        currentData = currentNode->data;
-        PrintIntAt(currentData->x, currentData->y, currentData->id);
-        //draw line from current node to previous node
-        if(currentNode->previous == previousNode)
-        {
-            if(previousNode == NULL)
-            {
+        DrawDoublyNodeAt(indexX * space, indexY * space, currentNode);
 
-            }
-            else
-            {
-                DrawLine(currentNode->data->x, currentNode->data->y - 10, previousNode->data->x, previousNode->data->y - 10, ".");
-            }
-        }
-        //draw line from previous node to current node
-        if(previousNode != NULL)
+        if(indexX != xIterations)
         {
-            DrawLine(previousNode->data->x, previousNode->data->y + 10, currentNode->data->x, currentNode->data->y + 10, ",");
+            indexX++;
         }
-        previousNode = currentNode;
+        else if(indexY != yIterations)
+        {
+            indexY++;
+            indexX = 0;
+        }
+        else
+        {
+            break;
+        }
+
         currentNode = currentNode->next;
     }
 }
-    */
 
 void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
 {

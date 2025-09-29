@@ -70,8 +70,7 @@ void DeconstructTransformComponent(TransformComponent* transform)
 
 void UpdateTransformComponent(TransformComponent* transformComponent)
 {
-    print_at(transformComponent->position.x, transformComponent->position.y, "*&*");
-    //update transform component
+
 }
 // transform component functions
 

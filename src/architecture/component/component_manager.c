@@ -82,4 +82,8 @@ void UpdateComponent(Component* component)
     }
 }
 
+void SetGameObjectOfComponent(Component* component, GameObject* gameObject)
+{
+    component->gameObject = gameObject;
+}
 #endif // COMPONENT_MANAGER_C

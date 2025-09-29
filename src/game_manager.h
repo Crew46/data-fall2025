@@ -107,6 +107,7 @@ void UpdateGameManager()
 
     PrintGameObjectDataAt(20, 50, player); 
     PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
+    VisualizeDoublyLinkedList(GetComponentManager()->componentList);
 
     //test
     TransformComponent* transform = (TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT);

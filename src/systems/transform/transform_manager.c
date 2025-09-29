@@ -3,6 +3,7 @@
 #include "transform_manager.h"
 #include "../../architecture/component/component_manager.h"
 #include "../../architecture/game_object/game_object_manager.h"
+#include "../../architecture/object/object_manager.h"
 
 TransformManager* transformManager;
 
@@ -38,7 +39,8 @@ void DeinitializeTransformManager(TransformManager* transformManager)
 void InitializeTransformComponent(TransformComponent* transformComponent)
 {
     //initialize component base
-    InitializeComponent(&transformComponent->base, TRANSFORM_COMPONENT);
+    InitializeComponent((Component*)transformComponent, TRANSFORM_COMPONENT);
+    SetObjectName((Object*)transformComponent, "Transform_Component");
     //initialize vector to 0, 0
     InitializeVector2(&transformComponent->position, 0, 0);
     InitializeVector2(&transformComponent->localPosition, 0, 0);

@@ -75,6 +75,7 @@ void DeconstructComponent(Component* component)
 
 void UpdateComponent(Component* component)
 {
+    //if active, update component
     if(&component->base.isActive)
     {
         DispatchComponentsUpdateFunction(component);

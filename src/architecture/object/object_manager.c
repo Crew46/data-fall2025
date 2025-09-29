@@ -26,11 +26,7 @@ void DeinitializeObjectManager()
 
 void InitializeObject(Object* object)
 {
-    int* name = "unnamed";
-    //copy the string that was passed in into the player name field
-    int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
-    strcpy(playerName, name); 
-    object->name = playerName;
+    SetObjectName(object, "unamed");
     object->isActive = true;
     object->objectID = objectManager->nextObjectID;
     objectManager->nextObjectID++;

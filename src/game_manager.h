@@ -11,18 +11,19 @@
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 #include "configuration/sound_configurations.h"
-//implementations
-#include "data_structures/doubly_linked_list/doubly_linked_list.c"
-#include "data_structures/singly_linked_list/linked_list.c"
-#include "systems/audio/audio_manager.c"
+//architecture implementations
 #include "architecture/game_object/game_object_manager.c"
 #include "architecture/component/component_manager.c"
 #include "architecture/object/object_manager.c"
-#include "tools/debugger.c"
 //systems implementations
+#include "systems/audio/audio_manager.c"
 #include "systems/rendering/render_manager.c"
 #include "systems/transform/transform_manager.c"
 #include "vector/vector2.h"
+//other implementations
+#include "data_structures/doubly_linked_list/doubly_linked_list.c"
+#include "data_structures/singly_linked_list/linked_list.c"
+#include "tools/debugger.c"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -76,11 +77,6 @@ void InitializeGameManager()
     AddComponentToGameObject(player, RENDER_COMPONENT);
     SetObjectName((Object*)player, "player");
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
-
-
-    player1 = ConstructGameObject();
-    AddComponentToGameObject(player1, TRANSFORM_COMPONENT);
-    SetObjectName((Object*)player1, "player1");
 }
 
 void DeinitializeGameManager()
@@ -106,8 +102,10 @@ void UpdateGameManager()
 
     //updates all gameobject in scenes, allong with the attatched components
     UpdateAllGameObjects();
+
+
+
     PrintGameObjectDataAt(20, 50, player); 
-    PrintGameObjectDataAt(200, 50, player1); 
     PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
 
     //test

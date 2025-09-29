@@ -3,8 +3,10 @@
 #include "render_manager.h"
 #include "../../architecture/component/component_manager.h"
 #include "../../architecture/game_object/game_object_manager.h"
+#include "../../architecture/object/object_manager.h"
 #include "../../systems/transform/transform_manager.h"
 #include "video.h"
+#include "../../tools/debugger.c"
 
 RenderManager* renderManager;
 
@@ -22,7 +24,8 @@ void DeinitializeRenderManager()
 
 void InitializeRenderComponent(RenderComponent* renderComponent, int region, int texture)
 {
-    InitializeComponent(&renderComponent->base, RENDER_COMPONENT);  
+    InitializeComponent((Component*)renderComponent, RENDER_COMPONENT);  
+    SetObjectName((Object*)renderComponent, "Render_Component"); 
     renderComponent->regionID = region;
     renderComponent->textureID = texture;
     DoublyLinkedListInsertToTail(renderManager->renderComponents, (Object*)renderComponent);
@@ -48,19 +51,20 @@ void DeconstructRenderComponent(RenderComponent* renderComponent)
 
 void UpdateRenderComponent(RenderComponent* renderComponent)
 {
-    //transform components of this gameobject
-    TransformComponent* transformComponent = (TransformComponent*)GetComponentFromComponent((Component*)renderComponent, TRANSFORM_COMPONENT);
-
     //GETCOMPONENT FROM COMPONENT NOT WORKING, NEED TO FIX
 
     //if this gameobject has a transform
-    if(transformComponent != NULL)
-    {
-        print_at(screen_width / 2, screen_height / 2 + 150, "rendering");
-        select_texture(renderComponent->textureID);
-        select_region(renderComponent->regionID);
-        draw_region_at(transformComponent->position.x, transformComponent->position.y);
-    }
+    //if(transformComponent != NULL)
+    //{
+     //   print_at(screen_width / 2, screen_height / 2 + 150, "rendering");
+        //select_texture(renderComponent->textureID);
+        //select_region(renderComponent->regionID);
+        //draw_region_at(transformComponent->position.x, transformComponent->position.y);
+    //}
+    //else
+    //{
+     //   print_at(screen_width / 2, screen_height / 2 + 150, "NULL");
+    //}
 
 }
 

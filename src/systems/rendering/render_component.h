@@ -7,6 +7,7 @@ struct RenderComponent
     Component base; //base component
     int textureID; //texture id
     int regionID; //region id
+    int renderPriority;
 };
 
 #endif // RENDER_COMPONENT_H

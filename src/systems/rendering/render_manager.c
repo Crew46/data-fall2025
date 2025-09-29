@@ -40,6 +40,7 @@ void InitializeRenderComponent(RenderComponent* renderComponent, int region, int
     SetObjectName((Object*)renderComponent, "Render_Component"); 
     renderComponent->regionID = region;
     renderComponent->textureID = texture;
+    renderComponent->renderPriority = 0;
     DoublyLinkedListInsertToTail(renderManager->renderComponents, (Object*)renderComponent);
 }
 

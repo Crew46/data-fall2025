@@ -4,6 +4,7 @@
 #include "../../systems/transform/transform_manager.h"
 #include "../../systems/rendering/render_manager.h"
 #include "../../systems/player/player_manager.h"
+#include "../../systems/physics/collider/collider_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)
 {
@@ -23,7 +24,7 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             //construct rigidbody component
             break;
         case COLLIDER_COMPONENT:
-            //construct collider component
+            componentToReturn = (Component*)ConstructCollider();
             break;
         case WEAPON_CONTROLLER_COMPONENT:
             //construct weapon controller component

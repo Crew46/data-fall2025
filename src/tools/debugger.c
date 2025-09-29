@@ -159,7 +159,6 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
     print_at(x + tracking * 6, y + leading * 11, gameObject->base.name);
     print_at(x + tracking * 2, y + leading * 12, "oID: ");
     PrintIntAt(x + tracking * 6, y + leading * 12, gameObject->base.objectID);
-
 }
 
 #endif //DEBUGGER_C

@@ -4,6 +4,7 @@
 #include "../../systems/transform/transform_manager.h"
 #include "../../systems/rendering/render_manager.h"
 #include "../../systems/player/player_manager.h"
+#include "../../systems/physics/collider/collider_manager.h"
 
 void DispatchComponentsUpdateFunction(Component* component)
 {
@@ -22,7 +23,7 @@ void DispatchComponentsUpdateFunction(Component* component)
             //call rigidbody update function
             break;
         case COLLIDER_COMPONENT:
-            //call collider update function
+            UpdateCollider((Collider*)component); 
             break;
         case WEAPON_CONTROLLER_COMPONENT:
             //call weapon controller update function

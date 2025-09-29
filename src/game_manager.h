@@ -21,6 +21,7 @@
 #include "systems/transform/transform_manager.c"
 #include "systems/player/player_manager.c"
 #include "vector/vector2.h"
+#include "systems/physics/collider/collider_manager.c"
 //other implementations
 #include "data_structures/doubly_linked_list/doubly_linked_list.c"
 #include "data_structures/singly_linked_list/linked_list.c"
@@ -53,8 +54,6 @@ void InitializeGameManager()
     //temporary
     select_gamepad(0);
 
-
-
     // Initialize game manager state
     currentState = GAMESTATE_MENU;
 
@@ -68,8 +67,7 @@ void InitializeGameManager()
     //systems initialization
     InitializeTransformManager();
     InitializeRenderManager();
-
-
+    InitializePlayerManager();
 
     //player creation
     player = ConstructGameObject();
@@ -86,7 +84,7 @@ void InitializeGameManager()
 
 void DeinitializeGameManager()
 {
-
+    //deinitialize
 }
 
 //=========================================================
@@ -105,7 +103,7 @@ void UpdateGameManager()
     draw_region_at( 0, 0 );
     UpdateAudioManager();
 
-    //updates all gameobject in scenes, allong with the attatched components
+    //updates all gameobject in scene, allong with the attatched components to those gameobjects
     UpdateAllGameObjects();
 
     //PrintGameObjectDataAt(20, 50, player); 

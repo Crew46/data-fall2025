@@ -7,7 +7,7 @@ enum ColliderShape
     RECTANGLE,
     CIRCLE,
     POLYGON
-}
+};
 
 struct Collider
 {

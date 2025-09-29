@@ -7,11 +7,6 @@
 
 TransformManager* transformManager;
 
-TransformManager* GetTransformManager()
-{
-    return transformManager;
-}
-
 //=========================================================
 ///////////////////////////////////////////////////////////
 /////////////MANAGER INITIALIZATION////////////////////////
@@ -121,5 +116,11 @@ void TransformComponentSetLocalPosition(TransformComponent* transformComponent, 
     transformComponent->localPosition.y = y;
     //if parent is root, local position is global position
 }
+
+TransformManager* GetTransformManager()
+{
+    return transformManager;
+}
+
 
 #endif // TRANSFORM_MANAGER_C

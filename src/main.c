@@ -143,10 +143,29 @@ doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object **thatNode)
 			(*thatNode)->next			= NULL;
 			(*thatNode)->prev			= NULL;
 		}
-
-	
 return(listA);
 }
+// Empty the list
+doublyLinkedList * clearList(doublyLinkedList * listA)
+	{
+		Object * tmp					= NULL;
+		if(listA 	!= NULL)
+		{
+		tmp								= listA->head;
+		while(tmp	!= NULL)
+			{
+				listA	= obtainEnemyA(listA, &tmp);	
+				tmp		= rmnode(tmp);
+				tmp		= listA->head;
+			}
+		}
+	return(listA);
+}
+
+
+
+
+
 
 
 // This will insert the enemy at the desired position.
@@ -181,6 +200,19 @@ doublyLinkedList * insertEnemyA ( doublyLinkedList * listA ,Object * tmp, Object
 	}
 return(listA);
 }
+// delete the list function
+doublyLinkedList * deleteList(doublyLinkedList * listA)
+	{
+		if(listA != NULL)
+		{
+			listA	= clearList(listA);
+			free(listA);
+			listA		= NULL;
+		}
+	return(listA);
+	}
+
+
 
 void main (void)
 {   
@@ -259,6 +291,14 @@ void main (void)
 	if(value != 0x10000000) // The first bit represents that the game is active.
 		
 		{
+		tmp = listA->head;
+		while(tmp	!= NULL)
+		{
+			tmp->isActive	= false;
+			tmp				= tmp->next;
+		}
+		listA				= clearList(listA);
+		listA				= deleteList(listA);
 		clear_screen(color_black);
 		draw_region();
 		set_drawing_point( 200, 180);

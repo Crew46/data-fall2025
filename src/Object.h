@@ -27,7 +27,7 @@ struct Object
 	int speed;
 	int height;
 	int width;
-	int hp	 ;
+	int hp;
 	int texture;
 	int region;
 	Object *next;

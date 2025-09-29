@@ -9,7 +9,7 @@ enum PlayerMovementState
 };
 
 //is an object
-struct Player 
+struct PlayerController 
 {
     Component base;
     PlayerMovementState state; // Current state of the player

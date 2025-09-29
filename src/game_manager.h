@@ -41,8 +41,6 @@ enum GameState
 GameState currentState;
 
 GameObject* player;
-GameObject* player1;
-GameObject* player2;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -110,24 +108,8 @@ void UpdateGameManager()
     //updates all gameobject in scenes, allong with the attatched components
     UpdateAllGameObjects();
 
-
-
-    PrintGameObjectDataAt(20, 50, player); 
-    PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
-
-    //test
-    TransformComponent* transform = (TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT);
-    Vector2* movement = CreateVector2(0, 0);
-    gamepad_direction_normalized(&movement->x, &movement->y);
-    Vector2* result = CreateVector2(0, 0);
-    int speed = 8;
-    MultiplyVector2ByScalar(movement, speed, result);
-    Vector2* result2 = CreateVector2(0, 0);
-    AddVector2Components(&transform->position, result, result2);
-    TransformComponentSetGlobalPosition(transform, result2->x, result2->y);
-    free(result);
-    free(result2);
-
+    //PrintGameObjectDataAt(20, 50, player); 
+    //PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

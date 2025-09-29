@@ -10,10 +10,10 @@ struct PlayerManager
 
 void InitializePlayerManager();
 void DeinitializePlayerManager();
-void InitializePlayer(Player* player);
-Player* ConstructPlayerController();
-void DeconstructPlayerController(Player* player);
-void UpdatePlayerController(Player* player);
+void InitializePlayer(PlayerController* player);
+PlayerController* ConstructPlayerController();
+void DeconstructPlayerController(PlayerController* player);
+void UpdatePlayerController(PlayerController* player);
 
 
 #endif //PLAYER_MANAGER_H

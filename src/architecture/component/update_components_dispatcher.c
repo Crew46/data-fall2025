@@ -10,7 +10,7 @@ void DispatchComponentsUpdateFunction(Component* component)
     switch(component->type)
     {
         case PLAYER_CONTROLLER_COMPONENT:
-            UpdatePlayerController((Player*)component);
+            UpdatePlayerController((PlayerController*)component);
             break;
         case TRANSFORM_COMPONENT:
             UpdateTransformComponent((TransformComponent*)component); 

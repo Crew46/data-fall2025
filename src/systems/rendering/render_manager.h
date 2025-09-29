@@ -8,20 +8,27 @@ struct RenderManager
     DoublyLinkedList* renderComponents;
 };
 
+//manager
 void InitializeRenderManager();
 
 void DeinitializeRenderManager();
 
-void UpdateRenderComponent(RenderComponent* renderComponent);
+RenderManager* GetRenderManager();
 
+//render component
 void InitializeRenderComponent(RenderComponent* renderComponent, int region, int texture);
 
 void DeinitializeRenderComponent(RenderComponent* renderComponent);
+
+void UpdateRenderComponent(RenderComponent* renderComponent);
 
 RenderComponent* ConstructRenderComponent();
 
 void DeconstructRenderComponent(RenderComponent* renderComponent);
 
-RenderManager* GetRenderManager();
+void SetRenderComponentRegion(RenderComponent* renderComponent, int region);
+
+void SetRenderComponentTexture(RenderComponent* renderComponent, int texture);
+
 
 #endif //RENDER_MANAGER_H

@@ -73,9 +73,11 @@ void InitializeGameManager()
 
     //game object creation
     player = ConstructGameObject();
+    SetObjectName((Object*)player, "player");
     AddComponentToGameObject(player, TRANSFORM_COMPONENT);
     AddComponentToGameObject(player, RENDER_COMPONENT);
-    SetObjectName((Object*)player, "player");
+    SetRenderComponentRegion((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
+    SetRenderComponentTexture((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
 }
 

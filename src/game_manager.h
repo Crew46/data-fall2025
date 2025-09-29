@@ -71,13 +71,16 @@ void InitializeGameManager()
     InitializeRenderManager();
 
 
-    //game object creation
+
+    //player creation
     player = ConstructGameObject();
     SetObjectName((Object*)player, "player");
     AddComponentToGameObject(player, TRANSFORM_COMPONENT);
     AddComponentToGameObject(player, RENDER_COMPONENT);
+    //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
+    //set position of the transform
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
 }
 
@@ -109,7 +112,6 @@ void UpdateGameManager()
 
     PrintGameObjectDataAt(20, 50, player); 
     PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
-    VisualizeDoublyLinkedList(GetComponentManager()->componentList);
 
     //test
     TransformComponent* transform = (TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT);

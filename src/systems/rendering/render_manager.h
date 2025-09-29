@@ -18,8 +18,6 @@ RenderManager* GetRenderManager();
 //render component
 void InitializeRenderComponent(RenderComponent* renderComponent, int region, int texture);
 
-void DeinitializeRenderComponent(RenderComponent* renderComponent);
-
 void UpdateRenderComponent(RenderComponent* renderComponent);
 
 RenderComponent* ConstructRenderComponent();

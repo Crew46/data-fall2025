@@ -14,7 +14,7 @@ TransformManager* GetTransformManager()
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-/////////////CONSTRUCTION & DECONSTRUCTION/////////////////
+/////////////MANAGER INITIALIZATION////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
@@ -33,6 +33,12 @@ void DeinitializeTransformManager(TransformManager* transformManager)
     ///////////////
     free(transformManager);
 }
+
+//=========================================================
+///////////////////////////////////////////////////////////
+/////////////COMPONENT CONSTRUCTION & INITIALIZATION///////
+///////////////////////////////////////////////////////////
+//=========================================================
 
 //transform components
 
@@ -68,11 +74,37 @@ void DeconstructTransformComponent(TransformComponent* transform)
     free(transform);
 }
 
+//=========================================================
+///////////////////////////////////////////////////////////
+/////////////BEHAVIOURAL FUNCTIONS/////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
 void UpdateTransformComponent(TransformComponent* transformComponent)
 {
 
 }
 // transform component functions
+
+Vector2* CalculateGlobalPosition(TransformComponent* transformComponent)
+{
+    //calculate global position based on local position and parent's position
+}
+
+Vector2* CalculateLocalPosition(TransformComponent* transformComponent)
+{
+}
+
+Vector2* CalculateLocalRotation(TransformComponent* transformComponent)
+{
+    //calculate local rotation based on parent's rotation
+}
+
+//=========================================================
+///////////////////////////////////////////////////////////
+/////////////GETTERS & SETTERS/////////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
 
 void TransformComponentSetGlobalPosition(TransformComponent* transformComponent, int x, int y)
 {
@@ -88,26 +120,6 @@ void TransformComponentSetLocalPosition(TransformComponent* transformComponent, 
     transformComponent->localPosition.x = x;
     transformComponent->localPosition.y = y;
     //if parent is root, local position is global position
-}
-
-//=========================================================
-///////////////////////////////////////////////////////////
-/////////////LOCAL ROTATION AND POSITION///////////////////
-///////////////////////////////////////////////////////////
-//=========================================================
-
-Vector2* CalculateGlobalPosition(TransformComponent* transformComponent)
-{
-    //calculate global position based on local position and parent's position
-}
-
-Vector2* CalculateLocalPosition(TransformComponent* transformComponent)
-{
-}
-
-Vector2* CalculateLocalRotation(TransformComponent* transformComponent)
-{
-    //calculate local rotation based on parent's rotation
 }
 
 #endif // TRANSFORM_MANAGER_C

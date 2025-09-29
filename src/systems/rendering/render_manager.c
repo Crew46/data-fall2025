@@ -10,6 +10,12 @@
 
 RenderManager* renderManager;
 
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////MANAGER INITIALIZATION//////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
 void InitializeRenderManager()
 {
     renderManager = (RenderManager*)malloc(sizeof(RenderManager));
@@ -22,6 +28,12 @@ void DeinitializeRenderManager()
     free(renderManager);
 }
 
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////COMPONENT CONSTRUCTION & DECONSTRUCTION/////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
 void InitializeRenderComponent(RenderComponent* renderComponent, int region, int texture)
 {
     InitializeComponent((Component*)renderComponent, RENDER_COMPONENT);  
@@ -29,12 +41,6 @@ void InitializeRenderComponent(RenderComponent* renderComponent, int region, int
     renderComponent->regionID = region;
     renderComponent->textureID = texture;
     DoublyLinkedListInsertToTail(renderManager->renderComponents, (Object*)renderComponent);
-}
-
-void DeinitializeRenderComponent(RenderComponent* renderComponent)
-{
-    DeconstructComponent(&renderComponent->base);
-    free(renderComponent);
 }
 
 RenderComponent* ConstructRenderComponent()
@@ -46,8 +52,15 @@ RenderComponent* ConstructRenderComponent()
 
 void DeconstructRenderComponent(RenderComponent* renderComponent)
 {
-
+    DeconstructComponent(&renderComponent->base);
+    free(renderComponent);
 }
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////BEHAVIOURAL FUNCTIONS///////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
 
 void UpdateRenderComponent(RenderComponent* renderComponent)
 {
@@ -61,6 +74,12 @@ void UpdateRenderComponent(RenderComponent* renderComponent)
         draw_region_at(transformComponent->position.x, transformComponent->position.y);
     }
 }
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////GETTERS & SETTERS///////////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
 
 RenderManager* GetRenderManager()
 {
@@ -76,6 +95,5 @@ void SetRenderComponentTexture(RenderComponent* renderComponent, int texture)
 {
     renderComponent->textureID = texture;
 }
-
 
 #endif //RENDER_MANAGER_C

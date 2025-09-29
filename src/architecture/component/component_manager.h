@@ -13,14 +13,19 @@ struct ComponentManager
 //manager initialization
 void InitializeComponentManager();
 void DeinitializeComponentManager(ComponentManager* componentManager);
-//component construction
+//manager getters & setters
+ComponentManager* GetComponentManager();
+
+
+//component construction & initialization
 void InitializeComponent(Component* component, ComponentType type);
 Component* ConstructComponent(ComponentType type);
 void DeconstructComponent(Component* component);
+
 //functions
 void UpdateComponent(Component* component);
-ComponentManager* GetComponentManager();
 
+//component getters & setters
 void SetGameObjectOfComponent(Component* component, GameObject* gameObject);
 
 #endif // COMPONENT_MANAGER_H

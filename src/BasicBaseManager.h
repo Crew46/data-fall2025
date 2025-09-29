@@ -7,4 +7,6 @@ struct BasicManager
     DoublyLinkedList* list;
 };
 
+void AddObjectToManagerList(Object* object);
+
 #endif //BASIC_BASE_MANAGER_H

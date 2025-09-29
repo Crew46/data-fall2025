@@ -20,7 +20,7 @@ GameObject* GetRootGameObject()
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///GAME OBJECT MANAGER CONSTRUCTION & DECONSTRUCTION///////
+///////////MANAGER INITILIZATION///////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
@@ -144,6 +144,19 @@ void UpdateAllComponentsInGameObject(GameObject* gameObject)
     }
 }
 
+void AddComponentToGameObject(GameObject* gameObject, ComponentType type)
+{
+    Component* component = ConstructComponent(type);
+    SetGameObjectOfComponent(component, gameObject);
+    DoublyLinkedListInsertToTail(gameObject->components, (Object*)component);
+}
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////GAMOBJECT / GAMEOBJECT FUNCTIONS////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
 //update game object
 void GameObjectUpdate(GameObject* gameObject)
 {
@@ -172,19 +185,6 @@ void UpdateAllGameObjects()
         currentNode = currentNode->next;
     }
 }
-
-void AddComponentToGameObject(GameObject* gameObject, ComponentType type)
-{
-    Component* component = ConstructComponent(type);
-    SetGameObjectOfComponent(component, gameObject);
-    DoublyLinkedListInsertToTail(gameObject->components, (Object*)component);
-}
-
-//=========================================================
-///////////////////////////////////////////////////////////
-///////////Game Object / Game Object Functions/////////////
-///////////////////////////////////////////////////////////
-//=========================================================
 
 void GameObjectAddChild(GameObject* parent, GameObject* child)
 {

@@ -1,11 +1,5 @@
 #include "game_manager.h"
 #include "time.h"
-#include "tools/debugger.c"
-
-void get1(int* outValue)
-{
-    *outValue = 1;
-}
 
 void main(void)
 {
@@ -17,4 +11,5 @@ void main(void)
         UpdateGameManager();
         end_frame();
     }
+    DeinitializeGameManager();
 }

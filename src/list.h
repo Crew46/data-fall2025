@@ -17,7 +17,7 @@ struct List
 //
 //  append(): add a newNode into myList after indicated place
 //
-List *append (List *myList, Object *place, Object *newNode)
+List *append (List *myList, Node *place, Node *newNode)
 {
     if (myList              == NULL)
     {
@@ -27,8 +27,8 @@ List *append (List *myList, Object *place, Object *newNode)
     if ((myList             != NULL) &&
         (newNode            != NULL))
     {
-        Object *tmp          = NULL;
-        Object *tmp2         = NULL;
+        Node *tmp          = NULL;
+        Node *tmp2         = NULL;
 
         if (myList -> head  == NULL)
         {
@@ -59,7 +59,7 @@ List *append (List *myList, Object *place, Object *newNode)
 //
 //  insert(): add a newNode into myList before indicated place
 //
-List *insert (List *myList, Object *place, Object *newNode)
+List *insert (List *myList, Node *place, Node *newNode)
 {
     if (myList              == NULL)
     {
@@ -69,8 +69,8 @@ List *insert (List *myList, Object *place, Object *newNode)
     if ((myList             != NULL) &&
         (newNode            != NULL))
     {
-        Object *tmp          = NULL;
-        Object *tmp2         = NULL;
+        Node *tmp          = NULL;
+        Node *tmp2         = NULL;
 
         if (myList -> head  == NULL)
         {
@@ -102,32 +102,32 @@ List *insert (List *myList, Object *place, Object *newNode)
 //  obtain(): take thatNode and disconnect it (while maintaining list integrity)
 //            from myList.
 //
-List *obtain (List *myList, Node **thatNode)
+List *obtain (List *myList, Node *thatNode)
 {
-    if (!myList || !thatNode || !(*thatNode))
+    if (!myList || !thatNode || !(thatNode))
         return (myList);
 
     // Only one node
-    if (myList -> head              == (*thatNode) &&
-        myList -> tail              == (*thatNode))
+    if (myList -> head           == thatNode &&
+        myList -> tail           == thatNode)
     {
-        myList -> head               = NULL;
-        myList -> tail               = NULL;
+        myList -> head            = NULL;
+        myList -> tail            = NULL;
     }
-    else if ((*thatNode)            == myList -> head)
+    else if (thatNode            == myList -> head)
     {
-        myList -> head               = (*thatNode) -> next;
-        myList -> head -> prev       = NULL;
+        myList -> head            = thatNode -> next;
+        myList -> head -> prev    = NULL;
     }
-    else if ((*thatNode)            == myList -> tail)
+    else if (thatNode            == myList -> tail)
     {
-        myList -> tail               = (*thatNode) -> prev;
-        myList -> tail -> next       = NULL;
+        myList -> tail            = thatNode -> prev;
+        myList -> tail -> next    = NULL;
     }
     else
     {
-        (*thatNode) -> next -> prev  = (*thatNode) -> prev;
-        (*thatNode) -> prev -> next  = (*thatNode) -> next;
+        thatNode -> next -> prev  = thatNode -> prev;
+        thatNode -> prev -> next  = thatNode -> next;
     }
 
     return (myList);
@@ -162,7 +162,7 @@ List *clearList (List *myList)
         tmp           = myList -> head;
         while (tmp   != NULL)
         {
-            myList    = obtain (myList, &tmp);
+            myList    = obtain (myList, tmp);
             tmp       = deleteNode (tmp);
             tmp       = myList -> head;
         }

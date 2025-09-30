@@ -10,7 +10,7 @@
 #include "laser.h"
 
 //initialize instances list
-DoublyLinkedList* weaponsList = CreateDoublyLinkedList();
+List* weaponList = createList();
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ Weapon* CreateWeapon(int textureID, int regionID, int x, int y, int status, Weap
     weapon->shootCooldownElapsed = 0.0;
     weapon->lifetime = lifetime;
 
-    DoublyLinkedListInsertAtTail(weaponsList, &weapon->object);
+    weaponList = append(weaponList, weaponList->tail, createNode(&weapon->object));
 
     return weapon;
 }
@@ -87,7 +87,6 @@ void WeaponShoot(Weapon* weapon)
         if(weapon->shootCooldownElapsed <= 0)
         {
             //shoot logic here
-            int team = (weapon->object.status & TeamFlagMask) >>TeamFlagOffset;
             CreateLaser(LASER_TEXTURES, LASER_REGION, weapon->object.x, weapon->object.y, weapon->object.status, LASER_TYPE_LASER_CANNON, weapon->lifetime);
 
             // Reset cooldown
@@ -113,17 +112,17 @@ void WeaponUpdate(Weapon* weapon)
 //=========================================================
 
 //return linked list of weapons
-DoublyLinkedList* GetWeaponList()
+List* GetWeaponList()
 {
-    return weaponsList;
+    return weaponList;
 }
 
 //update all weapon controller in the weapon controller list
 void UpdateAllWeapons()
 {
     //loop through all instances of weapon controller
-    DoublyNode* currentNode = weaponsList->head;
-    DoublyNode* nextNode;
+    Node* currentNode = weaponList->head;
+    Node* nextNode;
 
     while(currentNode != NULL)
     {
@@ -134,7 +133,8 @@ void UpdateAllWeapons()
             if(currentNode->data->status & DeletionMarkFlag)
             {
                 DeconstructWeapon((Weapon*)currentNode->data);
-                DoublyLinkedListDeleteNode(weaponsList, currentNode);
+                obtain(weaponList, currentNode);
+                deleteNode(currentNode);
             }
         }
 
@@ -146,14 +146,15 @@ void UpdateAllWeapons()
 void DeconstructAllWeapons()
 {
     //loop through all instances of weapon controller
-    DoublyNode* currentNode = weaponsList->head;
-    DoublyNode* next;
+    Node* currentNode = weaponList->head;
+    Node* next;
 
     while(currentNode != NULL)
     {
         next = currentNode->next;
         DeconstructWeapon((Weapon*)currentNode->data);
-        DoublyLinkedListDeleteNode(weaponsList, currentNode);
+        obtain(weaponList, currentNode);
+        deleteNode(currentNode);
 
         currentNode = next;
     }

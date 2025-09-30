@@ -20,7 +20,7 @@
 
 //declarations
 
-DoublyLinkedList* playerList = CreateDoublyLinkedList();
+List* playerList = createList();
 
 struct Player 
 {
@@ -85,9 +85,9 @@ void HandleInput(Player* player)
     float deltaX;
     float deltaY;
     gamepad_direction_normalized(&deltaX, &deltaY); //get the direction from the gamepad
-    player->object.dx = deltaX;
+    player->object.dx = round(deltaX);
     player->object.dx *= player->object.vx;
-    player->object.dy = deltaY;
+    player->object.dy = round(deltaY);
     player->object.dy *= player->object.vy;
 
     movePlayer(player);
@@ -165,7 +165,7 @@ Player* CreatePlayer(int textureID, int regionID, int x, int y, int status, floa
     player->gamepadID = gamepadID;
     player->weapon = CreateWeapon(WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
 
-    DoublyLinkedListInsertAtTail(playerList, &player->object);
+    append(playerList, playerList->tail, createNode(&player->object));
 
     //return pointer to player
     return player;
@@ -182,9 +182,7 @@ void DeconstructPlayerAndWeapon(Player* player)
 {
     if(player->weapon != NULL)
     {
-        DoublyNode* weaponNode = DoublyLinkedListFindDataFromHead(GetWeaponList(), &player->weapon->object);
-        DeconstructWeapon(player->weapon);
-        DoublyLinkedListDeleteNode(GetWeaponList(), weaponNode);
+        player->weapon->object.status |= DeletionMarkFlag;
     }
     DeconstructPlayer(player);
 }
@@ -192,14 +190,15 @@ void DeconstructPlayerAndWeapon(Player* player)
 void DeconstructAllPlayers()
 {
     //loop through all instances of players
-    DoublyNode* currentNode = playerList->head;
-    DoublyNode* next;
+    Node* currentNode = playerList->head;
+    Node* next;
 
     while(currentNode != NULL)
     {
         next = currentNode->next;
         DeconstructPlayer((Player*)currentNode->data);
-        DoublyLinkedListDeleteNode(playerList, currentNode);
+        obtain(playerList, currentNode);
+        deleteNode(currentNode);
 
         currentNode = next;
     }
@@ -208,14 +207,15 @@ void DeconstructAllPlayers()
 void DeconstructAllPlayersAndWeapons()
 {
     //loop through all instances of players
-    DoublyNode* currentNode = playerList->head;
-    DoublyNode* next;
+    Node* currentNode = playerList->head;
+    Node* next;
 
     while(currentNode != NULL)
     {
         next = currentNode->next;
         DeconstructPlayerAndWeapon((Player*)currentNode->data);
-        DoublyLinkedListDeleteNode(playerList, currentNode);
+        obtain(playerList, currentNode);
+        deleteNode(currentNode);
 
         currentNode = next;
     }
@@ -233,7 +233,7 @@ void DeconstructAllPlayersAndWeapons()
 **/
 
 //return linked list of players
-DoublyLinkedList* GetPlayerList()
+List* GetPlayerList()
 {
     return playerList;
 }
@@ -241,8 +241,8 @@ DoublyLinkedList* GetPlayerList()
 //update all player controller in instances list
 void UpdateAllPlayers()
 {
-    DoublyNode* currentNode = playerList->head;
-    DoublyNode* nextNode;
+    Node* currentNode = playerList->head;
+    Node* nextNode;
 
     while(currentNode != NULL)
     {
@@ -253,7 +253,8 @@ void UpdateAllPlayers()
             if(currentNode->data->status & DeletionMarkFlag)
             {
                 DeconstructPlayerAndWeapon((Player*)currentNode->data);
-                DoublyLinkedListDeleteNode(playerList, currentNode);
+                obtain(playerList, currentNode);
+                deleteNode(currentNode);
             }
         }
         currentNode = nextNode;

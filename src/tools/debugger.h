@@ -109,17 +109,17 @@ void PrintObjectDataAt(int x, int y, Object* object)
     PrintIntAt(x + tracking * 5, y + leading * 13, object->vy);
 }
 
- void VisualizeLinkedList(DoublyLinkedList* list)
+ void VisualizeLinkedList(List* list)
  {
-    DoublyNode* previousNode = NULL;
-    DoublyNode* currentNode = list->head;
+    Node* previousNode = NULL;
+    Node* currentNode = list->head;
     Object* currentData = NULL;
     while(currentNode != NULL)
     {
         currentData = currentNode->data;
         PrintIntAt(currentData->x, currentData->y, currentData->id);
         //draw line from current node to previous node
-        if(currentNode->previous == previousNode)
+        if(currentNode->prev == previousNode)
         {
             if(previousNode == NULL)
             {

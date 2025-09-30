@@ -32,7 +32,7 @@ enum GameState
 GameState currentState;
 
 //list of all objects in scene
-DoublyLinkedList* objectList;
+List* objectList;
 
 //=========================================================
 ///////////////////////////////////////////////////////////

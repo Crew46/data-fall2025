@@ -9,7 +9,7 @@
 #include "../tools/debugger.h"
 
 //initialize instances list
-DoublyLinkedList* laserList = CreateDoublyLinkedList();
+List* laserList = createList();
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ Laser* CreateLaser(int textureID, int regionID, int x, int y, int status, LaserT
     laser->lifetime = lifetime;
     laser->age = 0.0;
 
-    DoublyLinkedListInsertAtTail(laserList, &laser->object);
+    laserList = append(laserList, laserList->tail, createNode(&laser->object));
 
     return laser;
 }
@@ -90,7 +90,7 @@ void LaserUpdate(Laser* laser)
         laser->object.status |= DeletionMarkFlag;
     }
 
-    int team = laser->object.status & TeamFlagMask >> TeamFlagOffset;
+    int team = (laser->object.status & TeamFlagMask) >> TeamFlagOffset;
 
     if(team      == 0)
     {
@@ -126,7 +126,7 @@ void LaserUpdate(Laser* laser)
 //=========================================================
 
 //return linked list of lasers
-DoublyLinkedList* GetLaserList()
+List* GetLaserList()
 {
     return laserList;
 }
@@ -135,8 +135,8 @@ DoublyLinkedList* GetLaserList()
 void UpdateAllLasers()
 {
     //loop through all instances of laser controller
-    DoublyNode* currentNode = laserList->head;
-    DoublyNode* nextNode;
+    Node* currentNode = laserList->head;
+    Node* nextNode;
 
     while(currentNode != NULL)
     {
@@ -147,7 +147,8 @@ void UpdateAllLasers()
             if(currentNode->data->status & DeletionMarkFlag)
             {
                 DeconstructLaser((Laser*)currentNode->data);
-                DoublyLinkedListDeleteNode(laserList, currentNode);
+                obtain(laserList, currentNode);
+                deleteNode(currentNode);
             }
         }
         currentNode = nextNode;
@@ -158,14 +159,15 @@ void UpdateAllLasers()
 void DeconstructAllLasers()
 {
     //loop through all instances of laser controller
-    DoublyNode* currentNode = laserList->head;
-    DoublyNode* next;
+    Node* currentNode = laserList->head;
+    Node* next;
 
     while(currentNode != NULL)
     {
         next = currentNode->next;
         DeconstructLaser((Laser*)currentNode->data);
-        DoublyLinkedListDeleteNode(laserList, currentNode);
+        obtain(laserList, currentNode);
+        deleteNode(currentNode);
 
         currentNode = next;
     }

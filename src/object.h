@@ -65,7 +65,7 @@ void drawObject(Object* object)
 {
     select_texture(object->textureID);
     select_region(object->regionID);
-    int team = object->status & TeamFlagMask >> TeamFlagOffset;
+    int team = (object->status & TeamFlagMask) >> TeamFlagOffset;
 
     set_drawing_angle((float)team * pi / 2.0);
     draw_region_rotated_at(object->x, object->y);

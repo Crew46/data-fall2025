@@ -57,6 +57,48 @@ List *append (List *myList, Object *place, Object *newNode)
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
+//  insert(): add a newNode into myList before indicated place
+//
+List *insert (List *myList, Object *place, Object *newNode)
+{
+    if (myList              == NULL)
+    {
+        myList               = (List *) malloc (sizeof (List));
+    }
+
+    if ((myList             != NULL) &&
+        (newNode            != NULL))
+    {
+        Object *tmp          = NULL;
+        Object *tmp2         = NULL;
+
+        if (myList -> head  == NULL)
+        {
+            myList -> head   = newNode;
+            myList -> tail   = newNode;
+        }
+        else if (place      == myList -> head)
+        {
+            tmp              = myList -> head;
+            tmp -> prev      = newNode;
+            newNode -> next  = tmp;
+            myList -> head   = newNode;
+        }
+        else
+        {
+            tmp              = place -> prev;
+            tmp -> next      = newNode;
+            newNode -> next  = place;
+            place -> prev    = newNode;
+            newNode -> prev  = tmp;
+        }
+    }
+
+    return (myList);
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+//
 //  obtain(): take thatNode and disconnect it (while maintaining list integrity)
 //            from myList.
 //

@@ -43,10 +43,10 @@ struct Weapon {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Weapon* CreateWeapon(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int team, int speed, WeaponType type, float cooldown, float lifetime)
+Weapon* CreateWeapon(int textureID, int regionID, int x, int y, int status, WeaponType type, float cooldown, float lifetime)
 {
     Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
-    InitializeObject(&weapon->object, name, textureID, regionID, id, x, y, isActive, team, speed);
+    initObject(&weapon->object, Object_Type_Weapon, textureID, regionID, x, y, status);
     weapon->type = type;
     weapon->maxShootCooldownTime = cooldown;
     weapon->shootCooldownElapsed = 0.0;
@@ -70,7 +70,7 @@ void DeconstructWeapon(Weapon* weapon)
 
 void DrawWeapon(Weapon* weapon)
 {
-    DrawObject(&weapon->object);
+    drawObject(&weapon->object);
 }
 
 //=========================================================
@@ -88,7 +88,7 @@ void WeaponShoot(Weapon* weapon)
         {
             //shoot logic here
             int team = (weapon->object.status & TeamFlagMask) >>TeamFlagOffset;
-            CreateLaser("laser", LASER_TEXTURES, LASER_REGION, 0, weapon->object.x, weapon->object.y, true, team, 10, LASER_TYPE_LASER_CANNON, weapon->lifetime);
+            CreateLaser(LASER_TEXTURES, LASER_REGION, weapon->object.x, weapon->object.y, weapon->object.status, LASER_TYPE_LASER_CANNON, weapon->lifetime);
 
             // Reset cooldown
             weapon->shootCooldownElapsed = weapon->maxShootCooldownTime;

@@ -22,18 +22,11 @@
 
 DoublyLinkedList* playerList = CreateDoublyLinkedList();
 
-enum PlayerMovementState
-{
-    PLAYER_MOVEMENT_STATE_IDLE,
-    PLAYER_MOVEMENT_STATE_MOVING
-};
-
 struct Player 
 {
     //object is not a pointer, in order to imbed to struct for upcasting & downcasting.
     Object object;
     int gamepadID; 
-    PlayerMovementState state; // Current state of the player
     Weapon* weapon; //weapon that player has equipped
 };
 
@@ -50,9 +43,9 @@ struct Player
 **/
 
 //move player in a direction, where then direction is scaled by the player's speed
-void PlayerMoveInDirection(Player* player)
+void movePlayer(Player* player)
 {
-    ObjectMoveInDirection(&player->object);
+    moveObject(&player->object);
 }
 
 
@@ -69,7 +62,7 @@ void PlayerMoveInDirection(Player* player)
 
 void DrawPlayer(Player* player)
 {
-    DrawObject(&player->object);
+    drawObject(&player->object);
 }
 
 //=========================================================
@@ -92,9 +85,12 @@ void HandleInput(Player* player)
     float deltaX;
     float deltaY;
     gamepad_direction_normalized(&deltaX, &deltaY); //get the direction from the gamepad
-    player->object.xdir = deltaX;
-    player->object.ydir = deltaY;
-    PlayerMoveInDirection(player);
+    player->object.dx = deltaX;
+    player->object.dx *= player->object.vx;
+    player->object.dy = deltaY;
+    player->object.dy *= player->object.vy;
+
+    movePlayer(player);
 
     if(player->weapon != NULL)
     {
@@ -104,24 +100,27 @@ void HandleInput(Player* player)
         int xOffset = -10;
         int yOffset = -5;
 
-        switch(StatusGetTeam(player->object.status))
+        int team = player->object.status & TeamFlagMask >> TeamFlagMask;
+
+        if(team      == 0)
         {
-            case 0:
-                player->weapon->object.x += xOffset;
-                player->weapon->object.y += yOffset;
-                break;
-            case 1:
-                player->weapon->object.x -= yOffset;
-                player->weapon->object.y += xOffset;
-                break;
-            case 2:
-                player->weapon->object.x -= xOffset;
-                player->weapon->object.y -= yOffset;
-                break;
-            case 3:
-                player->weapon->object.x += yOffset;
-                player->weapon->object.y -= xOffset;
-                break;
+            player->weapon->object.x += xOffset;
+            player->weapon->object.y += yOffset;
+        }
+        else if(team == 1)
+        {
+            player->weapon->object.x -= yOffset;
+            player->weapon->object.y += xOffset;
+        }
+        else if(team == 1)
+        {
+            player->weapon->object.x -= xOffset;
+            player->weapon->object.y -= yOffset;
+        }
+        else if(team == 1)
+        {
+            player->weapon->object.x += yOffset;
+            player->weapon->object.y -= xOffset;
         }
 
         if(gamepad_button_a() > 0)
@@ -154,18 +153,17 @@ void PlayerUpdate(Player* player)
 //=========================================================
 
 //constructor
-Player* CreatePlayer(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int team, int speed, float maxShootCooldownTime, int gamepadID)
+Player* CreatePlayer(int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime, int gamepadID)
 {
     //allocate memory for player
     Player* player = (Player*)malloc(sizeof(Player));
 
     //player object properties initialization
-    InitializeObject(&player->object, name, textureID, regionID, id, x, y, isActive, team, speed);
+    initObject(&player->object, Object_Type_Entity, textureID, regionID, x, y, status);
 
     //player properties initialization
     player->gamepadID = gamepadID;
-    player->state = PLAYER_MOVEMENT_STATE_IDLE; // Start in idle state
-    player->weapon = CreateWeapon("gun", WEAPON_TEXTURES, WEAPON_REGION, 0, player->object.x, player->object.y, true, team, player->object.speed, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);// Default weapon type
+    player->weapon = CreateWeapon(WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
 
     DoublyLinkedListInsertAtTail(playerList, &player->object);
 

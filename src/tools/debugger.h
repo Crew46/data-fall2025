@@ -76,14 +76,14 @@ void PrintObjectDataAt(int x, int y, Object* object)
 
 
 
-    //x and y dir
+    //x and y velocity
     print_at(x, y + leading * 4, "Dir: ");
 
-    print_at(x + tracking * 1, y + leading * 5, "xdir: ");
-    PrintIntAt(x + tracking * 5, y + leading * 5, object->xdir);
+    print_at(x + tracking * 1, y + leading * 5, "dx: ");
+    PrintIntAt(x + tracking * 5, y + leading * 5, object->dx);
 
-    print_at(x + tracking * 1, y + leading * 6, "ydir: ");
-    PrintIntAt(x + tracking * 5, y + leading * 6, object->ydir);
+    print_at(x + tracking * 1, y + leading * 6, "dy: ");
+    PrintIntAt(x + tracking * 5, y + leading * 6, object->dy);
 
 
     //sprite region and texture
@@ -100,16 +100,13 @@ void PrintObjectDataAt(int x, int y, Object* object)
     //misc
     print_at(x, y + leading * 10, "Misc: ");
 
-    print_at(x + tracking * 1, y + leading * 11, "active: ");
+    print_at(x + tracking * 1, y + leading * 11, "status: ");
     PrintIntAt(x + tracking * 5, y + leading * 11, object->status);
-    print_at(x + tracking * 1, y + leading * 12, "id: ");
-    PrintIntAt(x + tracking * 5, y + leading * 12, object->id);
 
-    print_at(x + tracking * 1, y + leading * 13, "name: ");
-    print_at(x + tracking * 5, y + leading * 13, object->name);
-
-    print_at(x + tracking * 1, y + leading * 14, "speed: ");
-    PrintIntAt(x + tracking * 5, y + leading * 14, object->speed);
+    print_at(x + tracking * 1, y + leading * 12, "vx: ");
+    PrintIntAt(x + tracking * 5, y + leading * 12, object->vx);
+    print_at(x + tracking * 1, y + leading * 13, "vx: ");
+    PrintIntAt(x + tracking * 5, y + leading * 13, object->vy);
 }
 
  void VisualizeLinkedList(DoublyLinkedList* list)

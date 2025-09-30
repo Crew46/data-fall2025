@@ -10,7 +10,6 @@
 
 //initialize instances list
 DoublyLinkedList* laserList = CreateDoublyLinkedList();
-int laserIdCounter = 0;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -41,10 +40,10 @@ struct Laser {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Laser* CreateLaser(int* name, int textureID, int regionID, int id, int x, int y, bool isActive, int team, int speed, LaserType type, float lifetime)
+Laser* CreateLaser(int textureID, int regionID, int x, int y, int status, LaserType type, float lifetime)
 {
     Laser* laser = (Laser*)malloc(sizeof(Laser));
-    InitializeObject(&laser->object, name, textureID, regionID, laserIdCounter++, x, y, isActive, team, speed);
+    initObject(&laser->object, Object_Type_Laser, textureID, regionID, x, y, status);
     laser->type = type;
     laser->lifetime = lifetime;
     laser->age = 0.0;
@@ -67,7 +66,7 @@ void DeconstructLaser(Laser* laser)
 
 void DrawLaser(Laser* laser)
 {
-    DrawObject(&laser->object);
+    drawObject(&laser->object);
 }
 
 //=========================================================
@@ -79,7 +78,7 @@ void DrawLaser(Laser* laser)
 //move laser in a direction, where then direction is scaled by the laser's speed
 void LaserMoveInDirection(Laser* laser)
 {
-    ObjectMoveInDirection(&laser->object);
+    moveObject(&laser->object);
 }
 
 void LaserUpdate(Laser* laser)
@@ -91,27 +90,29 @@ void LaserUpdate(Laser* laser)
         laser->object.status |= DeletionMarkFlag;
     }
 
-    switch(StatusGetTeam(laser->object.status))
+    int team = laser->object.status & TeamFlagMask >> TeamFlagOffset;
+
+    if(team      == 0)
     {
-        case 0:
-            laser->object.xdir = 0.0;
-            laser->object.ydir = -1.0;
-            break;
-        case 1:
-            laser->object.xdir = 1.0;
-            laser->object.ydir = 0.0;
-            break;
-        case 2:
-            laser->object.xdir = 0.0;
-            laser->object.ydir = 1.0;
-            break;
-        case 3:
-            laser->object.xdir = -1.0;
-            laser->object.ydir = 0.0;
-            break;
-        default:
-            break;
+        laser->object.dx = 0.0;
+        laser->object.dy = -1.0;
     }
+    else if(team == 1)
+    {
+        laser->object.dx = 1.0;
+        laser->object.dy = 0.0;
+    }
+    else if(team == 2)
+    {
+        laser->object.dx = 0.0;
+        laser->object.dy = 1.0;
+    }
+    else if(team == 3)
+    {
+        laser->object.dx = -1.0;
+        laser->object.dy = 0.0;
+    }
+
     LaserMoveInDirection(laser);
 
     //draw

@@ -51,12 +51,12 @@ void InitializeGameManager()
 
     //create player, which is an extension of object, so need to pass in object params.
 
-    //           name,     texture,                region,       id, x,                y,    isActive, team, speed, shootCooldown, gamepadID
-    CreatePlayer("frfr", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 0, screen_width / 2, screen_height / 2, true, 0, 8, 1, 0);
-    CreatePlayer("Player1", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 1, screen_width / 2 -40, screen_height / 2, true, 0, 4, 1, 1);
-    CreatePlayer("Player2", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 2, screen_width / 2 + 40, screen_height / 2, true, 1, 3, 1, 1);
-    CreatePlayer("nocap", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 3, screen_width / 2 -80, screen_height / 2 + 80, true, 2, 2, 1, 0);
-    CreatePlayer("Player4", PLAYER_SPRITES_TEXTURE, PLAYER_REGION, 4, screen_width / 2 + 80, screen_height / 2 + 100, true, 3, 4, 1, 1);
+    //           texture,                region,        x,                    y,                      status, shootCooldown, gamepadID
+    CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2,     screen_height / 2,      0x00000001, 1.0, 0);
+    CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2 -40, screen_height / 2,      0x00000001, 1.0, 1);
+    CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2 +40, screen_height / 2,      0x00000005, 1.0, 1);
+    CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2 -80, screen_height / 2 +80,  0x00000009, 1.0, 0);
+    CreatePlayer(PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2 +80, screen_height / 2 +100, 0x0000000D, 1.0, 1);
 
     // Initialize game state
     currentState = GAMESTATE_MENU;

@@ -1,6 +1,13 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
+#include "math.h"
+
+#define IsActiveFlag 0x00000001
+#define DeletionMarkFlag 0x00000002
+#define TeamFlagMask 0x000000C
+#define TeamFlagOffset 2
+
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
 {
@@ -23,23 +30,25 @@ struct Object
   int         dy;
   int         vx;
   int         vy;
-  bool        isActive;
+  int         status;
 };
 
 // This function is mainly for our embedded object 
-void    initObject (Object* obj, ObjectType objT, int textureID, int regionID, int xPos, int yPos, bool isActive)
+void    initObject (Object* obj, ObjectType objT, int textureID, int regionID, int xPos, int yPos, int status)
 {
     obj -> type       = objT;
     obj -> textureID  = textureID;
     obj -> regionID   = regionID;
     obj -> x          = xPos;
     obj -> y          = yPos;
+    obj -> dx         = 0;
+    obj -> dy         = 0;
     obj -> vx         = 1; // Set to 1 for now, will make it customizable eventually
     obj -> vy         = 1;
-    obj -> isActive   = isActive;
+    obj -> status     = status;
 }
 
-Object *createObject (int textureID, int regionID, int x, int y, bool isActive)
+Object *createObject (int textureID, int regionID, int x, int y, int status)
 {
     Object *obj       = (Object *) malloc (sizeof (Object));
     obj -> type       = Object_Type_None; // Has no parent
@@ -47,9 +56,25 @@ Object *createObject (int textureID, int regionID, int x, int y, bool isActive)
     obj -> regionID   = regionID;
     obj -> x          = x;
     obj -> y          = y;
-    obj -> isActive   = isActive;
+    obj -> status     = status;
 
     return (obj);
+}
+
+void drawObject(Object* object)
+{
+    select_texture(object->textureID);
+    select_region(object->regionID);
+    int team = object->status & TeamFlagMask >> TeamFlagOffset;
+
+    set_drawing_angle((float)team * pi / 2.0);
+    draw_region_rotated_at(object->x, object->y);
+}
+
+void moveObject(Object* object)
+{
+    object->x += object->dx;
+    object->y += object->dy;
 }
 
 #endif

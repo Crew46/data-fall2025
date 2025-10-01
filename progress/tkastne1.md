@@ -10,3 +10,6 @@ I have been able to get weapons and lasers integrated into the player and workin
 
 **week 5** :
 I have been working on team functionality. To make everything nice, I changed spites that might need to be rotated to have their hotspot in the center. As well as adding a offset to the Weapon relative to the player based on the direction. Now I am trying to get main ready for collisions and damage. I've made a simple collision check, which was also simplified by placing the hotspot in the center. I'm hoping on getting that together and functioning soon.
+
+**week 6**
+This week I mainly switched main over to use the new unified object, node, and list that was made. They still need some more features like a collision box and some more utility functions, but main does compile. Next week is were I plan to add back collision, which should be quicker now that I've done it before. I also want to add more features like picking up/dropping weapons. I will also be making my own implementation of stacks and queues.

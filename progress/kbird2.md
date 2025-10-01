@@ -31,4 +31,4 @@ Fixed append not actually appending to the end of the list.
 
 
 Week 5
-This week I added the general list functions that we agreed on. Which added mkList(), deleteList(), and clearList(). I also updated my previous obtain function to use double pointers to properly use the function! I modified the existing code to make use of these new functions. My Obtain function no longer uses rmnode inside of it. I also made sure that there are proper return values as well. 
+This week I added the general list functions that we agreed on. Which added mkList(), deleteList(), and clearList(). I also updated my previous obtain function to use double pointers to properly use the function! I modified the existing code to make use of these new functions. My Obtain function no longer uses rmnode inside of it. I also made sure that there are proper return values as well. Added some checks to make sure that clearList and deleteList actually did their functions and to make sure there is not any pointer issues.

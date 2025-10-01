@@ -7,64 +7,6 @@
 #include "functions.h"
 #define LASERSPEED			1
 
-
-doublyLinkedList * mklist()
-{
-	doublyLinkedList * listA = (doublyLinkedList *) malloc (sizeof(doublyLinkedList));
-	if(listA == NULL)
-		{
-			exit();
-		}
-	listA->head = NULL;
-	listA->tail = NULL;
-	return(listA);
-}
-// I don't know why I didn't make this sooner '_'
-// This makes a node and returns EnemyA (Will be modified later for different cases for different enemies.
-Object * mknode()
-	{
-	a 		= 	rand() % ( 100 + 1);
-	xpos 	=	rand() % (639 + 1);
-	if(a <= 80)
-	{
-	Object * EnemyA			= (Object *) malloc (sizeof (Object));
-	EnemyA ->next			= NULL;
-	EnemyA ->prev			= NULL;
-	EnemyA -> x				= xpos;
-	EnemyA -> y				= ypos;
-	EnemyA -> height		= 10;
-	EnemyA -> width			= 10;
-	EnemyA -> isActive		= true;
-	EnemyA -> hp			= 1;
-	EnemyA -> texture 		= ENEMYA_TEXTURE;
-	EnemyA -> region  		= ENEMYA_REGION;
-	return EnemyA;
-	}
-	if(a > 80)
-	{
-	Object * EnemyB			= (Object *) malloc (sizeof(Object));
-	EnemyB -> next			= NULL;
-	EnemyB -> prev			= NULL;
-	EnemyB -> x				= xpos;
-	EnemyB -> y				= ypos;
-	EnemyB -> height		= 20;
-	EnemyB -> width			= 20;
-	EnemyB -> isActive		= true;
-	EnemyB -> hp			= 3;
-	EnemyB -> texture	    = ENEMYB_TEXTURE;
-	EnemyB -> region		= ENEMYB_REGION;
-	return EnemyB;
-	}
-
-	}
-
-
-
-
-
-
-
-
 // Prepping what we need.
 doublyLinkedList * listA;
 Object * tmp;
@@ -297,13 +239,13 @@ void main (void)
 			tmp->isActive	= false;
 			tmp				= tmp->next;
 		}
+		//Game over fella. Erase everything.
+		player		= NULL;
+		laser		= NULL;	
+		free(player);
+		free(laser);
 		listA				= clearList(listA);
 		listA				= deleteList(listA);
-		clear_screen(color_black);
-		draw_region();
-		set_drawing_point( 200, 180);
-		print( " You have died. Restart to try again");
-		exit();
 		}
 
 
@@ -323,14 +265,19 @@ void main (void)
         //
         // Obtain directional information (per axis) from selected gamepad
         //
+if(player != NULL)
+{
         gamepad_direction (&player -> xdir, &player -> ydir);
-
+}
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust player position based on recently obtained gamepad information
         // I am multiplying ydir and xdir by 3 to make the ship move faster.
+if(player != NULL)
+{
         player -> x      = player -> x + player -> xdir * 3;
         player -> y      = player -> y + player -> ydir * 3;
+}
 // player laser will fire if x is pressed pressed. Only 1 laser can be fired.
 		if((gamepad_button_a() == 1))
 			{
@@ -356,10 +303,13 @@ void main (void)
 				free(laser);
 			}
 		}
-        ////////////////////////////////////////////////////////////////////////////////
+ 
+       ////////////////////////////////////////////////////////////////////////////////
         //
         // Player/playfield bounds checking
         //
+if(player != NULL)
+{
         if (player -> x <  0) // left side
         {
             player -> x  = 1;
@@ -379,15 +329,17 @@ void main (void)
         {
             player -> y  = 359;
         }
-        
+}       
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Select texture and region for the player, and draw it
         //
+if(player != NULL)
+{
         select_texture (PLAYER_TEXTURE);
         select_region  (PLAYER_REGION);
         draw_region_at (player -> x, player -> y);
-    
+}
        ///////////////////////////////////////////////////////////////////////////////
 	// This draws the laser if it is active.
 		if(laser != NULL)
@@ -407,6 +359,8 @@ void main (void)
         //
         // Adjust enemy positions based on randomness and draw them.
         //	
+	if(listA !=NULL)
+	{
         tmp                	= listA->tail;
         while(tmp != NULL)
         {
@@ -428,8 +382,23 @@ void main (void)
         	}
 		tmp					= tmp->prev;
 		}  
+	}
+// This is here to make sure clearlist() and deleteList() is working.
+// Currently works!
+		mask    = 0x10000000;
+		value   = status & mask;
+		if(value != 0x10000000)
+			{
+				draw_region();
+				set_drawing_point( 200, 180);
+				print( " You have died. Restart to try again");
+				exit();
+			}
+
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
+	if(listA != NULL)
+	{
       	tmp = listA->head; 
 		while(tmp != NULL)
 		{
@@ -444,7 +413,7 @@ void main (void)
 				}
 			 // Defeat an enemy and add one to the counter.
 			}
-
+	
 
 
 // This checks for player and enemy collision. If they collide the game ends.
@@ -455,10 +424,13 @@ void main (void)
 			}
 		tmp						= tmp->next;
 		}
-
+}
+	
 
 
 // This will obtain the enemy and delete them
+if(listA != NULL)
+{
 		tmp					= listA->head;
 		while(tmp != NULL)
 	{
@@ -479,7 +451,7 @@ void main (void)
 			tmp 			= tmp->next;
 		}
 	}
-
+}
 // I do know that this code is slightly pointless. I just want to mess with bit masking.
 if(counter >= 5 && max != 8)
 	{
@@ -498,6 +470,7 @@ if(counter >= 5 && max != 8)
 		counter = 0;
 	}
 
+		
 
 
         end_frame ();

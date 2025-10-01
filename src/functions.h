@@ -21,7 +21,7 @@ if (( Thing1->y + Thing1->height/2) <= (Thing2->y - Thing2->height/2) )
 }
 
 // This will make the list
-doublyLinkedList * mklist()
+doublyLinkedList * mkList()
 {
 	doublyLinkedList * listA = (doublyLinkedList *) malloc (sizeof(doublyLinkedList));
 	if(listA == NULL)
@@ -33,7 +33,7 @@ doublyLinkedList * mklist()
 	return(listA);
 }
 // This will make a node for either EnemyA or EnemyB (more will be added.)
-Object * mknode()
+Object * mkNode()
 {
 	a       =   rand() % ( 100 + 1);
 	xpos    =   rand() % ( 639 + 1);

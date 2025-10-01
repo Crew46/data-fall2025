@@ -15,7 +15,7 @@ Object * tmp3;
 Object * newNode;
 Object * laser;
 // This function will create a single EnemyA everytime it is used.
-doublyLinkedList * appendEnemyA (doublyLinkedList * listA, Object * tmp, Object * newNode )
+doublyLinkedList * appendNode (doublyLinkedList * listA, Object * tmp, Object * newNode )
 {
 
 // If there is no head make one.
@@ -43,7 +43,7 @@ doublyLinkedList * appendEnemyA (doublyLinkedList * listA, Object * tmp, Object 
 return(listA);
 }
 // rmnode checks
-Object * rmnode(Object *thatNode)
+Object * rmNode(Object *thatNode)
 {
 	if((thatNode) ->isActive 	== false)
 	{
@@ -61,7 +61,7 @@ return(thatNode);
 
 // The obtain function that is currently used to delete enemies.
 
-doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object **thatNode)
+doublyLinkedList * obtainNode(doublyLinkedList * listA, Object **thatNode)
 {
 // Edge case where head is inactive and needs to be replaced after being
 // marked for deletion.
@@ -96,8 +96,8 @@ doublyLinkedList * clearList(doublyLinkedList * listA)
 		tmp								= listA->head;
 		while(tmp	!= NULL)
 			{
-				listA	= obtainEnemyA(listA, &tmp);	
-				tmp		= rmnode(tmp);
+				listA	= obtainNode(listA, &tmp);	
+				tmp		= rmNode(tmp);
 				tmp		= listA->head;
 			}
 		}
@@ -111,7 +111,7 @@ doublyLinkedList * clearList(doublyLinkedList * listA)
 
 
 // This will insert the enemy at the desired position.
-doublyLinkedList * insertEnemyA ( doublyLinkedList * listA ,Object * tmp, Object * newNode, int position)
+doublyLinkedList * insertNode ( doublyLinkedList * listA ,Object * tmp, Object * newNode, int position)
 {
 	// Edge case where we want to replace the head.
 
@@ -171,7 +171,7 @@ void main (void)
 	a 					 	= NULL;
 	status				 	= 0x10000000;
     // creating the head and malloc it.
-    listA = mklist();
+    listA = mkList();
 
 /// Creating the laser.
 	Object * laser = (Object *)malloc(sizeof(Object));
@@ -181,22 +181,22 @@ void main (void)
     // 
     // 
     // We are spawning and inserting the enemies.   
-	newNode = mknode();
-	listA	= appendEnemyA (listA, tmp, newNode);
-	newNode = mknode();
-    listA 	= appendEnemyA (listA, tmp, newNode);
-	newNode = mknode();
-    listA	= appendEnemyA (listA, tmp, newNode);
-	newNode = mknode();
-    listA   = appendEnemyA (listA, tmp, newNode);
-	newNode = mknode();
-    listA	= appendEnemyA (listA, tmp, newNode);
-	newNode = mknode();
-	listA	= appendEnemyA (listA, tmp, newNode);
-	newNode = mknode();
-	listA	= insertEnemyA (listA, tmp, newNode, 0);
-	newNode = mknode();
-	listA	= insertEnemyA (listA, tmp, newNode, 2);
+	newNode = mkNode();
+	listA	= appendNode (listA, tmp, newNode);
+	newNode = mkNode();
+    listA 	= appendNode (listA, tmp, newNode);
+	newNode = mkNode();
+    listA	= appendNode (listA, tmp, newNode);
+	newNode = mkNode();
+    listA   = appendNode (listA, tmp, newNode);
+	newNode = mkNode();
+    listA	= appendNode (listA, tmp, newNode);
+	newNode = mkNode();
+	listA	= appendNode (listA, tmp, newNode);
+	newNode = mkNode();
+	listA	= insertNode (listA, tmp, newNode, 0);
+	newNode = mkNode();
+	listA	= insertNode (listA, tmp, newNode, 2);
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -439,10 +439,10 @@ if(listA != NULL)
 		{
 		tmp3				= tmp;
 		tmp=tmp->next;
-		listA 				= obtainEnemyA (listA, &tmp3);
-		tmp3 				= rmnode(tmp3);
-		newNode				= mknode();
-		listA  				= appendEnemyA(listA, tmp, newNode);
+		listA 				= obtainNode (listA, &tmp3);
+		tmp3 				= rmNode(tmp3);
+		newNode				= mkNode();
+		listA  				= appendNode(listA, tmp, newNode);
 		tmp					= listA->head;
 		}
 		// If we didn't delete a node move on.
@@ -461,8 +461,8 @@ if(counter >= 5 && max != 8)
 				{
 					max 		= max + 1;
 					status 		= value;
-					newNode		= mknode();
-					listA = appendEnemyA(listA, tmp, newNode);	
+					newNode		= mkNode();
+					listA = appendNode(listA, tmp, newNode);	
 					
 				}
 // If the player is inactive then the game ends.

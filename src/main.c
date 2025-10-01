@@ -66,18 +66,18 @@ doublyLinkedList * obtainEnemyA (doublyLinkedList * listA, Object **thatNode)
 // Edge case where head is inactive and needs to be replaced after being
 // marked for deletion.
 	if((*thatNode) == listA->head)
-	{
-		listA->head   		= (*thatNode)->next;
-		(*thatNode)->next->prev		= NULL;
-		(*thatNode)->next			= NULL;
-	}
+		{
+			listA->head   		= (*thatNode)->next;
+			(*thatNode)->next->prev		= NULL;
+			(*thatNode)->next			= NULL;
+		}
 // If there is no edge case continue as normal.
 	if((*thatNode) == listA->tail)
-	{
-	listA->tail				= (*thatNode)->prev;
-	listA->tail->next		= NULL;
-	(*thatNode)->prev		= NULL;
-	}
+		{
+			listA->tail				= (*thatNode)->prev;
+			listA->tail->next		= NULL;
+			(*thatNode)->prev		= NULL;
+		}
 	if((*thatNode) != listA->head && (*thatNode) != listA->tail)    
 		{	
 			(*thatNode)->prev->next		= (*thatNode)->next;

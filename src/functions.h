@@ -28,10 +28,12 @@ doublyLinkedList * mkList()
 		{
 			exit();
 		}
-	listA->head = NULL;
-	listA->tail	= NULL;
-	return(listA);
+listA->head = NULL;
+listA->tail	= NULL;
+return(listA);
 }
+
+
 // This will make a node for either EnemyA or EnemyB (more will be added.)
 Object * mkNode()
 {
@@ -67,6 +69,139 @@ Object * mkNode()
 	EnemyB -> region        = ENEMYB_REGION;
 	return(EnemyB);
 	}
+}
+
+
+// This function will create a single EnemyA everytime it is used.
+doublyLinkedList * appendNode (doublyLinkedList * listA, Object * tmp, Object * newNode )
+{
+	// If head is NULL then we will put the newNode as the head.
+	if(listA->head      	== NULL)
+	{
+		listA->head         = newNode;
+	}
+	// Otherwise we move forward
+	else
+	{
+		tmp					= listA->head;
+		while(tmp -> next	!= NULL)
+		{
+			tmp					= tmp->next;
+		}
+		if(  tmp ->next		== NULL)
+		{
+			tmp->next			= newNode;
+			listA->tail			= tmp->next;
+			tmp->next->prev		= tmp;
+		}
+	}
+return(listA);
+}
+
+
+//rmNode frees up nodes that we want gone.
+Object * rmNode(Object *thatNode)
+{
+	if((thatNode) ->isActive    == false)
+	{
+		free(thatNode);
+		if((thatNode)			!= NULL)
+		{
+		(thatNode)				= NULL;
+		}
+	}
+return(thatNode);
+}
+
+
+// The obtain function disconnects nodes.
+doublyLinkedList * obtainNode(doublyLinkedList * listA, Object **thatNode)
+{
+	// Obtaining the head edge case.
+	if((*thatNode) == listA->head)
+	{
+		listA->head         = (*thatNode)->next;
+		(*thatNode)->next->prev     = NULL;
+		(*thatNode)->next           = NULL;
+	}
+	// Obtain the tail edge case.
+	if((*thatNode) == listA->tail)
+	{
+		listA->tail             = (*thatNode)->prev;
+		listA->tail->next       = NULL;
+		(*thatNode)->prev       = NULL;
+	}	
+	// No edge cases. Proceed.
+	if((*thatNode) != listA->head && (*thatNode) != listA->tail)
+	{
+		(*thatNode)->prev->next     = (*thatNode)->next;
+		(*thatNode)->next->prev     = (*thatNode)->prev;
+		(*thatNode)->next           = NULL;
+		(*thatNode)->prev           = NULL;
+	}
+return(listA);
+}
+
+
+//Empty the list.
+doublyLinkedList * clearList(doublyLinkedList * listA)
+{
+	Object * tmp                    = NULL;
+	if(listA    != NULL)
+	{
+		while(tmp   != NULL)
+		{
+			listA   = obtainNode(listA, &tmp);
+			tmp     = rmNode(tmp);
+			tmp     = listA->head;
+		}
+	}
+return(listA);
+}
+
+
+// Insert will insert a node before a node.
+doublyLinkedList * insertNode ( doublyLinkedList * listA ,Object * tmp, Object * newNode, int position)
+{
+	// Edge case where we want to replace the head of the list.
+	tmp                     = listA->head;
+	if(position             == 0)
+	{
+	listA->head         = newNode;
+	listA->head->next   = tmp;
+	listA->head->next->prev = listA->head;
+	}
+// If there is no edge case. Proceed.
+	else
+	{
+		i = 0;
+		tmp                     = listA->head;
+		while(i != position)
+		{
+			i = i+1;
+			tmp = tmp->next;
+		}
+	Object *tmp2        = tmp->next;
+	tmp ->next          = newNode;
+	tmp ->next->prev    = tmp;
+	tmp                 = tmp -> next;
+	tmp->next           = tmp2;
+	tmp2->prev          = tmp;
+	}
+return(listA);
+}
+
+
+// This will delete a list when we no longer need it.
+doublyLinkedList * deleteList(doublyLinkedList * listA)
+{
+	if(listA != NULL)
+	{
+		listA   = clearList(listA);
+		free(listA);
+		listA	= NULL;
+	}
+return(listA);
 }
 
 

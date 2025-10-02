@@ -22,7 +22,7 @@ void visuals(void)
 // Background 
 	select_texture (BACKGROUND_TEXTURE);
 	select_region (BACKGROUND_REGION);
-	define_region_topleft (0, 0, 639, 359);
+	define_region_topleft (0, 0, 639, 1024);
 // Player
 	select_texture (PLAYER_TEXTURE);
 	select_region (PLAYER_REGION);

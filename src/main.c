@@ -19,6 +19,7 @@ Object * laser;
 void main (void)
 {   
 	b			     = get_time();
+	int  by                 = 0;
 	srand(b);     
    	tmp         			= NULL;
 	tmp2					= NULL;
@@ -119,7 +120,10 @@ void main (void)
         //
         select_texture (BACKGROUND_TEXTURE);
         select_region (BACKGROUND_REGION);
-        draw_region_at (0, 0);
+        draw_region_at (0, by);
+		by  = by - 1;
+		if (by < -384)
+			by  = 0;
 
         ////////////////////////////////////////////////////////////////////////////////
         //

@@ -12,6 +12,8 @@
 #define ShipHeight 32
 #define LaserWidth 10
 #define LaserHeight 20
+#define WeaponWidth 10
+#define WeaponHeight 10
 
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
@@ -99,6 +101,11 @@ bool collisionCheck(Object* object1, Object* object2)
         object1width  = LaserWidth;
         object1height = LaserHeight;
     }
+    else if(object1->type == Object_Type_Weapon)
+    {
+        object1width  = WeaponWidth;
+        object1height = WeaponHeight;
+    }
     else
     {
         return false;
@@ -113,6 +120,11 @@ bool collisionCheck(Object* object1, Object* object2)
     {
         object2width  = LaserWidth;
         object2height = LaserHeight;
+    }
+    else if(object2->type == Object_Type_Weapon)
+    {
+        object2width  = WeaponWidth;
+        object2height = WeaponHeight;
     }
     else
     {

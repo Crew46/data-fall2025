@@ -85,51 +85,79 @@ void HandleInput(Player* player)
     float deltaX;
     float deltaY;
     gamepad_direction_normalized(&deltaX, &deltaY); //get the direction from the gamepad
-    player->object.dx = round(deltaX);
-    player->object.dx *= player->object.vx;
-    player->object.dy = round(deltaY);
-    player->object.dy *= player->object.vy;
+    player->object.dx = round(deltaX * (float)player->object.vx);
+    player->object.dy = round(deltaY * (float)player->object.vy);
 
     movePlayer(player);
 
     if(player->weapon != NULL)
     {
-        player->weapon->object.x = player->object.x;
-        player->weapon->object.y = player->object.y;
-
-        int xOffset = -10;
-        int yOffset = -5;
-
-        int team = player->object.status & TeamFlagMask >> TeamFlagMask;
-
-        if(team      == 0)
+        if(gamepad_button_b() > 10)
         {
-            player->weapon->object.x += xOffset;
-            player->weapon->object.y += yOffset;
-        }
-        else if(team == 1)
-        {
-            player->weapon->object.x -= yOffset;
-            player->weapon->object.y += xOffset;
-        }
-        else if(team == 1)
-        {
-            player->weapon->object.x -= xOffset;
-            player->weapon->object.y -= yOffset;
-        }
-        else if(team == 1)
-        {
-            player->weapon->object.x += yOffset;
-            player->weapon->object.y -= xOffset;
-        }
-
-        if(gamepad_button_a() > 0)
-        {
-            player->weapon->isFiring = true;
+            player->weapon = NULL;
         }
         else
         {
-            player->weapon->isFiring = false;
+            player->weapon->object.x = player->object.x;
+            player->weapon->object.y = player->object.y;
+
+            int xOffset = -10;
+            int yOffset = -5;
+
+            int team = player->object.status & TeamFlagMask >> TeamFlagMask;
+
+            if(team      == 0)
+            {
+                player->weapon->object.x += xOffset;
+                player->weapon->object.y += yOffset;
+            }
+            else if(team == 1)
+            {
+                player->weapon->object.x -= yOffset;
+                player->weapon->object.y += xOffset;
+            }
+            else if(team == 1)
+            {
+                player->weapon->object.x -= xOffset;
+                player->weapon->object.y -= yOffset;
+            }
+            else if(team == 1)
+            {
+                player->weapon->object.x += yOffset;
+                player->weapon->object.y -= xOffset;
+            }
+
+            if(gamepad_button_a() > 0)
+            {
+                player->weapon->isFiring = true;
+            }
+            else
+            {
+                player->weapon->isFiring = false;
+            }
+        }
+    }
+    else
+    {
+        if(gamepad_button_b() > 0)
+        {
+            Node* currentNode = GetWeaponList()->head;
+            Node* nextNode;
+            while(currentNode != NULL)
+            {
+                nextNode = currentNode->next;
+
+                if(collisionCheck(&player->object, currentNode->data))
+                {
+                    player->weapon = (Weapon*)currentNode->data;
+                    int newStatus  = player->weapon->object.status & (~TeamFlagMask);
+                    newStatus     |= player->object.status & TeamFlagMask;
+                    player->weapon->object.status = newStatus;
+                    break;
+                }
+
+                currentNode = nextNode;
+            }
         }
     }
 }

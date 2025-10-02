@@ -64,4 +64,4 @@ void visuals(void)
 
 
 
-#endif
+#endif // VISUALS_H_

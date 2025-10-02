@@ -1,6 +1,12 @@
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
-
+// prepping what we need;
+doublyLinkedList * listA;
+Object * tmp;
+Object * tmp2;
+Object * tmp3;
+Object * newNode;
+Object * laser;
 
 bool collision( Object* Thing1, Object * Thing2)
 {

@@ -5,21 +5,14 @@
 #include "Object.h"
 #include "visuals.h"
 #include "functions.h"
+#include "stack.h"
 #define LASERSPEED			1
-
-// Prepping what we need.
-doublyLinkedList * listA;
-Object * tmp;
-Object * tmp2;
-Object * tmp3;
-Object * newNode;
-Object * laser;
 
 
 void main (void)
 {   
 	b			            = get_time();
-	int  byb                 = 1;
+	int  byb                = 1;
 	int  byn                = 1;
 	int  frame              = 0;
 	srand(b);     

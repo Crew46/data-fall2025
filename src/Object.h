@@ -40,4 +40,10 @@ struct doublyLinkedList
 	Object * head;
 	Object * tail;
 };
+
+// struct for the stack
+struct stack
+{
+ Object * top;
+};
 #endif // OBJECT_H_

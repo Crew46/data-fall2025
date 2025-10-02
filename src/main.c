@@ -18,8 +18,9 @@ Object * laser;
 
 void main (void)
 {   
-	b			     = get_time();
-	int  by                 = 0;
+	b			            = get_time();
+	int  by                 = 1;
+	int  frame              = 0;
 	srand(b);     
    	tmp         			= NULL;
 	tmp2					= NULL;
@@ -121,9 +122,12 @@ void main (void)
         select_texture (BACKGROUND_TEXTURE);
         select_region (BACKGROUND_REGION);
         draw_region_at (0, by);
-		by  = by + 1;
-		if (by > 664)
-			by  = 0;
+		if ((frame % 8) == 0)
+		{
+			by  = by + 1;
+			if (by > 664)
+				by  = 1;
+		}
 
         ////////////////////////////////////////////////////////////////////////////////
         //
@@ -338,5 +342,6 @@ if(counter >= 5 && max != 8)
 
 
         end_frame ();
+		frame = frame + 1;
     }
 }

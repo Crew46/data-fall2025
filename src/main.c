@@ -19,7 +19,8 @@ Object * laser;
 void main (void)
 {   
 	b			            = get_time();
-	int  by                 = 1;
+	int  byb                 = 1;
+	int  byn                = 1;
 	int  frame              = 0;
 	srand(b);     
    	tmp         			= NULL;
@@ -118,17 +119,23 @@ void main (void)
 	    clear_screen (color_black);
         select_texture (BACKGROUND_TEXTURE);
         select_region (BACKGROUND_REGION);
-//       draw_region_at (0, 0);
-
-//        select_texture (NEBULA_TEXTURE);
-//       select_region (NEBULA_REGION);
-        draw_region_at (0, by);
+       draw_region_at (0, byb);
 		if ((frame % 8) == 0)
 		{
-			by  = by + 1;
-			if (by > 1024)
-				by  = 1;
+			byb  = byb + 1;
+			if (byb > 664)
+				byb  = 1;
 		}
+
+        select_texture (NEBULA_TEXTURE);
+       select_region (NEBULA_REGION);
+        draw_region_at (0, byn);
+//		if ((frame % 3) == 0)
+//		{
+			byn  = byn + 1;
+			if (byn > 360)
+				byn  = 1;
+//		}
 
         ////////////////////////////////////////////////////////////////////////////////
         //

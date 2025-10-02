@@ -3,16 +3,18 @@
 #include "video.h"
 
 #define BACKGROUND_TEXTURE  0
-#define PLAYER_TEXTURE		1
-#define ENEMYA_TEXTURE		2
-#define LASER_TEXTURE		3
-#define ENEMYB_TEXTURE		4
+#define NEBULA_TEXTURE      1
+#define PLAYER_TEXTURE		2
+#define ENEMYA_TEXTURE		3
+#define LASER_TEXTURE		4
+#define ENEMYB_TEXTURE		5
 
 #define BACKGROUND_REGION	0
-#define PLAYER_REGION		1
-#define ENEMYA_REGION		2
-#define LASER_REGION		3	
-#define ENEMYB_REGION		4
+#define NEBULA_REGION    	1
+#define PLAYER_REGION		2
+#define ENEMYA_REGION		3
+#define LASER_REGION		4	
+#define ENEMYB_REGION		5
 
 #define LASERSPEED 			1
 
@@ -22,6 +24,10 @@ void visuals(void)
 // Background 
 	select_texture (BACKGROUND_TEXTURE);
 	select_region (BACKGROUND_REGION);
+	define_region_topleft (0, 0, 639, 1024);
+// Nebula 
+	select_texture (NEBULA_TEXTURE);
+	select_region (NEBULA_REGION);
 	define_region_topleft (0, 0, 639, 1024);
 // Player
 	select_texture (PLAYER_TEXTURE);

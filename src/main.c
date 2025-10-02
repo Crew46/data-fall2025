@@ -115,6 +115,9 @@ void main (void)
 
 
 
+        select_texture (NEBULA_TEXTURE);
+        select_region (NEBULA_REGION);
+        draw_region_at (0, 0);
 			////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background

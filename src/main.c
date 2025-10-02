@@ -121,8 +121,8 @@ void main (void)
         select_texture (BACKGROUND_TEXTURE);
         select_region (BACKGROUND_REGION);
         draw_region_at (0, by);
-		by  = by - 1;
-		if (by < -664)
+		by  = by + 1;
+		if (by > 664)
 			by  = 0;
 
         ////////////////////////////////////////////////////////////////////////////////

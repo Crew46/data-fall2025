@@ -8,6 +8,11 @@
 #define TeamFlagMask 0x000000C
 #define TeamFlagOffset 2
 
+#define ShipWidth 32
+#define ShipHeight 32
+#define LaserWidth 10
+#define LaserHeight 20
+
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
 {
@@ -75,6 +80,90 @@ void moveObject(Object* object)
 {
     object->x += object->dx;
     object->y += object->dy;
+}
+
+bool collisionCheck(Object* object1, Object* object2)
+{
+    int object1width;
+    int object1height;
+    int object2width;
+    int object2height;
+
+    if(object1->type == Object_Type_Entity)
+    {
+        object1width  = ShipWidth;
+        object1height = ShipHeight;
+    }
+    else if(object1->type == Object_Type_Laser)
+    {
+        object1width  = LaserWidth;
+        object1height = LaserHeight;
+    }
+    else
+    {
+        return false;
+    }
+
+    if(object2->type == Object_Type_Entity)
+    {
+        object2width  = ShipWidth;
+        object2height = ShipHeight;
+    }
+    else if(object2->type == Object_Type_Laser)
+    {
+        object2width  = LaserWidth;
+        object2height = LaserHeight;
+    }
+    else
+    {
+        return false;
+    }
+
+    if(((object1->status & TeamFlagMask) >> TeamFlagOffset) % 2 == 1)
+    {
+        object1width  ^= object1height;
+        object1height ^= object1width;
+        object1width  ^= object1height;
+    }
+
+    if(((object2->status & TeamFlagMask) >> TeamFlagOffset) % 2 == 1)
+    {
+        object2width  ^= object2height;
+        object2height ^= object2width;
+        object2width  ^= object2height;
+    }
+
+    int object1left   = object1->x - (object1width  / 2);
+    int object1right  = object1->x + (object1width  / 2);
+    int object1up     = object1->y - (object1height / 2);
+    int object1down   = object1->y + (object1height / 2);
+
+    int object2left   = object2->x - (object2width  / 2);
+    int object2right  = object2->x + (object2width  / 2);
+    int object2up     = object2->y - (object2height / 2);
+    int object2down   = object2->y + (object2height / 2);
+
+    if(object1left  >= object2right)
+    {
+        return false;
+    }
+
+    if(object1up    >= object2down)
+    {
+        return false;
+    }
+
+    if(object1right <= object2left)
+    {
+        return false;
+    }
+
+    if(object1down  <= object2up)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 #endif

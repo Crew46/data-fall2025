@@ -144,6 +144,22 @@ void PlayerUpdate(Player* player)
         // Update the player view every frame
         DrawPlayer(player);
     }
+
+    List* lasers = GetLaserList();
+    Node* currentNode = lasers->head;
+    Node* nextNode;
+    while(currentNode != NULL)
+    {
+        nextNode = currentNode->next;
+
+        if(((currentNode->data->status ^ player->object.status) & TeamFlagMask) != 0)
+        {
+            if(collisionCheck(&player->object, currentNode->data))
+                player->object.status |= DeletionMarkFlag;
+        }
+
+        currentNode = nextNode;
+    }
 }
 
 //=========================================================

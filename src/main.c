@@ -111,24 +111,22 @@ void main (void)
 		}
 
 
-
-
-
-
-        select_texture (NEBULA_TEXTURE);
-        select_region (NEBULA_REGION);
-        draw_region_at (0, 0);
-			////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////
         //
         // Draw the background
         //
+	    clear_screen (color_black);
         select_texture (BACKGROUND_TEXTURE);
         select_region (BACKGROUND_REGION);
+//       draw_region_at (0, 0);
+
+//        select_texture (NEBULA_TEXTURE);
+//       select_region (NEBULA_REGION);
         draw_region_at (0, by);
 		if ((frame % 8) == 0)
 		{
 			by  = by + 1;
-			if (by > 664)
+			if (by > 1024)
 				by  = 1;
 		}
 

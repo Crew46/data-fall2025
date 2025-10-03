@@ -2,6 +2,10 @@
 #define COLLIDER_MANAGER_C
 #include "collider_manager.h"
 #include "../../../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "../../../architecture/component/component_manager.c"
+#include "math.h"
+#include "../../../architecture/game_object/game_object_manager.h"
+#include "../../transform/transform_manager.h"
 
 ColliderManager* colliderManager;
 
@@ -19,22 +23,86 @@ void DeinitializeColliderManager()
 
 void InitializeCollider(Collider* collider)
 {
-
+    InitializeComponent((Component*)collider, COLLIDER_COMPONENT);
+    collider->shape = RECTANGLE;
+    collider->dimensions.x = 50;
+    collider->dimensions.y = 50;
 }
 
-PlayerController* ConstructCollider()
+Collider* ConstructCollider()
 {
-
+    Collider* collider = (Collider*)malloc(sizeof(Collider));
+    InitializeCollider(collider);
+    DoublyLinkedListInsertToTail(colliderManager->colliderList, (Object*)collider);
+    return collider;
 }
 
 void DeconstructCollider(Collider* collider)
 {
-
+    //free base
+    DeconstructComponent((Component*)collider);
+    free(collider);
 }
 
 void UpdateCollider(Collider* collider)
 {
     print_at(screen_width / 2, screen_height / 2 + 150, "updating collider");
+    bool result = false;
+    if(collider->shape == RECTANGLE)
+    {
+        result = ColliderCalculateIfRectangleCollision(collider);
+    }
+    else if(collider->shape == CIRCLE)
+    {
+        result = ColliderCalculateIfCircleCollision(collider);
+    }
+    collider->isColliding = result;
+}
+
+bool ColliderCalculateIfRectangleCollision(Collider* collider)
+{
+    TransformComponent* transformComponent = (TransformComponent*)GetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
+    TransformComponent* other = NULL;
+
+    //return if component to check's tranform is NULL
+    if(transformComponent == NULL)
+    {
+        return false;
+    }
+
+    DoublyNode* currentNode = colliderManager->colliderList->head;
+    Collider* data = NULL;
+
+    //if there is a transform component
+    if(transformComponent != NULL)
+    {
+
+        if((transformComponent->position.x + collider->dimensions.x))
+        {
+
+        }
+    }
+}
+
+bool ColliderCalculateIfCircleCollision(Collider* collider)
+{
+
+}
+
+bool GetIsColliderColliding(Collider* collider)
+{
+    return collider->isColliding;
+}
+
+void SetColliderDimensions(Collider* collider, int x, int y)
+{
+    collider->dimensions.x = x;
+    collider->dimensions.y = y;
+}
+
+void SetColliderShape(Collider* collider, ColliderShape shape)
+{
+    collider->shape = shape;
 }
 
 #endif //COLLIDER_MANAGER_C

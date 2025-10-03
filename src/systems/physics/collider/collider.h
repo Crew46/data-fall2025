@@ -6,15 +6,14 @@ enum ColliderShape
 {
     RECTANGLE,
     CIRCLE,
-    POLYGON
 };
 
 struct Collider
 {
     Component base;
     ColliderShape shape;
-    Vector2 boundTopLeft;
-    Vector2 boundBottomRight;
+    Vector2 dimensions; // For RECTANGLE and CIRCLE shapes
+    bool isColliding;
 };
 
 #endif // COLLIDER_H

@@ -1,5 +1,5 @@
-#ifndef GAME_MANAGER_H
-#define GAME_MANAGER_H
+#ifndef GAME_MANAGER_C
+#define GAME_MANAGER_C
 //vircon standard library
 #include "misc.h"
 #include "audio.h"
@@ -21,7 +21,9 @@
 #include "systems/transform/transform_manager.c"
 #include "systems/player/player_manager.c"
 #include "vector/vector2.h"
+//physics systems implementations
 #include "systems/physics/collider/collider_manager.c"
+#include "systems/physics/rigidbody/rigidbody_manager.c"
 //other implementations
 #include "data_structures/doubly_linked_list/doubly_linked_list.c"
 #include "data_structures/singly_linked_list/linked_list.c"
@@ -75,6 +77,7 @@ void InitializeGameManager()
     AddComponentToGameObject(player, TRANSFORM_COMPONENT);
     AddComponentToGameObject(player, RENDER_COMPONENT);
     AddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
+    AddComponentToGameObject(player, COLLIDER_COMPONENT);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
@@ -122,4 +125,4 @@ void UpdateGameManager()
     }
 }
 
-#endif // GAME_MANAGER_H
+#endif // GAME_MANAGER_C

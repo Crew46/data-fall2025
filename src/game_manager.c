@@ -24,6 +24,7 @@
 //physics systems implementations
 #include "systems/physics/collider/collider_manager.c"
 #include "systems/physics/rigidbody/rigidbody_manager.c"
+#include "systems/physics/tools/raycast_tool.c"
 //other implementations
 #include "data_structures/doubly_linked_list/doubly_linked_list.c"
 #include "data_structures/singly_linked_list/linked_list.c"

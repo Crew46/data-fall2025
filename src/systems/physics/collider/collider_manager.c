@@ -62,7 +62,8 @@ void UpdateCollider(Collider* collider)
 bool ColliderCalculateIfRectangleCollision(Collider* collider)
 {
     TransformComponent* transformComponent = (TransformComponent*)GetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
-    TransformComponent* other = NULL;
+    TransformComponent* otherTransformComponent = NULL;
+    Collider* otherColliderComponent = NULL;
 
     //return if component to check's tranform is NULL
     if(transformComponent == NULL)
@@ -73,14 +74,17 @@ bool ColliderCalculateIfRectangleCollision(Collider* collider)
     DoublyNode* currentNode = colliderManager->colliderList->head;
     Collider* data = NULL;
 
-    //if there is a transform component
-    if(transformComponent != NULL)
+    while(currentNode != NULL)
     {
+        data = (Collider*)currentNode->data;
+        otherTransformComponent = (TransformComponent*)GetComponentFromComponent((Component*)data, TRANSFORM_COMPONENT);
+        otherColliderComponent = (Collider*)GetComponentFromComponent((Component*)data, COLLIDER_COMPONENT);
 
-        if((transformComponent->position.x + collider->dimensions.x))
+        //if current gameobject's transform & collider components exist
+        if(otherTransformComponent != NULL && otherColliderComponent != NULL)
         {
-
         }
+        currentNode = currentNode->next;
     }
 }
 

@@ -9,6 +9,11 @@
 
 ColliderManager* colliderManager;
 
+ColliderManager* GetColliderManager()
+{
+    return colliderManager;
+}
+
 void InitializeColliderManager()
 {
     colliderManager = (ColliderManager*)malloc(sizeof(ColliderManager));
@@ -47,6 +52,59 @@ void DeconstructCollider(Collider* collider)
 void UpdateCollider(Collider* collider)
 {
     print_at(screen_width / 2, screen_height / 2 + 150, "updating collider");
+    ColliderUpdateIfCollision(collider);
+}
+
+bool CheckIfPointInBoundsOfCircle(Vector2* point, Collider* collider)
+{
+
+}
+
+bool CheckIfPointInBoundsOfRectangle(Vector2* point, Collider* collider)
+{
+    TransformComponent* transform = (TransformComponent*)GetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
+    if(transform != NULL && collider != NULL)
+    {
+        float lengthFromCenterToHorizontalEdge = collider->dimensions.x / 2;
+        float lengthFromCenterToVerticalEdge = collider->dimensions.y / 2;
+        //if in domain and range of rectangle hitbox
+        if(point->x >= (transform->position.x - lengthFromCenterToHorizontalEdge))
+        {
+            if(point->x <= (transform->position.x + lengthFromCenterToHorizontalEdge))
+            {
+                if(point->y >= (transform->position.y - lengthFromCenterToVerticalEdge))
+                {
+                    if(point->y <= (transform->position.y + lengthFromCenterToHorizontalEdge))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool CheckIfPointInBoundsOfCollider(Vector2* point, Collider* collider)
+{
+    bool result = false;
+    //determine if in bounds, based on the shape of the collider
+    switch (collider->shape)
+    {
+    case RECTANGLE:
+        result = CheckIfPointInBoundsOfRectangle(point, collider);
+        break;
+    case CIRCLE:
+        result = CheckIfPointInBoundsOfCircle(point, collider);
+        break;
+    default:
+        break;
+    }
+    return result;
+}
+
+void ColliderUpdateIfCollision(Collider* collider)
+{
     bool result = false;
     if(collider->shape == RECTANGLE)
     {

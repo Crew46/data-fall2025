@@ -2,7 +2,7 @@
 #define RAYCAST_TOOL_C
 #include "raycast_tool.h"
 
-Collider* collider CastRay(Vector2* vector)
+Collider* CastRay(Vector2* vector)
 {
     
 }

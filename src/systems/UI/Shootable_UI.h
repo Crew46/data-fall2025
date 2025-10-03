@@ -1,0 +1,3 @@
+#ifndef SHOOTABLE_UI_H
+#define SHOOTABLE_UI_H
+#endif //SHOOTABLE_UI_H

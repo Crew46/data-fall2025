@@ -20,13 +20,15 @@ bool isEmpty(stack * myStack)
 }	
 
 
-
-/* Push a node into the stack.
-//stack * push(stack * myStack, Object ** newNode,)
-//{
-//	if(myStack->data->qty < myStack->size);
+/*
+// Push a node into the stack.
+stack * push(stack * myStack, Object * newNode, Object **tmp)
+{
+	if(myStack->data->qty < myStack->size);
+		{
+			
 }
-
+*/
 // pop a node from the stack. 
 stack * pop(stack * myStack, Object **thatNode)
 {
@@ -35,6 +37,9 @@ stack * pop(stack * myStack, Object **thatNode)
 	{
 		exit();	
 	}
+	myStack->data	= obtainNode(myStack->data, &(myStack->top));
+	(*thatNode)		= myStack->top;
+	myStack->top	= myStack->data->head;		
 return(myStack);
 }
 
@@ -51,5 +56,5 @@ return(myStack);
 
 
 
-*/
+
 #endif // STACK_H_

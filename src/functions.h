@@ -2,11 +2,12 @@
 #define FUNCTIONS_H_
 // prepping what we need;
 doublyLinkedList * listA;
-Object * tmp;
-Object * tmp2;
-Object * tmp3;
-Object * newNode;
-Object * laser;
+stack	* myStack;
+Object 	* tmp;
+Object 	* tmp2;
+Object 	* tmp3;
+Object 	* newNode;
+Object 	* laser;
 
 bool collision( Object* Thing1, Object * Thing2)
 {
@@ -101,22 +102,23 @@ doublyLinkedList * appendNode (doublyLinkedList * listA, Object * tmp, Object * 
 			tmp->next->prev		= tmp;
 		}
 	}
+listA->qty	= listA->qty + 1;
 return(listA);
 }
 
 
 //rmNode frees up nodes that we want gone.
-Object * rmNode(Object *thatNode)
+doublyLinkedList * rmNode(Object **thatNode, doublyLinkedList * listA)
 {
-	if((thatNode) ->isActive    == false)
+	if((*thatNode) ->isActive    == false)
 	{
-		free(thatNode);
-		if((thatNode)			!= NULL)
+		free(*thatNode);
+		if((*thatNode)			!= NULL)
 		{
-		(thatNode)				= NULL;
+		(*thatNode)				= NULL;
 		}
 	}
-return(thatNode);
+return(listA);
 }
 
 
@@ -145,6 +147,7 @@ doublyLinkedList * obtainNode(doublyLinkedList * listA, Object **thatNode)
 		(*thatNode)->next           = NULL;
 		(*thatNode)->prev           = NULL;
 	}
+listA->qty	= listA->qty + 1;
 return(listA);
 }
 
@@ -158,7 +161,7 @@ doublyLinkedList * clearList(doublyLinkedList * listA)
 		while(tmp   != NULL)
 		{
 			listA   = obtainNode(listA, &tmp);
-			tmp     = rmNode(tmp);
+			listA   = rmNode(&tmp, listA);
 			tmp     = listA->head;
 		}
 	}
@@ -194,6 +197,7 @@ doublyLinkedList * insertNode ( doublyLinkedList * listA ,Object * tmp, Object *
 	tmp->next           = tmp2;
 	tmp2->prev          = tmp;
 	}
+listA->qty	= listA->qty + 1;
 return(listA);
 }
 

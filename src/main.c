@@ -53,6 +53,8 @@ void main (void)
 	listA	= insertNode (listA, tmp, newNode, 0);
 	newNode = mkNode();
 	listA	= insertNode (listA, tmp, newNode, 2);
+	myStack	= mkStack(listA);
+	newNode	= mkNode();
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -309,7 +311,7 @@ if(listA != NULL)
 		tmp3				= tmp;
 		tmp=tmp->next;
 		listA 				= obtainNode (listA, &tmp3);
-		tmp3 				= rmNode(tmp3);
+		listA 				= rmNode(&tmp3, listA);
 		newNode				= mkNode();
 		listA  				= appendNode(listA, tmp, newNode);
 		tmp					= listA->head;

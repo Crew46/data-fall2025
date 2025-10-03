@@ -39,11 +39,14 @@ struct doublyLinkedList
 {
 	Object * head;
 	Object * tail;
+	int qty;
 };
 
 // struct for the stack
 struct stack
 {
- Object * top;
+	doublyLinkedList * data;
+	int size;
+ 	Object * top;
 };
 #endif // OBJECT_H_

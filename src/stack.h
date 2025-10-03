@@ -1,14 +1,16 @@
 #ifndef STACK_H_
 #define STACK_H_
 #include "functions.h"
-stack * mkStack()
+stack * mkStack(doublyLinkedList * listA)
 {
 stack * myStack = (stack *) malloc(sizeof(stack));
 	if(myStack == NULL)
 		{
 			exit();
 		}
-myStack->top == NULL;
+myStack->top 	= listA->head;
+myStack->data	= listA;
+myStack->size	= 15;
 return(myStack);
 }
 // This will check to make sure the stack has something in it.
@@ -19,32 +21,28 @@ bool isEmpty(stack * myStack)
 
 
 
-// Push a node into the stack.
-stack * push(stack * myStack, Object * newNode)
-{
-	if(isEmpty(myStack) == false)
-	{
-	newNode->next		= myStack->top;
-	myStack->top		= newNode;
-	return(myStack);
-	}
+/* Push a node into the stack.
+//stack * push(stack * myStack, Object ** newNode,)
+//{
+//	if(myStack->data->qty < myStack->size);
 }
 
 // pop a node from the stack. 
-Object * pop(stack **myStack)
+stack * pop(stack * myStack, Object **thatNode)
 {
-	if(isEmpty(*myStack) == false)
+	myStack->top		= listA->head;
+	if(isEmpty(myStack) == false)
 	{
-	newNode			= (*myStack)->top;
-	(*myStack)->top	= newNode->next;
-	return(newNode);
+		exit();	
 	}
+return(myStack);
 }
 
 
 
 
 
+/// This is all a work in progress.
 
 
 
@@ -53,6 +51,5 @@ Object * pop(stack **myStack)
 
 
 
-
-
+*/
 #endif // STACK_H_

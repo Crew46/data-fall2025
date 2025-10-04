@@ -20,26 +20,28 @@ bool isEmpty(stack * myStack)
 }	
 
 
-/*
+
 // Push a node into the stack.
-stack * push(stack * myStack, Object * newNode, Object **tmp)
+stack * push(stack * myStack, Object * newNode, Object * tmp)
 {
-	if(myStack->data->qty < myStack->size);
+	if(myStack->data->qty < myStack->size)
 		{
-			
+			myStack->data = insertNode(myStack->data, tmp, newNode, 0);
+			myStack->data->head	= myStack->data->head;
+		}
+return(myStack);
 }
-*/
+
 // pop a node from the stack. 
 stack * pop(stack * myStack, Object **thatNode)
 {
-	myStack->top		= listA->head;
-	if(isEmpty(myStack) == false)
+	myStack->top		= myStack->data->head;
+	if(isEmpty(myStack) == true)
 	{
 		exit();	
 	}
 	myStack->data	= obtainNode(myStack->data, &(myStack->top));
 	(*thatNode)		= myStack->top;
-	myStack->top	= myStack->data->head;		
 return(myStack);
 }
 

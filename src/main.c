@@ -54,7 +54,7 @@ void main (void)
 	newNode = mkNode();
 	listA	= insertNode (listA, tmp, newNode, 2);
 	myStack	= mkStack(listA);
-	newNode	= mkNode();
+	
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Create our player instance
@@ -323,27 +323,27 @@ if(listA != NULL)
 		}
 	}
 }
-// I do know that this code is slightly pointless. I just want to mess with bit masking.
-if(counter >= 5 && max != 8)
-	{
-		mask = 0x01000000;
-		value = status | mask;
-			if (value == 0x11000000) // check the second bit to see if an enemy can be added.
-				{
-					max 		= max + 1;
-					status 		= value;
-					newNode		= mkNode();
-					listA = appendNode(listA, tmp, newNode);	
-					
-				}
 // If the player is inactive then the game ends.
 		
-		counter = 0;
+
+	
+if(myStack != NULL)
+{
+	while(myStack->data->qty < myStack->size)
+{
+	newNode	= mkNode();
+	myStack	= push(myStack, newNode, tmp);
+}	
+	myStack = pop(myStack, &tmp);
+	if(tmp->isActive	== false)
+	{
+		myStack->data	= rmNode(&tmp, myStack->data);
 	}
-
-		
-
-
+	else	
+	{ 
+	myStack->data	= appendNode(myStack->data, tmp2, tmp);
+	}
+	}
         end_frame ();
 		frame = frame + 1;
     }

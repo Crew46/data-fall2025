@@ -26,8 +26,8 @@ stack * push(stack * myStack, Object * newNode, Object * tmp)
 {
 	if(myStack->data->qty < myStack->size)
 		{
-			myStack->data = insertNode(myStack->data, tmp, newNode, 0);
-			myStack->data->head	= myStack->data->head;
+			myStack->data 	= insertNode(myStack->data, tmp, newNode, 0);
+			myStack->top	= myStack->data->head;
 		}
 return(myStack);
 }
@@ -42,6 +42,7 @@ stack * pop(stack * myStack, Object **thatNode)
 	}
 	myStack->data	= obtainNode(myStack->data, &(myStack->top));
 	(*thatNode)		= myStack->top;
+	myStack->top	= myStack->data->head;
 return(myStack);
 }
 

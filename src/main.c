@@ -312,8 +312,6 @@ if(listA != NULL)
 		tmp=tmp->next;
 		listA 				= obtainNode (listA, &tmp3);
 		listA 				= rmNode(&tmp3, listA);
-		newNode				= mkNode();
-		listA  				= appendNode(listA, tmp, newNode);
 		tmp					= listA->head;
 		}
 		// If we didn't delete a node move on.
@@ -329,11 +327,19 @@ if(listA != NULL)
 	
 if(myStack != NULL)
 {
-	while(myStack->data->qty < myStack->size)
+if(myStack->size != 0)
 {
-	newNode	= mkNode();
-	myStack	= push(myStack, newNode, tmp);
-}	
+	while(myStack->data->qty < myStack->size)
+	{
+		newNode	= mkNode();
+		myStack	= push(myStack, newNode, tmp);
+	}	
+}
+else
+{
+	newNode = mkNode();
+	myStack = push(myStack, newNode, tmp);
+}
 	myStack = pop(myStack, &tmp);
 	if(tmp->isActive	== false)
 	{

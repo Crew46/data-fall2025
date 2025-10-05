@@ -15,8 +15,8 @@ void push(Stack* stack, Node* newNode)
 	{
 		if(stack->head != NULL)
 		{
-			stack->head->next = newNode;
-			newNode->prev = stack->head;
+			stack->head->prev = newNode;
+			newNode->next = stack->head;
 		}
 		stack->head = newNode;
 		stack->size++;
@@ -30,10 +30,9 @@ Node* pop(Stack* stack)
 		Node* tmp = stack->head;
 
 		stack->size--;
-		stack->head = stack->head->prev;
-		stack->head->next = NULL;
-		tmp->prev = NULL;
-
+		stack->head = stack->head->next;
+		stack->head->prev = NULL;
+		tmp->next = NULL;
 
 		return tmp;
 	}

@@ -49,4 +49,12 @@ struct stack
 	int size;
  	Object * top;
 };
+// struct for the queue
+struct queue
+{
+	int size;
+	doublyLinkedList * data;
+	Object * front;
+	Object * back;
+};
 #endif // OBJECT_H_

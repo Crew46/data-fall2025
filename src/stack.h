@@ -15,7 +15,7 @@ myStack->size	= 0;// Infinite stack
 return(myStack);
 }
 // This will check to make sure the stack has something in it.
-bool isEmpty(stack * myStack)
+bool stackIsEmpty(stack * myStack)
 {	
 	return(myStack->top == NULL);
 }	
@@ -50,7 +50,7 @@ return(myStack);
 stack * pop(stack * myStack, Object **thatNode)
 {
 	myStack->top		= myStack->data->head;
-	if(isEmpty(myStack) == true)
+	if(stackIsEmpty(myStack) == true)
 	{
 		exit();	
 	}

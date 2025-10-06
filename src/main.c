@@ -4,8 +4,10 @@
 #include "time.h"
 #include "Object.h"
 #include "visuals.h"
-#include "functions.h"
+#include "node.h"
+#include "linkedlist.h"
 #include "stack.h"
+#include "functions.h"
 #define LASERSPEED			1
 
 

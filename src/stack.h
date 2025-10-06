@@ -37,7 +37,7 @@ else
 {
 // WAIT WAIT HEAR ME OUT.
 	b = rand() % (100 + 0);
-	if(b > 95)
+	if(b > 92)
 	{
 		myStack->data	= insertNode(myStack->data, tmp, newNode, 0);
 		myStack->top    = myStack->data->head;

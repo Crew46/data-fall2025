@@ -29,6 +29,7 @@ enum ObjectType
   Object_Type_Weapon,
   Object_Type_Entity
 };
+
 // Object struct which will be our base struct 
 struct Object
 {
@@ -257,6 +258,10 @@ Node* obtain(DoublyLinkedList** list, Node* node)
   return node;
 }
 
+//////////////////////////////////////////////////////////
+//
+// Stack data structure
+//
 struct Stack
 {
   Node* top;
@@ -285,6 +290,10 @@ Node* pop(Stack** stack)
   return prevTop;
 }
 
+////////////////////////////////////////////////////////////////
+//
+// Queue structure
+//
 struct Queue
 {
   Node* front;
@@ -321,7 +330,10 @@ Node* dequeue(Queue** queue)
 
 }
 
-//Node* dequeue
+///////////////////////////////////////////////////////////////////////
+//
+// Laser structure
+//
 struct Laser
 {
   Object obj;
@@ -339,6 +351,11 @@ Laser* createLaser(int textureID, int regionID, int x, int y, bool isActive)
   laser->obj.vy = 5;
   return laser;
 }
+
+///////////////////////////////////////////////////////////////////////
+//
+// WeaponType enum and Weapon structure
+//
 enum WeaponType
 {
   Weapon_Type_None,

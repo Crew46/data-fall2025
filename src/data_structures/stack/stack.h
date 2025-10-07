@@ -5,45 +5,45 @@
 
 struct Stack
 {
-	Node* head;
+	List* list;
 	int   size;
+	int   count;
 };
 
 void push(Stack* stack, Node* newNode)
 {
 	if(newNode != NULL)
 	{
-		if(stack->head != NULL)
+		if(stack->count < stack->size || stack->size < 1)
 		{
-			stack->head->prev = newNode;
-			newNode->next = stack->head;
+			insert(stack->list, stack->list->head, newNode);
+			stack->count++;
 		}
-		stack->head = newNode;
-		stack->size++;
 	}
 }
 
 Node* pop(Stack* stack)
 {
-	if(stack->head != NULL)
+	if(stack->list->head != NULL)
 	{
-		Node* tmp = stack->head;
-
-		stack->size--;
-		stack->head = stack->head->next;
-		stack->head->prev = NULL;
-		tmp->next = NULL;
-
-		return tmp;
+		Node* node = stack->list->head;
+		obtain(stack->list, stack->list->head);
+		stack->count--;
+		return node;
 	}
-
-	return NULL;
+	else
+	{
+		return NULL;
+	}
 }
 
-Stack* createStack()
+Stack* createStack(int size)
 {
 	Stack* stack = (Stack*)malloc(sizeof(Stack));
-	stack->head = NULL;
-	stack->size = 0;
+	stack->list  = createList();
+	stack->size  = size;
+	stack->count = 0;
 }
+
+
 #endif

@@ -15,17 +15,38 @@ bool queueIsEmpty(queue * myQueue)
 // add something to the queue
 queue * enqueue(queue * myQueue, Object * newNode, Object * tmp)
 {
+if(myQueue->size != 0)
+{
+	if(myQueue->data->qty < myQueue->size)
+	{
+		if(queue->front == NULL)
+		{
+		queue->data	= appendNode(queue->data, tmp, newNode);
+		queue->front= queue->data->head;
+		}
+		else
+		{
+		queue->data		= appendNode(queue->data, tmp, newNode);
+		queue->back		= queue->data->tail;
+		}
+	}
+}
+else
+{
 	if(queue->front == NULL)
 	{
-	queue->data	= appendNode(queue->data, tmp, newNode);
-	queue->front	= queue->data->head;
+	queue->data = appendNode(queue->data, tmp, newNode);
+	queue->front= queue->data->head;
 	}
 	else
 	{
-		queue->data		= appendNode(queue->data, tmp, newNode);
-		queue->back		= queue->data->tail;
+	queue->data     = appendNode(queue->data, tmp, newNode);
+	queue->back     = queue->data->tail;
 	}
+}
+
 return(myQueue);
 }
-queue
-
+queue * dequeue(queue * myQueue, Object * tmp)
+{
+	

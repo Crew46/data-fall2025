@@ -93,6 +93,7 @@ Node* createNode(Object* data)
   return node;
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////////
 //
 //  Doubly Linked List struct and helpers
@@ -102,6 +103,8 @@ struct DoublyLinkedList
   Node* head;
   Node* tail;
 };
+
+
 
 DoublyLinkedList* deleteNode(DoublyLinkedList* list, Node** node)
 {
@@ -254,6 +257,33 @@ Node* obtain(DoublyLinkedList** list, Node* node)
   return node;
 }
 
+struct Stack
+{
+  Node* top;
+  DoublyLinkedList* list;
+};
+
+Stack* createStack()
+{
+  Stack* stack = (Stack*)malloc(sizeof(Stack));
+  stack->top = NULL;
+  stack->list = createList();
+}
+
+Stack* push(Stack* stack, Object* newObj)
+{
+  stack->list = insert(stack->list, stack->list->head, newObj);
+  stack->top = stack->list->head;
+  return stack;
+}
+
+Node* pop(Stack** stack)
+{
+  Node* prevTop = obtain(&(*stack)->list, (*stack)->top);
+  (*stack)->top = (*stack)->list->head;
+
+  return prevTop;
+}
 
 struct Laser
 {
@@ -352,10 +382,10 @@ bool exceedsBounds(Object* obj)
 
 void moveObject(Object* obj, int dx, int dy)
 {
-  obj  -> dx   = dx;
-  obj  -> dy   = dy;
-  obj  -> x      = obj  -> x + obj  -> dx * obj->vx;
-  obj  -> y      = obj  -> y + obj  -> dy * obj->vy;
+  obj  -> dx    = dx;
+  obj  -> dy    = dy;
+  obj  -> x     = obj  -> x + obj  -> dx * obj->vx;
+  obj  -> y     = obj  -> y + obj  -> dy * obj->vy;
 }
 void drawObject(Object* obj)
 {
@@ -437,10 +467,13 @@ DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
     current = next;
   }
 
-    // Spawn an enemy every 3 seconds
+    // Spawn 3 enemies every 3 seconds
     if( get_frame_counter() % 180 == 0 )
     {
-      enemyList = spawnEnemy( enemyList, rand() % 630, 0, Weapon_Type_Laser );
+      for(int i = 0; i < 3; i++)
+      {
+        enemyList = spawnEnemy( enemyList, rand() % 630, 0, Weapon_Type_Laser );
+      }
     }
 
     return enemyList;

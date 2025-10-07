@@ -272,19 +272,56 @@ Stack* createStack()
 
 Stack* push(Stack* stack, Object* newObj)
 {
-  stack->list = insert(stack->list, stack->list->head, newObj);
-  stack->top = stack->list->head;
+  stack->list = append(stack->list, stack->list->tail, newObj);
+  stack->top = stack->list->tail;
   return stack;
 }
 
 Node* pop(Stack** stack)
 {
   Node* prevTop = obtain(&(*stack)->list, (*stack)->top);
-  (*stack)->top = (*stack)->list->head;
+  (*stack)->top = (*stack)->list->tail;
 
   return prevTop;
 }
 
+struct Queue
+{
+  Node* front;
+  Node* back;
+  DoublyLinkedList* list;
+};
+
+Queue* createQueue()
+{
+  Queue* queue = (Queue*)malloc(sizeof(Queue));
+  queue->list = createList();
+  queue->front = NULL;
+  queue->back = NULL;
+
+  return queue;
+}
+
+Queue* enqueue(Queue* queue, Object* newObj)
+{
+  queue->list = insert(queue->list, queue->list->head, newObj);
+  queue->front = queue->list->head;
+  queue->back = queue->list->tail;
+
+  return queue;
+}
+
+Node* dequeue(Queue** queue)
+{
+  Node* prevFront = obtain(&(*queue)->list, (*queue)->list->head);
+  (*queue)->front = (*queue)->list->head;
+  (*queue)->back = (*queue)->list->tail;
+
+  return prevFront;
+
+}
+
+//Node* dequeue
 struct Laser
 {
   Object obj;

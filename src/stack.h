@@ -2,15 +2,16 @@
 #define STACK_H_
 #include "functions.h"
 // This will create the stack.
-stack * mkStack(doublyLinkedList * listA)
+stack * mkStack(doublyLinkedList * myList)
 {
 stack * myStack = (stack *) malloc(sizeof(stack));
 	if(myStack == NULL)
 		{
 			exit();
 		}
-myStack->top 	= listA->head;
-myStack->data	= listA;
+myStack->top 	= myList->head;
+myStack->data	= myList;
+myStack->top    = myStack->data->head;
 myStack->size	= 0;// Infinite stack
 return(myStack);
 }
@@ -23,13 +24,13 @@ bool stackIsEmpty(stack * myStack)
 
 
 // Push a node into the stack.
-stack * push(stack * myStack, Object * newNode, Object * tmp)
+stack * push(stack * myStack, Object * newNode)
 {
 if(myStack->size != 0)
 {
 	if(myStack->data->qty < myStack->size)
 		{
-			myStack->data 	= insertNode(myStack->data, tmp, newNode, 0);
+			myStack->data 	= insertNode(myStack->data, tmp, newNode);
 			myStack->top	= myStack->data->head;
 		}
 }
@@ -39,7 +40,7 @@ else
 	b = rand() % (100 + 0);
 	if(b > 92)
 	{
-		myStack->data	= insertNode(myStack->data, tmp, newNode, 0);
+		myStack->data	= insertNode(myStack->data, myStack->top, newNode);
 		myStack->top    = myStack->data->head;
 	}
 }

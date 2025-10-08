@@ -40,21 +40,21 @@ void main (void)
     // 
     // We are spawning and inserting the enemies.   
 	newNode = mkNode();
-	listA	= appendNode (listA, tmp, newNode);
+	listA	= appendNode (listA, listA->tail, newNode);
 	newNode = mkNode();
-    listA 	= appendNode (listA, tmp, newNode);
+    listA 	= appendNode (listA, listA->tail, newNode);
 	newNode = mkNode();
-    listA	= appendNode (listA, tmp, newNode);
+    listA	= appendNode (listA, listA->tail, newNode);
 	newNode = mkNode();
-    listA   = appendNode (listA, tmp, newNode);
+    listA   = appendNode (listA, listA->tail, newNode);
 	newNode = mkNode();
-    listA	= appendNode (listA, tmp, newNode);
+    listA	= appendNode (listA, listA->tail, newNode);
 	newNode = mkNode();
-	listA	= appendNode (listA, tmp, newNode);
+	listA	= appendNode (listA, listA->tail, newNode);
 	newNode = mkNode();
-	listA	= insertNode (listA, tmp, newNode, 0);
+	listA	= insertNode (listA, listA->head, newNode);
 	newNode = mkNode();
-	listA	= insertNode (listA, tmp, newNode, 2);
+	listA	= insertNode (listA, listA->head, newNode);
 	myStack	= mkStack(listA);
 	
     ////////////////////////////////////////////////////////////////////////////////////
@@ -113,9 +113,9 @@ void main (void)
         //
         // Draw the background
         //
-	    clear_screen (color_black);
-        select_texture (BACKGROUND_TEXTURE);
-        select_region (BACKGROUND_REGION);
+	   clear_screen (color_black);
+       select_texture (BACKGROUND_TEXTURE);
+       select_region (BACKGROUND_REGION);
        draw_region_at (0, byb);
 		if ((frame % 8) == 0)
 		{
@@ -125,7 +125,7 @@ void main (void)
 		}
 
         select_texture (NEBULA_TEXTURE);
-       select_region (NEBULA_REGION);
+       	select_region (NEBULA_REGION);
         draw_region_at (0, byn);
 //		if ((frame % 3) == 0)
 //		{
@@ -334,24 +334,24 @@ if(myStack->size != 0)
 	while(myStack->data->qty < myStack->size)
 	{
 		newNode	= mkNode();
-		myStack	= push(myStack, newNode, tmp);
+		myStack	= push(myStack, newNode);
 	}	
 }
 else
 {
 	newNode = mkNode();
-	myStack = push(myStack, newNode, tmp);
+	myStack = push(myStack, newNode);
 }
-	myStack = pop(myStack, &tmp);
-	if(tmp->isActive	== false)
+	myStack = pop(myStack, &tmp3);
+	if(tmp3->isActive	== false)
 	{
-		myStack->data	= rmNode(&tmp, myStack->data);
+		myStack->data	= rmNode(&tmp3, myStack->data);
 	}
 	else	
 	{ 
-	myStack->data	= appendNode(myStack->data, tmp2, tmp);
+	myStack->data	= appendNode(myStack->data, myStack->data->tail, tmp3);
 	}
-	}
+}
         end_frame ();
 		frame = frame + 1;
     }

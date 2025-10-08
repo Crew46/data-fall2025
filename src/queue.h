@@ -13,7 +13,7 @@ bool queueIsEmpty(queue * myQueue)
 	return(queue->front == NULL);
 }
 // add something to the queue
-queue * enqueue(queue * myQueue, Object * newNode, Object * tmp)
+queue * enqueue(queue * myQueue, Object * newNode)
 {
 if(myQueue->size != 0)
 {

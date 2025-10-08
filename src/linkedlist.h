@@ -1,6 +1,7 @@
 #ifndef LINKEDLIST_H_
 #define LINKEDLIST_H_
 // prepping what we need;
+doublyLinkedList * myList;
 doublyLinkedList * listA;
 stack	* myStack;
 Object 	* tmp;
@@ -12,46 +13,55 @@ Object 	* laser;
 // This will make the list
 doublyLinkedList * mkList()
 {
-	doublyLinkedList * listA = (doublyLinkedList *) malloc (sizeof(doublyLinkedList));
-	if(listA == NULL)
+	doublyLinkedList * myList = (doublyLinkedList *) malloc (sizeof(doublyLinkedList));
+	if(myList == NULL)
 		{
 			exit();
 		}
-listA->head = NULL;
-listA->tail	= NULL;
-return(listA);
+myList->head = NULL;
+myList->tail	= NULL;
+return(myList);
 }
 
 // This function will create a single EnemyA everytime it is used.
-doublyLinkedList * appendNode (doublyLinkedList * listA, Object * tmp, Object * newNode )
+doublyLinkedList * appendNode (doublyLinkedList * myList, Object * place, Object * newNode )
 {
-	// If head is NULL then we will put the newNode as the head.
-	if(listA->head      	== NULL)
+	if(myList		== NULL)
 	{
-		listA->head         = newNode;
+		myList	= (doublyLinkedList *) malloc (sizeof(doublyLinkedList));
 	}
-	// Otherwise we move forward
+	
+	if ((myList		!= NULL) && (newNode	!= NULL))
+	{
+		Object *tmp			= NULL;
+	
+		if(myList->head		== NULL)
+		{
+			myList->head		= newNode;
+			myList->tail		= newNode;
+		}
+		else if(place		== 	myList->tail)
+		{
+			tmp				= myList->tail;
+			tmp->next		= newNode;
+			newNode->prev	= tmp;
+			myList->tail		= newNode;
+		}
 	else
-	{
-		tmp					= listA->head;
-		while(tmp -> next	!= NULL)
 		{
-			tmp					= tmp->next;
+			tmp				= place->next;
+			tmp-> prev		= place;
+			place->next		= newNode;
+			newNode->next	= tmp;
 		}
-		if(  tmp ->next		== NULL)
-		{
-			tmp->next			= newNode;
-			listA->tail			= tmp->next;
-			tmp->next->prev		= tmp;
-		}
-	}
-listA->qty	= listA->qty + 1;
-return(listA);
+}
+myList->qty	= myList->qty + 1;
+return(myList);
 }
 
 
 //rmNode frees up nodes that we want gone.
-doublyLinkedList * rmNode(Object **thatNode, doublyLinkedList * listA)
+doublyLinkedList * rmNode(Object **thatNode, doublyLinkedList * myList)
 {
 	if((*thatNode) ->isActive    == false)
 	{
@@ -61,100 +71,105 @@ doublyLinkedList * rmNode(Object **thatNode, doublyLinkedList * listA)
 		(*thatNode)				= NULL;
 		}
 	}
-return(listA);
+return(myList);
 }
 
 
 // The obtain function disconnects nodes.
-doublyLinkedList * obtainNode(doublyLinkedList * listA, Object **thatNode)
+doublyLinkedList * obtainNode(doublyLinkedList * myList, Object **thatNode)
 {
 	// Obtaining the head edge case.
-	if((*thatNode) == listA->head)
+	if((*thatNode) == myList->head)
 	{
-		listA->head         = (*thatNode)->next;
-		(*thatNode)->next->prev     = NULL;
-		(*thatNode)->next           = NULL;
+		myList->head		         = (*thatNode)->next;
+		(*thatNode)->next->prev      = NULL;
+		(*thatNode)->next            = NULL;
 	}
 	// Obtain the tail edge case.
-	if((*thatNode) == listA->tail)
+	if((*thatNode) == myList->tail)
 	{
-		listA->tail             = (*thatNode)->prev;
-		listA->tail->next       = NULL;
-		(*thatNode)->prev       = NULL;
+		myList->tail             = (*thatNode)->prev;
+		myList->tail->next       = NULL;
+		(*thatNode)->prev        = NULL;
 	}	
 	// No edge cases. Proceed.
-	if((*thatNode) != listA->head && (*thatNode) != listA->tail)
+	if((*thatNode) != myList->head && (*thatNode) != myList->tail)
 	{
 		(*thatNode)->prev->next     = (*thatNode)->next;
 		(*thatNode)->next->prev     = (*thatNode)->prev;
 		(*thatNode)->next           = NULL;
 		(*thatNode)->prev           = NULL;
 	}
-listA->qty	= listA->qty + 1;
-return(listA);
+myList->qty	= myList->qty + 1;
+return(myList);
 }
 
 
 //Empty the list.
-doublyLinkedList * clearList(doublyLinkedList * listA)
+doublyLinkedList * clearList(doublyLinkedList * myList)
 {
 	Object * tmp                    = NULL;
-	if(listA    != NULL)
+	if(myList    != NULL)
 	{
 		while(tmp   != NULL)
 		{
-			listA   = obtainNode(listA, &tmp);
-			listA   = rmNode(&tmp, listA);
-			tmp     = listA->head;
+			myList   = obtainNode(myList, &tmp);
+			myList   = rmNode(&tmp, myList);
+			tmp      = myList->head;
 		}
 	}
-return(listA);
+return(myList);
 }
 
 
 // Insert will insert a node before a node.
-doublyLinkedList * insertNode ( doublyLinkedList * listA ,Object * tmp, Object * newNode, int position)
+doublyLinkedList * insertNode ( doublyLinkedList * myList ,Object * place, Object * newNode)
 {
-	// Edge case where we want to replace the head of the list.
-	tmp                     = listA->head;
-	if(position             == 0)
+	if(myList				== NULL)
 	{
-	listA->head         = newNode;
-	listA->head->next   = tmp;
-	listA->head->next->prev = listA->head;
+		myList				= (doublyLinkedList *) malloc(sizeof(doublyLinkedList));
 	}
-// If there is no edge case. Proceed.
-	else
+	
+	if ((myList		!= NULL) && (newNode	!= NULL))
 	{
-		i = 0;
-		tmp                     = listA->head;
-		while(i != position)
+		Object *tmp			= NULL;
+		
+		if (myList->head		== NULL)
 		{
-			i = i+1;
-			tmp = tmp->next;
+			myList->head 	= newNode;
+			myList->tail	= newNode;
 		}
-	Object *tmp2        = tmp->next;
-	tmp ->next          = newNode;
-	tmp ->next->prev    = tmp;
-	tmp                 = tmp -> next;
-	tmp->next           = tmp2;
-	tmp2->prev          = tmp;
-	}
-listA->qty	= listA->qty + 1;
-return(listA);
+		else if (place		== myList->head)
+		{
+			tmp				= myList->head;
+			tmp->prev		= newNode;
+			newNode->next	= tmp;
+			myList->head	= newNode;
+		}	
+		else
+		{
+			tmp				= place->prev;
+			tmp->next		= newNode;
+			newNode->next	= place;
+			place->prev		= newNode;
+			newNode->prev	= tmp;
+		}
+}
+myList->qty	= myList->qty + 1;
+return(myList);
 }
 
 
 // This will delete a list when we no longer need it.
 doublyLinkedList * deleteList(doublyLinkedList * listA)
 {
-	if(listA != NULL)
+	if(myList != NULL)
 	{
-		listA   = clearList(listA);
-		free(listA);
-		listA	= NULL;
+		myList   = clearList(listA);
+		free(myList);
+		myList	= NULL;
 	}
-return(listA);
+return(myList);
 }
 
 

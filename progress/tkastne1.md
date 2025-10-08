@@ -13,3 +13,6 @@ I have been working on team functionality. To make everything nice, I changed sp
 
 **week 6**
 This week I mainly switched main over to use the new unified object, node, and list that was made. They still need some more features like a collision box and some more utility functions, but main does compile. Next week is were I plan to add back collision, which should be quicker now that I've done it before. I also want to add more features like picking up/dropping weapons. I will also be making my own implementation of stacks and queues.
+
+**week 7**
+I've have attempted to create queues and stacks, but I still need to test them. Currently I'm trying and failing to use queues so that the player can have multiple weapons at the same time. I've stumbled upon a weird major bug while doing this, and now I'm trying to find the root cause. Once I've done so I can start working on making main into more of a game and less of a demo, with enemies and a start screen.

@@ -8,6 +8,7 @@
 //custom libraries
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "../data_structures/queue/queue.h"
 #include "../weapon/weapon.h"
 #include "../tools/debugger.h"
 
@@ -26,8 +27,8 @@ struct Player
 {
     //object is not a pointer, in order to imbed to struct for upcasting & downcasting.
     Object object;
-    int gamepadID; 
-    Weapon* weapon; //weapon that player has equipped
+    int gamepadID;
+    Queue* weapons; //weapon that player has equipped
 };
 
 //=========================================================
@@ -78,6 +79,70 @@ void DrawPlayer(Player* player)
  * the player's model, view, and input.
 **/
 
+void playerDropWeapon(Player* player)
+{
+    dequeue(player->weapons);
+}
+
+void playerGrabWeapon(Player* player)
+{
+    Node* currentNode = player->weapons->list->head;
+    Node* nextNode;
+    while(currentNode != NULL)
+    {
+        nextNode = currentNode->next;
+
+        if(collisionCheck(&player->object, currentNode->data))
+        {
+            if(enqueue(player->weapons, createNode(currentNode->data)))
+            {
+                int newStatus  = currentNode->data->status & (~TeamFlagMask);
+                newStatus     |= player->object.status & TeamFlagMask;
+                currentNode->data->status = newStatus;
+            }
+        }
+
+        currentNode = nextNode;
+    }
+}
+
+void setWeaponPositions(Player* player)
+{
+    Node* currentNode = player->weapons->list->head;
+    Node* nextNode;
+    Weapon* currentWeapon;
+
+    while(currentNode != NULL)
+    {
+        nextNode = currentNode->next;
+        currentWeapon = (Weapon*)currentNode->data;
+
+        currentWeapon->object.x = player->object.x + currentWeapon->xOffset;
+        currentWeapon->object.y = player->object.y + currentWeapon->yOffset;
+
+        currentNode = nextNode;
+    }
+}
+
+void playerFireWeapons(Player* player)
+{
+    bool fireStatus = (gamepad_button_a() > 0);
+
+    Node* currentNode = player->weapons->list->head;
+    Node* nextNode;
+    Weapon* currentWeapon;
+
+    while(currentNode != NULL)
+    {
+        nextNode = currentNode->next;
+        currentWeapon = (Weapon*)currentNode->data;
+
+        currentWeapon->isFiring = fireStatus;
+
+        currentNode = nextNode;
+    }
+}
+
 void HandleInput(Player* player)
 {
     //select the gamepad mapped to this player controller
@@ -90,75 +155,22 @@ void HandleInput(Player* player)
 
     movePlayer(player);
 
-    if(player->weapon != NULL)
+    if(player->weapons->count != 0)
     {
-        if(gamepad_button_b() > 10)
+        if(gamepad_button_b() == 30)
         {
-            player->weapon = NULL;
+            playerDropWeapon(player);
         }
         else
         {
-            player->weapon->object.x = player->object.x;
-            player->weapon->object.y = player->object.y;
+            setWeaponPositions(player);
 
-            int xOffset = -10;
-            int yOffset = -5;
-
-            int team = player->object.status & TeamFlagMask >> TeamFlagMask;
-
-            if(team      == 0)
-            {
-                player->weapon->object.x += xOffset;
-                player->weapon->object.y += yOffset;
-            }
-            else if(team == 1)
-            {
-                player->weapon->object.x -= yOffset;
-                player->weapon->object.y += xOffset;
-            }
-            else if(team == 1)
-            {
-                player->weapon->object.x -= xOffset;
-                player->weapon->object.y -= yOffset;
-            }
-            else if(team == 1)
-            {
-                player->weapon->object.x += yOffset;
-                player->weapon->object.y -= xOffset;
-            }
-
-            if(gamepad_button_a() > 0)
-            {
-                player->weapon->isFiring = true;
-            }
-            else
-            {
-                player->weapon->isFiring = false;
-            }
+            playerFireWeapons(player);
         }
     }
-    else
+    if(gamepad_button_b() > 0)
     {
-        if(gamepad_button_b() > 0)
-        {
-            Node* currentNode = GetWeaponList()->head;
-            Node* nextNode;
-            while(currentNode != NULL)
-            {
-                nextNode = currentNode->next;
-
-                if(collisionCheck(&player->object, currentNode->data))
-                {
-                    player->weapon = (Weapon*)currentNode->data;
-                    int newStatus  = player->weapon->object.status & (~TeamFlagMask);
-                    newStatus     |= player->object.status & TeamFlagMask;
-                    player->weapon->object.status = newStatus;
-                    break;
-                }
-
-                currentNode = nextNode;
-            }
-        }
+        playerGrabWeapon(player);
     }
 }
 
@@ -207,7 +219,10 @@ Player* CreatePlayer(int textureID, int regionID, int x, int y, int status, floa
 
     //player properties initialization
     player->gamepadID = gamepadID;
-    player->weapon = CreateWeapon(WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
+    player->weapons = createQueue(3);
+    Weapon* weapon = CreateWeapon(WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
+    enqueue(player->weapons, createNode(&weapon->object));
+    //insert(player->weapons->list, NULL, createNode(&weapon->object));
 
     append(playerList, playerList->tail, createNode(&player->object));
 
@@ -224,10 +239,18 @@ void DeconstructPlayer(Player* player)
 
 void DeconstructPlayerAndWeapon(Player* player)
 {
-    if(player->weapon != NULL)
+    Node* currentNode = player->weapons->list->head;
+    Node* nextNode;
+
+    while(currentNode != NULL)
     {
-        player->weapon->object.status |= DeletionMarkFlag;
+        nextNode = currentNode->next;
+
+        currentNode->data->status |= DeletionMarkFlag;
+
+        currentNode = nextNode;
     }
+
     DeconstructPlayer(player);
 }
 

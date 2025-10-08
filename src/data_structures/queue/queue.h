@@ -10,7 +10,7 @@ struct Queue
 	int   count;
 };
 
-void enqueue(Queue* queue, Node* newNode)
+bool enqueue(Queue* queue, Node* newNode)
 {
 	if(newNode != NULL)
 	{
@@ -18,8 +18,11 @@ void enqueue(Queue* queue, Node* newNode)
 		{
 			insert(queue->list, queue->list->head, newNode);
 			queue->count++;
+			return true;
 		}
 	}
+
+	return false;
 }
 
 Node* dequeue(Queue* queue)

@@ -37,6 +37,8 @@ struct Weapon {
     float shootCooldownElapsed; //seconds elapsed since last shot
     float lifetime; // Lifetime of the weapon's projectile in seconds
     bool isFiring;
+    int  xOffset;
+    int  yOffset;
 };
 
 /////////////////////////////////////////////////
@@ -53,6 +55,32 @@ Weapon* CreateWeapon(int textureID, int regionID, int x, int y, int status, Weap
     weapon->lifetime = lifetime;
 
     weaponList = append(weaponList, weaponList->tail, createNode(&weapon->object));
+
+    int xOffset = -10;
+    int yOffset = -5;
+
+    int team = status & TeamFlagMask >> TeamFlagMask;
+
+    if(team      == 0)
+    {
+        weapon->xOffset =  xOffset;
+        weapon->yOffset =  yOffset;
+    }
+    else if(team == 1)
+    {
+        weapon->xOffset = -yOffset;
+        weapon->yOffset =  xOffset;
+    }
+    else if(team == 1)
+    {
+        weapon->xOffset = -xOffset;
+        weapon->yOffset = -yOffset;
+    }
+    else if(team == 1)
+    {
+        weapon->xOffset =  yOffset;
+        weapon->yOffset = -xOffset;
+    }
 
     return weapon;
 }

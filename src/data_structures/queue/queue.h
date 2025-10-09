@@ -46,6 +46,8 @@ Queue* createQueue(int size)
 	queue->list  = createList();
 	queue->size  = size;
 	queue->count = 0;
+
+	return queue;
 }
 
 

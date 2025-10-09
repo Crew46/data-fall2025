@@ -43,6 +43,8 @@ Stack* createStack(int size)
 	stack->list  = createList();
 	stack->size  = size;
 	stack->count = 0;
+
+	return stack;
 }
 
 

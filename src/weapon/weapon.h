@@ -39,6 +39,7 @@ struct Weapon {
     bool isFiring;
     int  xOffset;
     int  yOffset;
+    bool hasOwner;
 };
 
 /////////////////////////////////////////////////
@@ -53,6 +54,7 @@ Weapon* CreateWeapon(int textureID, int regionID, int x, int y, int status, Weap
     weapon->maxShootCooldownTime = cooldown;
     weapon->shootCooldownElapsed = 0.0;
     weapon->lifetime = lifetime;
+    weapon->hasOwner = false;
 
     weaponList = append(weaponList, weaponList->tail, createNode(&weapon->object));
 

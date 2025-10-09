@@ -81,24 +81,35 @@ void DrawPlayer(Player* player)
 
 void playerDropWeapon(Player* player)
 {
-    dequeue(player->weapons);
+    Node* dropped = dequeue(player->weapons);
+    if(dropped != NULL)
+    {
+        free(dropped);
+        ((Weapon*)dropped->data)->hasOwner = false;
+    }
 }
 
 void playerGrabWeapon(Player* player)
 {
-    Node* currentNode = player->weapons->list->head;
-    Node* nextNode;
+    Node*   currentNode = GetWeaponList()->head;
+    Weapon* weapon;
+    Node*   nextNode;
     while(currentNode != NULL)
     {
         nextNode = currentNode->next;
+        weapon = (Weapon*)currentNode->data;
 
-        if(collisionCheck(&player->object, currentNode->data))
+        if(weapon->hasOwner == false)
         {
-            if(enqueue(player->weapons, createNode(currentNode->data)))
+            if(collisionCheck(&player->object, currentNode->data))
             {
-                int newStatus  = currentNode->data->status & (~TeamFlagMask);
-                newStatus     |= player->object.status & TeamFlagMask;
-                currentNode->data->status = newStatus;
+                if(enqueue(player->weapons, createNode(currentNode->data)))
+                {
+                    int newStatus  = (weapon->object.status & (~TeamFlagMask))
+                                | (player->object.status & TeamFlagMask);
+                    weapon->object.status = newStatus;
+                    weapon->hasOwner = true;
+                }
             }
         }
 
@@ -157,18 +168,16 @@ void HandleInput(Player* player)
 
     if(player->weapons->count != 0)
     {
-        if(gamepad_button_b() == 30)
+        if(gamepad_button_b() % 30 == 29)
         {
             playerDropWeapon(player);
         }
-        else
-        {
-            setWeaponPositions(player);
 
-            playerFireWeapons(player);
-        }
+        setWeaponPositions(player);
+        playerFireWeapons(player);
     }
-    if(gamepad_button_b() > 0)
+
+    if(gamepad_button_b() > 1 && gamepad_button_b() < 5)
     {
         playerGrabWeapon(player);
     }
@@ -222,7 +231,7 @@ Player* CreatePlayer(int textureID, int regionID, int x, int y, int status, floa
     player->weapons = createQueue(3);
     Weapon* weapon = CreateWeapon(WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
     enqueue(player->weapons, createNode(&weapon->object));
-    //insert(player->weapons->list, NULL, createNode(&weapon->object));
+    weapon->hasOwner = true;
 
     append(playerList, playerList->tail, createNode(&player->object));
 

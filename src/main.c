@@ -55,7 +55,6 @@ void main (void)
 	listA	= insertNode (listA, listA->head, newNode);
 	newNode = mkNode();
 	listA	= insertNode (listA, listA->head, newNode);
-	myStack	= mkStack(listA);
 	
     ////////////////////////////////////////////////////////////////////////////////////
     //

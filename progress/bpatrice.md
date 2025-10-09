@@ -6,3 +6,5 @@
 **Week 3** Refactored code so that there are substructs that hold object pointers rather than keeping everything in object.
 
 **Week 4** Added player ability shoot and added collision between the bullets and enemies. I also cleaned up my main function by separating all my game logic functions into an updateGame() function and all my rendering functions into a renderGame() function and then calling those two functions in main.
+
+**Week 6** Added in Queue and Stack on top of list with functions. The stack and queue aren't used yet, but they compile. I also separated my main file into a bunch of separate header files to clean things up.

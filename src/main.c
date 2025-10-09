@@ -326,32 +326,16 @@ if(listA != NULL)
 // If the player is inactive then the game ends.
 		
 
+
+
+// spawning mechanism	
+newNode = mkNode();
+b = rand() % (100 + 0);
+if(b > 92)
+	{
+		insertNode(listA, listA->head, newNode);
+	}
 	
-if(myStack != NULL)
-{
-if(myStack->size != 0)
-{
-	while(myStack->data->qty < myStack->size)
-	{
-		newNode	= mkNode();
-		myStack	= push(myStack, newNode);
-	}	
-}
-else
-{
-	newNode = mkNode();
-	myStack = push(myStack, newNode);
-}
-	myStack = pop(myStack, &tmp3);
-	if(tmp3->isActive	== false)
-	{
-		myStack->data	= rmNode(&tmp3, myStack->data);
-	}
-	else	
-	{ 
-	myStack->data	= appendNode(myStack->data, myStack->data->tail, tmp3);
-	}
-}
         end_frame ();
 		frame = frame + 1;
     }

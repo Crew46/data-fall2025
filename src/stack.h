@@ -36,7 +36,7 @@ if(myStack->size != 0)
 }
 else
 {
-// WAIT WAIT HEAR ME OUT.
+// This would be used if we store enemies. (Subject to change depending on what we plan to do with the stack.)
 	b = rand() % (100 + 0);
 	if(b > 92)
 	{

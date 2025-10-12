@@ -29,6 +29,7 @@ struct Player
     Object object;
     int gamepadID;
     Queue* weapons; //weapon that player has equipped
+    int weaponIndexer;
 };
 
 //=========================================================
@@ -109,6 +110,12 @@ void playerGrabWeapon(Player* player)
                                 | (player->object.status & TeamFlagMask);
                     weapon->object.status = newStatus;
                     weapon->hasOwner = true;
+
+                    weapon->yOffset = -5;
+                    weapon->xOffset = -10 + 10 * player->weaponIndexer;
+
+                    player->weaponIndexer++;
+                    player->weaponIndexer %= 3;
                 }
             }
         }
@@ -119,6 +126,8 @@ void playerGrabWeapon(Player* player)
 
 void setWeaponPositions(Player* player)
 {
+    int team = (player->object.status & TeamFlagMask) >> TeamFlagOffset;
+
     Node* currentNode = player->weapons->list->head;
     Node* nextNode;
     Weapon* currentWeapon;
@@ -128,8 +137,24 @@ void setWeaponPositions(Player* player)
         nextNode = currentNode->next;
         currentWeapon = (Weapon*)currentNode->data;
 
-        currentWeapon->object.x = player->object.x + currentWeapon->xOffset;
-        currentWeapon->object.y = player->object.y + currentWeapon->yOffset;
+        int realX = currentWeapon->xOffset;
+        int realY = currentWeapon->yOffset;
+
+        if(team % 2 == 1)
+        {
+            int tmp = realX;
+            realX = -realY;
+            realY = tmp;
+        }
+
+        if(team >= 2)
+        {
+            realX = -realX;
+            realY = -realY;
+        }
+
+        currentWeapon->object.x = player->object.x + realX;
+        currentWeapon->object.y = player->object.y + realY;
 
         currentNode = nextNode;
     }
@@ -228,10 +253,13 @@ Player* CreatePlayer(int textureID, int regionID, int x, int y, int status, floa
 
     //player properties initialization
     player->gamepadID = gamepadID;
+
     player->weapons = createQueue(3);
     Weapon* weapon = CreateWeapon(WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
     enqueue(player->weapons, createNode(&weapon->object));
     weapon->hasOwner = true;
+
+    player->weaponIndexer = 1;
 
     append(playerList, playerList->tail, createNode(&player->object));
 
@@ -242,7 +270,17 @@ Player* CreatePlayer(int textureID, int regionID, int x, int y, int status, floa
 //deconstructor
 void DeconstructPlayer(Player* player)
 {
-    //free player struct
+    Node* currentNode = dequeue(player->weapons);
+
+    while(currentNode != NULL)
+    {
+        if(currentNode->data != NULL)
+        {
+            ((Weapon*)currentNode->data)->hasOwner = false;
+        }
+        currentNode = dequeue(player->weapons);
+    }
+
     free(player);
 }
 
@@ -328,7 +366,7 @@ void UpdateAllPlayers()
             PlayerUpdate((Player*)currentNode->data);
             if(currentNode->data->status & DeletionMarkFlag)
             {
-                DeconstructPlayerAndWeapon((Player*)currentNode->data);
+                DeconstructPlayer((Player*)currentNode->data);
                 obtain(playerList, currentNode);
                 deleteNode(currentNode);
             }

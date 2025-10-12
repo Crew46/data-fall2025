@@ -31,10 +31,14 @@ enum GameState
 GameState currentState;
 
 // list of all objects in scene
-List* objectList;
+List *objectList;
 
 void main (void)
 {
+    int  frame            = 0;
+
+    objectList            = NULL;
+
     // initialize regions
     InitializeRegions ();
     InitializeAudioManager ();
@@ -52,7 +56,7 @@ void main (void)
     CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) + 80, (screen_height / 2) + 100, 0x0D,   1.0,           1);
 
     // Initialize game state
-    currentState  = GAMESTATE_MENU;
+    currentState          = GAMESTATE_MENU;
 
     // main game loop
     while (true)
@@ -63,14 +67,29 @@ void main (void)
         select_texture (BACKGROUND_TEXTURE);
         select_region (BACKGROUND_REGION);
         draw_region_at (0, 0);
-        UpdateAudioManager ();
 
-        //updates all players in players list
-        UpdateAllPlayers ();
-        UpdateAllWeapons ();
-        UpdateAllLasers ();
+        if ((frame % 5)  == 0)
+        {
+            UpdateAudioManager ();
+        }
 
-        //main menu UI
+        if ((frame % 5)  == 1)
+        {
+            // updates all players in players list
+            UpdateAllPlayers ();
+        }
+
+        if ((frame % 5)  == 2)
+        {
+            UpdateAllWeapons ();
+        }
+
+        if ((frame % 5)  == 3)
+        {
+            UpdateAllLasers ();
+        }
+
+        // main menu UI
         if (currentState == GAMESTATE_MENU)
         {
             select_texture (UI_TEXTURES);
@@ -82,10 +101,16 @@ void main (void)
             draw_region_at (420, 40);
         }
 
-        VisualizeLinkedList (GetPlayerList ());
-        //print statistics
-        PrintObjectDataAt (10, 60, GetPlayerList () -> head -> data);
-        PrintObjectDataAt (screen_width - 180, 60, GetPlayerList () -> head -> next -> next -> next -> data);
+        if ((frame % 5)  == 4)
+        {
+            VisualizeLinkedList (GetPlayerList ());
+            // print statistics
+            PrintObjectDataAt (10, 60, GetPlayerList () -> head -> data);
+            PrintObjectDataAt (screen_width - 180, 60, GetPlayerList () -> head -> next -> next -> next -> data);
+        }
+
         end_frame ();
+
+        frame             = (frame + 1) % 60;
     }
 }

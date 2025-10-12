@@ -42,7 +42,7 @@ void InitializeAudioManager ()
 {
     // temporary music loop location
     //select_sound (THE_ABYSS_MUSIC);
-    select_sound (GAMEPLAY_MUSIC);
+    select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
     select_channel (0);
     assign_channel_sound (get_selected_channel (), get_selected_sound ());
     play_channel (get_selected_channel ());

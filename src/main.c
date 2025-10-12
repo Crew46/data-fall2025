@@ -1,19 +1,19 @@
-#include "time.h"
-//vircon standard library
-#include "misc.h"
+// vircon standard library
 #include "audio.h"
-#include "video.h"
+#include "misc.h"
 #include "string.h"
-//include texture, region, and audio definitions and configuration values
+#include "time.h"
+#include "video.h"
+// include texture, region, and audio definitions and configuration values
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 #include "configuration/sound_configurations.h"
-//objects
+// objects
 #include "object.h"
 #include "player/player.h"
-//linked list
+// linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
-//other managers
+// other managers
 #include "audio_manager.h"
 
 //=========================================================
@@ -30,12 +30,12 @@ enum GameState
 
 GameState currentState;
 
-//list of all objects in scene
+// list of all objects in scene
 List* objectList;
 
 void main (void)
 {
-    //initialize regions
+    // initialize regions
     InitializeRegions ();
     InitializeAudioManager ();
     
@@ -44,22 +44,22 @@ void main (void)
     // HAVE TO  CALL IS  UpdateAllPlayers(); create  player, which  is an
     // extension of object, so need to pass in object params.
 
-    //           texture,                region,        x,                    y,                      status, shootCooldown, gamepadID
-    CreatePlayer (PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2,     screen_height / 2,      0x00000001, 1.0, 0);
-    CreatePlayer (PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2 -40, screen_height / 2,      0x00000001, 1.0, 1);
-    CreatePlayer (PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2 +40, screen_height / 2,      0x00000005, 1.0, 1);
-    CreatePlayer (PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2 -80, screen_height / 2 +80,  0x00000009, 1.0, 0);
-    CreatePlayer (PLAYER_SPRITES_TEXTURE, PLAYER_REGION, screen_width / 2 +80, screen_height / 2 +100, 0x0000000D, 1.0, 1);
+    //            texture ID,     region ID,     x,                       y,                         status, shootCooldown, gamepadID
+    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2),      (screen_height / 2),       0x01,   1.0,           0);
+    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) - 40, (screen_height / 2),       0x01,   1.0,           1);
+    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) + 40, (screen_height / 2),       0x05,   1.0,           1);
+    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) - 80, (screen_height / 2) + 80,  0x09,   1.0,           0);
+    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) + 80, (screen_height / 2) + 100, 0x0D,   1.0,           1);
 
     // Initialize game state
-    currentState = GAMESTATE_MENU;
+    currentState  = GAMESTATE_MENU;
 
-    //game loop
+    // main game loop
     while (true)
     {
-		//clear screen
+		// clear screen
 		clear_screen(make_color_rgb (0, 0, 0));
-		//drawing the background
+		// drawing the background
 		select_texture (BACKGROUND_TEXTURE);
 		select_region (BACKGROUND_REGION);
 		draw_region_at (0, 0);

@@ -24,7 +24,7 @@ void InitializeRegions()
     define_region_topleft( 0,0, 639,359);
     
     //player
-    select_texture(PLAYER_SPRITES_TEXTURE);
+    select_texture(PLAYER_TEXTURE);
     select_region(PLAYER_REGION);
     define_region_center(0, 0, 31, 31); // Player sprite
 

@@ -1,5 +1,5 @@
-#ifndef TEXTURES_CONFIGURATIONS_H
-#define TEXTURES_CONFIGURATIONS_H
+#ifndef _TEXTURES_CONFIGURATIONS_H
+#define _TEXTURES_CONFIGURATIONS_H
 #include "video.h"
 
 /////////////////////////////////////////////////////////////
@@ -7,11 +7,10 @@
 /////////////////////////////////////////////////////////////
 
 #define BACKGROUND_TEXTURE 0
-#define PLAYER_SPRITES_TEXTURE 1
-#define CELESTIAL_OBJECTS 2
-#define UI_TEXTURES 3
-#define WEAPON_TEXTURES 4
-#define LASER_TEXTURES 5
+#define PLAYER_TEXTURE     1
+#define CELESTIAL_OBJECTS  2
+#define UI_TEXTURES        3
+#define WEAPON_TEXTURES    4
+#define LASER_TEXTURES     5
 
-
-#endif //TEXTURES_CONFIGURATIONS_H
+#endif // _TEXTURES_CONFIGURATIONS_H

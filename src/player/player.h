@@ -91,11 +91,11 @@ void playerDropWeapon (Player *player)
     Node *dropped              = dequeue (player -> weapons);
     if (dropped               != NULL)
     {
+        ((Weapon *) dropped -> data) -> hasOwner = false;
         free (dropped);
         dropped                = NULL;
 
         // accessing dropped after free() is just asking for trouble
-        //((Weapon *) dropped -> data) -> hasOwner = false;
     }
 }
 

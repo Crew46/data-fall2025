@@ -46,22 +46,22 @@ void main (void)
     // 
     // 
     // We are spawning and inserting the enemies.   
-    newNode = mkNode();
-    listA    = appendNode (listA, listA->tail, newNode);
-    newNode = mkNode();
-    listA     = appendNode (listA, listA->tail, newNode);
-    newNode = mkNode();
-    listA    = appendNode (listA, listA->tail, newNode);
-    newNode = mkNode();
+	newNode = mkNode ();
+	listA   = appendNode (listA, listA->tail, newNode);
+	newNode = mkNode ();
+	listA   = appendNode (listA, listA->tail, newNode);
+	newNode = mkNode ();
+    listA   = appendNode (listA, listA->tail, newNode);
+    newNode = mkNode ();
+    listA   = appendNode (listA, listA->tail, newNode);
+    newNode = mkNode ();
+    listA   = appendNode (listA, listA->tail, newNode);
+    newNode = mkNode ();
     listA   = appendNode (listA, listA->tail, newNode);
     newNode = mkNode();
-    listA    = appendNode (listA, listA->tail, newNode);
+    listA   = insertNode (listA, listA->head, newNode);
     newNode = mkNode();
-    listA    = appendNode (listA, listA->tail, newNode);
-    newNode = mkNode();
-    listA    = insertNode (listA, listA->head, newNode);
-    newNode = mkNode();
-    listA    = insertNode (listA, listA->head, newNode);
+    listA   = insertNode (listA, listA->head, newNode);
     
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -124,7 +124,7 @@ void main (void)
         clear_screen (color_black);
         select_texture (BACKGROUND_TEXTURE);
         select_region (BACKGROUND_REGION);
-        draw_region_at (0, byb);
+		draw_region_at (0, byb);
         if ((frame % 8) == 0)
         {
             byb  = byb + 1;
@@ -146,7 +146,7 @@ void main (void)
         //
         // Obtain directional information (per axis) from selected gamepad
         //
-        if(player != NULL)
+		if(player != NULL)
         {
             gamepad_direction (&player -> xdir, &player -> ydir);
         ////////////////////////////////////////////////////////////////////////////////
@@ -158,11 +158,11 @@ void main (void)
         }
 
 // player laser will fire if x is pressed pressed. Only 1 laser can be fired.
-if(laser == NULL)
-	{
+		if(laser == NULL)
+		{
 		laser						= (Object *) malloc(sizeof(Object));
 		laser->isActive				= false;
-	}
+		}
 
 		if ((gamepad_button_a ()  == 1))
         {
@@ -244,7 +244,7 @@ if(laser == NULL)
         //    
         if(listA !=NULL)
         {
-            tmp                    = listA->tail;
+            tmp                    	= listA->tail;
             while(tmp != NULL)
             {
     
@@ -253,17 +253,17 @@ if(laser == NULL)
                     tmp -> isActive = false;
                 }
 
-                if(tmp->isActive == true)
+                if(tmp->isActive 	== true)
                 {
-                    tmp -> xdir    = rand () % 3 - 1;
-                    tmp -> ydir    = 1; //rand () % 3 - 1;
-                    tmp -> x       = tmp -> x + tmp -> xdir;
-                    tmp -> y       = tmp -> y + tmp -> ydir;
+                    tmp -> xdir    	= rand () % 3 - 1;
+                    tmp -> ydir    	= 1; //rand () % 3 - 1;
+                    tmp -> x       	= tmp -> x + tmp -> xdir;
+                    tmp -> y       	= tmp -> y + tmp -> ydir;
                     select_texture (tmp->texture);
                     select_region  (tmp->region);
                     draw_region_at (tmp  -> x, tmp  -> y);
                 }
-                tmp                    = tmp->prev;
+                tmp                 = tmp->prev;
             }  
         }
 

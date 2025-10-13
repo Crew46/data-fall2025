@@ -28,6 +28,8 @@ bool stackIsEmpty(stack * myStack)
 stack *push (stack *myStack, Object *newNode)
 {
     Object *tmp                     = myStack -> data -> head;
+    int     b                       = 0;
+
     if (myStack -> size            != 0)
     {
         if (myStack -> data -> qty <  myStack -> size)

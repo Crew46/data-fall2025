@@ -1,24 +1,37 @@
-#ifndef FUNCTIONS_H_
-#define FUNCTIONS_H_
-// functions with no identity will go here.
+#ifndef _FUNCTIONS_H
+#define _FUNCTIONS_H
 
-bool collision( Object* Thing1, Object * Thing2)
+// functions with no identity will go here.
+bool collision (Object *Thing1, Object *Thing2)
 {
-// if Thing1 X > Thing2 X + width/2 + width there is no collision
-if (( Thing1->x - Thing1->width/2) >= (Thing2->x + Thing2->width/2) )
-	return false;
-// if Thing1 X + width/2 < Thing2 there is no collision
-if (( Thing1->x + Thing1->width/2) <= (Thing2->x - Thing2->width/2) )
-	return false;
-// if Thing1 Y > Thing2Y + height/2 there is no collision
-if (( Thing1->y - Thing1->height/2) >= (Thing2->y + Thing2->height/2) )
-	return false;
-// if Thing1 + height/2 < Thing2 y there is no collision
-if (( Thing1->y + Thing1->height/2) <= (Thing2->y - Thing2->height/2) )
-	return false;
-// If it makes it here then there is a collision
-	return true;
+    bool  result                                   = true;
+
+    // if Thing1 X > Thing2 X + width/2 + width there is no collision
+    if ((Thing1 -> x - Thing1 -> width / 2)       >= (Thing2 -> x + Thing2 -> width / 2))
+    {
+        result                                     = false;
+    }
+
+    // if Thing1 X + width/2 < Thing2 there is no collision
+    else if ((Thing1 -> x + Thing1 -> width / 2)  <= (Thing2 -> x - Thing2 -> width / 2))
+    {    
+        result                                     = false;
+    }
+
+    // if Thing1 Y > Thing2Y + height/2 there is no collision
+    else if ((Thing1 -> y - Thing1 -> height / 2) >= (Thing2 -> y + Thing2 -> height / 2))
+    {    
+        result                                     = false;
+    }
+
+    // if Thing1 + height/2 < Thing2 y there is no collision
+    else if ((Thing1 -> y + Thing1 -> height / 2) <= (Thing2 -> y - Thing2 -> height / 2))
+    {    
+        result                                     = false;
+    }
+
+    return (result);
 }
 
 
-#endif  //FUNCTIONS_H_
+#endif  // _FUNCTIONS_H

@@ -1,60 +1,45 @@
-#ifndef NODE_H_
-#define NODE_H_
+#ifndef _NODE_H
+#define _NODE_H
 
-// This will make a node for either EnemyA or EnemyB (more will be added.)
-Object * mkNode()
+// This will make a node for either enemy or enemy (more will be added.)
+Object *mkNode ()
 {
-	a       =   rand() % ( 100 + 1);
-	xpos    =   rand() % ( 639 + 1);
-	if(a <= 80)
-	{
-	Object * EnemyA         = (Object *) malloc (sizeof (Object));
-	EnemyA ->next           = NULL;
-	EnemyA ->prev           = NULL;
-	EnemyA -> x             = xpos;
-	EnemyA -> y             = ypos;
-	EnemyA -> height        = 10;
-	EnemyA -> width         = 10;
-	EnemyA -> isActive      = true;
-	EnemyA -> hp            = 1;
-	EnemyA -> texture       = ENEMYA_TEXTURE;
-	EnemyA -> region        = ENEMYA_REGION;
-	EnemyA -> points		= 10;
-	return(EnemyA);
-	}
-	if(a > 80)
-	{
-	Object * EnemyB         = (Object *) malloc (sizeof(Object));
-	EnemyB -> next          = NULL;
-	EnemyB -> prev          = NULL;
-	EnemyB -> x             = xpos;
-	EnemyB -> y             = ypos;
-	EnemyB -> height        = 20;
-	EnemyB -> width         = 20;
-	EnemyB -> isActive      = true;
-	EnemyB -> hp            = 3;
-	EnemyB -> texture       = ENEMYB_TEXTURE;
-	EnemyB -> region        = ENEMYB_REGION;
-	EnemyB -> points		= 20;
-	return(EnemyB);
-	}
+    Object *enemy           = NULL;
+    int     pickVariant     = 0;
+    int     xpos            = 0;
+    int     ypos            = 0;
+
+    pickVariant             = rand () % (100 + 1);
+    xpos                    = rand () % (639 + 1);
+
+    enemy                   = (Object *) malloc (sizeof (Object));
+
+    enemy -> next           = NULL;
+    enemy -> prev           = NULL;
+    enemy -> x              = xpos;
+    enemy -> y              = ypos;
+    enemy -> isActive       = true;
+
+    if (pickVariant        <= 80)
+    {
+        enemy -> height     = 10;
+        enemy -> width      = 10;
+        enemy -> hp         = 1;
+        enemy -> texture    = ENEMYA_TEXTURE;
+        enemy -> region     = ENEMYA_REGION;
+        enemy -> points     = 10;
+    }
+    else
+    {
+        enemy -> height     = 20;
+        enemy -> width      = 20;
+        enemy -> hp         = 3;
+        enemy -> texture    = ENEMYB_TEXTURE;
+        enemy -> region     = ENEMYB_REGION;
+        enemy -> points     = 20;
+    }
+
+    return (enemy);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#endif //NODE_H_
+#endif // _NODE_H

@@ -80,6 +80,7 @@ doublyLinkedList *obtainNode (doublyLinkedList *myList, Object **thatNode)
         (*thatNode) -> next -> prev  = NULL;
         (*thatNode) -> next          = NULL;
     }
+
     // Obtain the tail edge case.
     if ((*thatNode)                 == myList -> tail)
     {
@@ -87,6 +88,7 @@ doublyLinkedList *obtainNode (doublyLinkedList *myList, Object **thatNode)
         myList -> tail -> next       = NULL;
         (*thatNode) -> prev          = NULL;
     }    
+
     // No edge cases. Proceed.
     if (((*thatNode)                != myList -> head) &&
         ((*thatNode)                != myList -> tail))
@@ -125,7 +127,7 @@ doublyLinkedList *insertNode (doublyLinkedList *myList, Object *place, Object *n
 {
     if(myList                 == NULL)
     {
-        myList                 = (doublyLinkedList *) malloc(sizeof(doublyLinkedList));
+        myList                 = (doublyLinkedList *) malloc (sizeof (doublyLinkedList));
     }
     
     if ((myList               != NULL) &&

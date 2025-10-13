@@ -17,6 +17,7 @@ void main (void)
     int               byb          = 1;
     int               byn          = 1;
     int               frame        = 0;
+    int               score        = 0;
     int              *scoreResult  = NULL;
     Object           *laser        = NULL;
     Object           *newNode      = NULL;
@@ -25,16 +26,11 @@ void main (void)
     Object *tmp             = NULL;
     Object *tmp3            = NULL;
     laser                   = NULL;
-    xpos                    = NULL;
-    ypos                    = 0;
     max                     = 0;
     position                = 2; 
-    a                       = NULL;
     status                  = 0x10000000;
-    score                   = 0;
     
-    b                       = get_time ();
-    srand (b);     
+    srand (get_time ());     
 
     scoreResult             = (int *) malloc (sizeof (int) * 10);
 
@@ -337,11 +333,10 @@ void main (void)
 // If the player is inactive then the game ends.
 
 // spawning mechanism    
-        newNode = mkNode();
-        b = rand() % (100 + 0);
-        if(b > 92)
+        newNode    = mkNode();
+        if (92    <  (rand () % (100 + 0)))
         {
-            insertNode(listA, listA->head, newNode);
+            listA  = insertNode (listA, listA -> head, newNode);
         }
     
         end_frame ();

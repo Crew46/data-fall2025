@@ -13,7 +13,7 @@ int position;
 int a;
 int b;
 int score;
-int scoreResult;
+
 // The main struct that we use.
 struct Object
 {

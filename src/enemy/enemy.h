@@ -1,5 +1,5 @@
-#ifndef _PLAYER_H
-#define _PLAYER_H
+#ifndef _ENEMY_H
+#define _ENEMY_H
 // standard libraries
 #include "misc.h"
 #include "video.h"
@@ -16,7 +16,7 @@
  * 
  * SUMMARY:
  * this entire file is split into different sections for different concerns regarding
- * the player, including:
+ * the enemy, including:
  *
  * part 1: the model
  * part 2: visual functions
@@ -28,14 +28,13 @@
 
 // declarations
 
-List *playerList  = createList();
+List *enemyList  = createList();
 
-struct Player 
+struct Enemy 
 {
     // object is not a pointer, in order to embed to struct for upcasting & downcasting.
     Object  object;
-    int     gamepadID;
-    Queue  *weapons; // weapon that player has equipped
+    Queue  *weapons; // weapon that enemy has equipped
     int     weaponIndexer;
 };
 
@@ -47,14 +46,14 @@ struct Player
 
 /*
  * SUMMARY:
- * This is the model of the player: ie. the fundamental 
- * behaviors of the player. logical connection between these functions is in part 3
+ * This is the model of the enemy: ie. the fundamental 
+ * behaviors of the enemy. logical connection between these functions is in part 3
  */
 
-// move player in a direction, where then direction is scaled by the player's speed
-void movePlayer (Player *player)
+// move enemy in a direction, where then direction is scaled by the enemy's speed
+void moveEnemy (Enemy *enemy)
 {
-    moveObject (&player -> object);
+    moveObject (&enemy -> object);
 }
 
 //=========================================================
@@ -68,9 +67,9 @@ void movePlayer (Player *player)
  * this part is for visualizing the data of the model
  */
 
-void DrawPlayer (Player *player)
+void DrawEnemy (Enemy *enemy)
 {
-    drawObject (&player -> object);
+    drawObject (&enemy -> object);
 }
 
 //=========================================================
@@ -81,14 +80,14 @@ void DrawPlayer (Player *player)
 
 /*
  * SUMMARY:
- * This part is the glue to making the player model, player 
+ * This part is the glue to making the enemy model, enemy 
  * view, and input work together. ie the logic that connects 
- * the player's model, view, and input.
+ * the enemy's model, view, and input.
  */
 
-void playerDropWeapon (Player *player)
+void enemyDropWeapon (Enemy *enemy)
 {
-    Node *dropped              = dequeue (player -> weapons);
+    Node *dropped              = dequeue (enemy -> weapons);
     if (dropped               != NULL)
     {
         ((Weapon *) dropped -> data) -> hasOwner = false;
@@ -99,7 +98,7 @@ void playerDropWeapon (Player *player)
     }
 }
 
-void playerGrabWeapon (Player *player)
+void enemyGrabWeapon (Enemy *enemy)
 {
     Node   *currentNode                      = GetWeaponList() -> head;
     Weapon *weapon                           = NULL;
@@ -114,23 +113,23 @@ void playerGrabWeapon (Player *player)
 
         if(weapon -> hasOwner               == false)
         {
-            if (collisionCheck (&player -> object, currentNode -> data))
+            if (collisionCheck (&enemy -> object, currentNode -> data))
             {
-                if (enqueue (player -> weapons, createNode (currentNode -> data)))
+                if (enqueue (enemy -> weapons, createNode (currentNode -> data)))
                 {
                     newStatus                = weapon -> object.status;
                     newStatus                = newStatus & (~TeamFlagMask);
-                    tmpStatus                = player -> object.status & TeamFlagMask;
+                    tmpStatus                = enemy -> object.status & TeamFlagMask;
                     newStatus                = newStatus | tmpStatus;
 
                     weapon -> object.status  = newStatus;
                     weapon -> hasOwner       = true;
 
                     weapon -> yOffset        = -5;
-                    weapon -> xOffset        = -10 + (10 * player -> weaponIndexer);
+                    weapon -> xOffset        = -10 + (10 * enemy -> weaponIndexer);
 
-                    player -> weaponIndexer  = player -> weaponIndexer + 1;
-                    player -> weaponIndexer  = player -> weaponIndexer % 3;
+                    enemy -> weaponIndexer  = enemy -> weaponIndexer + 1;
+                    enemy -> weaponIndexer  = enemy -> weaponIndexer % 3;
                 }
             }
         }
@@ -139,14 +138,14 @@ void playerGrabWeapon (Player *player)
     }
 }
 
-void setWeaponPositions (Player *player)
+void setWeaponPositions (Enemy *enemy)
 {
     int     team                   = 0;
-    Node   *currentNode            = player -> weapons -> list -> head;
+    Node   *currentNode            = enemy -> weapons -> list -> head;
     Node   *nextNode               = NULL;
     Weapon *currentWeapon          = NULL;
 
-    team                           = (player -> object.status & TeamFlagMask);
+    team                           = (enemy -> object.status & TeamFlagMask);
     team                           = team >> TeamFlagOffset;
 
     while (currentNode            != NULL)
@@ -170,18 +169,18 @@ void setWeaponPositions (Player *player)
             realY                  = -realY;
         }
 
-        currentWeapon -> object.x  = player -> object.x + realX;
-        currentWeapon -> object.y  = player -> object.y + realY;
+        currentWeapon -> object.x  = enemy -> object.x + realX;
+        currentWeapon -> object.y  = enemy -> object.y + realY;
 
         currentNode                = nextNode;
     }
 }
 
-void playerFireWeapons (Player *player)
+void enemyFireWeapons (Enemy *enemy)
 {
-    bool    fireStatus             = (gamepad_button_a () >  0);
+    bool    fireStatus             = ((rand() % 10) >  5);
 
-    Node   *currentNode            = player -> weapons -> list -> head;
+    Node   *currentNode            = enemy -> weapons -> list -> head;
     Node   *nextNode               = NULL;
     Weapon *currentWeapon          = NULL;
 
@@ -196,64 +195,27 @@ void playerFireWeapons (Player *player)
     }
 }
 
-void HandleInput (Player *player)
-{
-    float  deltaX                       = 0.0;
-    float  deltaY                       = 0.0;
-    float  roundTmp                     = 0.0;
-
-    // select the gamepad mapped to this player controller
-    select_gamepad (player -> gamepadID);
-    gamepad_direction_normalized (&deltaX, &deltaY); // get direction from the gamepad
-    roundTmp                            = (deltaX * (float) player -> object.vx);
-    player -> object.dx                 = round (roundTmp);
-    roundTmp                            = (deltaY * (float) player -> object.vy);
-    player -> object.dy                 = round (roundTmp);
-
-    movePlayer (player);
-
-    if (player -> weapons -> count     != 0)
-    {
-        if ((gamepad_button_b () % 30) == 29)
-        {
-            playerDropWeapon (player);
-        }
-
-        setWeaponPositions (player);
-        playerFireWeapons (player);
-    }
-
-    if ((gamepad_button_b ()           >  1) &&
-        (gamepad_button_b ()           <  5))
-    {
-        playerGrabWeapon (player);
-    }
-}
-
-void PlayerUpdate (Player *player)
+void EnemyUpdate (Enemy *enemy)
 {
     List *lasers        = GetLaserList ();
     Node *currentNode   = lasers -> head;
     Node *nextNode      = NULL;
 
-    if (player -> object.status & IsActiveFlag)
+    if (enemy -> object.status & IsActiveFlag)
     {
-        //handle input every frame
-        HandleInput (player);
-
-        // Update the player view every frame
-        DrawPlayer (player);
+        // Update the enemy view every frame
+        DrawEnemy (enemy);
     }
 
     while (currentNode != NULL)
     {
         nextNode        = currentNode -> next;
 
-        if (((currentNode -> data -> status ^ player -> object.status) & TeamFlagMask) != 0)
+        if (((currentNode -> data -> status ^ enemy -> object.status) & TeamFlagMask) != 0)
         {
-            if (collisionCheck (&player -> object, currentNode -> data))
+            if (collisionCheck (&enemy -> object, currentNode -> data))
             {
-                player -> object.status |= DeletionMarkFlag;
+                enemy -> object.status |= DeletionMarkFlag;
             }
         }
 
@@ -268,35 +230,32 @@ void PlayerUpdate (Player *player)
 //=========================================================
 
 //constructor
-Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime, int gamepadID)
+Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime)
 {
-    // allocate memory for player
-    Player *player           = (Player *) malloc (sizeof (Player));
+    // allocate memory for enemy
+    Enemy *enemy           = (Enemy *) malloc (sizeof (Enemy));
     Weapon *weapon           = NULL;
 
-    // player object properties initialization
-    initObject (&player -> object, Object_Type_Entity, textureID, regionID, x, y, status);
+    // enemy object properties initialization
+    initObject (&enemy -> object, Object_Type_Entity, textureID, regionID, x, y, status);
 
-    // player properties initialization
-    player -> gamepadID      = gamepadID;
-
-    player -> weapons        = createQueue (3);
-    weapon                   = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
-    enqueue (player -> weapons, createNode (&weapon -> object));
+    enemy -> weapons        = createQueue (3);
+    weapon                   = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
+    enqueue (enemy -> weapons, createNode (&weapon -> object));
     weapon -> hasOwner       = true;
 
-    player -> weaponIndexer  = 1;
+    enemy -> weaponIndexer  = 1;
 
-    append (playerList, playerList -> tail, createNode (&player -> object));
+    append (enemyList, enemyList -> tail, createNode (&enemy -> object));
 
-    // return pointer to player
-    return player;
+    // return pointer to enemy
+    return (enemy);
 }
 
 // deconstructor
-void DeconstructPlayer (Player *player)
+void DeconstructEnemy (Enemy *enemy)
 {
-    Node *currentNode            = dequeue (player -> weapons);
+    Node *currentNode            = dequeue (enemy -> weapons);
 
     while (currentNode          != NULL)
     {
@@ -304,16 +263,16 @@ void DeconstructPlayer (Player *player)
         {
             ((Weapon *) currentNode -> data) -> hasOwner  = false;
         }
-        currentNode              = dequeue (player -> weapons);
+        currentNode              = dequeue (enemy -> weapons);
     }
 
-    free (player);
-    player                       = NULL;
+    free (enemy);
+    enemy                       = NULL;
 }
 
-void DeconstructPlayerAndWeapon (Player *player)
+void DeconstructEnemyAndWeapon (Enemy *enemy)
 {
-    Node *currentNode                  = player -> weapons -> list -> head;
+    Node *currentNode                  = enemy -> weapons -> list -> head;
     Node *nextNode                     = NULL;
 
     while (currentNode                != NULL)
@@ -325,37 +284,37 @@ void DeconstructPlayerAndWeapon (Player *player)
         currentNode                    = nextNode;
     }
 
-    DeconstructPlayer (player);
+    DeconstructEnemy (enemy);
 }
 
-void DeconstructAllPlayers ()
+void DeconstructAllEnemies ()
 {
-    // loop through all instances of players
-    Node *currentNode   = playerList -> head;
+    // loop through all instances of enemys
+    Node *currentNode   = enemyList -> head;
     Node *next          = NULL;
 
     while (currentNode != NULL)
     {
         next            = currentNode -> next;
-        DeconstructPlayer ((Player *) currentNode -> data);
-        playerList      = obtain (playerList, currentNode);
+        DeconstructEnemy ((Enemy *) currentNode -> data);
+        enemyList      = obtain (enemyList, currentNode);
         deleteNode (currentNode);
 
         currentNode     = next;
     }
 }
 
-void DeconstructAllPlayersAndWeapons ()
+void DeconstructAllEnemiesAndWeapons ()
 {
-    // loop through all instances of players
-    Node *currentNode   = playerList -> head;
+    // loop through all instances of enemys
+    Node *currentNode   = enemyList -> head;
     Node *next          = NULL;
 
     while (currentNode != NULL)
     {
         next            = currentNode -> next;
-        DeconstructPlayerAndWeapon ((Player *) currentNode -> data);
-        playerList      = obtain (playerList, currentNode);
+        DeconstructEnemyAndWeapon ((Enemy *) currentNode -> data);
+        enemyList      = obtain (enemyList, currentNode);
         deleteNode (currentNode);
 
         currentNode     = next;
@@ -370,19 +329,19 @@ void DeconstructAllPlayersAndWeapons ()
 
 /*
  * SUMMARY: NOT FULLY IMPLEMENTED UNTIL THE COMPLETION OF LINKED LIST
- * This part keeps tracks of all the instances of player in a linked list
+ * This part keeps tracks of all the instances of enemy in a linked list
  */
 
-// return linked list of players
-List *GetPlayerList ()
+// return linked list of enemys
+List *GetEnemyList ()
 {
-    return (playerList);
+    return (enemyList);
 }
 
-// update all player controller in instances list
-void UpdateAllPlayers ()
+// update all enemy controller in instances list
+void UpdateAllEnemies ()
 {
-    Node *currentNode            = playerList -> head;
+    Node *currentNode            = enemyList -> head;
     Node *nextNode               = NULL;
 
     while (currentNode          != NULL)
@@ -390,11 +349,11 @@ void UpdateAllPlayers ()
         nextNode                 = currentNode -> next;
         if (currentNode -> data != NULL)
         {
-            PlayerUpdate ((Player *) currentNode -> data);
+            EnemyUpdate ((Enemy *) currentNode -> data);
             if (currentNode -> data -> status & DeletionMarkFlag)
             {
-                DeconstructPlayer ((Player *) currentNode -> data);
-                playerList       = obtain (playerList, currentNode);
+                DeconstructEnemy ((Enemy *) currentNode -> data);
+                enemyList       = obtain (enemyList, currentNode);
                 deleteNode (currentNode);
             }
         }
@@ -402,4 +361,4 @@ void UpdateAllPlayers ()
     }
 }
 
-#endif // _PLAYER_H 
+#endif // _ENEMY_H 

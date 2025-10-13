@@ -1,6 +1,3 @@
-
-// global frame counter
-int   frame;
 // vircon standard library
 #include "audio.h"
 #include "misc.h"
@@ -31,14 +28,14 @@ enum GameState
     GAMESTATE_INGAME
 };
 
-GameState currentState;
+GameState  currentState;
 
 // list of all objects in scene
-List *objectList;
+List      *objectList;
 
 void main (void)
 {
-    frame                 = 0;
+    int frame             = 0;
 
     objectList            = NULL;
 

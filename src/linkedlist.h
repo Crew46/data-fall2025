@@ -3,7 +3,7 @@
 // prepping what we need;
 doublyLinkedList * myList;
 doublyLinkedList * listA;
-stack	* myStack;
+//stack	* myStack;
 Object 	* tmp;
 Object 	* tmp2;
 Object 	* tmp3;

@@ -30,7 +30,9 @@ void main (void)
 	a 					 	= NULL;
 	status				 	= 0x10000000;
 	score					= 0;
-    // creating the head and malloc it.
+	scoreResult				= 0;
+    
+	// creating the head and malloc it.
     listA = mkList();
 
 /// Creating the laser.
@@ -271,10 +273,10 @@ if(player != NULL)
 	draw_region();
 	set_drawing_point(200, 10);
 	print("SCORE");
-	draw_region();
-	//set_drawing_point(250, 10);
-	//itoa(score, &(result), 10);
-	//print( &(result));
+
+	
+	itoa(score, &(scoreResult), 10);
+	print_at(250, 10, &(scoreResult));
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
 	if(listA != NULL)
@@ -290,8 +292,9 @@ if(player != NULL)
 				{
 				tmp->isActive = false;
 				counter = counter + 8;
+				score = score + tmp->points;
 				}
-			 // Defeat an enemy and add one to the counter.
+			 // Defeat an enemy and add 8  to the counter.
 			}
 	
 

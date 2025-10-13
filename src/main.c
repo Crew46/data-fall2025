@@ -96,6 +96,8 @@ void main (void)
         }
         else if ((frame % 5)  == 2)
         {
+            //          texture ID,     region ID,    x,                  y,                   status, shootCooldown
+            //CreateEnemy (ENEMY_TEXTURE, ENEMY_REGION, (screen_width / 2), (screen_height / 2), 0x01, 1.0);
             ;
         }
         else if ((frame % 5)  == 3)

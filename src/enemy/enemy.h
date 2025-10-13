@@ -138,44 +138,6 @@ void enemyGrabWeapon (Enemy *enemy)
     }
 }
 
-void setWeaponPositions (Enemy *enemy)
-{
-    int     team                   = 0;
-    Node   *currentNode            = enemy -> weapons -> list -> head;
-    Node   *nextNode               = NULL;
-    Weapon *currentWeapon          = NULL;
-
-    team                           = (enemy -> object.status & TeamFlagMask);
-    team                           = team >> TeamFlagOffset;
-
-    while (currentNode            != NULL)
-    {
-        nextNode                   = currentNode -> next;
-        currentWeapon              = (Weapon *) currentNode -> data;
-
-        int  realX                 = currentWeapon -> xOffset;
-        int  realY                 = currentWeapon -> yOffset;
-
-        if ((team % 2)            == 1)
-        {
-            int  tmp               = realX;
-            realX                  = -realY;
-            realY                  = tmp;
-        }
-
-        if (team                  >= 2)
-        {
-            realX                  = -realX;
-            realY                  = -realY;
-        }
-
-        currentWeapon -> object.x  = enemy -> object.x + realX;
-        currentWeapon -> object.y  = enemy -> object.y + realY;
-
-        currentNode                = nextNode;
-    }
-}
-
 void enemyFireWeapons (Enemy *enemy)
 {
     bool    fireStatus             = ((rand() % 10) >  5);

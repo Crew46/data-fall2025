@@ -11,6 +11,7 @@
 // objects
 #include "object.h"
 #include "player/player.h"
+#include "enemy/enemy.h"
 // linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 // other managers

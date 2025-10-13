@@ -1,3 +1,6 @@
+
+// global frame counter
+int   frame;
 // vircon standard library
 #include "audio.h"
 #include "misc.h"
@@ -35,7 +38,7 @@ List *objectList;
 
 void main (void)
 {
-    int  frame            = 0;
+    frame                 = 0;
 
     objectList            = NULL;
 
@@ -61,52 +64,50 @@ void main (void)
     // main game loop
     while (true)
     {
-        // clear screen
-        clear_screen(make_color_rgb (0, 0, 0));
-        // drawing the background
-        select_texture (BACKGROUND_TEXTURE);
-        select_region (BACKGROUND_REGION);
-        draw_region_at (0, 0);
-
         if ((frame % 5)  == 0)
         {
-            UpdateAudioManager ();
-        }
+            // clear screen
+            clear_screen(make_color_rgb (0, 0, 0));
+            // drawing the background
+            select_texture (BACKGROUND_TEXTURE);
+            select_region (BACKGROUND_REGION);
+            draw_region_at (0, 0);
 
-        if ((frame % 5)  == 1)
-        {
             // updates all players in players list
             UpdateAllPlayers ();
-        }
 
-        if ((frame % 5)  == 2)
-        {
             UpdateAllWeapons ();
-        }
-
-        if ((frame % 5)  == 3)
-        {
-            UpdateAllLasers ();
-        }
-
-        // main menu UI
-        if (currentState == GAMESTATE_MENU)
-        {
-            select_texture (UI_TEXTURES);
-            select_region (EXIT_GAME_REGION);
-            draw_region_at (20, 40);
-            select_region (PLAY_GAME_REGION);
-            draw_region_at (220, 40);
-            select_region (CREDITS_REGION);
-            draw_region_at (420, 40);
-        }
-
-        if ((frame % 5)  == 4)
-        {
+            // main menu UI
+            if (currentState == GAMESTATE_MENU)
+            {
+                select_texture (UI_TEXTURES);
+                select_region (EXIT_GAME_REGION);
+                draw_region_at (20, 40);
+                select_region (PLAY_GAME_REGION);
+                draw_region_at (220, 40);
+                select_region (CREDITS_REGION);
+                draw_region_at (420, 40);
+            }
             VisualizeLinkedList (GetPlayerList ());
             // print statistics
             PrintObjectDataAt (10, 60, GetPlayerList () -> head -> data);
             PrintObjectDataAt (screen_width - 180, 60, GetPlayerList () -> head -> next -> next -> next -> data);
+        }
+        else if ((frame % 5)  == 1)
+        {
+            UpdateAudioManager ();
+        }
+        else if ((frame % 5)  == 2)
+        {
+            ;
+        }
+        else if ((frame % 5)  == 3)
+        {
+            ;
+        }
+        else if ((frame % 5)  == 4)
+        {
+            UpdateAllLasers ();
         }
 
         end_frame ();

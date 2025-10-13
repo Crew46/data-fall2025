@@ -268,95 +268,97 @@ void PlayerUpdate (Player *player)
 //=========================================================
 
 //constructor
-Player* CreatePlayer(int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime, int gamepadID)
+Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime, int gamepadID)
 {
-    //allocate memory for player
-    Player* player = (Player*)malloc(sizeof(Player));
+    // allocate memory for player
+    Player *player           = (Player *) malloc (sizeof (Player));
+    Weapon *weapon           = NULL;
 
-    //player object properties initialization
-    initObject(&player->object, Object_Type_Entity, textureID, regionID, x, y, status);
+    // player object properties initialization
+    initObject (&player -> object, Object_Type_Entity, textureID, regionID, x, y, status);
 
-    //player properties initialization
-    player->gamepadID = gamepadID;
+    // player properties initialization
+    player -> gamepadID      = gamepadID;
 
-    player->weapons = createQueue(3);
-    Weapon* weapon = CreateWeapon(WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
-    enqueue(player->weapons, createNode(&weapon->object));
-    weapon->hasOwner = true;
+    player -> weapons        = createQueue (3);
+    weapon                   = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
+    enqueue (player -> weapons, createNode (&weapon -> object));
+    weapon -> hasOwner       = true;
 
-    player->weaponIndexer = 1;
+    player -> weaponIndexer  = 1;
 
-    append(playerList, playerList->tail, createNode(&player->object));
+    append (playerList, playerList -> tail, createNode (&player -> object));
 
-    //return pointer to player
+    // return pointer to player
     return player;
 }
 
-//deconstructor
-void DeconstructPlayer(Player* player)
+// deconstructor
+void DeconstructPlayer (Player *player)
 {
-    Node* currentNode = dequeue(player->weapons);
+    Node *currentNode            = dequeue (player -> weapons);
 
-    while(currentNode != NULL)
+    while (currentNode          != NULL)
     {
-        if(currentNode->data != NULL)
+        if (currentNode -> data != NULL)
         {
-            ((Weapon*)currentNode->data)->hasOwner = false;
+            ((Weapon *) currentNode -> data) -> hasOwner  = false;
         }
-        currentNode = dequeue(player->weapons);
+        currentNode              = dequeue (player -> weapons);
     }
 
-    free(player);
+    free (player);
+    player                       = NULL;
 }
 
-void DeconstructPlayerAndWeapon(Player* player)
+void DeconstructPlayerAndWeapon (Player *player)
 {
-    Node* currentNode = player->weapons->list->head;
-    Node* nextNode;
+    Node *currentNode                  = player -> weapons -> list -> head;
+    Node *nextNode                     = NULL;
 
-    while(currentNode != NULL)
+    while (currentNode                != NULL)
     {
-        nextNode = currentNode->next;
+        nextNode                       = currentNode -> next;
 
-        currentNode->data->status |= DeletionMarkFlag;
+        currentNode -> data -> status |= DeletionMarkFlag;
 
-        currentNode = nextNode;
+        currentNode                    = nextNode;
     }
 
-    DeconstructPlayer(player);
+    DeconstructPlayer (player);
 }
 
-void DeconstructAllPlayers()
+void DeconstructAllPlayers ()
 {
-    //loop through all instances of players
-    Node* currentNode = playerList->head;
-    Node* next;
+    // loop through all instances of players
+    Node *currentNode   = playerList -> head;
+    Node *next          = NULL;
 
-    while(currentNode != NULL)
+    while (currentNode != NULL)
     {
-        next = currentNode->next;
-        DeconstructPlayer((Player*)currentNode->data);
-        obtain(playerList, currentNode);
-        deleteNode(currentNode);
+        next            = currentNode -> next;
+        DeconstructPlayer ((Player *) currentNode -> data);
+        playerList      = obtain (playerList, currentNode);
+        deleteNode (currentNode);
 
-        currentNode = next;
+        currentNode     = next;
     }
 }
 
-void DeconstructAllPlayersAndWeapons()
+void DeconstructAllPlayersAndWeapons ()
 {
-    //loop through all instances of players
-    Node* currentNode = playerList->head;
-    Node* next;
+    // loop through all instances of players
+    Node *currentNode   = playerList -> head;
+    Node *next          = NULL;
 
-    while(currentNode != NULL)
+    while (currentNode != NULL)
     {
-        next = currentNode->next;
-        DeconstructPlayerAndWeapon((Player*)currentNode->data);
-        obtain(playerList, currentNode);
-        deleteNode(currentNode);
+        next            = currentNode -> next;
+        DeconstructPlayerAndWeapon ((Player *) currentNode -> data);
+        playerList      = obtain (playerList, currentNode);
+        deleteNode (currentNode);
 
-        currentNode = next;
+        currentNode     = next;
     }
 }
 
@@ -366,39 +368,38 @@ void DeconstructAllPlayersAndWeapons()
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-/**
- * SUMMARY: //NOT FULLY IMPLEMENTED UNTIL THE COMPLETION OF LINKED LIST
+/*
+ * SUMMARY: NOT FULLY IMPLEMENTED UNTIL THE COMPLETION OF LINKED LIST
  * This part keeps tracks of all the instances of player in a linked list
-**/
+ */
 
-//return linked list of players
-List* GetPlayerList()
+// return linked list of players
+List *GetPlayerList ()
 {
-    return playerList;
+    return (playerList);
 }
 
-//update all player controller in instances list
-void UpdateAllPlayers()
+// update all player controller in instances list
+void UpdateAllPlayers ()
 {
-    Node* currentNode = playerList->head;
-    Node* nextNode;
+    Node *currentNode            = playerList -> head;
+    Node *nextNode               = NULL;
 
-    while(currentNode != NULL)
+    while (currentNode          != NULL)
     {
-        nextNode = currentNode->next;
-        if(currentNode->data != NULL)
+        nextNode                 = currentNode -> next;
+        if (currentNode -> data != NULL)
         {
-            PlayerUpdate((Player*)currentNode->data);
-            if(currentNode->data->status & DeletionMarkFlag)
+            PlayerUpdate ((Player *) currentNode -> data);
+            if (currentNode -> data -> status & DeletionMarkFlag)
             {
-                DeconstructPlayer((Player*)currentNode->data);
-                obtain(playerList, currentNode);
-                deleteNode(currentNode);
+                DeconstructPlayer ((Player *) currentNode -> data);
+                playerList       = obtain (playerList, currentNode);
+                deleteNode (currentNode);
             }
         }
-        currentNode = nextNode;
+        currentNode              = nextNode;
     }
 }
-
 
 #endif // PLAYER_H 

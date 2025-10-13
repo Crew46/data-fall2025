@@ -14,15 +14,16 @@
 
 void main (void)
 {   
-    int     byb             = 1;
-    int     byn             = 1;
-    int     frame           = 0;
-    int    *scoreResult     = NULL;
-    Object *laser           = NULL;
+    int               byb          = 1;
+    int               byn          = 1;
+    int               frame        = 0;
+    int              *scoreResult  = NULL;
+    Object           *laser        = NULL;
+    Object           *newNode      = NULL;
+    doublyLinkedList *listA        = NULL;
 
-    tmp                     = NULL;
-    tmp2                    = NULL;
-    tmp3                    = NULL;
+    Object *tmp             = NULL;
+    Object *tmp3            = NULL;
     laser                   = NULL;
     xpos                    = NULL;
     ypos                    = 0;
@@ -156,33 +157,34 @@ void main (void)
         //
         // Adjust player position based on recently obtained gamepad information
         // I am multiplying ydir and xdir by 3 to make the ship move faster.
-            player -> x      = player -> x + player -> xdir * 3;
-            player -> y      = player -> y + player -> ydir * 3;
+            player -> x            = player -> x + player -> xdir * 3;
+            player -> y            = player -> y + player -> ydir * 3;
         }
 
 // player laser will fire if x is pressed pressed. Only 1 laser can be fired.
-        if((gamepad_button_a() == 1))
+        if ((gamepad_button_a ()  == 1))
         {
-            laser->laserFired = true;
+            laser -> laserFired    = true;
         }        
         // FIRING THE LASER!!!!!
-        if(laser->laserFired && !laser->isActive)                
+        if(laser -> laserFired && !laser -> isActive)                
         {
-            laser->isActive = true;
-            laser->height = 20;
-            laser->width  = 10;
-            laser->x = player->x + 4;    
-            laser->y = player->y;
-            laser->laserFired = false;
+            laser -> isActive      = true;
+            laser -> height        = 20;
+            laser -> width         = 10;
+            laser -> x             = player -> x + 4;    
+            laser -> y             = player->y;
+            laser -> laserFired    = false;
         }
         // This will move the laser up. it will deactivate once it goes far enough.
-        if(laser->isActive == true)
+        if (laser -> isActive     == true)
         { 
-            laser->y = laser->y - 10;
-            if(laser->y < 20)
+            laser -> y             = laser -> y - 10;
+            if (laser -> y        <  20)
             {
-                laser->isActive = false;
-                free(laser);
+                laser -> isActive  = false;
+                free (laser);
+                laser              = NULL;
             }
         }
  

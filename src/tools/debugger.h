@@ -40,21 +40,20 @@ void DrawLine(int startingX, int startingY, int endX, int endY, int* character)
     //if they are actually apart from eachother
     if(distance != 0)
     {
-        //how does does the height related to the hypotenuse
-        float cosineRatio = deltaY / distance;
-        int deltaXNegative = 1;
-        if(deltaX < 0)
-        {
-            deltaXNegative = -1;
-        }
+        float newX  = startingX;
+        float newY  = startingY;
+
+        float xStep = (deltaX / distance) * (float)distanceBetweenDots;
+        float yStep = (deltaY / distance) * (float)distanceBetweenDots;
 
         //for every dot starting at 1st, rather than 0st 
         for(int i = 1; i < (numberOfDots); i++)
         {
             //find the x of that dot
-            float newY = startingY + (cosineRatio * (i * distanceBetweenDots)); 
+            newX += xStep;
             //find the y of that dot
-            float newX = startingX + (deltaXNegative * sqrt(pow(distanceBetweenDots * i, 2) - pow(startingY - newY, 2))); 
+            newY += yStep;
+
             print_at(round(newX), round(newY), character);
         }
     }

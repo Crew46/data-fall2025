@@ -97,21 +97,24 @@ void main (void)
     while (true)
     {
         // If the player is inactive. Stop the game
-        mask = 0x10000000;
-        value = status & mask;
-        if (value != 0x10000000) // The first bit represents that the game is active.
+        mask                     = 0x10000000;
+        value                    = status & mask;
+        if (value               != 0x10000000) // The first bit represents that the game is active.
         {
-            tmp = listA->head;
-            while(tmp    != NULL)
+            tmp                  = listA -> head;
+            while(tmp           != NULL)
             {
-                tmp->isActive    = false;
-                tmp                = tmp->next;
+                tmp -> isActive  = false;
+                tmp              = tmp->next;
             }
+
             //Game over fella. Erase everything.
-            player        = NULL;
-            laser        = NULL;    
-            free(player);
-            free(laser);
+            free (player);
+            player               = NULL;
+
+            free (laser);
+            laser                = NULL;    
+
             listA                = clearList(listA);
             listA                = deleteList(listA);
         }

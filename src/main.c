@@ -158,12 +158,19 @@ void main (void)
         }
 
 // player laser will fire if x is pressed pressed. Only 1 laser can be fired.
-        if ((gamepad_button_a ()  == 1))
+if(laser == NULL)
+	{
+		laser						= (Object *) malloc(sizeof(Object));
+		laser->isActive				= false;
+	}
+
+		if ((gamepad_button_a ()  == 1))
         {
             laser -> laserFired    = true;
-        }        
+        }       
+	 
         // FIRING THE LASER!!!!!
-        if(laser -> laserFired && !laser -> isActive)                
+        if(laser -> laserFired && laser->isActive == false)                
         {
             laser -> isActive      = true;
             laser -> height        = 20;
@@ -178,9 +185,9 @@ void main (void)
             laser -> y             = laser -> y - 10;
             if (laser -> y        <  20)
             {
-                laser -> isActive  = false;
+				laser->isActive 	= false;
                 free (laser);
-                laser              = NULL;
+                laser              	= NULL;
             }
         }
  
@@ -291,6 +298,7 @@ void main (void)
                     laser->isActive = false;
                     if(tmp->hp == 0)
                     {
+						score	= score + tmp->points;
                         tmp->isActive = false;
                         counter = counter + 8;
                     }

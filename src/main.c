@@ -30,7 +30,7 @@ void main (void)
 	a 					 	= NULL;
 	status				 	= 0x10000000;
 	score					= 0;
-	int scoreResult		= (int )malloc(sizeof(int ) * 10 );
+	int scoreResult		= (int)malloc(sizeof(int) * 10 );
     
 	// creating the head and malloc it.
     listA = mkList();
@@ -274,9 +274,10 @@ if(player != NULL)
 	set_drawing_point(200, 10);
 	print("SCORE");
 
-	
-	//itoa(score, &(scoreResult), 10);
-	//print_at(250, 10, &(scoreResult));
+
+	draw_region();	
+	itoa(score, &(scoreResult), 10);
+	print_at(250, 10, &(scoreResult));
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
 	if(listA != NULL)
@@ -292,7 +293,6 @@ if(player != NULL)
 				{
 				tmp->isActive = false;
 				counter = counter + 8;
-				score = score + tmp->points;
 				}
 			 // Defeat an enemy and add 8  to the counter.
 			}

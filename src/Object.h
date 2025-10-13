@@ -14,6 +14,7 @@ int a;
 int b;
 int score;
 
+
 // The main struct that we use.
 struct Object
 {

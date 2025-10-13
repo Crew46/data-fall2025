@@ -47,6 +47,13 @@ else
 
 return(myQueue);
 }
-queue * dequeue(queue * myQueue, Object * tmp)
+queue * dequeue(queue * myQueue, Object **thatNode)
 {
-	
+	if(queueIsEmpty(myQueue) == false)
+	{
+		myQueue->data = obtainNode(myQueue->data, &(myQueue->front);
+		(*thatNode)   = myQueue->front;
+		myQueue->front= myQueue->data->head;
+	}
+return(myQueue)
+}

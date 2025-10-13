@@ -2,6 +2,7 @@
 #include "misc.h"
 #include "video.h"
 #include "time.h"
+#include "string.h"
 #include "Object.h"
 #include "visuals.h"
 #include "node.h"
@@ -28,6 +29,7 @@ void main (void)
 	position			 	= 2; 
 	a 					 	= NULL;
 	status				 	= 0x10000000;
+	score					= 0;
     // creating the head and malloc it.
     listA = mkList();
 
@@ -266,7 +268,13 @@ if(player != NULL)
 				print( " You have died. Restart to try again");
 				exit();
 			}
-
+	draw_region();
+	set_drawing_point(200, 10);
+	print("SCORE");
+	draw_region();
+	//set_drawing_point(250, 10);
+	//itoa(score, &(result), 10);
+	//print( &(result));
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
 	if(listA != NULL)

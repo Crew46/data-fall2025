@@ -12,7 +12,8 @@ int max;
 int position;
 int a;
 int b;
-
+int score;
+int result;
 // The main struct that we use.
 struct Object
 {
@@ -29,6 +30,7 @@ struct Object
 	int hp;
 	int texture;
 	int region;
+	int points;
 	Object *next;
 	Object *prev;
 };

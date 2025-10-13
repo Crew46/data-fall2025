@@ -19,6 +19,7 @@ Object * mkNode()
 	EnemyA -> hp            = 1;
 	EnemyA -> texture       = ENEMYA_TEXTURE;
 	EnemyA -> region        = ENEMYA_REGION;
+	EnemyA -> points		= 10;
 	return(EnemyA);
 	}
 	if(a > 80)
@@ -34,6 +35,7 @@ Object * mkNode()
 	EnemyB -> hp            = 3;
 	EnemyB -> texture       = ENEMYB_TEXTURE;
 	EnemyB -> region        = ENEMYB_REGION;
+	EnemyB -> points		= 20;
 	return(EnemyB);
 	}
 }

@@ -1,5 +1,5 @@
-#ifndef _NODE_H
-#define _NODE_H
+#ifndef NODE_H
+#define NODE_H
 
 // This will make a node for either enemy or enemy (more will be added.)
 Object *mkNode ()
@@ -42,4 +42,4 @@ Object *mkNode ()
     return (enemy);
 }
 
-#endif // _NODE_H
+#endif // NODE_H

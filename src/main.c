@@ -3,12 +3,14 @@
 #include "video.h"
 #include "time.h"
 #include "string.h"
+#include "audio.h"
 #include "Object.h"
 #include "visuals.h"
 #include "node.h"
 #include "linkedlist.h"
 #include "stack.h"
 #include "functions.h"
+#include "sounds.h"
 #define LASERSPEED            1
 
 
@@ -86,7 +88,7 @@ void main (void)
     //
     // Game loop
     //
-
+	playAudio(0);
     while (true)
     {
         // If the player is inactive. Stop the game

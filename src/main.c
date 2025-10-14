@@ -378,7 +378,15 @@ void main (void)
         {
             listA  = insertNode (listA, listA -> head, newNode);
         }
-    
+	if (listA != NULL)
+	{
+		tmp = listA->head;
+		while (tmp != NULL)   
+		{
+			tmp = updateVisuals (tmp);
+			tmp = tmp -> next;
+		}
+ 	}
         end_frame ();
         frame = frame + 1;
     }

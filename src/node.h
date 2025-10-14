@@ -35,7 +35,7 @@ Object *mkNode ()
         enemy -> width      = 20;
         enemy -> hp         = 3;
         enemy -> texture    = ENEMYB_TEXTURE;
-        enemy -> region     = ENEMYB_REGION;
+        enemy -> region     = ENEMYB_REGION1;
         enemy -> points     = 20;
     }
 

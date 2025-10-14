@@ -15,6 +15,7 @@
 #define  SETTINGS_REGION   5
 #define  WEAPON_REGION     6
 #define  LASER_REGION      7
+#define  ENEMY_REGION      1 // for now, make same as player just to get something
 
 void InitializeRegions ()
 {

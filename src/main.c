@@ -24,6 +24,14 @@
 #define  HALFWAY_ACROSS (screen_width/2)
 #define  HALFWAY_DOWN   (screen_height/2)
 
+#define  FRAME_SLICES            5 // frame offset categories
+
+#define  SCREEN_REDRAWING_FRAME  0
+#define  AUDIO_PROCESSING_FRAME  1
+#define  PLAYER_PROCESSING_FRAME 2
+#define  ENEMY_PROCESSING_FRAME  3
+#define  WEAPON_PROCESSING_FRAME 4
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///////////DECLARATIONS////////////////////////////////////
@@ -43,9 +51,9 @@ List      *objectList;
 
 void main (void)
 {
-    int frame             = 0;
+    int frame                            = 0;
 
-    objectList            = NULL;
+    objectList                           = NULL;
 
     // initialize regions
     InitializeRegions ();
@@ -97,12 +105,12 @@ void main (void)
                   PLAYER_TWO);                     // gamepad ID
 
     // Initialize game state
-    currentState              = GAMESTATE_MENU;
+    currentState                         = GAMESTATE_MENU;
 
     // main game loop
     while (true)
     {
-        if ((frame % 5)      == 0)
+        if ((frame % FRAME_SLICES)      == SCREEN_REDRAWING_FRAME)
         {
             // clear screen
             clear_screen (make_color_rgb (0, 0, 0));
@@ -118,7 +126,7 @@ void main (void)
             drawList (GetLaserList ());
 
             // main menu UI
-            if (currentState == GAMESTATE_MENU)
+            if (currentState            == GAMESTATE_MENU)
             {
                 select_texture (UI_TEXTURES);
                 select_region (EXIT_GAME_REGION);
@@ -135,27 +143,32 @@ void main (void)
                                60,
                                GetPlayerList () -> head -> next -> next -> next -> data);
         }
-        else if ((frame % 5)  == 1)
+        else if ((frame % FRAME_SLICES) == AUDIO_PROCESSING_FRAME)
         {
             UpdateAudioManager ();
         }
-        else if ((frame % 5)  == 2)
+        else if ((frame % FRAME_SLICES) == PLAYER_PROCESSING_FRAME)
         {
-            //          texture ID,     region ID,    x,                  y,                   status, shootCooldown
-            //CreateEnemy (ENEMY_TEXTURE, ENEMY_REGION, (screen_width / 2), (screen_height / 2), 0x01, 1.0);
             UpdateAllPlayers ();
         }
-        else if ((frame % 5)  == 3)
+        else if ((frame % FRAME_SLICES) == ENEMY_PROCESSING_FRAME)
+        {
+            CreateEnemy (ENEMY_TEXTURE,          // texture ID
+                         ENEMY_REGION,           // region ID
+                         rand () % screen_width, // starting X
+                         0,                      // starting Y
+                         IS_ACTIVE_FLAG,         // status bits
+                         1.0);                   // cooldown
+            UpdateAllEnemies ();
+        }
+        else if ((frame % FRAME_SLICES) == WEAPON_PROCESSING_FRAME)
         {
             UpdateAllWeapons ();
-        }
-        else if ((frame % 5)  == 4)
-        {
             UpdateAllLasers ();
         }
 
         end_frame ();
 
-        frame             = (frame + 1) % 60;
+        frame                            = (frame + 1) % 60;
     }
 }

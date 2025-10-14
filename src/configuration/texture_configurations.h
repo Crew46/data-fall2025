@@ -12,5 +12,6 @@
 #define UI_TEXTURES        3
 #define WEAPON_TEXTURES    4
 #define LASER_TEXTURES     5
+#define ENEMY_TEXTURE      1 // for now, same as player just to get something
 
 #endif // _TEXTURES_CONFIGURATIONS_H

@@ -11,6 +11,7 @@ struct List
 {
     Node *head;
     Node *tail;
+	int   qty;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -27,8 +28,7 @@ List *append (List *myList, Node *place, Node *newNode)
     if ((myList             != NULL) &&
         (newNode            != NULL))
     {
-        Node *tmp          = NULL;
-        Node *tmp2         = NULL;
+        Node *tmp            = NULL;
 
         if (myList -> head  == NULL)
         {
@@ -69,8 +69,7 @@ List *insert (List *myList, Node *place, Node *newNode)
     if ((myList             != NULL) &&
         (newNode            != NULL))
     {
-        Node *tmp          = NULL;
-        Node *tmp2         = NULL;
+        Node *tmp            = NULL;
 
         if (myList -> head  == NULL)
         {

@@ -5,6 +5,7 @@
 #include "time.h"
 #include "video.h"
 // include texture, region, and audio definitions and configuration values
+#include "configuration/gamepad_configurations.h"
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 #include "configuration/sound_configurations.h"
@@ -19,6 +20,9 @@
 #include "video_manager.h"
 #include "weapon/laser.h"
 #include "weapon/weapon.h"
+
+#define  HALFWAY_ACROSS (screen_width/2)
+#define  HALFWAY_DOWN   (screen_height/2)
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -53,11 +57,45 @@ void main (void)
     // extension of object, so need to pass in object params.
 
     //            texture ID,     region ID,     x,                       y,                         status, shootCooldown, gamepadID
-    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2),      (screen_height / 2),       0x01,   1.0,           0);
-    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) - 40, (screen_height / 2),       0x01,   1.0,           1);
-    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) + 40, (screen_height / 2),       0x05,   1.0,           1);
-    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) - 80, (screen_height / 2) + 80,  0x09,   1.0,           0);
-    CreatePlayer (PLAYER_TEXTURE, PLAYER_REGION, (screen_width / 2) + 80, (screen_height / 2) + 100, 0x0D,   1.0,           1);
+    CreatePlayer (PLAYER_TEXTURE,
+                  PLAYER_REGION,
+                  HALFWAY_ACROSS,
+                  HALFWAY_DOWN,
+                  0x01,
+                  1.0,
+                  PLAYER_ONE);
+
+    CreatePlayer (PLAYER_TEXTURE,
+                  PLAYER_REGION,
+                  HALFWAY_ACROSS - 40,
+                  HALFWAY_DOWN,
+                  0x01,
+                  1.0,
+                  PLAYER_TWO);
+
+    CreatePlayer (PLAYER_TEXTURE,
+                  PLAYER_REGION,
+                  HALFWAY_ACROSS + 40,
+                  HALFWAY_DOWN,
+                  0x05,
+                  1.0,
+                    PLAYER_TWO);
+
+    CreatePlayer (PLAYER_TEXTURE,
+                  PLAYER_REGION,
+                  HALFWAY_ACROSS - 80,
+                  HALFWAY_DOWN + 80,
+                  0x09,
+                  1.0,
+                  PLAYER_ONE);
+
+    CreatePlayer (PLAYER_TEXTURE,
+                  PLAYER_REGION,
+                  HALFWAY_ACROSS + 80,
+                  HALFWAY_DOWN + 100,
+                  0x0D,
+                  1.0,
+                  PLAYER_TWO);
 
     // Initialize game state
     currentState          = GAMESTATE_MENU;
@@ -94,7 +132,9 @@ void main (void)
             VisualizeLinkedList (GetPlayerList ());
             // print statistics
             PrintObjectDataAt (10, 60, GetPlayerList () -> head -> data);
-            PrintObjectDataAt (screen_width - 180, 60, GetPlayerList () -> head -> next -> next -> next -> data);
+            PrintObjectDataAt ((screen_width - 180),
+                               60,
+                               GetPlayerList () -> head -> next -> next -> next -> data);
         }
         else if ((frame % 5)  == 1)
         {

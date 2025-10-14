@@ -14,32 +14,28 @@
 
 void main (void)
 {   
-    int               byb          = 1;
-    int               byn          = 1;
-    int               frame        = 0;
-    int               score        = 0;
-    int              *scoreResult  = NULL;
-    Object           *laser        = NULL;
-    Object           *newNode      = NULL;
-    doublyLinkedList *listA        = NULL;
-
+    int               byb          	= 1;
+    int               byn          	= 1;
+    int               frame        	= 0;
+    int               score        	= 0;
+    int              *scoreResult  	= NULL;
+    Object           *newNode      	= NULL;
+    doublyLinkedList *listA        	= mkList ();
+	doublyLinkedList *laserList	   	= mkList ();
     Object *tmp             = NULL;
+	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
-    laser                   = NULL;
-    max                     = 0;
-    position                = 2; 
+    max                     = 0; 
     status                  = 0x10000000;
-    
+
     srand (get_time ());     
 
     scoreResult             = (int *) malloc (sizeof (int) * 10);
 
-    // creating the head and malloc it.
-    listA                   = mkList ();
+   
+		
 
-    /// Creating the laser.
-    laser                   = (Object *) malloc (sizeof (Object));
-    laser -> next           = NULL;
+ 
 
     ////////////////////////////////////////////////////////////////////////////////////
     //
@@ -71,9 +67,9 @@ void main (void)
     player -> next       = NULL;
     player -> x          = 360;
     player -> y          = 300;
-    player -> isActive      = true;
+    player -> isActive   = true;
     player -> height     = 32;
-    player -> width         = 32;
+    player -> width      = 32;
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // 
@@ -109,8 +105,6 @@ void main (void)
             free (player);
             player               = NULL;
 
-            free (laser);
-            laser                = NULL;    
 
             listA                = clearList(listA);
             listA                = deleteList(listA);
@@ -157,41 +151,33 @@ void main (void)
             player -> y            = player -> y + player -> ydir * 3;
         }
 
-// player laser will fire if x is pressed pressed. Only 1 laser can be fired.
-		if(laser == NULL)
-		{
-		laser						= (Object *) malloc(sizeof(Object));
-		laser->isActive				= false;
-		}
-
-		if ((gamepad_button_a ()  == 1))
-        {
-            laser -> laserFired    = true;
-        }       
-	 
+// player laser will fire if x is pressed pressed.
+	if(laserList != NULL)
+	{	 
         // FIRING THE LASER!!!!!
-        if(laser -> laserFired && laser->isActive == false)                
+        if(gamepad_button_a () == true)                
         {
-            laser -> isActive      = true;
-            laser -> height        = 20;
-            laser -> width         = 10;
-            laser -> x             = player -> x + 4;    
-            laser -> y             = player->y;
-            laser -> laserFired    = false;
+            newNode		= mkLaser (player);
+			laserList	= appendNode (laserList, laserList->tail, newNode);			
         }
         // This will move the laser up. it will deactivate once it goes far enough.
-        if (laser -> isActive     == true)
-        { 
-            laser -> y             = laser -> y - 10;
-            if (laser -> y        <  20)
-            {
-				laser->isActive 	= false;
-                free (laser);
-                laser              	= NULL;
-            }
-        }
- 
-        ////////////////////////////////////////////////////////////////////////////////
+		tmp				= laserList->head;
+		while(tmp != NULL)
+		{
+		if (tmp -> isActive     == true)
+        	{ 
+            	tmp -> y             = tmp -> y - 10;
+            	if (tmp -> y        <  20)
+            	{
+					tmp->isActive 	= false;
+            	}
+				tmp						= tmp->next;
+        	}
+		
+		}
+ 	}
+        
+		////////////////////////////////////////////////////////////////////////////////
         //
         // Player/playfield bounds checking
         //
@@ -228,14 +214,23 @@ void main (void)
 
         ///////////////////////////////////////////////////////////////////////////////
         // This draws the laser if it is active.
-        if(laser != NULL)
-        {
-            if(laser->isActive)
-            {
-                select_texture(LASER_TEXTURE);
-                select_region(LASER_REGION);
-                draw_region_at(laser->x, laser->y);
-            }
+     	if(laserList 	!= NULL)
+		{	
+				tmp				= laserList->head;
+        		while(tmp 		!= NULL)
+				{
+				
+            		if(tmp->isActive)
+            		{
+					
+                		select_texture(LASER_TEXTURE);
+               			select_region(LASER_REGION);
+                		draw_region_at(tmp->x, tmp->y);
+            		}
+				tmp	= tmp->next;	
+				}
+			
+			
         }
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -244,7 +239,7 @@ void main (void)
         //    
         if(listA !=NULL)
         {
-            tmp                    	= listA->tail;
+            tmp                    	= listA->head;
             while(tmp != NULL)
             {
     
@@ -263,7 +258,7 @@ void main (void)
                     select_region  (tmp->region);
                     draw_region_at (tmp  -> x, tmp  -> y);
                 }
-                tmp                 = tmp->prev;
+                tmp                 = tmp->next;
             }  
         }
 
@@ -287,34 +282,47 @@ void main (void)
         print_at (250, 10, scoreResult);
 
         // use the obtainEnemyA function to delete nodes that hit a certain Y value.
-        if (listA      != NULL)
+        if (listA      != NULL && laserList != NULL)
         {
-            tmp         = listA->head; 
-            while (tmp != NULL)
-            {
-                if(laser->isActive == true && tmp->isActive == true && collision(laser, tmp) )
-                {    
-                    tmp->hp         = tmp->hp - 1;
-                    laser->isActive = false;
-                    if(tmp->hp == 0)
-                    {
-						score	= score + tmp->points;
-                        tmp->isActive = false;
-                        counter = counter + 8;
-                    }
-             // Defeat an enemy and add 8  to the counter.
-                }
+			tmp	= listA->head;
+				while(tmp != NULL)
+				{
+					tmp2	= laserList->head;
+					while(tmp2 != NULL)
+					{
+            			if(tmp2->isActive == true && tmp->isActive == true && collision(tmp2, tmp) )
+                		{    
+                    	tmp->hp         = tmp->hp - 1;
+                    	tmp2->isActive 	= false;
+							if(tmp->hp == 0)
+                    		{
+							score	= score + tmp->points;
+                        	tmp->isActive = false;
+                        	counter = counter + 8;
+							}
+						}
+					tmp2 = tmp2->next;
+					}
+					tmp = tmp->next;	
+				}		
+		}
+		
 
-                // This checks for player and enemy collision. If they collide the game ends.
-                if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
+		if(listA != NULL)
+		{
+			tmp = listA->head;
+			while( tmp	!= NULL)
+			{
+      	// This checks for player and enemy collision. If they collide the game ends.
+               if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
                 {
                     player->isActive = false;
                     status = 0x00000000;
                 }
-                tmp                        = tmp->next;
-            }
+                tmp                        	= tmp->next;
+         	}		
         }
-
+		
         // This will obtain the enemy and delete them
         if(listA != NULL)
         {
@@ -324,11 +332,11 @@ void main (void)
                 // If we delete a node we need to move tmp before tmp3 deletes the node.
                 if(tmp->isActive == false)
                 {
-                    tmp3                = tmp;
-                    tmp=tmp->next;
-                    listA                 = obtainNode (listA, &tmp3);
-                    listA                 = rmNode(&tmp3, listA);
-                    tmp                    = listA->head;
+                    tmp3                	= tmp;
+                    tmp						= tmp->next;
+                    listA                 	= obtainNode (listA, &tmp3);
+                    listA                 	= rmNode (&tmp3, listA);
+                    tmp                   	= listA->head;
                 }
                 // If we didn't delete a node move on.
                 else
@@ -337,8 +345,27 @@ void main (void)
                 }
             }
         }
+		// This is used to delete inactive lasers
+		if(laserList != NULL)
+		{
+			tmp 					= laserList->head;
+			while(tmp 	!=	NULL)
+			{
 
-// If the player is inactive then the game ends.
+				if(tmp->isActive == false)
+				{
+					tmp3                = tmp;
+					tmp					= tmp->next;
+					laserList			= obtainNode ( laserList, &tmp3);
+					laserList			= rmNode ( &tmp3, laserList);
+					tmp					= laserList->head;
+				}
+				else
+				{
+					tmp				= tmp->next;
+				}
+			}
+		}
 
 // spawning mechanism    
         newNode    = mkNode();

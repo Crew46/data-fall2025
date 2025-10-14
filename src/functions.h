@@ -32,6 +32,20 @@ bool collision (Object *Thing1, Object *Thing2)
 
     return (result);
 }
+Object * mkLaser(Object * player)
+{
+	Object * laser			= (Object *)malloc(sizeof(Object));
+	laser -> isActive      	= true;
+	laser -> height        	= 20;
+	laser -> width         	= 10;
+	laser -> x             	= player -> x + 4;
+	laser -> y             	= player->y;
+	laser -> next			= NULL;
+	laser -> prev			= NULL;
+return(laser);
+}	
+
+
 
 
 #endif  // _FUNCTIONS_H

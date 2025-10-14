@@ -11,7 +11,7 @@ struct List
 {
     Node *head;
     Node *tail;
-	int   qty;
+    int   qty;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,7 @@ List *append (List *myList, Node *place, Node *newNode)
             place -> next    = newNode;
             newNode -> next  = tmp;
         }
+        myList -> qty        = myList -> qty + 1;
     }
 
     return (myList);
@@ -91,6 +92,8 @@ List *insert (List *myList, Node *place, Node *newNode)
             place -> prev    = newNode;
             newNode -> prev  = tmp;
         }
+
+        myList -> qty        = myList -> qty + 1;
     }
 
     return (myList);
@@ -129,6 +132,8 @@ List *obtain (List *myList, Node *thatNode)
         thatNode -> prev -> next  = thatNode -> next;
     }
 
+    myList -> qty                 = myList -> qty - 1;
+
     return (myList);
 }
 
@@ -143,6 +148,7 @@ List *createList ()
     {
         myList -> head  = NULL;
         myList -> tail  = NULL;
+        myList -> qty   = 0;
     }
 
     return (myList);

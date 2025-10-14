@@ -114,9 +114,6 @@ void LaserUpdate(Laser* laser)
     }
 
     LaserMoveInDirection(laser);
-
-    //draw
-    DrawLaser(laser);
 }
 
 //=========================================================

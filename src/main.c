@@ -16,6 +16,9 @@
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 // other managers
 #include "audio_manager.h"
+#include "video_manager.h"
+#include "weapon/laser.h"
+#include "weapon/weapon.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -71,10 +74,12 @@ void main (void)
             select_region (BACKGROUND_REGION);
             draw_region_at (0, 0);
 
-            // updates all players in players list
-            UpdateAllPlayers ();
+            // draw all objects list
 
-            UpdateAllWeapons ();
+            drawList(GetPlayerList());
+            drawList(GetWeaponList());
+            drawList(GetLaserList());
+
             // main menu UI
             if (currentState == GAMESTATE_MENU)
             {
@@ -99,11 +104,11 @@ void main (void)
         {
             //          texture ID,     region ID,    x,                  y,                   status, shootCooldown
             //CreateEnemy (ENEMY_TEXTURE, ENEMY_REGION, (screen_width / 2), (screen_height / 2), 0x01, 1.0);
-            ;
+            UpdateAllPlayers ();
         }
         else if ((frame % 5)  == 3)
         {
-            ;
+            UpdateAllWeapons ();
         }
         else if ((frame % 5)  == 4)
         {

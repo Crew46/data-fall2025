@@ -214,7 +214,8 @@ void HandleInput (Player *player)
 
     if (player -> weapons -> count     != 0)
     {
-        if ((gamepad_button_b () % 30) == 29)
+        if ((gamepad_button_b () % 30 <= 29) &&
+            (gamepad_button_b () % 30 >= 25))
         {
             playerDropWeapon (player);
         }
@@ -223,8 +224,8 @@ void HandleInput (Player *player)
         playerFireWeapons (player);
     }
 
-    if ((gamepad_button_b ()           >  1) &&
-        (gamepad_button_b ()           <  5))
+    if ((gamepad_button_b ()           >= 1) &&
+        (gamepad_button_b ()           <= 5))
     {
         playerGrabWeapon (player);
     }
@@ -240,9 +241,6 @@ void PlayerUpdate (Player *player)
     {
         //handle input every frame
         HandleInput (player);
-
-        // Update the player view every frame
-        DrawPlayer (player);
     }
 
     while (currentNode != NULL)

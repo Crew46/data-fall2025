@@ -157,7 +157,7 @@ void UpdateAllWeapons()
         if(currentNode->data != NULL)
         {
             WeaponUpdate((Weapon*)currentNode->data);
-            if(currentNode->data->status & DeletionMarkFlag)
+            if(currentNode->data->status & DELETION_FLAG)
             {
                 DeconstructWeapon((Weapon*)currentNode->data);
                 obtain(weaponList, currentNode);

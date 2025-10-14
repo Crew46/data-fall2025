@@ -237,7 +237,7 @@ void PlayerUpdate (Player *player)
     Node *currentNode   = lasers -> head;
     Node *nextNode      = NULL;
 
-    if (player -> object.status & IsActiveFlag)
+    if (player -> object.status & IS_ACTIVE_FLAG)
     {
         //handle input every frame
         HandleInput (player);
@@ -251,7 +251,7 @@ void PlayerUpdate (Player *player)
         {
             if (collisionCheck (&player -> object, currentNode -> data))
             {
-                player -> object.status |= DeletionMarkFlag;
+                player -> object.status |= DELETION_FLAG;
             }
         }
 
@@ -318,7 +318,7 @@ void DeconstructPlayerAndWeapon (Player *player)
     {
         nextNode                       = currentNode -> next;
 
-        currentNode -> data -> status |= DeletionMarkFlag;
+        currentNode -> data -> status |= DELETION_FLAG;
 
         currentNode                    = nextNode;
     }
@@ -389,7 +389,7 @@ void UpdateAllPlayers ()
         if (currentNode -> data != NULL)
         {
             PlayerUpdate ((Player *) currentNode -> data);
-            if (currentNode -> data -> status & DeletionMarkFlag)
+            if (currentNode -> data -> status & DELETION_FLAG)
             {
                 DeconstructPlayer ((Player *) currentNode -> data);
                 playerList       = obtain (playerList, currentNode);

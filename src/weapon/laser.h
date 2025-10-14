@@ -87,7 +87,7 @@ void LaserUpdate(Laser* laser)
     laser->age += 1.0 / 60.0;
     if(laser->age > laser->lifetime)
     {
-        laser->object.status |= DeletionMarkFlag;
+        laser->object.status |= DELETION_FLAG;
     }
 
     int team = (laser->object.status & TeamFlagMask) >> TeamFlagOffset;
@@ -141,7 +141,7 @@ void UpdateAllLasers()
         if(currentNode->data != NULL)
         {
             LaserUpdate((Laser*)currentNode->data);
-            if(currentNode->data->status & DeletionMarkFlag)
+            if(currentNode->data->status & DELETION_FLAG)
             {
                 DeconstructLaser((Laser*)currentNode->data);
                 obtain(laserList, currentNode);

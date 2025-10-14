@@ -3,9 +3,12 @@
 
 #include "math.h"
 
-#define IsActiveFlag 0x00000001
-#define DeletionMarkFlag 0x00000002
-#define TeamFlagMask 0x000000C
+#define IS_ACTIVE_FLAG 0x00000001
+#define DELETION_FLAG  0x00000002
+#define ODD_TEAM_FLAG  0x00000004
+#define HIGH_TEAM_FLAG 0x00000008
+#define ODD_HIGH_FLAG  0x0000000C
+#define TeamFlagMask   0x000000C
 #define TeamFlagOffset 2
 
 #define ShipWidth 32
@@ -18,26 +21,26 @@
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
 {
-  Object_Type_None,
-  Object_Type_Laser,
-  Object_Type_Weapon,
-  Object_Type_Entity
+    Object_Type_None,
+    Object_Type_Laser,
+    Object_Type_Weapon,
+    Object_Type_Entity
 };
 
 // Object struct which will be our base struct 
 struct Object
 {
-  ObjectType  type;
-  int         textureID;
-  int         regionID;
-  int         id;
-  int         x;
-  int         y;
-  int         dx;
-  int         dy;
-  int         vx;
-  int         vy;
-  int         status;
+    ObjectType  type;
+    int         textureID;
+    int         regionID;
+    int         id;
+    int         x;
+    int         y;
+    int         dx;
+    int         dy;
+    int         vx;
+    int         vy;
+    int         status;
 };
 
 // This function is mainly for our embedded object 

@@ -163,7 +163,7 @@ void EnemyUpdate (Enemy *enemy)
     Node *currentNode   = lasers -> head;
     Node *nextNode      = NULL;
 
-    if (enemy -> object.status & IsActiveFlag)
+    if (enemy -> object.status & IS_ACTIVE_FLAG)
     {
         // Update the enemy view every frame
         DrawEnemy (enemy);
@@ -177,7 +177,7 @@ void EnemyUpdate (Enemy *enemy)
         {
             if (collisionCheck (&enemy -> object, currentNode -> data))
             {
-                enemy -> object.status |= DeletionMarkFlag;
+                enemy -> object.status |= DELETION_FLAG;
             }
         }
 
@@ -241,7 +241,7 @@ void DeconstructEnemyAndWeapon (Enemy *enemy)
     {
         nextNode                       = currentNode -> next;
 
-        currentNode -> data -> status |= DeletionMarkFlag;
+        currentNode -> data -> status |= DELETION_FLAG;
 
         currentNode                    = nextNode;
     }
@@ -312,7 +312,7 @@ void UpdateAllEnemies ()
         if (currentNode -> data != NULL)
         {
             EnemyUpdate ((Enemy *) currentNode -> data);
-            if (currentNode -> data -> status & DeletionMarkFlag)
+            if (currentNode -> data -> status & DELETION_FLAG)
             {
                 DeconstructEnemy ((Enemy *) currentNode -> data);
                 enemyList       = obtain (enemyList, currentNode);

@@ -56,67 +56,66 @@ void main (void)
     // HAVE TO  CALL IS  UpdateAllPlayers(); create  player, which  is an
     // extension of object, so need to pass in object params.
 
-    //            texture ID,     region ID,     x,                       y,                         status, shootCooldown, gamepadID
-    CreatePlayer (PLAYER_TEXTURE,
-                  PLAYER_REGION,
-                  HALFWAY_ACROSS,
-                  HALFWAY_DOWN,
-                  0x01,
-                  1.0,
-                  PLAYER_ONE);
+    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                  PLAYER_REGION,                   // region ID
+                  HALFWAY_ACROSS,                  // starting X
+                  HALFWAY_DOWN,                    // starting Y
+                  IS_ACTIVE_FLAG,                  // status flag bits
+                  1.0,                             // shootCooldown
+                  PLAYER_ONE);                     // gamepad ID
 
-    CreatePlayer (PLAYER_TEXTURE,
-                  PLAYER_REGION,
-                  HALFWAY_ACROSS - 40,
-                  HALFWAY_DOWN,
-                  0x01,
-                  1.0,
-                  PLAYER_TWO);
+    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                  PLAYER_REGION,                   // region ID
+                  HALFWAY_ACROSS - 40,             // starting X
+                  HALFWAY_DOWN,                    // starting Y
+                  IS_ACTIVE_FLAG,                  // status flag bits
+                  1.0,                             // shootCooldown
+                  PLAYER_TWO);                     // gamepad ID
 
-    CreatePlayer (PLAYER_TEXTURE,
-                  PLAYER_REGION,
-                  HALFWAY_ACROSS + 40,
-                  HALFWAY_DOWN,
-                  0x05,
-                  1.0,
-                    PLAYER_TWO);
+    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                  PLAYER_REGION,                   // region ID
+                  HALFWAY_ACROSS + 40,             // starting X
+                  HALFWAY_DOWN,                    // starting Y
+                  IS_ACTIVE_FLAG | ODD_TEAM_FLAG,  // status flag bits
+                  1.0,                             // shootCooldown
+                  PLAYER_TWO);                     // gamepad ID
 
-    CreatePlayer (PLAYER_TEXTURE,
-                  PLAYER_REGION,
-                  HALFWAY_ACROSS - 80,
-                  HALFWAY_DOWN + 80,
-                  0x09,
-                  1.0,
-                  PLAYER_ONE);
+    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                  PLAYER_REGION,                   // region ID
+                  HALFWAY_ACROSS - 80,             // starting X
+                  HALFWAY_DOWN + 80,               // starting Y
+                  IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status flag bits
+                  1.0,                             // shootCooldown
+                  PLAYER_ONE);                     // gamepad ID
 
-    CreatePlayer (PLAYER_TEXTURE,
-                  PLAYER_REGION,
-                  HALFWAY_ACROSS + 80,
-                  HALFWAY_DOWN + 100,
-                  0x0D,
-                  1.0,
-                  PLAYER_TWO);
+    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                  PLAYER_REGION,                   // region ID
+                  HALFWAY_ACROSS + 80,             // starting X
+                  HALFWAY_DOWN + 100,              // starting Y
+                  IS_ACTIVE_FLAG | ODD_HIGH_FLAG,  // status flag bits
+                  1.0,                             // shootCooldown
+                  PLAYER_TWO);                     // gamepad ID
 
     // Initialize game state
-    currentState          = GAMESTATE_MENU;
+    currentState              = GAMESTATE_MENU;
 
     // main game loop
     while (true)
     {
-        if ((frame % 5)  == 0)
+        if ((frame % 5)      == 0)
         {
             // clear screen
-            clear_screen(make_color_rgb (0, 0, 0));
+            clear_screen (make_color_rgb (0, 0, 0));
+
             // drawing the background
             select_texture (BACKGROUND_TEXTURE);
             select_region (BACKGROUND_REGION);
             draw_region_at (0, 0);
 
             // draw all objects list
-
-            drawList(GetPlayerList());
-            drawList(GetWeaponList());
-            drawList(GetLaserList());
+            drawList (GetPlayerList ());
+            drawList (GetWeaponList ());
+            drawList (GetLaserList ());
 
             // main menu UI
             if (currentState == GAMESTATE_MENU)

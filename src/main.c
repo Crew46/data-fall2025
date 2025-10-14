@@ -124,6 +124,7 @@ void main (void)
 
             // draw all objects list
             drawList (GetPlayerList ());
+            drawList (GetEnemyList ());
             drawList (GetWeaponList ());
             drawList (GetLaserList ());
 

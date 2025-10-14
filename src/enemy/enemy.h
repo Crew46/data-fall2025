@@ -163,11 +163,13 @@ void EnemyUpdate (Enemy *enemy)
     Node *currentNode   = lasers -> head;
     Node *nextNode      = NULL;
 
+    /*
     if (enemy -> object.status & IS_ACTIVE_FLAG)
     {
         // Update the enemy view every frame
         DrawEnemy (enemy);
     }
+    */
 
     while (currentNode != NULL)
     {

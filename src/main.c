@@ -179,6 +179,13 @@ void main (void)
                 if (start               == true)
                 {
                     currentState         = GAMESTATE_INGAME;
+                    pause_channel (0);
+                    stop_channel (0);
+                    select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
+                    select_channel (0);
+                    assign_channel_sound (get_selected_channel (), get_selected_sound ());
+                    play_channel (get_selected_channel ());
+                    set_channel_loop (true);
                 }
             }
         }

@@ -47,7 +47,7 @@ void InitializeAudioManager ()
         select_sound (WHAT_IT_IS_CALLED_MUSIC);
         select_channel (0);
     }
-    else if (currentState == GAMESTATE_GAMEPLAY)
+    else if (currentState == GAMESTATE_INGAME)
     {
         select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
         select_channel (0);

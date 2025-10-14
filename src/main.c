@@ -5,6 +5,7 @@
 #include "time.h"
 #include "video.h"
 // include texture, region, and audio definitions and configuration values
+#include "configuration/game_configurations.h"
 #include "configuration/gamepad_configurations.h"
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
@@ -31,25 +32,6 @@
 #define  PLAYER_PROCESSING_FRAME 2
 #define  ENEMY_PROCESSING_FRAME  3
 #define  WEAPON_PROCESSING_FRAME 4
-
-//=========================================================
-///////////////////////////////////////////////////////////
-///////////DECLARATIONS////////////////////////////////////
-///////////////////////////////////////////////////////////
-//=========================================================
-
-enum GameState
-{
-    GAMESTATE_INTRO,
-    GAMESTATE_TITLE,
-    GAMESTATE_MENU,
-    GAMESTATE_INGAME,
-    GAMESTATE_PLAYAGAIN,
-    GAMESTATE_CREDITS,
-    GAMESTATE_DEMO
-};
-
-GameState  currentState;
 
 // list of all objects in scene
 List      *objectList;
@@ -187,7 +169,7 @@ void main (void)
         }
         else if ((frame % FRAME_SLICES) == PLAYER_PROCESSING_FRAME)
         {
-            if (currentState            == GAMESTATE_GAMEPLAY)
+            if (currentState            == GAMESTATE_INGAME)
             {
                 UpdateAllPlayers ();
             }
@@ -196,7 +178,7 @@ void main (void)
                 start                    = (gamepad_button_start () >  0);
                 if (start               == true)
                 {
-                    currentState         = GAMESTATE_MENU;
+                    currentState         = GAMESTATE_INGAME;
                 }
             }
         }

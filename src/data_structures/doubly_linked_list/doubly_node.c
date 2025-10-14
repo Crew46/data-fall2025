@@ -6,7 +6,7 @@ DoublyNode* ConstructDoublyNode(Object* data)
 {
   DoublyNode* node = (DoublyNode*)malloc(sizeof(DoublyNode));
   node->next = NULL;
-  node->previous = NULL;
+  node->prev = NULL;
   node->data = data;
   return node;
 }
@@ -14,33 +14,6 @@ DoublyNode* ConstructDoublyNode(Object* data)
 void DeconstructDoublyNode(DoublyNode* doublyNode)
 {
   free(doublyNode);
-}
-
-void InsertDoublyNodeAfterDoublyNode(DoublyNode* nodeToInsertAfter, DoublyNode* newNode)
-{
-  //if nodeToInsertAfter->next doesn't exist, don't set it's previous
-  if(nodeToInsertAfter->next != NULL)
-  {
-    nodeToInsertAfter->next->previous = newNode;
-  }
-
-  newNode->next = nodeToInsertAfter->next; 
-  newNode->previous = nodeToInsertAfter;
-
-  nodeToInsertAfter->next = newNode;
-}
-
-void InsertDoublyNodeBeforeDoublyNode(DoublyNode* nodeToInsertBefore, DoublyNode* newNode)
-{
-  if(nodeToInsertBefore->previous != NULL)
-  {
-    nodeToInsertBefore->previous->next = newNode;
-  }
-
-  newNode->previous = nodeToInsertBefore->previous;
-  newNode->next = nodeToInsertBefore;
-
-  nodeToInsertBefore->previous = newNode;
 }
 
 #endif //DOUBLY_NODE_C

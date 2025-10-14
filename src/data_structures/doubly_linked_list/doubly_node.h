@@ -6,12 +6,10 @@ struct DoublyNode
 {
   Object* data;
   DoublyNode* next;
-  DoublyNode* previous;
+  DoublyNode* prev;
 };
 
 DoublyNode* ConstructDoublyNode(Object* data);
 void DeconstructDoublyNode(DoublyNode* doublyNode);
-void InsertDoublyNodeAfterDoublyNode(DoublyNode* nodeToInsertAfter, DoublyNode* newNode);
-void InsertDoublyNodeBeforeDoublyNode(DoublyNode* nodeToInsertBefore, DoublyNode* newNode);
 
 #endif // DOUBLY_NODE_H

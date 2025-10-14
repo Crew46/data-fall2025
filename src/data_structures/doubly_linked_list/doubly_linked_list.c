@@ -6,8 +6,9 @@
 DoublyLinkedList* ConstructDoublyLinkedList()
 {
   DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
-  list->head = ConstructDoublyNode(NULL);
+  list->head = NULL;
   list->tail = NULL;
+  list->qty = 0;
   return list;
 }
 
@@ -16,95 +17,79 @@ void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList)
 
 }
 
-DoublyNode* Detatch()
-{
-
-}
-
-DoublyNode* Peak()
-{
-
-}
-
-
 ////////////////////////////////////////////////////////////
 ///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListInsert(DoublyLinkedList* list, DoublyNode* place, DoublyNode* newNode)
 {
-  //if tail exists
-  if(doublyLinkedList->tail != NULL)
+  if ((list != NULL) && (newNode != NULL))
   {
-    //if tail has data in it, must create new node and insert it after tail, then set new tail to new node
-    if(doublyLinkedList->tail->data != NULL)
+    DoublyNode *tmp = NULL;
+
+    if (list->head == NULL)
     {
-      DoublyNode* newNode = ConstructDoublyNode(data);
-      InsertDoublyNodeAfterDoublyNode(doublyLinkedList->tail, newNode);
-      //inserted node, becomes new tail
-      doublyLinkedList->tail = newNode;
+      list->head = newNode;
+      list->tail = newNode;
     }
-    //tail data has nothing in it
+    else if (place == list->head)
+    {
+      tmp = list->head;
+      tmp->prev = newNode;
+      newNode->next = tmp;
+      list->head = newNode;
+    }
     else
     {
-      doublyLinkedList->tail->data = data;
+      tmp = place->prev;
+      tmp->next = newNode;
+      newNode->next = place;
+      place->prev = newNode;
+      newNode->prev = tmp;
     }
-  }
-  //if tail doesn't exist
-  else
-  {
-    //if head exists
-    if(doublyLinkedList->head != NULL)
-    {
-      //if head data is empty
-      if(doublyLinkedList->head->data == NULL)
-      {
-        doublyLinkedList->head->data = data;
-      }
-      //need to create tail node if head isn't empty
-      else
-      {
-        doublyLinkedList->tail = ConstructDoublyNode(data);
-        InsertDoublyNodeAfterDoublyNode(doublyLinkedList->head, doublyLinkedList->tail);
-      }
-    }
-    //if head doesn't exist
-    else
-    {
-      doublyLinkedList->head = ConstructDoublyNode(data);
-    }
+
+    list->qty = list->qty + 1;
   }
 }
 
-void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data)
+void DoublyLinkedListAppend(DoublyLinkedList* list, DoublyNode* place, DoublyNode* newNode)
 {
-  //if head exists
-  if(doublyLinkedList->head != NULL)
+  if ((list != NULL) && (newNode != NULL))
   {
-    //if head has has data in it already
-    if(doublyLinkedList->head->data != NULL)
-    {
-      DoublyNode* newNode = ConstructDoublyNode(data);
-      InsertDoublyNodeBeforeDoublyNode(doublyLinkedList->head, newNode);
-      //set head of list to the new node
-      doublyLinkedList->head = newNode;
+    DoublyNode *tmp = NULL;
 
-      if(doublyLinkedList->tail == NULL)
-      {
-        doublyLinkedList->tail = doublyLinkedList->head->next;
-      }
+    if (list->head == NULL)
+    {
+      list->head = newNode;
+      list->tail = newNode;
     }
-    //if head doesn't have data in it
+    else if (place == list->tail)
+    {
+      tmp = list->tail;
+      tmp->next = newNode;
+      newNode->prev = tmp;
+      list->tail = newNode;
+    }
     else
     {
-      doublyLinkedList->head->data = data;
+        tmp = place->next;
+        tmp->prev = newNode;
+        newNode->prev = place;
+        place->next = newNode;
+        newNode->next = tmp;
     }
+    list->qty = list->qty + 1;
   }
-  //if head doesn't exist
-  else
-  {
-    doublyLinkedList->head = ConstructDoublyNode(data);
-  }
+}
+
+void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, DoublyNode* node)
+{
+  DoublyLinkedListInsert(doublyLinkedList, doublyLinkedList->tail, node);
+}
+
+void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, DoublyNode* node)
+{
+  DoublyLinkedListAppend(doublyLinkedList, doublyLinkedList->head, node);
 }
 
 #endif // DOUBLY_LINKED_LIST_C

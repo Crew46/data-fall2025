@@ -27,14 +27,13 @@ bool stackIsEmpty(stack * myStack)
 // Push a node into the stack.
 stack *push (stack *myStack, Object *newNode)
 {
-    Object *tmp                     = myStack -> data -> head;
     int     b                       = 0;
 
     if (myStack -> size            != 0)
     {
         if (myStack -> data -> qty <  myStack -> size)
         {
-            myStack -> data         = insertNode (myStack -> data, tmp, newNode);
+            myStack -> data         = insertNode (myStack -> data, myStack->data->head, newNode);
             myStack -> top          = myStack -> data -> head;
         }
     }
@@ -44,7 +43,7 @@ stack *push (stack *myStack, Object *newNode)
         b                           = rand () % (100 + 0);
         if (b                      >  92)
         {
-            myStack -> data         = insertNode (myStack -> data, tmp, newNode);
+            myStack -> data         = insertNode (myStack -> data, myStack->data->tail, newNode);
         }
     }
     myStack -> top                  = myStack -> data -> head;

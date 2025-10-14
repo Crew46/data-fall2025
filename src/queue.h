@@ -1,59 +1,67 @@
-queue * mkQueue(doublyLinkedList * listB)
+#ifndef QUEUE_H_
+#define QUEUE_H_
+
+queue * mkQueue (doublyLinkedList * listB)
 {
+	queue * myQueue;
+	myQueue				= (queue *)malloc(sizeof(queue));	
 // Infinite queue
-	queue->size		= 0;
-	queue->data		= listB;
-	queue->front	= listB->head;
-	queue->back		= listB->tail;
-return(myQueue);
+	myQueue->size		= 0;
+	myQueue->data		= listB;
+	myQueue->front		= listB->head;
+	myQueue->back		= listB->tail;
+return (myQueue);
 }
 
-bool queueIsEmpty(queue * myQueue)
+bool queueIsEmpty (queue * myQueue)
 {
-	return(queue->front == NULL);
+	return(myQueue->front == NULL);
 }
 // add something to the queue
-queue * enqueue(queue * myQueue, Object * newNode)
+queue * enqueue (queue * myQueue, Object * newNode)
 {
-if(myQueue->size != 0)
-{
-	if(myQueue->data->qty < myQueue->size)
+	if (myQueue->size != 0)
 	{
-		if(queue->front == NULL)
+		if (myQueue->data->qty < myQueue->size)
 		{
-		queue->data	= appendNode(queue->data, tmp, newNode);
-		queue->front= queue->data->head;
+			if (myQueue->front == NULL)
+			{
+			myQueue->data	= appendNode (myQueue->data, myQueue->data->tail, newNode);
+			myQueue->front	= myQueue->data->head;
+			}
+			else
+			{
+			myQueue->data		= appendNode (myQueue->data, myQueue->data->tail, newNode);
+			myQueue->back		= myQueue->data->tail;
+			}
 		}
-		else
-		{
-		queue->data		= appendNode(queue->data, tmp, newNode);
-		queue->back		= queue->data->tail;
-		}
-	}
-}
-else
-{
-	if(queue->front == NULL)
-	{
-	queue->data = appendNode(queue->data, tmp, newNode);
-	queue->front= queue->data->head;
 	}
 	else
 	{
-	queue->data     = appendNode(queue->data, tmp, newNode);
-	queue->back     = queue->data->tail;
+		if (myQueue->front == NULL)
+		{
+		myQueue->data = appendNode (myQueue->data, myQueue->data->tail, newNode);
+		myQueue->front= myQueue->data->head;
+		}
+		else
+		{
+		myQueue->data     = appendNode (myQueue->data, myQueue->data->tail, newNode);
+		myQueue->back     = myQueue->data->tail;
+		}
 	}
+return (myQueue);
 }
-
-return(myQueue);
-}
-queue * dequeue(queue * myQueue, Object **thatNode)
+//dequeue will obtain the front and use it.
+queue * dequeue (queue * myQueue, Object **thatNode)
 {
-	if(queueIsEmpty(myQueue) == false)
+	if (queueIsEmpty(myQueue) == false)
 	{
-		myQueue->data = obtainNode(myQueue->data, &(myQueue->front);
+		myQueue->data = obtainNode (myQueue->data, &(myQueue->front));
 		(*thatNode)   = myQueue->front;
 		myQueue->front= myQueue->data->head;
 	}
-return(myQueue)
+return (myQueue);
 }
+
+
+#endif // QUEUE_H_

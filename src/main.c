@@ -11,6 +11,7 @@
 #include "stack.h"
 #include "functions.h"
 #include "sounds.h"
+#include "queue.h"
 #define LASERSPEED            1
 
 
@@ -22,8 +23,10 @@ void main (void)
     int               score        	= 0;
     int              *scoreResult  	= NULL;
     Object           *newNode      	= NULL;
-    doublyLinkedList *listA        	= mkList ();
-	doublyLinkedList *laserList	   	= mkList ();
+    doublyLinkedList *listA        	= mkList (); // Main enemy list
+	doublyLinkedList *laserList	   	= mkList (); // laser list
+	doublyLinkedList *listB			= mkList (); // queue list.
+	queue  *myQueue					= mkQueue (listB);
     Object *tmp             = NULL;
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
@@ -110,6 +113,8 @@ void main (void)
 
             listA                = clearList(listA);
             listA                = deleteList(listA);
+			laserList			 = clearList(laserList);
+			laserList			 = deleteList(laserList);
         }
 
 
@@ -387,6 +392,24 @@ void main (void)
 			tmp = tmp -> next;
 		}
  	}
+
+	if ( score % 50 == 0)
+	{
+		if(score != check)
+		{
+			check = score;
+			for ( i = 0; i < 19; i++)
+				{
+					newNode			= mkNode ();
+					myQueue	= enqueue (myQueue, newNode);
+					myQueue = dequeue (myQueue, &(tmp3));
+					listA   = appendNode (listA, listA->tail, tmp3);	
+					draw_region ();
+					set_drawing_point ( 260, 250);
+					print( " We are so boned");
+				}
+		}
+	}
         end_frame ();
         frame = frame + 1;
     }

@@ -7,6 +7,8 @@ int mask;     // mask will change the value of status.
 int value;    // value is used to check to see if the values match for a flag.
 int counter;
 int max;
+int i;
+int check;
 // The main struct that we use.
 struct Object
 {

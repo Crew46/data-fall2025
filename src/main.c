@@ -88,7 +88,7 @@ void main (void)
     //
     // Game loop
     //
-	playAudio(0);
+	playAudio (0, 0, true, 1.0);
     while (true)
     {
         // If the player is inactive. Stop the game
@@ -160,7 +160,8 @@ void main (void)
         if(gamepad_button_a () == true)                
         {
             newNode		= mkLaser (player);
-			laserList	= appendNode (laserList, laserList->tail, newNode);			
+			laserList	= appendNode (laserList, laserList->tail, newNode);
+			playAudio (1, 1, false, 0.1);	
         }
         // This will move the laser up. it will deactivate once it goes far enough.
 		tmp				= laserList->head;
@@ -301,6 +302,7 @@ void main (void)
 							score	= score + tmp->points;
                         	tmp->isActive = false;
                         	counter = counter + 8;
+							playAudio(2, 2, false, 0.1);
 							}
 						}
 					tmp2 = tmp2->next;
@@ -320,6 +322,7 @@ void main (void)
                 {
                     player->isActive = false;
                     status = 0x00000000;
+					playAudio (2, 2, false, 0.1);
                 }
                 tmp                        	= tmp->next;
          	}		

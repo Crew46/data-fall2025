@@ -1,10 +1,14 @@
 #ifndef	SOUNDS_H_
 #define SOUNDS_H_
 
-void playAudio (int sound_id)
+void playAudio (int sound_id, int channel_id, bool i, float x)
 {
-	play_sound(sound_id);
-	set_sound_loop (true);
+	select_channel (channel_id);	
+	set_channel_volume(x);
+	play_sound_in_channel (sound_id, channel_id); 
+	set_channel_loop (i);
+	
+	
 }
 
 

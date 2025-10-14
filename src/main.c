@@ -153,12 +153,15 @@ void main (void)
         }
         else if ((frame % FRAME_SLICES) == ENEMY_PROCESSING_FRAME)
         {
-            CreateEnemy (ENEMY_TEXTURE,          // texture ID
-                         ENEMY_REGION,           // region ID
-                         rand () % screen_width, // starting X
-                         0,                      // starting Y
-                         IS_ACTIVE_FLAG,         // status bits
-                         1.0);                   // cooldown
+            if (enemyList -> qty        == 0)
+            {
+                CreateEnemy (ENEMY_TEXTURE,          // texture ID
+                             ENEMY_REGION,           // region ID
+                             rand () % screen_width, // starting X
+                             0,                      // starting Y
+                             IS_ACTIVE_FLAG,         // status bits
+                             1.0);                   // cooldown
+            }
             UpdateAllEnemies ();
         }
         else if ((frame % FRAME_SLICES) == WEAPON_PROCESSING_FRAME)

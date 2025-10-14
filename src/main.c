@@ -59,6 +59,8 @@ void main (void)
     InitializeRegions ();
     InitializeAudioManager ();
     
+    srand (get_time ());
+
     // MANY INSTANCES OF PLAYER, WHEN  PLAYER IS CREATED, THE PLAYER FILE
     // HAS STORED  IT IN A LINKED  LIST TO UPDATE ALL  INSTANCES, ALL YOU
     // HAVE TO  CALL IS  UpdateAllPlayers(); create  player, which  is an

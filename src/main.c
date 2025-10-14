@@ -40,8 +40,13 @@
 
 enum GameState
 {
+    GAMESTATE_INTRO,
+    GAMESTATE_TITLE,
     GAMESTATE_MENU,
-    GAMESTATE_INGAME
+    GAMESTATE_INGAME,
+    GAMESTATE_PLAYAGAIN,
+    GAMESTATE_CREDITS,
+    GAMESTATE_DEMO
 };
 
 GameState  currentState;
@@ -51,9 +56,11 @@ List      *objectList;
 
 void main (void)
 {
-    int frame                            = 0;
+    bool       start                     = false;
+    int        frame                     = 0;
 
     objectList                           = NULL;
+    currentState                         = GAMESTATE_TITLE;
 
     // initialize regions
     InitializeRegions ();
@@ -107,30 +114,31 @@ void main (void)
                   PLAYER_TWO);                     // gamepad ID
 
     // Initialize game state
-    currentState                         = GAMESTATE_MENU;
+    //currentState                         = GAMESTATE_MENU;
+    select_gamepad (0);
 
     // main game loop
     while (true)
     {
         if ((frame % FRAME_SLICES)      == SCREEN_REDRAWING_FRAME)
         {
-            // clear screen
-            clear_screen (make_color_rgb (0, 0, 0));
-
-            // drawing the background
-            select_texture (BACKGROUND_TEXTURE);
-            select_region (BACKGROUND_REGION);
-            draw_region_at (0, 0);
-
-            // draw all objects list
-            drawList (GetPlayerList ());
-            drawList (GetEnemyList ());
-            drawList (GetWeaponList ());
-            drawList (GetLaserList ());
-
-            // main menu UI
-            if (currentState            == GAMESTATE_MENU)
+            if (currentState            == GAMESTATE_INTRO)
             {
+                ;
+            }
+            else if (currentState       == GAMESTATE_TITLE)
+            {
+                // clear screen
+                clear_screen (make_color_rgb (0, 0, 0));
+
+                // drawing the background
+                select_texture (TITLE_TEXTURE);
+                select_region (TITLE_REGION);
+                draw_region_at (0, 0);
+            }
+            else if (currentState       == GAMESTATE_MENU)
+            {
+                // main menu UI
                 select_texture (UI_TEXTURES);
                 select_region (EXIT_GAME_REGION);
                 draw_region_at (20, 40);
@@ -139,12 +147,39 @@ void main (void)
                 select_region (CREDITS_REGION);
                 draw_region_at (420, 40);
             }
-            VisualizeLinkedList (GetPlayerList ());
-            // print statistics
-            PrintObjectDataAt (10, 60, GetPlayerList () -> head -> data);
-            PrintObjectDataAt ((screen_width - 180),
-                               60,
-                               GetPlayerList () -> head -> next -> next -> next -> data);
+            else if (currentState       == GAMESTATE_INGAME)
+            {
+                // clear screen
+                clear_screen (make_color_rgb (0, 0, 0));
+
+                // drawing the background
+                select_texture (BACKGROUND_TEXTURE);
+                select_region (BACKGROUND_REGION);
+                draw_region_at (0, 0);
+
+                // draw all objects list
+                drawList (GetPlayerList ());
+                drawList (GetEnemyList ());
+                drawList (GetWeaponList ());
+                drawList (GetLaserList ());
+            }
+            else if (currentState       == GAMESTATE_PLAYAGAIN)
+            {
+                ;
+            }
+            else if (currentState       == GAMESTATE_CREDITS)
+            {
+                ;
+            }
+            else
+            {
+                VisualizeLinkedList (GetPlayerList ());
+                // print statistics
+                PrintObjectDataAt (10, 60, GetPlayerList () -> head -> data);
+                PrintObjectDataAt ((screen_width - 180),
+                                   60,
+                                   GetPlayerList () -> head -> next -> next -> next -> data);
+            }
         }
         else if ((frame % FRAME_SLICES) == AUDIO_PROCESSING_FRAME)
         {
@@ -152,7 +187,18 @@ void main (void)
         }
         else if ((frame % FRAME_SLICES) == PLAYER_PROCESSING_FRAME)
         {
-            UpdateAllPlayers ();
+            if (currentState            == GAMESTATE_GAMEPLAY)
+            {
+                UpdateAllPlayers ();
+            }
+            else if (currentState       == GAMESTATE_TITLE)
+            {
+                start                    = (gamepad_button_start () >  0);
+                if (start               == true)
+                {
+                    currentState         = GAMESTATE_MENU;
+                }
+            }
         }
         else if ((frame % FRAME_SLICES) == ENEMY_PROCESSING_FRAME)
         {

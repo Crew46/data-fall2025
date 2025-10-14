@@ -8,6 +8,7 @@
 /////////////////////////////////////////////////////////////
 
 #define  BACKGROUND_REGION 0
+#define  TITLE_REGION      0
 #define  PLAYER_REGION     1
 #define  PLAY_GAME_REGION  2
 #define  EXIT_GAME_REGION  3
@@ -19,6 +20,11 @@
 
 void InitializeRegions ()
 {
+    // Getting the Title Screen
+    select_texture (TITLE_TEXTURE);
+    select_region (TITLE_REGION);
+    define_region_topleft (0, 0, 639, 359);
+
     // Getting the Background
     select_texture (BACKGROUND_TEXTURE);
     select_region (BACKGROUND_REGION);

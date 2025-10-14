@@ -42,8 +42,17 @@ void InitializeAudioManager ()
 {
     // temporary music loop location
     //select_sound (THE_ABYSS_MUSIC);
-    select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
-    select_channel (0);
+    if (currentState == GAMESTATE_TITLE)
+    {
+        select_sound (WHAT_IT_IS_CALLED_MUSIC);
+        select_channel (0);
+    }
+    else if (currentState == GAMESTATE_GAMEPLAY)
+    {
+        select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
+        select_channel (0);
+    }
+
     assign_channel_sound (get_selected_channel (), get_selected_sound ());
     play_channel (get_selected_channel ());
     set_channel_loop (true);

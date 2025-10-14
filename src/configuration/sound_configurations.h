@@ -6,5 +6,6 @@
 #define LONG_AWAITED_MUSIC              1 
 #define THE_ABYSS_MUSIC                 2
 #define BETTER_THAN_FASTER_THAN_MUSIC  11
+#define WHAT_IT_IS_CALLED_MUSIC        12
 
 #endif // _SOUND_CONFIGURATIONS_H

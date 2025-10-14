@@ -48,9 +48,9 @@ void visuals(void)
 	select_region (ENEMYB_REGION1);
 	define_region_center ( 0, 0 , 19, 19);
 	select_region (ENEMYB_REGION2);
-	define_region_center (0, 21, 19, 39);
+	define_region_center (0, 20, 19, 39);
 	select_region (ENEMYB_REGION3);
-	define_region_center (0, 41, 19, 59);
+	define_region_center (0, 40, 19, 59);
 }
 
 Object * updateVisuals(Object * enemy)

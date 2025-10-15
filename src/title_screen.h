@@ -1,84 +1,121 @@
 #ifndef _TITLE_SCREEN_H
 #define _TITLE_SCREEN_H
 
-List *titleList  = createList ();
+List *titleList                 = NULL;
 
 void title_screen (bool *begin)
 {
-    int     x          = 0;
-    int     xdir       = 0;
-    int     y          = 0;
-    int     ydir       = 0;
-    Object *otmp       = NULL;
-    Node   *ntmp       = NULL; 
+    Object *otmp                = NULL;
+    Node   *ntmp                = NULL; 
 
-    if (*begin        == false)
+    if (*begin                 == false)
     {
-        *begin         = true;
+        ////////////////////////////////////////////////////////////////////////////
+        //
+        //  We only run this section once
+        //
+        *begin                  = true;
+
+        ////////////////////////////////////////////////////////////////////////////
+        //
+        //  Create list to store title screen elements
+        //
+        titleList               = createList ();
 
         ////////////////////////////////////////////////////////////////////////////
         //
         //  Initialize LOGO node, appending to list
         //
-        otmp               = createObject (TITLE_TEXTURE, TITLE_LOGO,
-                                           640,           0,
-                                           IS_ACTIVE_FLAG);
-        ntmp               = createNode (otmp);
-        ntmp -> data.dx  = -10;
-        ntmp -> data.dy  = 0;
-        titleList          = append (titleList, titleList -> tail, ntmp);
+        otmp                    = createObject (TITLE_TEXTURE, TITLE_LOGO,
+                                                640,           180,
+                                                IS_ACTIVE_FLAG);
+        ntmp                    = createNode (otmp);
+        ntmp -> data.vx         = -10;
+        ntmp -> data.vy         = 0;
+        ntmp -> data.dx         = 60;     // destination X
+        ntmp -> data.dy         = 180;    // destination Y
+        titleList               = append (titleList, titleList -> tail, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
         // Initialize SUBTITLE node, appending to list
         //
-        otmp               = createObject (TITLE_TEXTURE, TITLE_SUBTITLE,
-                                           0,             -360,
-                                           IS_ACTIVE_FLAG);
-        ntmp               = createNode (otmp);
-        ntmp -> data.dx  = 0;
-        ntmp -> data.dy  = 5;
-        titleList          = append (titleList, titleList -> tail, ntmp);
+        otmp                    = createObject (TITLE_TEXTURE, TITLE_SUBTITLE,
+                                                100,           -360,
+                                                IS_ACTIVE_FLAG);
+        ntmp                    = createNode (otmp);
+        ntmp -> data.vx         = 0;
+        ntmp -> data.vy         = 5;
+        ntmp -> data.dx         = 100;    // destination X
+        ntmp -> data.dy         = 180;    // destination Y
+        titleList               = append (titleList, titleList -> tail, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
         // Initialize MESSAGE node, appending to list
         //
-        otmp               = createObject (TITLE_TEXTURE, TITLE_MESSAGE,
-                                           -640,          0,
-                                           IS_ACTIVE_FLAG);
-        ntmp               = createNode (otmp);
-        ntmp -> data.dx  = 10;
-        ntmp -> data.dy  = 0;
-        titleList          = append (titleList, titleList -> tail, ntmp);
+        otmp                    = createObject (TITLE_TEXTURE, TITLE_MESSAGE,
+                                                -640,          240,
+                                                IS_ACTIVE_FLAG);
+        ntmp                    = createNode (otmp);
+        ntmp -> data.vx         = 10;
+        ntmp -> data.vy         = 0;
+        ntmp -> data.dx         = 100;    // destination X
+        ntmp -> data.dy         = 240;    // destination Y
+        titleList               = append (titleList, titleList -> tail, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
         // Initialize START node, appending to list
         //
-        otmp               = createObject (TITLE_TEXTURE, TITLE_START,
-                                           0,             360,
-                                           IS_ACTIVE_FLAG);
-        ntmp               = createNode (otmp);
-        ntmp -> data.dx  = 0;
-        ntmp -> data.dy  = -5;
-        titleList          = append (titleList, titleList -> tail, ntmp);
+        otmp                    = createObject (TITLE_TEXTURE, TITLE_START,
+                                                300,           360,
+                                                IS_ACTIVE_FLAG);
+        ntmp                    = createNode (otmp);
+        ntmp -> data.vx         = 0;
+        ntmp -> data.vy         = -5;
+        ntmp -> data.dx         = 300;    // destination X
+        ntmp -> data.dy         = 240;    // destination Y
+        titleList               = append (titleList, titleList -> tail, ntmp);
     }
-	else
-	{
-		ntmp               = titleList -> head;
-		while (ntmp       != NULL)
-		{
-			// adjust x and y of current node
-			ntmp -> data.x  = ntmp -> data.x + ntmp -> data.dx;
-			ntmp -> data.y  = ntmp -> data.y + ntmp -> data.dy;
+    else
+    {
+        ////////////////////////////////////////////////////////////////////////////
+        //
+        // Iterate through each node in the list for adjustment and display
+        //
+        ntmp                    = titleList -> head;
+        while (ntmp            != NULL)
+        {
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Adjust node X position, comparing to desired destination X
+            //
+            if (ntmp -> data.x != ntmp -> data.dx)
+            {
+                ntmp -> data.x  = ntmp -> data.x + ntmp -> data.vx;
+            }
 
-			// drawing the background
-			select_texture (ntmp -> data.textureID);
-			select_region (ntmp  -> data.regionID);
-			draw_region_at (ntmp -> data.x, ntmp -> data.y);
-		}
-	}
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Adjust node Y position, comparing to desired destination Y
+            //
+            if (ntmp -> data.y != ntmp -> data.dy)
+            {
+                ntmp -> data.y  = ntmp -> data.y + ntmp -> data.vy;
+            }
+
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Display node to screen
+            //
+            select_texture (ntmp -> data.textureID);
+            select_region (ntmp  -> data.regionID);
+            draw_region_at (ntmp -> data.x, ntmp -> data.y);
+
+            ntmp                = ntmp -> next;
+        }
+    }
 }
 
 #endif // _TITLE_SCREEN_H

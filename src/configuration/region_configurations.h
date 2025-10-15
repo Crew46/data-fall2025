@@ -16,6 +16,9 @@
 #define  SETTINGS_REGION   5
 #define  WEAPON_REGION     6
 #define  LASER_REGION      7
+#define  CELESTIAL_SMALL   8
+#define  CELESTIAL_MEDIUM  9
+#define  CELESTIAL_LARGE   10
 #define  ENEMY_REGION      1 // for now, make same as player just to get something
 
 void InitializeRegions ()
@@ -59,6 +62,21 @@ void InitializeRegions ()
     select_texture (LASER_TEXTURES);
     select_region (LASER_REGION);
     define_region_center (0, 0, 9, 19);
+
+    // CELESTIAL_SMALL
+    select_texture (CELESTIAL_TEXTURES);
+    select_region (CELESTIAL_SMALL);
+    define_region_center (0, 0, 9, 19);
+
+    // CELESTIAL_MEDIUM
+    select_texture (CELESTIAL_TEXTURES);
+    select_region (CELESTIAL_MEDIUM);
+    define_region_center (0, 0, 9, 19);
+
+    // CELESTIAL_LARGE
+    select_texture (CELESTIAL_TEXTURES);
+    select_region (CELESTIAL_LARGE);
+    define_region_center (120, 120, 160, 160);
 }
 
 #endif // _REGIONS_CONFIGURATIONS_H

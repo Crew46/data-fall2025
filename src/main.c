@@ -42,12 +42,13 @@ void main (void)
     bool       start                     = false;
     int        frame                     = 0;
     int        x                         = 0;
+    int        xdir                      = 0;
     int        y                         = 0;
+    int        ydir                      = 0;
     int        direction                 = 0;
 
     objectList                           = NULL;
     currentState                         = GAMESTATE_TITLE;
-    direction                            = rand () % 4 + 0;
 
     // initialize regions
     InitializeRegions ();
@@ -118,17 +119,18 @@ void main (void)
                 if (begin               == false)
                 {
                     begin                = true;
+                    direction            = rand () % 4 + 0;
                     if (direction       == 0) // from the right
                     {
                         x                = 640;
-                        xdir             = -1;
+                        xdir             = -10;
                         y                = 0;
                         ydir             = 0;
                     }
                     else if (direction  == 1) // from the left
                     {
                         x                = -640;
-                        xdir             = 1;
+                        xdir             = 10;
                         y                = 0;
                         ydir             = 0;
                     }
@@ -137,14 +139,14 @@ void main (void)
                         x                = 0;
                         xdir             = 0;
                         y                = -360;
-                        ydir             = 1;
+                        ydir             = 5;
                     }
                     else                      // from the bottom
                     {
                         x                = 0;
                         xdir             = 0;
                         y                = 360;
-                        ydir             = -1;
+                        ydir             = -5;
                     }
                 }
 

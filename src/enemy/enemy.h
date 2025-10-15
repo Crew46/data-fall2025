@@ -197,20 +197,21 @@ void EnemyUpdate (Enemy *enemy)
 Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime)
 {
     // allocate memory for enemy
-    Enemy *enemy           = (Enemy *) malloc (sizeof (Enemy));
+    Enemy  *enemy            = (Enemy *) malloc (sizeof (Enemy));
     Weapon *weapon           = NULL;
 
     // enemy object properties initialization
     initObject (&enemy -> object, Object_Type_Entity, textureID, regionID, x, y, status);
 
-    enemy -> weapons        = createQueue (3);
+    enemy -> object.dy       = 1;
+    enemy -> weapons         = createQueue (3);
     weapon                   = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
     enqueue (enemy -> weapons, createNode (&weapon -> object));
     weapon -> hasOwner       = true;
 
-    enemy -> weaponIndexer  = 1;
+    enemy -> weaponIndexer   = 1;
 
-    append (enemyList, enemyList -> tail, createNode (&enemy -> object));
+    enemyList                = append (enemyList, enemyList -> tail, createNode (&enemy -> object));
 
     // return pointer to enemy
     return (enemy);

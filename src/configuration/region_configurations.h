@@ -8,7 +8,6 @@
 /////////////////////////////////////////////////////////////
 
 #define  BACKGROUND_REGION 0
-#define  TITLE_REGION      0
 #define  PLAYER_REGION     1
 #define  PLAY_GAME_REGION  2
 #define  EXIT_GAME_REGION  3
@@ -19,14 +18,33 @@
 #define  CELESTIAL_SMALL   8
 #define  CELESTIAL_MEDIUM  9
 #define  CELESTIAL_LARGE   10
+#define  TITLE_LOGO        11
+#define  TITLE_SUBTITLE    12
+#define  TITLE_MESSAGE     13
+#define  TITLE_START       14
 #define  ENEMY_REGION      1 // for now, make same as player just to get something
 
 void InitializeRegions ()
 {
-    // Getting the Title Screen
+    // Getting the Title Logo
     select_texture (TITLE_TEXTURE);
-    select_region (TITLE_REGION);
-    define_region_topleft (0, 0, 639, 359);
+    select_region (TITLE_LOGO);
+    define_region_topleft (0, 45, 420, 75);
+
+    // Getting the Title Subtitle
+    select_texture (TITLE_TEXTURE);
+    select_region (TITLE_SUBTITLE);
+    define_region_topleft (0, 80, 345, 98);
+
+    // Getting the Title Message
+    select_texture (TITLE_TEXTURE);
+    select_region (TITLE_MESSAGE);
+    define_region_topleft (0, 0, 352, 20);
+
+    // Getting the Title Start
+    select_texture (TITLE_TEXTURE);
+    select_region (TITLE_START);
+    define_region_topleft (0, 20, 95, 40);
 
     // Getting the Background
     select_texture (BACKGROUND_TEXTURE);

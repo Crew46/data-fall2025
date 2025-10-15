@@ -109,6 +109,61 @@ void main (void)
     // main game loop
     while (true)
     {
+        if (currentState       == GAMESTATE_TITLE)
+        {
+            if (begin               == false)
+            {
+                begin                = true;
+                direction            = rand () % 4 + 0;
+                if (direction       == 0) // from the right
+                {
+                    x                = 640;
+                    xdir             = -10;
+                    y                = 0;
+                    ydir             = 0;
+                }
+                else if (direction  == 1) // from the left
+                {
+                    x                = -640;
+                    xdir             = 10;
+                    y                = 0;
+                    ydir             = 0;
+                }
+                else if (direction  == 2) // from the top
+                {
+                    x                = 0;
+                    xdir             = 0;
+                    y                = -360;
+                    ydir             = 5;
+                }
+                else                      // from the bottom
+                {
+                    x                = 0;
+                    xdir             = 0;
+                    y                = 360;
+                    ydir             = -5;
+                }
+            }
+
+            if (x                   != 0)
+            {
+                x                    = x + xdir;
+            }
+
+            if (y                   != 0)
+            {
+                y                    = y + ydir;
+            }
+
+            // clear screen
+            clear_screen (make_color_rgb (0, 0, 0));
+
+            // drawing the background
+            select_texture (TITLE_TEXTURE);
+            select_region (TITLE_REGION);
+            draw_region_at (x, y);
+        }
+
         if ((frame % FRAME_SLICES)      == SCREEN_REDRAWING_FRAME)
         {
             if (currentState            == GAMESTATE_INTRO)
@@ -117,57 +172,7 @@ void main (void)
             }
             else if (currentState       == GAMESTATE_TITLE)
             {
-                if (begin               == false)
-                {
-                    begin                = true;
-                    direction            = rand () % 4 + 0;
-                    if (direction       == 0) // from the right
-                    {
-                        x                = 640;
-                        xdir             = -10;
-                        y                = 0;
-                        ydir             = 0;
-                    }
-                    else if (direction  == 1) // from the left
-                    {
-                        x                = -640;
-                        xdir             = 10;
-                        y                = 0;
-                        ydir             = 0;
-                    }
-                    else if (direction  == 2) // from the top
-                    {
-                        x                = 0;
-                        xdir             = 0;
-                        y                = -360;
-                        ydir             = 5;
-                    }
-                    else                      // from the bottom
-                    {
-                        x                = 0;
-                        xdir             = 0;
-                        y                = 360;
-                        ydir             = -5;
-                    }
-                }
-
-                if (x                   != 0)
-                {
-                    x                    = x + xdir;
-                }
-
-                if (y                   != 0)
-                {
-                    y                    = y + ydir;
-                }
-
-                // clear screen
-                clear_screen (make_color_rgb (0, 0, 0));
-
-                // drawing the background
-                select_texture (TITLE_TEXTURE);
-                select_region (TITLE_REGION);
-                draw_region_at (x, y);
+                ;
             }
             else if (currentState       == GAMESTATE_MENU)
             {

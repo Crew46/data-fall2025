@@ -49,6 +49,7 @@ void main (void)
 
     objectList                           = NULL;
     currentState                         = GAMESTATE_TITLE;
+    seconds                              = 0;
 
     // initialize regions
     InitializeRegions ();
@@ -261,5 +262,9 @@ void main (void)
         end_frame ();
 
         frame                            = (frame + 1) % 60;
+        if ((get_frame_counter () % 60) == 0)
+        {
+            seconds                      = seconds + 1;
+        }
     }
 }

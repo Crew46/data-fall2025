@@ -38,11 +38,16 @@ List      *objectList;
 
 void main (void)
 {
+    bool       begin                     = false;
     bool       start                     = false;
     int        frame                     = 0;
+    int        x                         = 0;
+    int        y                         = 0;
+    int        direction                 = 0;
 
     objectList                           = NULL;
     currentState                         = GAMESTATE_TITLE;
+    direction                            = rand () % 4 + 0;
 
     // initialize regions
     InitializeRegions ();
@@ -110,13 +115,56 @@ void main (void)
             }
             else if (currentState       == GAMESTATE_TITLE)
             {
+                if (begin               == false)
+                {
+                    begin                = true;
+                    if (direction       == 0) // from the right
+                    {
+                        x                = 640;
+                        xdir             = -1;
+                        y                = 0;
+                        ydir             = 0;
+                    }
+                    else if (direction  == 1) // from the left
+                    {
+                        x                = -640;
+                        xdir             = 1;
+                        y                = 0;
+                        ydir             = 0;
+                    }
+                    else if (direction  == 2) // from the top
+                    {
+                        x                = 0;
+                        xdir             = 0;
+                        y                = -360;
+                        ydir             = 1;
+                    }
+                    else                      // from the bottom
+                    {
+                        x                = 0;
+                        xdir             = 0;
+                        y                = 360;
+                        ydir             = -1;
+                    }
+                }
+
+                if (x                   != 0)
+                {
+                    x                    = x + xdir;
+                }
+
+                if (y                   != 0)
+                {
+                    y                    = y + ydir;
+                }
+
                 // clear screen
                 clear_screen (make_color_rgb (0, 0, 0));
 
                 // drawing the background
                 select_texture (TITLE_TEXTURE);
                 select_region (TITLE_REGION);
-                draw_region_at (0, 0);
+                draw_region_at (x, y);
             }
             else if (currentState       == GAMESTATE_MENU)
             {

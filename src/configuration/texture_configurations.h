@@ -8,7 +8,7 @@
 
 #define BACKGROUND_TEXTURE 0
 #define PLAYER_TEXTURE     1
-#define CELESTIAL_OBJECTS  2
+#define CELESTIAL_TEXTURES 2
 #define UI_TEXTURES        3
 #define WEAPON_TEXTURES    4
 #define LASER_TEXTURES     5

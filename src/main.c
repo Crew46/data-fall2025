@@ -182,17 +182,14 @@ void main (void)
                                    GetPlayerList () -> head -> next -> next -> next -> data);
             }
         }
-        else if ((frame % FRAME_SLICES) == AUDIO_PROCESSING_FRAME)
-        {
-            UpdateAudioManager ();
-        }
-        else if ((frame % FRAME_SLICES) == PLAYER_PROCESSING_FRAME)
-        {
-            if (currentState            == GAMESTATE_INGAME)
-            {
+//        else if ((frame % FRAME_SLICES) == PLAYER_PROCESSING_FRAME)
+//        {
+//            if (currentState            == GAMESTATE_INGAME)
+//            {
                 UpdateAllPlayers ();
-            }
-            else if (currentState       == GAMESTATE_TITLE)
+//            }
+//            else if (currentState       == GAMESTATE_TITLE)
+            if (currentState       == GAMESTATE_TITLE)
             {
                 start                    = (gamepad_button_start () >  0);
                 if (start               == true)
@@ -207,6 +204,11 @@ void main (void)
                     set_channel_loop (true);
                 }
             }
+//        }
+//        else if ((frame % FRAME_SLICES) == AUDIO_PROCESSING_FRAME)
+        if ((frame % FRAME_SLICES) == AUDIO_PROCESSING_FRAME)
+        {
+            UpdateAudioManager ();
         }
         else if ((frame % FRAME_SLICES) == ENEMY_PROCESSING_FRAME)
         {

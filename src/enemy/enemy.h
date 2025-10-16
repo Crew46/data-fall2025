@@ -199,17 +199,49 @@ void enemyFireWeapons (Enemy *enemy)
 
 void enemyFindTarget (Enemy *enemy)
 {
-    List* players = GetPlayerList();
-    if (players != NULL)
+    Node   *currentNode              = playerList -> head;
+    Node   *nextNode                 = NULL;
+    Object *bestTarget               = NULL;
+    int     bestDistance;
+    int     tmp;
+    bool    isBest;
+
+    while (currentNode              != NULL)
     {
-        if (players->head != NULL)
+        nextNode                     = currentNode -> next;
+        if (currentNode -> data     != NULL)
         {
-            if (players->head->data != NULL)
+            if (currentNode -> data != NULL)
             {
-                enemy->target = players->head->data;
+                tmp                  = abs(enemy->object.x - currentNode->data->x);
+                isBest               = false;
+
+                if (bestTarget      == NULL)
+                {
+                    isBest           = true;
+                }
+                else if (tmp         < bestDistance)
+                {
+                    isBest           = true;
+                }
+
+                if (((currentNode -> data -> status ^ enemy -> object.status) & TeamFlagMask) == 0)
+                {
+                    isBest           = false;
+                }
+
+
+                if(isBest)
+                {
+                    bestTarget       = currentNode->data;
+                    bestDistance     = tmp;
+                }
             }
         }
+        currentNode                  = nextNode;
     }
+
+    enemy->target                    = bestTarget;
 }
 
 void enemyAI (Enemy *enemy)

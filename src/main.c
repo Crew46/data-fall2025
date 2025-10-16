@@ -17,6 +17,7 @@
 // linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 // other managers
+#include "title_screen.h"
 #include "audio_manager.h"
 #include "video_manager.h"
 #include "weapon/laser.h"
@@ -111,6 +112,12 @@ void main (void)
     {
         if (currentState       == GAMESTATE_TITLE)
         {
+            // clear screen
+            clear_screen (make_color_rgb (0, 0, 0));
+
+            title_screen (&begin);
+
+            /*
             if (begin               == false)
             {
                 begin                = true;
@@ -162,6 +169,7 @@ void main (void)
             select_texture (TITLE_TEXTURE);
             select_region (TITLE_REGION);
             draw_region_at (x, y);
+            */
         }
 
         if ((frame % FRAME_SLICES)      == SCREEN_REDRAWING_FRAME)

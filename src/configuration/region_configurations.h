@@ -8,33 +8,30 @@
 /////////////////////////////////////////////////////////////
 
 #define  BACKGROUND_REGION 0
-#define  TITLE_REGION      0
-#define  PLAYER_FRAME_0    20
-#define  PLAYER_FRAME_1    21
-#define  PLAYER_FRAME_2    22
-#define  PLAYER_FRAME_3    23
 #define  PLAY_GAME_REGION  2
 #define  EXIT_GAME_REGION  3
 #define  CREDITS_REGION    4
 #define  SETTINGS_REGION   5
 #define  WEAPON_REGION     6
 #define  LASER_REGION      7
-#define  CELESTIAL_SMALL   8
-#define  CELESTIAL_MEDIUM  9
-#define  CELESTIAL_LARGE   10
-#define  TITLE_LOGO        11
-#define  TITLE_SUBTITLE    12
-#define  TITLE_MESSAGE     13
-#define  TITLE_START       14
+#define  PLAYER_FRAME_0    20
+#define  PLAYER_FRAME_1    21
+#define  PLAYER_FRAME_2    22
+#define  PLAYER_FRAME_3    23
 #define  ENEMY_REGION      20 // for now, make same as player just to get something
+#define  TITLE_LOGO        30
+#define  TITLE_SUBTITLE    31
+#define  TITLE_MESSAGE     32
+#define  TITLE_START       33
+#define  CELESTIAL_SMALL   40
+#define  CELESTIAL_MEDIUM  41
+#define  CELESTIAL_LARGE   42
+#define  STAR0             43
+#define  STAR1             44
+#define  STAR2             45
 
 void InitializeRegions ()
 {
-    // Getting the Title Region
-    select_texture (TITLE_TEXTURE);
-    select_region (TITLE_REGION);
-    define_region_topleft (0, 0, 640, 360);
-
     // Getting the Title Logo
     select_texture (TITLE_TEXTURE);
     select_region (TITLE_LOGO);
@@ -119,6 +116,21 @@ void InitializeRegions ()
     select_texture (CELESTIAL_TEXTURES);
     select_region (CELESTIAL_LARGE);
     define_region_center (0, 0, 75, 80);
+
+    // STAR0
+    select_texture (CELESTIAL_TEXTURES);
+    select_region (STAR0);
+    define_region_center (30, 110, 43, 120);
+
+    // STAR1
+    select_texture (CELESTIAL_TEXTURES);
+    select_region (STAR1);
+    define_region_center (93, 110, 105, 120);
+
+    // STAR2
+    select_texture (CELESTIAL_TEXTURES);
+    select_region (STAR2);
+    define_region_center (133, 110, 145, 120);
 }
 
 #endif // _REGIONS_CONFIGURATIONS_H

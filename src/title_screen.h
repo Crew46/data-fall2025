@@ -77,7 +77,7 @@ void title_screen (bool *begin)
         //
         for (index = 0; index < 64; index++)
         {
-            pick                        = rand () % 3   + 8;
+            pick                        = rand () % 6   + CELESTIAL_SMALL;
             x                           = rand () % 630 + 0;
             y                           = rand () % 350 + 0;
 
@@ -86,7 +86,7 @@ void title_screen (bool *begin)
                                                         IS_ACTIVE_FLAG);
             ntmp                        = createNode (otmp);
             ntmp -> data -> id          = seconds;
-            ntmp -> data -> frame       = pick - 7;
+            ntmp -> data -> frame       = pick - (CELESTIAL_SMALL - 1);
             ntmp -> data -> status      = IS_ACTIVE_FLAG;
             ntmp -> data -> vx          = 0;
             ntmp -> data -> vy          = rand () % 8 + 1;
@@ -144,12 +144,12 @@ void title_screen (bool *begin)
             //
             if (ntmp -> data -> frame        >  0)
             {
-                if (seconds                  >  ntmp -> data -> id + (ntmp -> data -> frame- 1))
+                if (seconds                  >  ntmp -> data -> id + (ntmp -> data -> frame - 1))
                 {
-                    pick                      = (ntmp -> data -> frame+ 1) % 3 + 1;
+                    pick                      = (ntmp -> data -> frame+ 1) % 6 + 1;
                     ntmp -> data -> id        = seconds;
                     ntmp -> data -> frame     = pick;
-                    ntmp -> data -> regionID  = pick + 7;
+                    ntmp -> data -> regionID  = pick + (CELESTIAL_SMALL - 1);
                 }
             }
 

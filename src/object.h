@@ -33,7 +33,7 @@ struct Object
     ObjectType  type;
     int         textureID;
     int         regionID;
-    int         mode;
+    int         frame;
     int         id;
     int         x;
     int         y;

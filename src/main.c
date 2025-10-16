@@ -66,7 +66,7 @@ void main (void)
     // extension of object, so need to pass in object params.
 
     CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                  PLAYER_REGION,                   // region ID
+                  PLAYER_FRAME_0,                  // region ID
                   HALFWAY_ACROSS,                  // starting X
                   HALFWAY_DOWN,                    // starting Y
                   IS_ACTIVE_FLAG,                  // status flag bits
@@ -74,7 +74,7 @@ void main (void)
                   PLAYER_ONE);                     // gamepad ID
 
     CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                  PLAYER_REGION,                   // region ID
+                  PLAYER_FRAME_1,                  // region ID
                   HALFWAY_ACROSS - 40,             // starting X
                   HALFWAY_DOWN,                    // starting Y
                   IS_ACTIVE_FLAG,                  // status flag bits
@@ -82,7 +82,7 @@ void main (void)
                   PLAYER_TWO);                     // gamepad ID
 
     CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                  PLAYER_REGION,                   // region ID
+                  PLAYER_FRAME_2,                  // region ID
                   HALFWAY_ACROSS + 40,             // starting X
                   HALFWAY_DOWN,                    // starting Y
                   IS_ACTIVE_FLAG | ODD_TEAM_FLAG,  // status flag bits
@@ -90,7 +90,7 @@ void main (void)
                   PLAYER_TWO);                     // gamepad ID
 
     CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                  PLAYER_REGION,                   // region ID
+                  PLAYER_FRAME_3,                  // region ID
                   HALFWAY_ACROSS - 80,             // starting X
                   HALFWAY_DOWN + 80,               // starting Y
                   IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status flag bits
@@ -98,7 +98,7 @@ void main (void)
                   PLAYER_ONE);                     // gamepad ID
 
     CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                  PLAYER_REGION,                   // region ID
+                  PLAYER_FRAME_0,                  // region ID
                   HALFWAY_ACROSS + 80,             // starting X
                   HALFWAY_DOWN + 100,              // starting Y
                   IS_ACTIVE_FLAG | ODD_HIGH_FLAG,  // status flag bits

@@ -86,7 +86,7 @@ void title_screen (bool *begin)
                                                         IS_ACTIVE_FLAG);
             ntmp                        = createNode (otmp);
             ntmp -> data -> id          = seconds;
-            ntmp -> data -> mode        = pick - 7;
+            ntmp -> data -> frame       = pick - 7;
             ntmp -> data -> status      = IS_ACTIVE_FLAG;
             ntmp -> data -> vx          = 0;
             ntmp -> data -> vy          = rand () % 8 + 1;
@@ -142,13 +142,13 @@ void title_screen (bool *begin)
             //
             // Adjust celestial objects
             //
-            if (ntmp -> data -> mode         >  0)
+            if (ntmp -> data -> frame        >  0)
             {
-                if (seconds                  >  ntmp -> data -> id + (ntmp -> data -> mode - 1))
+                if (seconds                  >  ntmp -> data -> id + (ntmp -> data -> frame- 1))
                 {
-                    pick                      = (ntmp -> data -> mode + 1) % 3 + 1;
+                    pick                      = (ntmp -> data -> frame+ 1) % 3 + 1;
                     ntmp -> data -> id        = seconds;
-                    ntmp -> data -> mode      = pick;
+                    ntmp -> data -> frame     = pick;
                     ntmp -> data -> regionID  = pick + 7;
                 }
             }

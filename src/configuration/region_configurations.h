@@ -9,7 +9,10 @@
 
 #define  BACKGROUND_REGION 0
 #define  TITLE_REGION      0
-#define  PLAYER_REGION     1
+#define  PLAYER_FRAME_0    20
+#define  PLAYER_FRAME_1    21
+#define  PLAYER_FRAME_2    22
+#define  PLAYER_FRAME_3    23
 #define  PLAY_GAME_REGION  2
 #define  EXIT_GAME_REGION  3
 #define  CREDITS_REGION    4
@@ -59,8 +62,23 @@ void InitializeRegions ()
     
     // player
     select_texture (PLAYER_TEXTURE);
-    select_region (PLAYER_REGION);
-    define_region_center (0, 0, 31, 31); // Player sprite
+    select_region (PLAYER_FRAME_0);
+    define_region_center (0, 0, 63, 63); // Player sprite
+    
+    // player
+    select_texture (PLAYER_TEXTURE);
+    select_region (PLAYER_FRAME_1);
+    define_region_center (0, 64, 63, 127); // Player sprite
+    
+    // player
+    select_texture (PLAYER_TEXTURE);
+    select_region (PLAYER_FRAME_2);
+    define_region_center (0, 128, 63, 191); // Player sprite
+    
+    // player
+    select_texture (PLAYER_TEXTURE);
+    select_region (PLAYER_FRAME_3);
+    define_region_center (0, 192, 63, 255); // Player sprite
 
     // PLAY
     select_texture (UI_TEXTURES);  

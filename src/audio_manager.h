@@ -68,9 +68,9 @@ void UpdateAudioManager ()
             currentState           = GAMESTATE_INGAME;
             select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
             select_channel (0);
-            set_channel_loop (true);
             assign_channel_sound (get_selected_channel (), get_selected_sound ());
             play_channel (get_selected_channel ());
+            set_channel_loop (true);
         }
     }    
 }

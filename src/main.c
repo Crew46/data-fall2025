@@ -44,13 +44,15 @@ void main (void)
     bool       begin                     = false;
     bool       start                     = false;
     int        cycles                    = 0;
+    int        position                  = 0;
     int        frame                     = 0;
     int        x                         = 0;
     int        xdir                      = 0;
     int        y                         = 0;
     int        ydir                      = 0;
     int        direction                 = 0;
-    int  [7]   report;
+    int  [7]   creport;
+    int  [12]  sreport;
 
     objectList                           = NULL;
     currentState                         = GAMESTATE_TITLE;
@@ -232,11 +234,20 @@ void main (void)
         if (frame                       == 0)
         {
             cycles                       = get_cycle_counter ();
-            itoa (cycles, report, 10);
+            itoa (cycles, creport, 10);
         }
 
         print_at (0,   340, "cycles per second:");
-        print_at (190, 340, report);
+        print_at (190, 340, creport);
+
+        if (frame                       == 0)
+        {
+            position                     = get_channel_position (0);
+            itoa (position, sreport, 10);
+        }
+
+        print_at (0,   320, "channel position: ");
+        print_at (190, 320, sreport);
 
         end_frame ();
 

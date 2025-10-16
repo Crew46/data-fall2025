@@ -88,7 +88,7 @@ void title_screen (bool *begin)
             ntmp -> data -> id          = seconds;
             ntmp -> data -> frame       = pick - (CELESTIAL_SMALL - 1);
             ntmp -> data -> status      = IS_ACTIVE_FLAG;
-            ntmp -> data -> vx          = 0;
+            ntmp -> data -> vx          = rand () % 5 - 2;
             ntmp -> data -> vy          = rand () % 8 + 1;
             ntmp -> data -> dx          = -1000;  // destination X
             ntmp -> data -> dy          = -1000;  // destination Y
@@ -138,6 +138,7 @@ void title_screen (bool *begin)
         ntmp                            = titleList -> head;
         while (ntmp                    != NULL)
         {
+/*
             ////////////////////////////////////////////////////////////////////////
             //
             // Adjust celestial objects
@@ -146,12 +147,13 @@ void title_screen (bool *begin)
             {
                 if (seconds                  >  ntmp -> data -> id + (ntmp -> data -> frame - 1))
                 {
-                    pick                      = (ntmp -> data -> frame+ 1) % 6 + 1;
+                    pick                      = (ntmp -> data -> frame + 1) % 6 + 1;
                     ntmp -> data -> id        = seconds;
                     ntmp -> data -> frame     = pick;
                     ntmp -> data -> regionID  = pick + (CELESTIAL_SMALL - 1);
                 }
             }
+*/
 
             ////////////////////////////////////////////////////////////////////////
             //
@@ -171,8 +173,11 @@ void title_screen (bool *begin)
                 ntmp -> data -> y       = ntmp -> data -> y + ntmp -> data -> vy;
                 if (ntmp -> data -> y  >  360)
                 {
+                    ntmp -> data -> x   = rand () % 630;
+                    ntmp -> data -> vx  = rand () % 5 - 2;
                     ntmp -> data -> y   = -1 * (rand () % 40 + 20);
                     ntmp -> data -> vy  = rand () % 8 + 1;
+                    ntmp -> data -> regionID  = rand () % 6 + CELESTIAL_SMALL;
                 }
             }
 

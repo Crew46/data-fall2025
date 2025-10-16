@@ -26,7 +26,7 @@
 #define  TITLE_SUBTITLE    12
 #define  TITLE_MESSAGE     13
 #define  TITLE_START       14
-#define  ENEMY_REGION      1 // for now, make same as player just to get something
+#define  ENEMY_REGION      20 // for now, make same as player just to get something
 
 void InitializeRegions ()
 {

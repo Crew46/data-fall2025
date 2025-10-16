@@ -4,6 +4,19 @@
 #include "string.h"
 #include "time.h"
 #include "video.h"
+
+//definitions
+#define  HALFWAY_ACROSS (screen_width/2)
+#define  HALFWAY_DOWN   (screen_height/2)
+
+#define  FRAME_SLICES            5 // frame offset categories
+
+#define  SCREEN_REDRAWING_FRAME  0
+#define  AUDIO_PROCESSING_FRAME  1
+#define  PLAYER_PROCESSING_FRAME 2
+#define  ENEMY_PROCESSING_FRAME  3
+#define  WEAPON_PROCESSING_FRAME 4
+
 // include texture, region, and audio definitions and configuration values
 #include "configuration/game_configurations.h"
 #include "configuration/gamepad_configurations.h"
@@ -22,17 +35,6 @@
 #include "video_manager.h"
 #include "weapon/laser.h"
 #include "weapon/weapon.h"
-
-#define  HALFWAY_ACROSS (screen_width/2)
-#define  HALFWAY_DOWN   (screen_height/2)
-
-#define  FRAME_SLICES            5 // frame offset categories
-
-#define  SCREEN_REDRAWING_FRAME  0
-#define  AUDIO_PROCESSING_FRAME  1
-#define  PLAYER_PROCESSING_FRAME 2
-#define  ENEMY_PROCESSING_FRAME  3
-#define  WEAPON_PROCESSING_FRAME 4
 
 // list of all objects in scene
 List      *objectList;

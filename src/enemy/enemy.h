@@ -10,6 +10,7 @@
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 #include "../data_structures/queue/queue.h"
 #include "../weapon/weapon.h"
+#include "../player/player.h"
 #include "../tools/debugger.h"
 
 /*
@@ -36,6 +37,7 @@ struct Enemy
     Object  object;
     Queue  *weapons; // weapon that enemy has equipped
     int     weaponIndexer;
+    Object* target;
 };
 
 //=========================================================
@@ -138,6 +140,44 @@ void enemyGrabWeapon (Enemy *enemy)
     }
 }
 
+void setEnemyWeaponPositions (Enemy *enemy)
+{
+    int     team                   = 0;
+    Node   *currentNode            = enemy -> weapons -> list -> head;
+    Node   *nextNode               = NULL;
+    Weapon *currentWeapon          = NULL;
+
+    team                           = (enemy -> object.status & TeamFlagMask);
+    team                           = team >> TeamFlagOffset;
+
+    while (currentNode            != NULL)
+    {
+        nextNode                   = currentNode -> next;
+        currentWeapon              = (Weapon *) currentNode -> data;
+
+        int  realX                 = currentWeapon -> xOffset;
+        int  realY                 = currentWeapon -> yOffset;
+
+        if ((team % 2)            == 1)
+        {
+            int  tmp               = realX;
+            realX                  = -realY;
+            realY                  = tmp;
+        }
+
+        if (team                  >= 2)
+        {
+            realX                  = -realX;
+            realY                  = -realY;
+        }
+
+        currentWeapon -> object.x  = enemy -> object.x + realX;
+        currentWeapon -> object.y  = enemy -> object.y + realY;
+
+        currentNode                = nextNode;
+    }
+}
+
 void enemyFireWeapons (Enemy *enemy)
 {
     bool    fireStatus             = ((rand() % 10) >  5);
@@ -157,19 +197,51 @@ void enemyFireWeapons (Enemy *enemy)
     }
 }
 
+void enemyFindTarget (Enemy *enemy)
+{
+    List* players = GetPlayerList();
+    if (players != NULL)
+    {
+        if (players->head != NULL)
+        {
+            if (players->head->data != NULL)
+            {
+                enemy->target = players->head->data;
+            }
+        }
+    }
+}
+
+void enemyAI (Enemy *enemy)
+{
+    enemyFindTarget(enemy);
+
+    if(enemy->target != NULL)
+    {
+        Object* target = enemy->target;
+        if(!(target->status & DELETION_FLAG))
+        {
+            enemy->object.dx = target->x - enemy->object.x;
+            enemy->object.dx = min(enemy->object.dx,  enemy->object.vx);
+            enemy->object.dx = max(enemy->object.dx, -enemy->object.vx);
+        }
+    }
+
+    enemy->object.dy = 0;
+}
+
 void EnemyUpdate (Enemy *enemy)
 {
     List *lasers        = GetLaserList ();
     Node *currentNode   = lasers -> head;
     Node *nextNode      = NULL;
 
-    /*
     if (enemy -> object.status & IS_ACTIVE_FLAG)
     {
-        // Update the enemy view every frame
-        DrawEnemy (enemy);
+        enemyAI(enemy);
+        moveEnemy(enemy);
+        setEnemyWeaponPositions(enemy);
     }
-    */
 
     while (currentNode != NULL)
     {

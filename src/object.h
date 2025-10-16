@@ -11,8 +11,8 @@
 #define TeamFlagMask   0x000000C
 #define TeamFlagOffset 2
 
-#define ShipWidth 32
-#define ShipHeight 32
+#define ShipWidth 64
+#define ShipHeight 64
 #define LaserWidth 10
 #define LaserHeight 20
 #define WeaponWidth 10

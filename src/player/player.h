@@ -12,6 +12,7 @@
 #include "../weapon/weapon.h"
 #include "../tools/debugger.h"
 
+#define MAXWEAPONS 3
 /*
  * 
  * SUMMARY:
@@ -92,6 +93,7 @@ void playerDropWeapon (Player *player)
     if (dropped               != NULL)
     {
         ((Weapon *) dropped -> data) -> hasOwner = false;
+        ((Weapon *) dropped -> data) -> isFiring = false;
         free (dropped);
         dropped                = NULL;
 
@@ -130,7 +132,7 @@ void playerGrabWeapon (Player *player)
                     weapon -> xOffset        = -10 + (10 * player -> weaponIndexer);
 
                     player -> weaponIndexer  = player -> weaponIndexer + 1;
-                    player -> weaponIndexer  = player -> weaponIndexer % 3;
+                    player -> weaponIndexer  = player -> weaponIndexer % MAXWEAPONS;
                 }
             }
         }
@@ -139,7 +141,7 @@ void playerGrabWeapon (Player *player)
     }
 }
 
-void setWeaponPositions (Player *player)
+void setPlayerWeaponPositions (Player *player)
 {
     int     team                   = 0;
     Node   *currentNode            = player -> weapons -> list -> head;
@@ -215,17 +217,17 @@ void HandleInput (Player *player)
     if (player -> weapons -> count     != 0)
     {
         if ((gamepad_button_b () % 30 <= 29) &&
-            (gamepad_button_b () % 30 >= 25))
+            (gamepad_button_b () % 30 >= 30-FRAME_SLICES))
         {
             playerDropWeapon (player);
         }
 
-        setWeaponPositions (player);
+        setPlayerWeaponPositions (player);
         playerFireWeapons (player);
     }
 
     if ((gamepad_button_b ()           >= 1) &&
-        (gamepad_button_b ()           <= 5))
+        (gamepad_button_b ()           <= FRAME_SLICES))
     {
         playerGrabWeapon (player);
     }
@@ -278,7 +280,7 @@ Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, flo
     // player properties initialization
     player -> gamepadID      = gamepadID;
 
-    player -> weapons        = createQueue (3);
+    player -> weapons        = createQueue (MAXWEAPONS);
     weapon                   = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
     enqueue (player -> weapons, createNode (&weapon -> object));
     weapon -> hasOwner       = true;

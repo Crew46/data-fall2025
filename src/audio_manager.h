@@ -46,21 +46,33 @@ void InitializeAudioManager ()
     {
         select_sound (WHAT_IT_IS_CALLED_MUSIC);
         select_channel (0);
+        set_channel_loop (false);
     }
     else if (currentState == GAMESTATE_INGAME)
     {
         select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
         select_channel (0);
+        set_channel_loop (true);
     }
 
     assign_channel_sound (get_selected_channel (), get_selected_sound ());
     play_channel (get_selected_channel ());
-    set_channel_loop (true);
 }
 
 void UpdateAudioManager ()
 {
-
+    if (currentState              == GAMESTATE_TITLE)
+    {    
+        if (get_channel_state (0) == channel_stopped)
+        {
+            currentState           = GAMESTATE_INGAME;
+            select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
+            select_channel (0);
+            set_channel_loop (true);
+            assign_channel_sound (get_selected_channel (), get_selected_sound ());
+            play_channel (get_selected_channel ());
+        }
+    }    
 }
 
 #endif // _AUDIO_MANAGER_H

@@ -275,7 +275,7 @@ void main (void)
         end_frame ();
 
         frame                            = (frame + 1) % 60;
-        if ((get_frame_counter () % 60) == 0)
+        if ((get_frame_counter () % 30) == 0)
         {
             seconds                      = seconds + 1;
         }

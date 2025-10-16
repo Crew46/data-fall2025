@@ -5,8 +5,12 @@ List *titleList                         = NULL;
 
 void title_screen (bool *begin)
 {
-    Object *otmp                        = NULL;
+    int     index                       = 0;
+    int     pick                        = 0;
+    int     x                           = 0;
+    int     y                           = 0;
     Node   *ntmp                        = NULL; 
+    Object *otmp                        = NULL;
 
     if (*begin                         == false)
     {
@@ -69,6 +73,44 @@ void title_screen (bool *begin)
 
         ////////////////////////////////////////////////////////////////////////////
         //
+        // Initialize celestial object nodes, inserting into list
+        //
+        for (index = 0; index < 64; index++)
+        {
+            pick                        = rand () % 3   + 8;
+            while (1)
+            {
+                x                       = rand () % 630 + 0;
+                y                       = rand () % 350 + 0;
+                if ((x                 >= 250) &&
+                    (x                 <= 345) &&
+                    (y                 >= 240) &&
+                    (y                 <= 260))
+                {
+                    ;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            otmp                        = createObject (CELESTIAL_TEXTURES, pick,
+                                                        x,                  y,
+                                                        IS_ACTIVE_FLAG);
+            ntmp                        = createNode (otmp);
+            ntmp -> data -> id          = seconds;
+            ntmp -> data -> mode        = pick - 7;
+            ntmp -> data -> status      = IS_ACTIVE_FLAG;
+            ntmp -> data -> vx          = 0;
+            ntmp -> data -> vy          = 0;
+            ntmp -> data -> dx          = x;    // destination X
+            ntmp -> data -> dy          = y;    // destination Y
+            titleList                   = insert (titleList, titleList -> head, ntmp);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////
+        //
         // Initialize START node, inserting into list
         //
         otmp                            = createObject (TITLE_TEXTURE, TITLE_START,
@@ -90,7 +132,7 @@ void title_screen (bool *begin)
         // Determine if enough time has passed to toggle the START
         //
         ntmp                            = titleList -> head;
-        if (seconds                    >  ntmp -> data -> id)
+        if (seconds                    >  ntmp -> data -> id + 1)
         {
             ntmp -> data -> id          = seconds;
             if (ntmp -> data -> status != 0)
@@ -110,6 +152,21 @@ void title_screen (bool *begin)
         ntmp                            = titleList -> head;
         while (ntmp                    != NULL)
         {
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Adjust celestial objects
+            //
+            if (ntmp -> data -> mode         >  0)
+            {
+                if (seconds                  >  ntmp -> data -> id + (ntmp -> data -> mode - 1))
+                {
+                    pick                      = (ntmp -> data -> mode + 1) % 3 + 1;
+                    ntmp -> data -> id        = seconds;
+                    ntmp -> data -> mode      = pick;
+                    ntmp -> data -> regionID  = pick + 7;
+                }
+            }
+
             ////////////////////////////////////////////////////////////////////////
             //
             // Adjust node X position, comparing to desired destination X

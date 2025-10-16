@@ -90,17 +90,17 @@ void InitializeRegions ()
     // CELESTIAL_SMALL
     select_texture (CELESTIAL_TEXTURES);
     select_region (CELESTIAL_SMALL);
-    define_region_center (0, 0, 9, 19);
+    define_region_center (130, 25, 155, 60);
 
     // CELESTIAL_MEDIUM
     select_texture (CELESTIAL_TEXTURES);
     select_region (CELESTIAL_MEDIUM);
-    define_region_center (0, 0, 9, 19);
+    define_region_center (75, 15, 130, 60);
 
     // CELESTIAL_LARGE
     select_texture (CELESTIAL_TEXTURES);
     select_region (CELESTIAL_LARGE);
-    define_region_center (120, 120, 160, 160);
+    define_region_center (0, 0, 75, 80);
 }
 
 #endif // _REGIONS_CONFIGURATIONS_H

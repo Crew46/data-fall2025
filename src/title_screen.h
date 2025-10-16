@@ -78,22 +78,8 @@ void title_screen (bool *begin)
         for (index = 0; index < 64; index++)
         {
             pick                        = rand () % 3   + 8;
-            while (1)
-            {
-                x                       = rand () % 630 + 0;
-                y                       = rand () % 350 + 0;
-                if ((x                 >= 250) &&
-                    (x                 <= 345) &&
-                    (y                 >= 240) &&
-                    (y                 <= 260))
-                {
-                    ;
-                }
-                else
-                {
-                    break;
-                }
-            }
+            x                           = rand () % 630 + 0;
+            y                           = rand () % 350 + 0;
 
             otmp                        = createObject (CELESTIAL_TEXTURES, pick,
                                                         x,                  y,
@@ -103,9 +89,9 @@ void title_screen (bool *begin)
             ntmp -> data -> mode        = pick - 7;
             ntmp -> data -> status      = IS_ACTIVE_FLAG;
             ntmp -> data -> vx          = 0;
-            ntmp -> data -> vy          = 0;
-            ntmp -> data -> dx          = x;    // destination X
-            ntmp -> data -> dy          = y;    // destination Y
+            ntmp -> data -> vy          = rand () % 8 + 1;
+            ntmp -> data -> dx          = -1000;  // destination X
+            ntmp -> data -> dy          = -1000;  // destination Y
             titleList                   = insert (titleList, titleList -> head, ntmp);
         }
 
@@ -183,6 +169,11 @@ void title_screen (bool *begin)
             if (ntmp -> data -> y      != ntmp -> data -> dy)
             {
                 ntmp -> data -> y       = ntmp -> data -> y + ntmp -> data -> vy;
+                if (ntmp -> data -> y  >  360)
+                {
+                    ntmp -> data -> y   = -1 * (rand () % 40 + 20);
+                    ntmp -> data -> vy  = rand () % 8 + 1;
+                }
             }
 
             ////////////////////////////////////////////////////////////////////////

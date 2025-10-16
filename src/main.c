@@ -112,19 +112,12 @@ void main (void)
     // main game loop
     while (true)
     {
-        cycles                  = get_cycle_counter ();
-        if (currentState       == GAMESTATE_TITLE)
+        if (currentState                == GAMESTATE_TITLE)
         {
             // clear screen
             clear_screen (make_color_rgb (0, 0, 0));
 
             title_screen (&begin);
-        }
-
-        if ((get_frame_counter () % 60) == 0)
-        {
-            itoa (report, cycles, 10);
-            print_at (0, 0, report);
         }
 
         if ((frame % FRAME_SLICES)      == SCREEN_REDRAWING_FRAME)
@@ -227,7 +220,14 @@ void main (void)
             UpdateAllLasers ();
         }
 
-        cycles                  = get_cycle_counter () - cycles;
+        if (frame                       == 0)
+        {
+            cycles                       = get_cycle_counter ();
+            itoa (cycles, report, 10);
+        }
+
+        print_at (0,   340, "cycles per second:");
+        print_at (190, 340, report);
 
         end_frame ();
 

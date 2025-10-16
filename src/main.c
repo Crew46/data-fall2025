@@ -21,9 +21,8 @@ void main(void)
 
   ////////////////////////////////////////////////////////////////////////////////////
   //
-  //
   // Create enemy list
-
+  // 
   DoublyLinkedList* enemyList = createList();
   for(int i = 0; i < 5; ++i) // Add 5 enemies to start
   {

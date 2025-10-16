@@ -24,7 +24,7 @@ void title_screen (bool *begin)
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        //  Initialize LOGO node, appending to list
+        //  Initialize LOGO node, inserting into list
         //
         otmp                            = createObject (TITLE_TEXTURE, TITLE_LOGO,
                                                         640,           120,
@@ -35,26 +35,26 @@ void title_screen (bool *begin)
         ntmp -> data -> vy              = 0;
         ntmp -> data -> dx              = 110;    // destination X
         ntmp -> data -> dy              = 120;    // destination Y
-        titleList                       = append (titleList, titleList -> tail, ntmp);
+        titleList                       = insert (titleList, titleList -> head, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        // Initialize SUBTITLE node, appending to list
+        // Initialize SUBTITLE node, inserting into list
         //
         otmp                            = createObject (TITLE_TEXTURE, TITLE_SUBTITLE,
-                                                        150,           -360,
+                                                        150,           -60,
                                                         IS_ACTIVE_FLAG);
         ntmp                            = createNode (otmp);
         ntmp -> data -> status          = IS_ACTIVE_FLAG;
         ntmp -> data -> vx              = 0;
-        ntmp -> data -> vy              = 5;
+        ntmp -> data -> vy              = 1;
         ntmp -> data -> dx              = 150;    // destination X
         ntmp -> data -> dy              = 160;    // destination Y
-        titleList                       = append (titleList, titleList -> tail, ntmp);
+        titleList                       = insert (titleList, titleList -> head, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        // Initialize MESSAGE node, appending to list
+        // Initialize MESSAGE node, inserting into list
         //
         otmp                            = createObject (TITLE_TEXTURE, TITLE_MESSAGE,
                                                         -640,          240,
@@ -65,11 +65,11 @@ void title_screen (bool *begin)
         ntmp -> data -> vy              = 0;
         ntmp -> data -> dx              = 145;    // destination X
         ntmp -> data -> dy              = 240;    // destination Y
-        titleList                       = append (titleList, titleList -> tail, ntmp);
+        titleList                       = insert (titleList, titleList -> head, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        // Initialize START node, appending to list
+        // Initialize START node, inserting into list
         //
         otmp                            = createObject (TITLE_TEXTURE, TITLE_START,
                                                         255,           360,
@@ -78,10 +78,10 @@ void title_screen (bool *begin)
         ntmp -> data -> id              = seconds;
         ntmp -> data -> status          = IS_ACTIVE_FLAG;
         ntmp -> data -> vx              = 0;
-        ntmp -> data -> vy              = -5;
+        ntmp -> data -> vy              = -1;
         ntmp -> data -> dx              = 255;    // destination X
         ntmp -> data -> dy              = 240;    // destination Y
-        titleList                       = append (titleList, titleList -> tail, ntmp);
+        titleList                       = insert (titleList, titleList -> head, ntmp);
     }
     else
     {
@@ -89,7 +89,7 @@ void title_screen (bool *begin)
         //
         // Determine if enough time has passed to toggle the START
         //
-        ntmp                            = titleList -> tail;
+        ntmp                            = titleList -> head;
         if (seconds                    >  ntmp -> data -> id)
         {
             ntmp -> data -> id          = seconds;

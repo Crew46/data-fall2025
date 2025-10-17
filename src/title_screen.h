@@ -1,75 +1,90 @@
 #ifndef _TITLE_SCREEN_H
 #define _TITLE_SCREEN_H
 
-List *titleList                         = NULL;
+List       *titleList                 = NULL;
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+// title_screen() handles the display of title screen elements
+//
 void title_screen (bool *begin)
 {
-    int     index                       = 0;
-    int     pick                        = 0;
-    int     x                           = 0;
-    int     y                           = 0;
-    Node   *ntmp                        = NULL; 
-    Object *otmp                        = NULL;
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Declare variables
+    //
+    int     index                     = 0;
+    int     pick                      = 0;
+    int     x                         = 0;
+    int     y                         = 0;
+    Node   *ntmp                      = NULL; 
+    Object *otmp                      = NULL;
 
-    if (*begin                         == false)
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Initialize title screen elements: this only runs once per state
+    //
+    if (*begin                       == false)
     {
         ////////////////////////////////////////////////////////////////////////////
         //
-        //  We only run this section once
+        // Toggle begin to ensure this does not run again
         //
-        *begin                          = true;
+        *begin                        = true;
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        //  Create list to store title screen elements
+        // Create list to store title screen elements
         //
-        titleList                       = createList ();
+        titleList                     = createList ();
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        //  Initialize LOGO node, inserting into list
+        // Initialize LOGO node, inserting into list
         //
-        otmp                            = createObject (TITLE_TEXTURE, TITLE_LOGO,
-                                                        640,           120,
-                                                        IS_ACTIVE_FLAG);
-        ntmp                            = createNode (otmp);
-        ntmp -> data -> status          = IS_ACTIVE_FLAG;
-        ntmp -> data -> vx              = -10;
-        ntmp -> data -> vy              = 0;
-        ntmp -> data -> dx              = 110;    // destination X
-        ntmp -> data -> dy              = 120;    // destination Y
-        titleList                       = insert (titleList, titleList -> head, ntmp);
+        otmp                          = createObject (TITLE_TEXTURE, TITLE_LOGO,
+                                                      640,           120,
+                                                      IS_ACTIVE_FLAG);
+        ntmp                          = createNode (otmp);
+        otmp                          = ntmp -> data;
+        otmp -> status                = IS_ACTIVE_FLAG;
+        otmp -> vx                    = -10;
+        otmp -> vy                    = 0;
+        otmp -> dx                    = 110;    // destination X
+        otmp -> dy                    = 120;    // destination Y
+        titleList                     = insert (titleList, titleList -> head, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
         // Initialize SUBTITLE node, inserting into list
         //
-        otmp                            = createObject (TITLE_TEXTURE, TITLE_SUBTITLE,
-                                                        150,           -60,
-                                                        IS_ACTIVE_FLAG);
-        ntmp                            = createNode (otmp);
-        ntmp -> data -> status          = IS_ACTIVE_FLAG;
-        ntmp -> data -> vx              = 0;
-        ntmp -> data -> vy              = 1;
-        ntmp -> data -> dx              = 150;    // destination X
-        ntmp -> data -> dy              = 160;    // destination Y
-        titleList                       = insert (titleList, titleList -> head, ntmp);
+        otmp                          = createObject (TITLE_TEXTURE, TITLE_SUBTITLE,
+                                                      150,           -60,
+                                                      IS_ACTIVE_FLAG);
+        ntmp                          = createNode (otmp);
+        otmp                          = ntmp -> data;
+        otmp -> status                = IS_ACTIVE_FLAG;
+        otmp -> vx                    = 0;
+        otmp -> vy                    = 1;
+        otmp -> dx                    = 150;    // destination X
+        otmp -> dy                    = 160;    // destination Y
+        titleList                     = insert (titleList, titleList -> head, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
         // Initialize MESSAGE node, inserting into list
         //
-        otmp                            = createObject (TITLE_TEXTURE, TITLE_MESSAGE,
-                                                        -640,          240,
-                                                        IS_ACTIVE_FLAG);
-        ntmp                            = createNode (otmp);
-        ntmp -> data -> status          = IS_ACTIVE_FLAG;
-        ntmp -> data -> vx              = 5;
-        ntmp -> data -> vy              = 0;
-        ntmp -> data -> dx              = 145;    // destination X
-        ntmp -> data -> dy              = 240;    // destination Y
-        titleList                       = insert (titleList, titleList -> head, ntmp);
+        otmp                          = createObject (TITLE_TEXTURE, TITLE_MESSAGE,
+                                                      -640,          240,
+                                                      IS_ACTIVE_FLAG);
+        ntmp                          = createNode (otmp);
+        otmp                          = ntmp -> data;
+        otmp -> status                = IS_ACTIVE_FLAG;
+        otmp -> vx                    = 5;
+        otmp -> vy                    = 0;
+        otmp -> dx                    = 145;    // destination X
+        otmp -> dy                    = 240;    // destination Y
+        titleList                     = insert (titleList, titleList -> head, ntmp);
 
         ////////////////////////////////////////////////////////////////////////////
         //
@@ -77,39 +92,41 @@ void title_screen (bool *begin)
         //
         for (index = 0; index < 64; index++)
         {
-            pick                        = rand () % 6   + CELESTIAL_SMALL;
-            x                           = rand () % 630 + 0;
-            y                           = rand () % 350 + 0;
+            pick                      = rand () % 6   + CELESTIAL_SMALL;
+            x                         = rand () % 630 + 0;
+            y                         = rand () % 350 + 0;
 
-            otmp                        = createObject (CELESTIAL_TEXTURES, pick,
-                                                        x,                  y,
-                                                        IS_ACTIVE_FLAG);
-            ntmp                        = createNode (otmp);
-            ntmp -> data -> id          = seconds;
-            ntmp -> data -> frame       = pick - (CELESTIAL_SMALL - 1);
-            ntmp -> data -> status      = IS_ACTIVE_FLAG;
-            ntmp -> data -> vx          = rand () % 5 - 2;
-            ntmp -> data -> vy          = rand () % 8 + 1;
-            ntmp -> data -> dx          = -1000;  // destination X
-            ntmp -> data -> dy          = -1000;  // destination Y
-            titleList                   = insert (titleList, titleList -> head, ntmp);
+            otmp                      = createObject (CELESTIAL_TEXTURES, pick,
+                                                      x,                  y,
+                                                      IS_ACTIVE_FLAG);
+            ntmp                      = createNode (otmp);
+        otmp                          = ntmp -> data;
+            otmp -> id                = seconds;
+            otmp -> frame             = pick - (CELESTIAL_SMALL - 1);
+            otmp -> status            = IS_ACTIVE_FLAG;
+            otmp -> vx                = rand () % 5 - 2;
+            otmp -> vy                = rand () % 8 + 1;
+            otmp -> dx                = -1000;  // destination X
+            otmp -> dy                = -1000;  // destination Y
+            titleList                 = insert (titleList, titleList -> head, ntmp);
         }
 
         ////////////////////////////////////////////////////////////////////////////
         //
         // Initialize START node, inserting into list
         //
-        otmp                            = createObject (TITLE_TEXTURE, TITLE_START,
-                                                        255,           360,
-                                                        IS_ACTIVE_FLAG);
-        ntmp                            = createNode (otmp);
-        ntmp -> data -> id              = seconds;
-        ntmp -> data -> status          = IS_ACTIVE_FLAG;
-        ntmp -> data -> vx              = 0;
-        ntmp -> data -> vy              = -1;
-        ntmp -> data -> dx              = 255;    // destination X
-        ntmp -> data -> dy              = 240;    // destination Y
-        titleList                       = insert (titleList, titleList -> head, ntmp);
+        otmp                          = createObject (TITLE_TEXTURE, TITLE_START,
+                                                      255,           360,
+                                                      IS_ACTIVE_FLAG);
+        ntmp                          = createNode (otmp);
+        otmp                          = ntmp -> data;
+        otmp -> id                    = seconds;
+        otmp -> status                = IS_ACTIVE_FLAG;
+        otmp -> vx                    = 0;
+        otmp -> vy                    = -1;
+        otmp -> dx                    = 255;    // destination X
+        otmp -> dy                    = 240;    // destination Y
+        titleList                     = insert (titleList, titleList -> head, ntmp);
     }
     else
     {
@@ -117,17 +134,18 @@ void title_screen (bool *begin)
         //
         // Determine if enough time has passed to toggle the START
         //
-        ntmp                            = titleList -> head;
-        if (seconds                    >  ntmp -> data -> id + 1)
+        ntmp                          = titleList -> head;
+        otmp                          = ntmp -> data;
+        if (seconds                  >  otmp -> id + 1)
         {
-            ntmp -> data -> id          = seconds;
-            if (ntmp -> data -> status != 0)
+            otmp -> id                = seconds;
+            if (otmp -> status       != 0)
             {
-                ntmp -> data -> status  = 0;
+                otmp -> status        = INACTIVE_FLAG;
             }
             else
             {
-                ntmp -> data -> status  = IS_ACTIVE_FLAG;
+                otmp -> status        = IS_ACTIVE_FLAG;
             }
         }
 
@@ -135,22 +153,23 @@ void title_screen (bool *begin)
         //
         // Iterate through each node in the list for adjustment and display
         //
-        ntmp                            = titleList -> head;
-        while (ntmp                    != NULL)
+        ntmp                          = titleList -> head;
+        while (ntmp                  != NULL)
         {
+            otmp                      = ntmp -> data;
 /*
             ////////////////////////////////////////////////////////////////////////
             //
             // Adjust celestial objects
             //
-            if (ntmp -> data -> frame        >  0)
+            if (otmp -> frame        >  0)
             {
-                if (seconds                  >  ntmp -> data -> id + (ntmp -> data -> frame - 1))
+                if (seconds          >  otmp -> id + (otmp -> frame - 1))
                 {
-                    pick                      = (ntmp -> data -> frame + 1) % 6 + 1;
-                    ntmp -> data -> id        = seconds;
-                    ntmp -> data -> frame     = pick;
-                    ntmp -> data -> regionID  = pick + (CELESTIAL_SMALL - 1);
+                    pick              = (otmp -> frame + 1) % 6 + 1;
+                    otmp -> id        = seconds;
+                    otmp -> frame     = pick;
+                    otmp -> regionID  = pick + (CELESTIAL_SMALL - 1);
                 }
             }
 */
@@ -159,25 +178,25 @@ void title_screen (bool *begin)
             //
             // Adjust node X position, comparing to desired destination X
             //
-            if (ntmp -> data -> x      != ntmp -> data -> dx)
+            if (otmp -> x            != otmp -> dx)
             {
-                ntmp -> data -> x       = ntmp -> data -> x + ntmp -> data -> vx;
+                otmp -> x             = otmp -> x + otmp -> vx;
             }
 
             ////////////////////////////////////////////////////////////////////////
             //
             // Adjust node Y position, comparing to desired destination Y
             //
-            if (ntmp -> data -> y      != ntmp -> data -> dy)
+            if (otmp -> y            != otmp -> dy)
             {
-                ntmp -> data -> y       = ntmp -> data -> y + ntmp -> data -> vy;
-                if (ntmp -> data -> y  >  360)
+                otmp -> y             = otmp -> y + otmp -> vy;
+                if (otmp -> y        >  360)
                 {
-                    ntmp -> data -> x   = rand () % 630;
-                    ntmp -> data -> vx  = rand () % 5 - 2;
-                    ntmp -> data -> y   = -1 * (rand () % 40 + 20);
-                    ntmp -> data -> vy  = rand () % 8 + 1;
-                    ntmp -> data -> regionID  = rand () % 6 + CELESTIAL_SMALL;
+                    otmp -> x         = rand () % 630;
+                    otmp -> vx        = rand () % 5 - 2;
+                    otmp -> y         = -1 * (rand () % 40 + 20);
+                    otmp -> vy        = rand () % 8 + 1;
+                    otmp -> regionID  = rand () % 6 + CELESTIAL_SMALL;
                 }
             }
 
@@ -185,14 +204,14 @@ void title_screen (bool *begin)
             //
             // Display node to screen
             //
-            if (ntmp -> data -> status == IS_ACTIVE_FLAG)
+            if (otmp -> status       == IS_ACTIVE_FLAG)
             {
-                select_texture (ntmp -> data -> textureID);
-                select_region (ntmp  -> data -> regionID);
-                draw_region_at (ntmp -> data -> x, ntmp -> data -> y);
+                select_texture (otmp -> textureID);
+                select_region  (otmp -> regionID);
+                draw_region_at (otmp -> x, otmp -> y);
             }
 
-            ntmp                        = ntmp -> next;
+            ntmp                      = ntmp -> next;
         }
     }
 }

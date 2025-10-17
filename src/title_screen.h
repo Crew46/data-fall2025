@@ -43,13 +43,13 @@ void title_screen (bool *alreadyrun)
         // Initialize LOGO node, inserting into list
         //
         otmp                          = createObject (TITLE_TEXTURE, TITLE_LOGO,
-                                                      640,           120,
+                                                      110,           360,
                                                       IS_ACTIVE_FLAG);
         ntmp                          = createNode (otmp);
         otmp                          = ntmp -> data;
         otmp -> status                = IS_ACTIVE_FLAG;
-        otmp -> vx                    = -10;
-        otmp -> vy                    = 0;
+        otmp -> vx                    = 0;
+        otmp -> vy                    = -5;
         otmp -> dx                    = 110;    // destination X
         otmp -> dy                    = 120;    // destination Y
         titleList                     = insert (titleList, titleList -> head, ntmp);
@@ -75,7 +75,7 @@ void title_screen (bool *alreadyrun)
         // Initialize MESSAGE node, inserting into list
         //
         otmp                          = createObject (TITLE_TEXTURE, TITLE_MESSAGE,
-                                                      -640,          240,
+                                                      -500,          240,
                                                       IS_ACTIVE_FLAG);
         ntmp                          = createNode (otmp);
         otmp                          = ntmp -> data;
@@ -88,11 +88,11 @@ void title_screen (bool *alreadyrun)
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        // Initialize celestial object nodes, inserting into list
+        // Initialize celestial starfield nodes, inserting into list
         //
-        for (index = 0; index < 64; index++)
+        for (index = 0; index < 128; index++)
         {
-            pick                      = rand () % 6   + CELESTIAL_SMALL;
+            pick                      = rand () % 6   + CELESTIAL_LARGE;
             x                         = rand () % 630 + 0;
             y                         = rand () % 350 + 0;
 
@@ -100,11 +100,36 @@ void title_screen (bool *alreadyrun)
                                                       x,                  y,
                                                       IS_ACTIVE_FLAG);
             ntmp                      = createNode (otmp);
-        otmp                          = ntmp -> data;
+            otmp                      = ntmp -> data;
             otmp -> id                = seconds;
-            otmp -> frame             = pick - (CELESTIAL_SMALL - 1);
+            otmp -> frame             = pick - (CELESTIAL_LARGE - 1);
             otmp -> status            = IS_ACTIVE_FLAG;
-            otmp -> vx                = rand () % 5 - 2;
+            otmp -> vx                = 0;
+            otmp -> vy                = 0;
+            otmp -> dx                = -1000;  // destination X
+            otmp -> dy                = -1000;  // destination Y
+            titleList                 = insert (titleList, titleList -> head, ntmp);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////
+        //
+        // Initialize moving celestial object nodes, inserting into list
+        //
+        for (index = 0; index < 64; index++)
+        {
+            pick                      = rand () % 3   + CELESTIAL_LARGE + 3;
+            x                         = rand () % 630 + 0;
+            y                         = rand () % 350 - 360;
+
+            otmp                      = createObject (CELESTIAL_TEXTURES, pick,
+                                                      x,                  y,
+                                                      IS_ACTIVE_FLAG);
+            ntmp                      = createNode (otmp);
+            otmp                      = ntmp -> data;
+            otmp -> id                = seconds;
+            otmp -> frame             = pick - (CELESTIAL_LARGE - 1);
+            otmp -> status            = IS_ACTIVE_FLAG;
+            otmp -> vx                = 0;
             otmp -> vy                = rand () % 8 + 1;
             otmp -> dx                = -1000;  // destination X
             otmp -> dy                = -1000;  // destination Y
@@ -116,14 +141,14 @@ void title_screen (bool *alreadyrun)
         // Initialize START node, inserting into list
         //
         otmp                          = createObject (TITLE_TEXTURE, TITLE_START,
-                                                      255,           360,
+                                                      640,           240,
                                                       IS_ACTIVE_FLAG);
         ntmp                          = createNode (otmp);
         otmp                          = ntmp -> data;
         otmp -> id                    = seconds;
         otmp -> status                = IS_ACTIVE_FLAG;
-        otmp -> vx                    = 0;
-        otmp -> vy                    = -1;
+        otmp -> vx                    = -5;
+        otmp -> vy                    = 0;
         otmp -> dx                    = 255;    // destination X
         otmp -> dy                    = 240;    // destination Y
         titleList                     = insert (titleList, titleList -> head, ntmp);
@@ -169,7 +194,7 @@ void title_screen (bool *alreadyrun)
                     pick              = (otmp -> frame + 1) % 6 + 1;
                     otmp -> id        = seconds;
                     otmp -> frame     = pick;
-                    otmp -> regionID  = pick + (CELESTIAL_SMALL - 1);
+                    otmp -> regionID  = pick + (CELESTIAL_LARGE - 1);
                 }
             }
 */
@@ -193,10 +218,10 @@ void title_screen (bool *alreadyrun)
                 if (otmp -> y        >  360)
                 {
                     otmp -> x         = rand () % 630;
-                    otmp -> vx        = rand () % 5 - 2;
+                    otmp -> vx        = 0;
                     otmp -> y         = -1 * (rand () % 40 + 20);
                     otmp -> vy        = rand () % 8 + 1;
-                    otmp -> regionID  = rand () % 6 + CELESTIAL_SMALL;
+                    otmp -> regionID  = rand () % 4 + CELESTIAL_LARGE + 2;
                 }
             }
 

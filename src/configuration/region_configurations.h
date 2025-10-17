@@ -23,9 +23,9 @@
 #define  TITLE_SUBTITLE    31
 #define  TITLE_MESSAGE     32
 #define  TITLE_START       33
-#define  CELESTIAL_SMALL   40
+#define  CELESTIAL_LARGE   40
 #define  CELESTIAL_MEDIUM  41
-#define  CELESTIAL_LARGE   42
+#define  CELESTIAL_SMALL   42
 #define  STAR0             43
 #define  STAR1             44
 #define  STAR2             45

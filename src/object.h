@@ -25,7 +25,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-#define INACTIVE_FLAG  0x00000001
+#define INACTIVE_FLAG  0x00000000
 #define IS_ACTIVE_FLAG 0x00000001
 #define DELETION_FLAG  0x00000002
 #define ODD_TEAM_FLAG  0x00000004

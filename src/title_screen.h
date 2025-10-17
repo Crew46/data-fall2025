@@ -139,7 +139,7 @@ void title_screen (bool *alreadyrun)
         if (seconds                  >  otmp -> id + 1)
         {
             otmp -> id                = seconds;
-            if (otmp -> status       != 0)
+            if (otmp -> status       != INACTIVE_FLAG)
             {
                 otmp -> status        = INACTIVE_FLAG;
             }

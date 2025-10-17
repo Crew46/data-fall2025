@@ -1,6 +1,17 @@
 #ifndef _NODE_H
 #define _NODE_H
+
 #include "../../object.h"
+
+////////////////////////////////////////////////////////////////////////////////////
+//
+// doubly linked node API
+// ======================
+//
+// Node *createNode (Object *data);
+// Node *deleteNode (Node   *oldNode);
+//
+////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
@@ -8,30 +19,41 @@
 //
 struct Node
 {
-	Object *data;
-	Node   *next;
-	Node   *prev;
+    Object *data;
+    Node   *next;
+    Node   *prev;
 };
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+// createNode(): allocate and initialize a new Node
+//
 Node *createNode (Object *data)
 {
-	Node *node    = (Node *) malloc (sizeof (Node));
-	node -> data  = data;
-	node -> next  = NULL;
-	node -> prev  = NULL;
+    Node *newNode        = (Node *) malloc (sizeof (Node));
+    if (newNode         != NULL)
+    {
+        newNode -> data  = data;
+        newNode -> next  = NULL;
+        newNode -> prev  = NULL;
+    }
 
-	return node;
+    return (newNode);
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+//
+// deleteNode(): deallocate an existing node (setting pointer to NULL)
+//
 Node *deleteNode (Node *oldNode)
 {
-	if (oldNode  != NULL)
-	{
-		free (oldNode);
-		oldNode   = NULL;
-	}
+    if (oldNode         != NULL)
+    {
+        free (oldNode);
+        oldNode          = NULL;
+    }
 
-	return (oldNode);
+    return (oldNode);
 }
 
 #endif

@@ -5,7 +5,21 @@
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-//  Doubly Linked List struct and helpers
+// doubly linked list API
+// ======================
+//
+// List *createList ();
+// List *append (List *myList, Node *place, Node *newNode);
+// List *insert (List *myList, Node *place, Node *newNode);
+// List *obtain (List *myList, Node *thatNode);
+// List *clearList (List *myList);
+// List *deleteList (List *oldList);
+//
+////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////
+//
+// Doubly Linked List struct and helpers
 //
 struct List
 {
@@ -16,7 +30,7 @@ struct List
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-//  append(): add a newNode into myList after indicated place
+// append(): add a newNode into myList after indicated place
 //
 List *append (List *myList, Node *place, Node *newNode)
 {
@@ -58,7 +72,7 @@ List *append (List *myList, Node *place, Node *newNode)
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-//  insert(): add a newNode into myList before indicated place
+// insert(): add a newNode into myList before indicated place
 //
 List *insert (List *myList, Node *place, Node *newNode)
 {
@@ -101,8 +115,8 @@ List *insert (List *myList, Node *place, Node *newNode)
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-//  obtain(): take thatNode and disconnect it (while maintaining list integrity)
-//            from myList.
+// obtain(): take thatNode and disconnect it (while maintaining list integrity)
+//           from myList.
 //
 List *obtain (List *myList, Node *thatNode)
 {
@@ -139,7 +153,7 @@ List *obtain (List *myList, Node *thatNode)
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-//  createList(): allocate and initialize a new list
+// createList(): allocate and initialize a new list
 //
 List *createList ()
 {
@@ -156,8 +170,8 @@ List *createList ()
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-//  clearList(): sanely obtain and deallocate all nodes in myList, leaving an
-//               empty list
+// clearList(): sanely obtain and deallocate all nodes in myList, leaving an
+//              empty list
 //
 List *clearList (List *myList)
 {
@@ -178,7 +192,7 @@ List *clearList (List *myList)
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
-//  deleteList(): clear and deallocate a list, returning a NULL
+// deleteList(): clear and deallocate a list, returning a NULL
 //
 List *deleteList (List *oldList)
 {

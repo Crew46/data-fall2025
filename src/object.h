@@ -98,14 +98,25 @@ Object *createObject (int textureID, int regionID, int x, int y, int status)
 
 void  drawObject (Object *object)
 {
-    int team     = 0;
+    int team       = 0;
+
     select_texture (object -> textureID);
     select_region  (object -> regionID);
 
-    team         = (object -> status & TeamFlagMask) >> TeamFlagOffset;
+    team           = (object -> status & TeamFlagMask) >> TeamFlagOffset;
 
     set_drawing_angle ((float) team * pi / 2.0);
-    draw_region_rotated_at (object -> x, object -> y);
+
+    if (ZOOM_FLAG == (object -> status & ZOOM_FLAG))
+    {
+        set_drawing_scale (0.25, 0.25);
+    }
+    else
+    {
+        set_drawing_scale (1.00, 1.00);
+    }    
+
+    draw_region_rotozoomed_at (object -> x, object -> y);
 }
 
 void  moveObject (Object *object)

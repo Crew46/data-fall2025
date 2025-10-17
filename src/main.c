@@ -35,9 +35,7 @@
 #include "video_manager.h"
 #include "weapon/laser.h"
 #include "weapon/weapon.h"
-
-// list of all objects in scene
-List      *objectList;
+#include "object_manager.h"
 
 void main (void)
 {
@@ -46,11 +44,6 @@ void main (void)
     int        cycles                    = 0;
     int        position                  = 0;
     int        frame                     = 0;
-    int        x                         = 0;
-    int        xdir                      = 0;
-    int        y                         = 0;
-    int        ydir                      = 0;
-    int        direction                 = 0;
     int  [7]   creport;
     int  [12]  sreport;
 
@@ -76,6 +69,12 @@ void main (void)
                   IS_ACTIVE_FLAG,                  // status flag bits
                   1.0,                             // shootCooldown
                   PLAYER_ONE);                     // gamepad ID
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Initialize moving celestial object nodes, inserting into list
+    //
+    CreateCelestials ();
 
     // Initialize game state
     //currentState                         = GAMESTATE_MENU;
@@ -106,11 +105,11 @@ void main (void)
             {
                 // main menu UI
                 select_texture (UI_TEXTURES);
-                select_region (EXIT_GAME_REGION);
-                draw_region_at (20, 40);
-                select_region (PLAY_GAME_REGION);
+                select_region  (EXIT_GAME_REGION);
+                draw_region_at (20,  40);
+                select_region  (PLAY_GAME_REGION);
                 draw_region_at (220, 40);
-                select_region (CREDITS_REGION);
+                select_region  (CREDITS_REGION);
                 draw_region_at (420, 40);
             }
             else if (currentState       == GAMESTATE_INGAME)
@@ -120,10 +119,11 @@ void main (void)
 
                 // drawing the background
                 select_texture (BACKGROUND_TEXTURE);
-                select_region (BACKGROUND_REGION);
+                select_region  (BACKGROUND_REGION);
                 draw_region_at (0, 0);
 
                 // draw all objects list
+                drawList (GetObjectList ());
                 drawList (GetPlayerList ());
                 drawList (GetEnemyList ());
                 drawList (GetWeaponList ());
@@ -188,6 +188,7 @@ void main (void)
 //        {
 //            if (currentState            == GAMESTATE_INGAME)
 //            {
+                UpdateAllObjects (objectList);
                 UpdateAllPlayers ();
 //            }
 //            else if (currentState       == GAMESTATE_TITLE)

@@ -39,7 +39,7 @@ ifneq ($(MAKECMDGOALS),debug)
 	@$(CC)   $(CFLAGS) $(SRCFILE) 2> $(CC).errors     && echo "\033[0;32mOK\033[0m" \
 													  || (echo "\033[0;31mFAIL\033[0m" \
 													  && exit 1)
-	@[ ! -s "$(CC).errors" ] && rm -f $(CC).errors    || echo -n
+	@[ ! -s "$(CC).errors" ] && rm -f $(CC).errors    || /bin/echo -n
 else
 	$(CC)    $(CFLAGS) $(SRCFILE)					  || exit 1
 endif

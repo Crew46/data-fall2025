@@ -30,13 +30,30 @@ struct List
 
 ////////////////////////////////////////////////////////////////////////////////////
 //
+// createList(): allocate and initialize a new list
+//
+List *createList ()
+{
+    List *myList        = (List *) malloc (sizeof (List));
+    if (myList         != NULL)
+    {
+        myList -> head  = NULL;
+        myList -> tail  = NULL;
+        myList -> qty   = 0;
+    }
+
+    return (myList);
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+//
 // append(): add a newNode into myList after indicated place
 //
 List *append (List *myList, Node *place, Node *newNode)
 {
     if (myList              == NULL)
     {
-        myList               = (List *) malloc (sizeof (List));
+        myList               = createList ();
     }
 
     if ((myList             != NULL) &&
@@ -78,7 +95,7 @@ List *insert (List *myList, Node *place, Node *newNode)
 {
     if (myList              == NULL)
     {
-        myList               = (List *) malloc (sizeof (List));
+        myList               = createList ();
     }
 
     if ((myList             != NULL) &&
@@ -161,23 +178,6 @@ List *obtain (List *myList, Node **thatNode)
                 myList -> qty                    = myList -> qty - 1;
             }
         }
-    }
-
-    return (myList);
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-//
-// createList(): allocate and initialize a new list
-//
-List *createList ()
-{
-    List *myList        = (List*) malloc (sizeof (List));
-    if (myList         != NULL)
-    {
-        myList -> head  = NULL;
-        myList -> tail  = NULL;
-        myList -> qty   = 0;
     }
 
     return (myList);

@@ -6,18 +6,19 @@
 #include "data_structures/queue/queue.h"
 #include "data_structures/stack/stack.h"
 
-void drawList (List *list)
+void drawList (List *myList)
 {
-    Node *currentNode   = list -> head;
-    Node *nextNode      = NULL;
+    Node *currentNode       = NULL;
 
-    while (currentNode != NULL)
+    if (myList             != NULL)
     {
-        nextNode        = currentNode -> next;
+        currentNode         = myList -> head;
 
-        drawObject (currentNode -> data);
-
-        currentNode     = nextNode;
+        while (currentNode != NULL)
+        {
+            drawObject (currentNode -> data);
+            currentNode     = currentNode -> next;
+        }
     }
 }
 

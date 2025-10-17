@@ -41,7 +41,7 @@ void CreateCelestials (void)
             otmp -> id            = seconds;
             otmp -> frame         = pick - (CELESTIAL_LARGE - 1);
             otmp -> vx            = 0;
-            otmp -> vy            = rand () % 8 + 1;
+            otmp -> vy            = rand () % max_obj_vy + min_obj_vy;
             otmp -> dx            = -1000;  // destination X
             otmp -> dy            = -1000;  // destination Y
             ltmp                  = insert (ltmp, ltmp -> head, ntmp);
@@ -58,6 +58,7 @@ List *GetObjectList ()
 
 void  UpdateAllObjects (List *myList)
 {
+    int     pick                      = 0;
     Node   *currentNode               = NULL;
     Object *otmp                      = NULL;  
 
@@ -67,6 +68,31 @@ void  UpdateAllObjects (List *myList)
         while (currentNode           != NULL)
         {
             otmp                      = currentNode -> data;
+
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Adjust celestial objects
+            //
+            if ((otmp -> frame       >  0) &&
+                (otmp -> vy          == 0))
+            {
+                if (seconds          >  otmp -> id + (otmp -> frame - 1))
+                {
+                    pick              = (otmp -> frame + 1) % 6 + 1;
+                    otmp -> id        = seconds;
+                    otmp -> frame     = pick;
+                    otmp -> regionID  = pick + (CELESTIAL_LARGE - 1);
+                }
+            }
+
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Adjust node X position, comparing to desired destination X
+            //
+            if (otmp -> x            != otmp -> dx)
+            {
+                otmp -> x             = otmp -> x + otmp -> vx;
+            }
 
             ////////////////////////////////////////////////////////////////////////
             //
@@ -80,7 +106,7 @@ void  UpdateAllObjects (List *myList)
                     otmp -> x         = rand () % 630;
                     otmp -> vx        = 0;
                     otmp -> y         = -1 * (rand () % 40 + 20);
-                    otmp -> vy        = rand () % 8 + 1;
+                    otmp -> vy        = rand () % max_obj_vy + min_obj_vy;
                     otmp -> regionID  = rand () % 4 + CELESTIAL_LARGE + 2;
                 }
             }

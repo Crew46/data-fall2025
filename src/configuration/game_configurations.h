@@ -8,6 +8,8 @@
 //=========================================================
 
 int        seconds;
+int        max_obj_vy;
+int        min_obj_vy;
 
 enum GameState
 {

@@ -30,12 +30,12 @@
 // linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
 // other managers
-#include "title_screen.h"
 #include "audio_manager.h"
 #include "video_manager.h"
 #include "weapon/laser.h"
 #include "weapon/weapon.h"
 #include "object_manager.h"
+#include "title_screen.h"
 
 void main (void)
 {
@@ -47,6 +47,8 @@ void main (void)
     int  [7]   creport;
     int  [12]  sreport;
 
+    max_obj_vy                           = 1;
+    min_obj_vy                           = 1;
     objectList                           = NULL;
     currentState                         = GAMESTATE_TITLE;
     seconds                              = 0;
@@ -85,10 +87,32 @@ void main (void)
     {
         if (currentState                == GAMESTATE_TITLE)
         {
-            // clear screen
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Clear the screen
+            //
             clear_screen (make_color_rgb (0, 0, 0));
 
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Do an iteration of the title screen logic
+            //
             title_screen (&alreadyrun);
+
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // Iterate through each node in the list for adjustment and display
+            //
+            UpdateAllObjects (titleList);
+            UpdateAllObjects (objectList);
+            drawList (titleList);
+            drawList (GetObjectList ());
+
+            if (position                >  325000)
+            {
+                max_obj_vy               = 8;
+                min_obj_vy               = 2;
+            }
         }
 
         if ((frame % FRAME_SLICES)      == SCREEN_REDRAWING_FRAME)
@@ -128,6 +152,12 @@ void main (void)
                 drawList (GetEnemyList ());
                 drawList (GetWeaponList ());
                 drawList (GetLaserList ());
+
+                if (position            >  325000)
+                {
+                    max_obj_vy           = 8;
+                    min_obj_vy           = 2;
+                }
             }
             else if (currentState       == GAMESTATE_PLAYAGAIN)
             {
@@ -207,6 +237,9 @@ void main (void)
                     assign_channel_sound (get_selected_channel (), get_selected_sound ());
                     play_channel (get_selected_channel ());
                     set_channel_loop (true);
+                    position             = 0;
+                    max_obj_vy           = 1;
+                    min_obj_vy           = 1;
                 }
             }
 //        }

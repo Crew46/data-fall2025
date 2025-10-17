@@ -49,7 +49,7 @@ void title_screen (bool *alreadyrun)
         otmp                          = ntmp -> data;
         otmp -> status                = IS_ACTIVE_FLAG;
         otmp -> vx                    = 0;
-        otmp -> vy                    = -5;
+        otmp -> vy                    = -1;
         otmp -> dx                    = 110;    // destination X
         otmp -> dy                    = 120;    // destination Y
         titleList                     = insert (titleList, titleList -> head, ntmp);
@@ -112,30 +112,6 @@ void title_screen (bool *alreadyrun)
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        // Initialize moving celestial object nodes, inserting into list
-        //
-        for (index = 0; index < 64; index++)
-        {
-            pick                      = rand () % 3   + CELESTIAL_LARGE + 3;
-            x                         = rand () % 630 + 0;
-            y                         = rand () % 350 - 360;
-
-            otmp                      = createObject (CELESTIAL_TEXTURES, pick,
-                                                      x,                  y,
-                                                      IS_ACTIVE_FLAG | ZOOM_FLAG);
-            ntmp                      = createNode (otmp);
-            otmp                      = ntmp -> data;
-            otmp -> id                = seconds;
-            otmp -> frame             = pick - (CELESTIAL_LARGE - 1);
-            otmp -> vx                = 0;
-            otmp -> vy                = rand () % 8 + 1;
-            otmp -> dx                = -1000;  // destination X
-            otmp -> dy                = -1000;  // destination Y
-            titleList                 = insert (titleList, titleList -> head, ntmp);
-        }
-
-        ////////////////////////////////////////////////////////////////////////////
-        //
         // Initialize START node, inserting into list
         //
         otmp                          = createObject (TITLE_TEXTURE, TITLE_START,
@@ -169,81 +145,6 @@ void title_screen (bool *alreadyrun)
             {
                 otmp -> status        = IS_ACTIVE_FLAG;
             }
-        }
-
-        ////////////////////////////////////////////////////////////////////////////
-        //
-        // Iterate through each node in the list for adjustment and display
-        //
-        ntmp                          = titleList -> head;
-        while (ntmp                  != NULL)
-        {
-            otmp                      = ntmp -> data;
-
-            ////////////////////////////////////////////////////////////////////////
-            //
-            // Adjust celestial objects
-            //
-            if ((otmp -> frame       >  0) &&
-                (otmp -> vy          == 0))
-            {
-                if (seconds          >  otmp -> id + (otmp -> frame - 1))
-                {
-                    pick              = (otmp -> frame + 1) % 6 + 1;
-                    otmp -> id        = seconds;
-                    otmp -> frame     = pick;
-                    otmp -> regionID  = pick + (CELESTIAL_LARGE - 1);
-                }
-            }
-
-            ////////////////////////////////////////////////////////////////////////
-            //
-            // Adjust node X position, comparing to desired destination X
-            //
-            if (otmp -> x            != otmp -> dx)
-            {
-                otmp -> x             = otmp -> x + otmp -> vx;
-            }
-
-            ////////////////////////////////////////////////////////////////////////
-            //
-            // Adjust node Y position, comparing to desired destination Y
-            //
-            if (otmp -> y            != otmp -> dy)
-            {
-                otmp -> y             = otmp -> y + otmp -> vy;
-                if (otmp -> y        >  360)
-                {
-                    otmp -> x         = rand () % 630;
-                    otmp -> vx        = 0;
-                    otmp -> y         = -1 * (rand () % 40 + 20);
-                    otmp -> vy        = rand () % 8 + 1;
-                    otmp -> regionID  = rand () % 4 + CELESTIAL_LARGE + 2;
-                }
-            }
-
-            ////////////////////////////////////////////////////////////////////////
-            //
-            // Display node to screen
-            //
-            if (IS_ACTIVE_FLAG       == (otmp -> status & IS_ACTIVE_FLAG))
-            {
-                select_texture (otmp -> textureID);
-                select_region  (otmp -> regionID);
-
-                if (ZOOM_FLAG        == (otmp -> status & ZOOM_FLAG))
-                {
-                    set_drawing_scale (0.25, 0.25);
-                    draw_region_zoomed_at (otmp -> x, otmp -> y);
-                }
-                else
-                {
-                    set_drawing_scale (1.00, 1.00);
-                    draw_region_at (otmp -> x, otmp -> y);
-                }    
-            }
-
-            ntmp                      = ntmp -> next;
         }
     }
 }

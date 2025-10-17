@@ -29,8 +29,8 @@ Node* dequeue(Queue* queue)
 {
 	if(queue->list->tail != NULL)
 	{
-		Node* node = queue->list->tail;
-		obtain(queue->list, queue->list->tail);
+		Node *node     = queue -> list -> tail;
+		queue -> list  = obtain (queue -> list, &node);
 		queue->count--;
 		return node;
 	}

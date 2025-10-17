@@ -1,31 +1,66 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
-// standard libraries
-#include "misc.h"
-#include "video.h"
+
+// Vircon32 standard libraries
 #include "input.h"
 #include "math.h"
-// custom libraries
+#include "misc.h"
+#include "video.h"
+
+// project custom libraries
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
 #include "../data_structures/queue/queue.h"
 #include "../weapon/weapon.h"
 #include "../tools/debugger.h"
 
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// player.h: player-related functionality for use in the game
+//
+// part 1: the model API
+//
+//         void movePlayer (Player *player);
+//
+// part 2: visual functions API
+//
+//         void DrawPlayer (Player *player);
+//
+// part 3: logical connections between model and view API
+//
+//         void playerDropWeapon         (Player *player);
+//         void playerGrabWeapon         (Player *player);
+//         void setPlayerWeaponPositions (Player *player);
+//         void playerFireWeapons        (Player *player);
+//         void HandleInput              (Player *player);
+//         void PlayerUpdate             (Player *player);
+//
+// part 4: instance management API
+//
+//         Player *CreatePlayer                 (int textureID, int regionID,
+//                                               int x,         int y,
+//                                               int status,    float maxShootCooldownTime,
+//                                               int gamepadID);
+//         void    DeconstructPlayer               (Player *player);
+//         void    DeconstructPlayerAndWeapon      (Player *player);
+//         void    DeconstructAllPlayers           (void);
+//         void    DeconstructAllPlayersAndWeapons (void);
+//
+// part 5: construction and desconstruction API
+//
+//         List *GetPlayerList   (void);
+//         void  UpdateAllPlayers (void);
+//
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+#define JUST_PLAYER   0
+#define NOT_WEAPON    0
+#define ALL_PLAYERS   1
+#define PLAYER_WEAPON 2
+#define ALL_WEAPONS   4
+
 #define MAXWEAPONS 3
-/*
- * 
- * SUMMARY:
- * this entire file is split into different sections for different concerns regarding
- * the player, including:
- *
- * part 1: the model
- * part 2: visual functions
- * part 3: logical connections between model and view
- * part 4: instance management
- * part 5: construction and desconstruction
- *
- */
 
 // declarations
 
@@ -281,7 +316,15 @@ Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, flo
     player -> gamepadID      = gamepadID;
 
     player -> weapons        = createQueue (MAXWEAPONS);
-    weapon                   = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, player->object.x, player->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
+    weapon                   = CreateWeapon (WEAPON_TEXTURES,
+                                             WEAPON_REGION,
+                                             player -> object.x,
+                                             player -> object.y,
+                                             status,
+                                             WEAPON_TYPE_LASER_CANNON,
+                                             maxShootCooldownTime,
+                                             2.0);
+
     enqueue (player -> weapons, createNode (&weapon -> object));
     weapon -> hasOwner       = true;
 
@@ -294,21 +337,66 @@ Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, flo
 }
 
 // deconstructor
-void DeconstructPlayer (Player *player)
+void DeconstructPlayer (Player *player, int status)
 {
-    Node *currentNode            = dequeue (player -> weapons);
+    bool    just_player           = true;
+    bool    all_players           = false;
+    bool    player_weapon         = false;
+    bool    all_weapons           = false;
+    Node   *currentNode           = NULL;
+    Node   *nextNode              = NULL;
+	Object *otmp                  = NULL;
 
-    while (currentNode          != NULL)
+    if ((status & ALL_PLAYERS)   == ALL_PLAYERS) 
     {
-        if (currentNode -> data != NULL)
+        all_players               = true;
+        currentNode               = playerList -> head;
+        just_player               = false;
+
+		while (currentNode       != NULL)
+		{
+			nextNode              = currentNode -> next;
+			DeconstructPlayer ((Player *) currentNode -> data, JUST_PLAYER | NOT_WEAPON);
+			playerList            = obtain (playerList, &currentNode);
+			deleteNode (currentNode);
+
+			currentNode           = nextNode;
+		}
+    }
+
+    if ((status & PLAYER_WEAPON) == PLAYER_WEAPON) 
+    {
+        currentNode               = player -> weapons -> list -> head;
+        player_weapon             = true;
+		while (currentNode       != NULL)
+		{
+			nextNode              = currentNode -> next;
+			otmp                  = currentNode -> data;
+
+			otmp -> status        = otmp -> status | DELETION_FLAG;
+
+			currentNode           = nextNode;
+		}
+    }
+
+    if ((status & ALL_WEAPONS)   == ALL_WEAPONS) 
+    {
+        all_weapons               = true;
+        player_weapon             = false;
+    }
+
+    currentNode                   = dequeue (player -> weapons);
+    while (currentNode           != NULL)
+    {
+        if (currentNode -> data  != NULL)
         {
             ((Weapon *) currentNode -> data) -> hasOwner  = false;
         }
-        currentNode              = dequeue (player -> weapons);
+        currentNode               = dequeue (player -> weapons);
     }
 
     free (player);
-    player                       = NULL;
+    player                        = NULL;
 }
 
 void DeconstructPlayerAndWeapon (Player *player)
@@ -325,7 +413,7 @@ void DeconstructPlayerAndWeapon (Player *player)
         currentNode                    = nextNode;
     }
 
-    DeconstructPlayer (player);
+    DeconstructPlayer (player, JUST_PLAYER | PLAYER_WEAPON);
 }
 
 void DeconstructAllPlayers ()
@@ -337,8 +425,8 @@ void DeconstructAllPlayers ()
     while (currentNode != NULL)
     {
         next            = currentNode -> next;
-        DeconstructPlayer ((Player *) currentNode -> data);
-        playerList      = obtain (playerList, currentNode);
+        DeconstructPlayer ((Player *) currentNode -> data, ALL_PLAYERS);
+        playerList      = obtain (playerList, &currentNode);
         deleteNode (currentNode);
 
         currentNode     = next;
@@ -355,7 +443,7 @@ void DeconstructAllPlayersAndWeapons ()
     {
         next            = currentNode -> next;
         DeconstructPlayerAndWeapon ((Player *) currentNode -> data);
-        playerList      = obtain (playerList, currentNode);
+        playerList      = obtain (playerList, &currentNode);
         deleteNode (currentNode);
 
         currentNode     = next;
@@ -393,8 +481,8 @@ void UpdateAllPlayers ()
             PlayerUpdate ((Player *) currentNode -> data);
             if (currentNode -> data -> status & DELETION_FLAG)
             {
-                DeconstructPlayer ((Player *) currentNode -> data);
-                playerList       = obtain (playerList, currentNode);
+                DeconstructPlayer ((Player *) currentNode -> data, JUST_PLAYER);
+                playerList       = obtain (playerList, &currentNode);
                 deleteNode (currentNode);
             }
         }

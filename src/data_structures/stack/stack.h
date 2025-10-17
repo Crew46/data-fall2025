@@ -26,8 +26,8 @@ Node* pop(Stack* stack)
 {
 	if(stack->list->head != NULL)
 	{
-		Node* node = stack->list->head;
-		obtain(stack->list, stack->list->head);
+		Node *node = stack -> list -> head;
+		stack -> list  = obtain (stack -> list, &node);
 		stack->count--;
 		return node;
 	}

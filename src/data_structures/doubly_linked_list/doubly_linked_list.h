@@ -118,35 +118,50 @@ List *insert (List *myList, Node *place, Node *newNode)
 // obtain(): take thatNode and disconnect it (while maintaining list integrity)
 //           from myList.
 //
-List *obtain (List *myList, Node *thatNode)
+List *obtain (List *myList, Node **thatNode)
 {
-    if (!myList || !thatNode || !(thatNode))
-        return (myList);
+    // check for list existing
+    if (myList                                  != NULL)
+    {
+        // check for thatNode being a pointer
+        if (thatNode                            != NULL)
+        {
+            // check for thatNode pointing to something
+            if ((*thatNode)                     != NULL)
+            {    
+                // Only one node
+                if (myList -> head              == (*thatNode) &&
+                    myList -> tail              == (*thatNode))
+                {
+                    myList -> head               = NULL;
+                    myList -> tail               = NULL;
+                }
 
-    // Only one node
-    if (myList -> head           == thatNode &&
-        myList -> tail           == thatNode)
-    {
-        myList -> head            = NULL;
-        myList -> tail            = NULL;
-    }
-    else if (thatNode            == myList -> head)
-    {
-        myList -> head            = thatNode -> next;
-        myList -> head -> prev    = NULL;
-    }
-    else if (thatNode            == myList -> tail)
-    {
-        myList -> tail            = thatNode -> prev;
-        myList -> tail -> next    = NULL;
-    }
-    else
-    {
-        thatNode -> next -> prev  = thatNode -> prev;
-        thatNode -> prev -> next  = thatNode -> next;
-    }
+                // start of list
+                else if ((*thatNode)            == myList -> head)
+                {
+                    myList -> head               = (*thatNode) -> next;
+                    myList -> head -> prev       = NULL;
+                }
 
-    myList -> qty                 = myList -> qty - 1;
+                // end of list
+                else if ((*thatNode)            == myList      -> tail)
+                {
+                    myList -> tail               = (*thatNode) -> prev;
+                    myList -> tail -> next       = NULL;
+                }
+
+                // average case
+                else
+                {
+                    (*thatNode) -> next -> prev  = (*thatNode) -> prev;
+                    (*thatNode) -> prev -> next  = (*thatNode) -> next;
+                }
+
+                myList -> qty                    = myList -> qty - 1;
+            }
+        }
+    }
 
     return (myList);
 }
@@ -181,7 +196,7 @@ List *clearList (List *myList)
         tmp           = myList -> head;
         while (tmp   != NULL)
         {
-            myList    = obtain (myList, tmp);
+            myList    = obtain (myList, &tmp);
             tmp       = deleteNode (tmp);
             tmp       = myList -> head;
         }

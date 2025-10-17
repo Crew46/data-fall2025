@@ -373,7 +373,7 @@ void DeconstructAllEnemies ()
     {
         next            = currentNode -> next;
         DeconstructEnemy ((Enemy *) currentNode -> data);
-        enemyList      = obtain (enemyList, currentNode);
+        enemyList      = obtain (enemyList, &currentNode);
         deleteNode (currentNode);
 
         currentNode     = next;
@@ -390,7 +390,7 @@ void DeconstructAllEnemiesAndWeapons ()
     {
         next            = currentNode -> next;
         DeconstructEnemyAndWeapon ((Enemy *) currentNode -> data);
-        enemyList      = obtain (enemyList, currentNode);
+        enemyList      = obtain (enemyList, &currentNode);
         deleteNode (currentNode);
 
         currentNode     = next;
@@ -429,7 +429,7 @@ void UpdateAllEnemies ()
             if (currentNode -> data -> status & DELETION_FLAG)
             {
                 DeconstructEnemy ((Enemy *) currentNode -> data);
-                enemyList       = obtain (enemyList, currentNode);
+                enemyList       = obtain (enemyList, &currentNode);
                 deleteNode (currentNode);
             }
         }

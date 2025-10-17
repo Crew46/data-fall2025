@@ -144,7 +144,7 @@ void UpdateAllLasers()
             if(currentNode->data->status & DELETION_FLAG)
             {
                 DeconstructLaser((Laser*)currentNode->data);
-                obtain(laserList, currentNode);
+                laserList  = obtain(laserList, &currentNode);
                 deleteNode(currentNode);
             }
         }
@@ -163,7 +163,7 @@ void DeconstructAllLasers()
     {
         next = currentNode->next;
         DeconstructLaser((Laser*)currentNode->data);
-        obtain(laserList, currentNode);
+        laserList  = obtain(laserList, &currentNode);
         deleteNode(currentNode);
 
         currentNode = next;

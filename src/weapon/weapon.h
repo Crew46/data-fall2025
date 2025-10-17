@@ -160,7 +160,7 @@ void UpdateAllWeapons()
             if(currentNode->data->status & DELETION_FLAG)
             {
                 DeconstructWeapon((Weapon*)currentNode->data);
-                obtain(weaponList, currentNode);
+                weaponList  = obtain(weaponList, &currentNode);
                 deleteNode(currentNode);
             }
         }
@@ -180,7 +180,7 @@ void DeconstructAllWeapons()
     {
         next = currentNode->next;
         DeconstructWeapon((Weapon*)currentNode->data);
-        obtain(weaponList, currentNode);
+        weaponList  = obtain(weaponList, &currentNode);
         deleteNode(currentNode);
 
         currentNode = next;

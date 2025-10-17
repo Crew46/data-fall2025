@@ -254,8 +254,15 @@ void enemyAI (Enemy *enemy)
         if(!(target->status & DELETION_FLAG))
         {
             enemy->object.dx = target->x - enemy->object.x;
-            enemy->object.dx = min(enemy->object.dx,  enemy->object.vx);
-            enemy->object.dx = max(enemy->object.dx, -enemy->object.vx);
+            if(abs(enemy->object.dx) < FRAME_SLICES)
+            {
+                enemy->object.dx = 0;
+            }
+            else
+            {
+                enemy->object.dx = min(enemy->object.dx,  enemy->object.vx);
+                enemy->object.dx = max(enemy->object.dx, -enemy->object.vx);
+            }
         }
     }
 

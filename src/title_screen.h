@@ -7,7 +7,7 @@ List       *titleList                 = NULL;
 //
 // title_screen() handles the display of title screen elements
 //
-void title_screen (bool *begin)
+void title_screen (bool *alreadyrun)
 {
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -24,13 +24,13 @@ void title_screen (bool *begin)
     //
     // Initialize title screen elements: this only runs once per state
     //
-    if (*begin                       == false)
+    if (*alreadyrun                  == false)
     {
         ////////////////////////////////////////////////////////////////////////////
         //
         // Toggle begin to ensure this does not run again
         //
-        *begin                        = true;
+        *alreadyrun                   = true;
 
         ////////////////////////////////////////////////////////////////////////////
         //

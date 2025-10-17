@@ -41,7 +41,7 @@ List      *objectList;
 
 void main (void)
 {
-    bool       begin                     = false;
+    bool       alreadyrun                = false;
     bool       start                     = false;
     int        cycles                    = 0;
     int        position                  = 0;
@@ -89,7 +89,7 @@ void main (void)
             // clear screen
             clear_screen (make_color_rgb (0, 0, 0));
 
-            title_screen (&begin);
+            title_screen (&alreadyrun);
         }
 
         if ((frame % FRAME_SLICES)      == SCREEN_REDRAWING_FRAME)
@@ -139,9 +139,9 @@ void main (void)
             }
             else
             {
-                if (begin               == false)
+                if (alreadyrun          == false)
                 {
-                    begin                = true;
+                    alreadyrun           = true;
 
                     CreatePlayer (PLAYER_TEXTURE,                  // texture ID
                                   PLAYER_FRAME_1,                  // region ID
@@ -196,6 +196,8 @@ void main (void)
                 start                    = (gamepad_button_start () >  0);
                 if (start               == true)
                 {
+                    titleList            = deleteList (titleList);
+                    alreadyrun           = false;
                     currentState         = GAMESTATE_INGAME;
                     pause_channel (0);
                     stop_channel (0);

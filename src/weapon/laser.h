@@ -84,7 +84,7 @@ void LaserMoveInDirection(Laser* laser)
 void LaserUpdate(Laser* laser)
 {
     //logical operations here
-    laser->age += 1.0 / 60.0;
+    laser->age += 1.0 / 60.0 * (float)FRAME_SLICES;
     if(laser->age > laser->lifetime)
     {
         laser->object.status |= DELETION_FLAG;

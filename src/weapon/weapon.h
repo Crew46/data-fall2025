@@ -129,7 +129,7 @@ void WeaponUpdate(Weapon* weapon)
 {
     //logical operations here
     WeaponShoot(weapon);
-    weapon->shootCooldownElapsed -= 1.0/60.0;
+    weapon->shootCooldownElapsed -= 1.0/60.0 * (float)FRAME_SLICES;
 }
 
 //=========================================================

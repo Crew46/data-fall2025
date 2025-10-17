@@ -109,8 +109,8 @@ void  drawObject (Object *object)
 
 void  moveObject (Object *object)
 {
-    object -> x  = object -> x + object -> dx;
-    object -> y  = object -> y + object -> dy;
+    object -> x  = object -> x + (object -> dx * FRAME_SLICES);
+    object -> y  = object -> y + (object -> dy * FRAME_SLICES);
 }
 
 bool  collisionCheck (Object *object1, Object *object2)

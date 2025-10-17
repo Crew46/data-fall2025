@@ -98,12 +98,11 @@ void title_screen (bool *alreadyrun)
 
             otmp                      = createObject (CELESTIAL_TEXTURES, pick,
                                                       x,                  y,
-                                                      IS_ACTIVE_FLAG);
+                                                      IS_ACTIVE_FLAG | ZOOM_FLAG);
             ntmp                      = createNode (otmp);
             otmp                      = ntmp -> data;
             otmp -> id                = seconds;
             otmp -> frame             = pick - (CELESTIAL_LARGE - 1);
-            otmp -> status            = IS_ACTIVE_FLAG;
             otmp -> vx                = 0;
             otmp -> vy                = 0;
             otmp -> dx                = -1000;  // destination X
@@ -123,12 +122,11 @@ void title_screen (bool *alreadyrun)
 
             otmp                      = createObject (CELESTIAL_TEXTURES, pick,
                                                       x,                  y,
-                                                      IS_ACTIVE_FLAG);
+                                                      IS_ACTIVE_FLAG | ZOOM_FLAG);
             ntmp                      = createNode (otmp);
             otmp                      = ntmp -> data;
             otmp -> id                = seconds;
             otmp -> frame             = pick - (CELESTIAL_LARGE - 1);
-            otmp -> status            = IS_ACTIVE_FLAG;
             otmp -> vx                = 0;
             otmp -> vy                = rand () % 8 + 1;
             otmp -> dx                = -1000;  // destination X
@@ -146,7 +144,6 @@ void title_screen (bool *alreadyrun)
         ntmp                          = createNode (otmp);
         otmp                          = ntmp -> data;
         otmp -> id                    = seconds;
-        otmp -> status                = IS_ACTIVE_FLAG;
         otmp -> vx                    = -5;
         otmp -> vy                    = 0;
         otmp -> dx                    = 255;    // destination X
@@ -182,12 +179,13 @@ void title_screen (bool *alreadyrun)
         while (ntmp                  != NULL)
         {
             otmp                      = ntmp -> data;
-/*
+
             ////////////////////////////////////////////////////////////////////////
             //
             // Adjust celestial objects
             //
-            if (otmp -> frame        >  0)
+            if ((otmp -> frame       >  0) &&
+                (otmp -> vy          == 0))
             {
                 if (seconds          >  otmp -> id + (otmp -> frame - 1))
                 {
@@ -197,7 +195,6 @@ void title_screen (bool *alreadyrun)
                     otmp -> regionID  = pick + (CELESTIAL_LARGE - 1);
                 }
             }
-*/
 
             ////////////////////////////////////////////////////////////////////////
             //
@@ -229,11 +226,21 @@ void title_screen (bool *alreadyrun)
             //
             // Display node to screen
             //
-            if (otmp -> status       == IS_ACTIVE_FLAG)
+            if (IS_ACTIVE_FLAG       == (otmp -> status & IS_ACTIVE_FLAG))
             {
                 select_texture (otmp -> textureID);
                 select_region  (otmp -> regionID);
-                draw_region_at (otmp -> x, otmp -> y);
+
+                if (ZOOM_FLAG        == (otmp -> status & ZOOM_FLAG))
+                {
+                    set_drawing_scale (0.25, 0.25);
+                    draw_region_zoomed_at (otmp -> x, otmp -> y);
+                }
+                else
+                {
+                    set_drawing_scale (1.00, 1.00);
+                    draw_region_at (otmp -> x, otmp -> y);
+                }    
             }
 
             ntmp                      = ntmp -> next;

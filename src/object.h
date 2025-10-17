@@ -31,6 +31,7 @@
 #define ODD_TEAM_FLAG  0x00000004
 #define HIGH_TEAM_FLAG 0x00000008
 #define ODD_HIGH_FLAG  0x0000000C
+#define ZOOM_FLAG      0x00000010
 #define TeamFlagMask   0x000000C
 #define TeamFlagOffset 2
 

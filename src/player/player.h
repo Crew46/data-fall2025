@@ -156,7 +156,8 @@ void playerGrabWeapon (Player *player)
                 if (enqueue (player -> weapons, createNode (currentNode -> data)))
                 {
                     newStatus                = weapon -> object.status;
-                    newStatus                = newStatus & (~TeamFlagMask);
+                    tmpStatus                = TeamFlagMask;
+                    newStatus                = newStatus & (~tmpStatus);
                     tmpStatus                = player -> object.status & TeamFlagMask;
                     newStatus                = newStatus | tmpStatus;
 

@@ -330,12 +330,12 @@ void main (void)
                 break;
 
             case ENEMY_PROCESSING_FRAME:
-                if (enemyList -> qty    == 0)
+                if (enemyList -> qty    <  8)
                 {
                     CreateEnemy (ENEMY_TEXTURE,                   // texture ID
                                  ENEMY_REGION,                    // region ID
                                  rand () % screen_width,          // starting X
-                                 0,                               // starting Y
+                                 rand () % 120 - 240,             // starting Y
                                  IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
                                  1.0);                            // cooldown
                 }

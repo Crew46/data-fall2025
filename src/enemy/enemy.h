@@ -246,27 +246,41 @@ void enemyFindTarget (Enemy *enemy)
 
 void enemyAI (Enemy *enemy)
 {
-    enemyFindTarget(enemy);
+    int  pick                             = 0;
 
-    if(enemy->target != NULL)
+    enemyFindTarget (enemy);
+
+    if(enemy -> target                   != NULL)
     {
-        Object* target = enemy->target;
-        if(!(target->status & DELETION_FLAG))
+        Object *target                    = enemy -> target;
+        if (! (target -> status & DELETION_FLAG))
         {
-            enemy->object.dx = target->x - enemy->object.x;
-            if(abs(enemy->object.dx) < FRAME_SLICES)
+            enemy -> object.dx            = target -> x - enemy -> object.x;
+            if (abs (enemy -> object.dx) <  FRAME_SLICES)
             {
-                enemy->object.dx = 0;
+                enemy -> object.dx        = 0;
             }
             else
             {
-                enemy->object.dx = min(enemy->object.dx,  enemy->object.vx);
-                enemy->object.dx = max(enemy->object.dx, -enemy->object.vx);
+                enemy -> object.dx = min (enemy -> object.dx,  enemy -> object.vx);
+                enemy -> object.dx = max (enemy -> object.dx, -enemy -> object.vx);
             }
         }
     }
 
-    enemy->object.dy = 0;
+    pick                                  = rand () % 24;
+    if (pick                             >  20)
+    {    
+        enemy -> object.dy = 0;
+    }
+    else if (pick                        >  12)
+    {
+        enemy -> object.dy = 2;
+    }
+    else
+    {
+        enemy -> object.dy = 1;
+    }
 }
 
 void EnemyUpdate (Enemy *enemy)
@@ -277,14 +291,14 @@ void EnemyUpdate (Enemy *enemy)
 
     if (enemy -> object.status & IS_ACTIVE_FLAG)
     {
-        enemyAI(enemy);
-        moveEnemy(enemy);
-        setEnemyWeaponPositions(enemy);
+        enemyAI (enemy);
+        moveEnemy (enemy);
+        setEnemyWeaponPositions (enemy);
     }
 
     while (currentNode != NULL)
     {
-        nextNode        = currentNode -> next;
+        nextNode                        = currentNode -> next;
 
         if (((currentNode -> data -> status ^ enemy -> object.status) & TeamFlagMask) != 0)
         {
@@ -294,7 +308,7 @@ void EnemyUpdate (Enemy *enemy)
             }
         }
 
-        currentNode     = nextNode;
+        currentNode                     = nextNode;
     }
 }
 
@@ -426,6 +440,7 @@ void UpdateAllEnemies ()
         if (currentNode -> data != NULL)
         {
             EnemyUpdate ((Enemy *) currentNode -> data);
+
             if (currentNode -> data -> status & DELETION_FLAG)
             {
                 DeconstructEnemy ((Enemy *) currentNode -> data);

@@ -39,19 +39,21 @@
 
 void main (void)
 {
-    bool       alreadyrun                = false;
-    bool       start                     = false;
-    int        cycles                    = 0;
-    int        position                  = 0;
-    int        frame                     = 0;
+    bool       alreadyrun                  = false;
+    bool       start                       = false;
+    int        cycles                      = 0;
+    int        position                    = 0;
+    int        frame                       = 0;
     int  [7]   creport;
     int  [12]  sreport;
+    int  [2]   vreport;
 
-    max_obj_vy                           = 1;
-    min_obj_vy                           = 1;
-    objectList                           = NULL;
-    currentState                         = GAMESTATE_TITLE;
-    half_seconds                         = 0;
+    max_obj_vy                             = 1;
+    min_obj_vy                             = 1;
+    vy_obj_factor                          = 0;
+    objectList                             = NULL;
+    currentState                           = GAMESTATE_TITLE;
+    half_seconds                           = 0;
 
     // initialize regions
     InitializeRegions ();
@@ -79,7 +81,7 @@ void main (void)
     CreateCelestials ();
 
     // Initialize game state
-    //currentState                         = GAMESTATE_MENU;
+    //currentState                           = GAMESTATE_MENU;
     select_gamepad (0);
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -117,18 +119,31 @@ void main (void)
                 drawList (titleList);
                 drawList (GetObjectList ());
 
-                if (position            >  325000)
+                position                   = get_channel_position (0);
+                if (position              <  220000)
                 {
-                    max_obj_vy           = 8;
-                    min_obj_vy           = 2;
+                    vy_obj_factor          = 0;
+                }
+                else if (position         <  350000)
+                {
+                    vy_obj_factor          = 1;
+                }
+                else if (position         <  575000)
+                {
+                    max_obj_vy             = 4;
+                    min_obj_vy             = 1;
+                }
+                else
+                {
+                    vy_obj_factor          = 2;
                 }
 
-                start                    = (gamepad_button_start () >  0);
-                if (start               == true)
+                start                      = (gamepad_button_start () >  0);
+                if (start                 == true)
                 {
-                    titleList            = deleteList (titleList);
-                    alreadyrun           = false;
-                    currentState         = GAMESTATE_GAMEPLAY;
+                    titleList              = deleteList (titleList);
+                    alreadyrun             = false;
+                    currentState           = GAMESTATE_GAMEPLAY;
                     pause_channel  (0);
                     stop_channel   (0);
                     select_sound   (BETTER_THAN_FASTER_THAN_MUSIC);
@@ -136,9 +151,10 @@ void main (void)
                     assign_channel_sound (get_selected_channel (), get_selected_sound ());
                     play_channel (get_selected_channel ());
                     set_channel_loop (true);
-                    position             = 0;
-                    max_obj_vy           = 1;
-                    min_obj_vy           = 1;
+                    position               = 0;
+                    max_obj_vy             = 1;
+                    min_obj_vy             = 1;
+                    vy_obj_factor          = 0;
                 }
                 break;
         }
@@ -208,10 +224,23 @@ void main (void)
                         //
                         // music position object speed adjustment
                         //
-                        if (position    >  325000)
+                        position           = get_channel_position (0);
+                        if (position      <  100000)
                         {
-                            max_obj_vy   = 8;
-                            min_obj_vy   = 2;
+                            vy_obj_factor  = 0;
+                        }
+                        else if (position <  315000)
+                        {
+                            vy_obj_factor  = 1;
+                        }
+                        else if (position <  600000)
+                        {
+                            max_obj_vy     = 4;
+                            min_obj_vy     = 1;
+                        }
+                        else
+                        {
+                            vy_obj_factor  = 2;
                         }
                         break;
 
@@ -341,8 +370,16 @@ void main (void)
             itoa (position, sreport, 10);
         }
 
-        print_at (0,   320, "channel position: ");
+        print_at (0,   320, "channel position:");
         print_at (190, 320, sreport);
+
+        if (frame                       == 0)
+        {
+            itoa (vy_obj_factor, vreport, 10);
+        }
+
+        print_at (0,   300, "vy_obj_factor:");
+        print_at (190, 300, vreport);
 
         end_frame ();
 

@@ -89,9 +89,19 @@ void  UpdateAllObjects (List *myList)
             //
             // Adjust node X position, comparing to desired destination X
             //
-            if (otmp -> x            != otmp -> dx)
+            if (otmp -> vx           <  0)
             {
-                otmp -> x             = otmp -> x + otmp -> vx;
+                if (otmp -> x        >= otmp -> dx)
+                {
+                    otmp -> x         = otmp -> x + otmp -> vx;
+                }
+            }
+            else if (otmp -> vx      >  0)
+            {
+                if (otmp -> x        <= otmp -> dx)
+                {
+                    otmp -> x         = otmp -> x + otmp -> vx;
+                }
             }
 
             ////////////////////////////////////////////////////////////////////////
@@ -100,7 +110,7 @@ void  UpdateAllObjects (List *myList)
             //
             if (otmp -> y            != otmp -> dy)
             {
-                otmp -> y             = otmp -> y + otmp -> vy;
+                otmp -> y             = otmp -> y + (otmp -> vy * vy_obj_factor);
                 if (otmp -> y        >  360)
                 {
                     otmp -> x         = rand () % 630;

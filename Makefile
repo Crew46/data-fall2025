@@ -37,6 +37,9 @@ v32rom: v32
 v32: game
 	@make -C data $(DEBUG)
 
+run: clean cart
+	@Vircon32 bin/game.v32
+
 clean:
 ifndef DEBUG
 	@printf "\033[0;33m%s\033[0m:\n" "clean"

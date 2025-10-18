@@ -15,6 +15,7 @@ void title_screen (bool *alreadyrun)
     //
     int     index                     = 0;
     int     pick                      = 0;
+    int     position                  = 0;
     int     x                         = 0;
     int     y                         = 0;
     Node   *ntmp                      = NULL; 
@@ -120,9 +121,10 @@ void title_screen (bool *alreadyrun)
         ntmp                          = createNode (otmp);
         otmp                          = ntmp -> data;
         otmp -> id                    = half_seconds;
-        otmp -> vx                    = -5;
+        otmp -> status                = IS_ACTIVE_FLAG;
+        otmp -> vx                    = -3;
         otmp -> vy                    = 0;
-        otmp -> dx                    = 255;    // destination X
+        otmp -> dx                    = 260;    // destination X
         otmp -> dy                    = 240;    // destination Y
         titleList                     = insert (titleList, titleList -> head, ntmp);
     }
@@ -132,18 +134,23 @@ void title_screen (bool *alreadyrun)
         //
         // Determine if enough time has passed to toggle the START
         //
-        ntmp                          = titleList -> head;
-        otmp                          = ntmp -> data;
-        if (half_seconds             >  otmp -> id + 1)
+        position                      = get_channel_position (0);
+        if (position                 >  200000)
         {
-            otmp -> id                = half_seconds;
-            if (otmp -> status       != INACTIVE_FLAG)
+            ntmp                          = titleList -> head;
+            otmp                          = ntmp -> data;
+            if (half_seconds             >  otmp -> id)
             {
-                otmp -> status        = INACTIVE_FLAG;
-            }
-            else
-            {
-                otmp -> status        = IS_ACTIVE_FLAG;
+                otmp -> id                = half_seconds + 1;
+                if (IS_ACTIVE_FLAG       == (otmp -> status & IS_ACTIVE_FLAG))
+                {
+                    otmp -> status        = INACTIVE_FLAG;
+                    otmp -> id            = otmp -> id   - 1;
+                }
+                else
+                {
+                    otmp -> status        = IS_ACTIVE_FLAG;
+                }
             }
         }
     }

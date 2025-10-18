@@ -41,6 +41,24 @@ void title_screen (bool *alreadyrun)
 
         ////////////////////////////////////////////////////////////////////////////
         //
+        // Initialize LOGO tugboats, inserting into list
+        //
+        for (index = 1; index <= 2; index++)
+        {
+            otmp                      = createObject (PLAYER_TEXTURE, PLAYER_FRAME_0,
+                                                      (210 * index),  340,
+                                                      INACTIVE_FLAG);
+            ntmp                      = createNode (otmp);
+            otmp                      = ntmp -> data;
+            otmp -> vx                = 0;
+            otmp -> vy                = -1;
+            otmp -> dx                = (200 * index); // destination X
+            otmp -> dy                = -120;          // destination Y
+            titleList                 = insert (titleList, titleList -> head, ntmp);
+        }    
+
+        ////////////////////////////////////////////////////////////////////////////
+        //
         // Initialize LOGO node, inserting into list
         //
         otmp                          = createObject (TITLE_TEXTURE, TITLE_LOGO,
@@ -132,11 +150,15 @@ void title_screen (bool *alreadyrun)
     {
         ////////////////////////////////////////////////////////////////////////////
         //
-        // Determine if enough time has passed to toggle the START
+        // titleList elements bound by audio sync lock (START, player tugboats)
         //
         position                      = get_channel_position (0);
         if (position                 >  200000)
         {
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // START: blink every second
+            //
             ntmp                          = titleList -> head;
             otmp                          = ntmp -> data;
             if (half_seconds             >  otmp -> id)
@@ -152,6 +174,17 @@ void title_screen (bool *alreadyrun)
                     otmp -> status        = IS_ACTIVE_FLAG;
                 }
             }
+
+            ////////////////////////////////////////////////////////////////////////
+            //
+            // player tugboats: be invisible for a bit
+            //
+            ntmp                          = titleList -> tail;
+            otmp                          = ntmp -> data;
+            otmp -> status                = IS_ACTIVE_FLAG;
+            ntmp                          = ntmp -> prev;
+            otmp                          = ntmp -> data;
+            otmp -> status                = IS_ACTIVE_FLAG;
         }
     }
 }

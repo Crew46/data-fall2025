@@ -56,11 +56,21 @@ queue * dequeue (queue * myQueue, Object **thatNode)
 {
 	if (queueIsEmpty(myQueue) == false)
 	{
-		myQueue->data = obtainNode (myQueue->data, &(myQueue->front));
-		(*thatNode)   = myQueue->front;
-		myQueue->front= myQueue->data->head;
+		myQueue->data 	= obtainNode (myQueue->data, &(myQueue->front));
+		(*thatNode)   	= myQueue->front;
+		myQueue->front	= myQueue->data->head;
 	}
 return (myQueue);
+}
+queue * deleteQueue(queue * myQueue)
+{
+		if (myQueue->data != NULL)
+		{
+		myQueue->data	  = clearList(myQueue->data);
+		}
+		free (myQueue);
+		myQueue 		= NULL;
+		return (myQueue);
 }
 
 

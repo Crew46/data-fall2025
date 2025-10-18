@@ -115,6 +115,7 @@ void main (void)
             listA                = deleteList(listA);
 			laserList			 = clearList(laserList);
 			laserList			 = deleteList(laserList);
+			myQueue				 = deleteQueue(myQueue);
         }
 
 

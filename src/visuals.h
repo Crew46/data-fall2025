@@ -8,6 +8,7 @@
 #define ENEMYA_TEXTURE		3
 #define LASER_TEXTURE		4
 #define ENEMYB_TEXTURE		5
+#define SHIELD_TEXTURE 		6
 
 #define BACKGROUND_REGION	0
 #define NEBULA_REGION    	1
@@ -17,6 +18,7 @@
 #define ENEMYB_REGION1		5
 #define ENEMYB_REGION2		6
 #define ENEMYB_REGION3      7
+#define SHIELD_REGION		8
 
 #define LASERSPEED 			1
 
@@ -42,7 +44,7 @@ void visuals(void)
 // Player laser
 	select_texture (LASER_TEXTURE);
 	select_region (LASER_REGION);
-	define_region_center (0 ,0 , 19, 9);
+	define_region_center (0 ,0 , 3, 9);
 //EnemyB
 	select_texture (ENEMYB_TEXTURE);
 	select_region (ENEMYB_REGION1);
@@ -51,6 +53,10 @@ void visuals(void)
 	define_region_center (0, 20, 19, 39);
 	select_region (ENEMYB_REGION3);
 	define_region_center (0, 40, 19, 59);
+// Shield Powerup
+	select_texture (SHIELD_TEXTURE);
+	select_region (SHIELD_REGION);
+	define_region_center (0, 0, 11, 11);
 }
 
 Object * updateVisuals(Object * enemy)

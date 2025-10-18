@@ -28,6 +28,7 @@ Object *mkNode ()
         enemy -> texture    = ENEMYA_TEXTURE;
         enemy -> region     = ENEMYA_REGION;
         enemy -> points     = 10;
+		enemy -> powerup	= false;
     }
     else
     {
@@ -37,6 +38,7 @@ Object *mkNode ()
         enemy -> texture    = ENEMYB_TEXTURE;
         enemy -> region     = ENEMYB_REGION1;
         enemy -> points     = 20;
+		enemy -> powerup	= false;
     }
 
     return (enemy);

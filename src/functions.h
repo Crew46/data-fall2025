@@ -36,8 +36,8 @@ Object * mkLaser(Object * player)
 {
 	Object * laser			= (Object *)malloc(sizeof(Object));
 	laser -> isActive      	= true;
-	laser -> height        	= 20;
-	laser -> width         	= 10;
+	laser -> height        	= 3;
+	laser -> width         	= 9;
 	laser -> x             	= player -> x + 4;
 	laser -> y             	= player->y;
 	laser -> next			= NULL;

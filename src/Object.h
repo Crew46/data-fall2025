@@ -26,6 +26,7 @@ struct Object
     int     texture;
     int     region;
     int     points;
+	bool    powerup;
     Object *next;
     Object *prev;
 };

@@ -64,7 +64,16 @@ stack *pop (stack *myStack, Object **thatNode)
     myStack -> top              = myStack -> data -> head;
     return (myStack);
 }
-
+stack *	deleteStack (stack * myStack)
+{
+	if (myStack->data != NULL)
+	{
+		myStack->data = clearList (myStack->data);
+	}
+	free(myStack);
+	myStack		  = NULL;
+	return (myStack);
+}
 // This is all a work in progress.
 
 #endif // _STACK_H

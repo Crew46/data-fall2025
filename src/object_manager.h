@@ -38,7 +38,7 @@ void CreateCelestials (void)
                                                   IS_ACTIVE_FLAG | ZOOM_FLAG);
             ntmp                  = createNode (otmp);
             otmp                  = ntmp -> data;
-            otmp -> id            = seconds;
+            otmp -> id            = half_seconds;
             otmp -> frame         = pick - (CELESTIAL_LARGE - 1);
             otmp -> vx            = 0;
             otmp -> vy            = rand () % max_obj_vy + min_obj_vy;
@@ -76,10 +76,10 @@ void  UpdateAllObjects (List *myList)
             if ((otmp -> frame       >  0) &&
                 (otmp -> vy          == 0))
             {
-                if (seconds          >  otmp -> id + (otmp -> frame - 1))
+                if (half_seconds     >  otmp -> id + (otmp -> frame - 1))
                 {
                     pick              = (otmp -> frame + 1) % 6 + 1;
-                    otmp -> id        = seconds;
+                    otmp -> id        = half_seconds;
                     otmp -> frame     = pick;
                     otmp -> regionID  = pick + (CELESTIAL_LARGE - 1);
                 }

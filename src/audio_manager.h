@@ -48,7 +48,7 @@ void InitializeAudioManager ()
         select_channel (0);
         set_channel_loop (false);
     }
-    else if (currentState == GAMESTATE_INGAME)
+    else if (currentState == GAMESTATE_GAMEPLAY)
     {
         select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
         select_channel (0);
@@ -65,7 +65,7 @@ void UpdateAudioManager ()
     {    
         if (get_channel_state (0) == channel_stopped)
         {
-            currentState           = GAMESTATE_INGAME;
+            currentState           = GAMESTATE_GAMEPLAY;
             select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
             select_channel (0);
             assign_channel_sound (get_selected_channel (), get_selected_sound ());

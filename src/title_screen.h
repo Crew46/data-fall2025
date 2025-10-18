@@ -101,7 +101,7 @@ void title_screen (bool *alreadyrun)
                                                       IS_ACTIVE_FLAG | ZOOM_FLAG);
             ntmp                      = createNode (otmp);
             otmp                      = ntmp -> data;
-            otmp -> id                = seconds;
+            otmp -> id                = half_seconds;
             otmp -> frame             = pick - (CELESTIAL_LARGE - 1);
             otmp -> vx                = 0;
             otmp -> vy                = 0;
@@ -119,7 +119,7 @@ void title_screen (bool *alreadyrun)
                                                       IS_ACTIVE_FLAG);
         ntmp                          = createNode (otmp);
         otmp                          = ntmp -> data;
-        otmp -> id                    = seconds;
+        otmp -> id                    = half_seconds;
         otmp -> vx                    = -5;
         otmp -> vy                    = 0;
         otmp -> dx                    = 255;    // destination X
@@ -134,9 +134,9 @@ void title_screen (bool *alreadyrun)
         //
         ntmp                          = titleList -> head;
         otmp                          = ntmp -> data;
-        if (seconds                  >  otmp -> id + 1)
+        if (half_seconds             >  otmp -> id + 1)
         {
-            otmp -> id                = seconds;
+            otmp -> id                = half_seconds;
             if (otmp -> status       != INACTIVE_FLAG)
             {
                 otmp -> status        = INACTIVE_FLAG;

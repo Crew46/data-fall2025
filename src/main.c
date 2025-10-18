@@ -51,7 +51,7 @@ void main (void)
     min_obj_vy                           = 1;
     objectList                           = NULL;
     currentState                         = GAMESTATE_TITLE;
-    seconds                              = 0;
+    half_seconds                         = 0;
 
     // initialize regions
     InitializeRegions ();
@@ -82,157 +82,56 @@ void main (void)
     //currentState                         = GAMESTATE_MENU;
     select_gamepad (0);
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
     // main game loop
+    //
     while (true)
     {
-        if (currentState                == GAMESTATE_TITLE)
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // GAMESTATE processing (per frame)
+        //
+        switch (currentState)
         {
-            ////////////////////////////////////////////////////////////////////////
-            //
-            // Clear the screen
-            //
-            clear_screen (make_color_rgb (0, 0, 0));
+            case GAMESTATE_TITLE:
 
-            ////////////////////////////////////////////////////////////////////////
-            //
-            // Do an iteration of the title screen logic
-            //
-            title_screen (&alreadyrun);
-
-            ////////////////////////////////////////////////////////////////////////
-            //
-            // Iterate through each node in the list for adjustment and display
-            //
-            UpdateAllObjects (titleList);
-            UpdateAllObjects (objectList);
-            drawList (titleList);
-            drawList (GetObjectList ());
-
-            if (position                >  325000)
-            {
-                max_obj_vy               = 8;
-                min_obj_vy               = 2;
-            }
-        }
-
-        if ((frame % FRAME_SLICES)      == SCREEN_REDRAWING_FRAME)
-        {
-            if (currentState            == GAMESTATE_INTRO)
-            {
-                ;
-            }
-            else if (currentState       == GAMESTATE_TITLE)
-            {
-                ;
-            }
-            else if (currentState       == GAMESTATE_MENU)
-            {
-                // main menu UI
-                select_texture (UI_TEXTURES);
-                select_region  (EXIT_GAME_REGION);
-                draw_region_at (20,  40);
-                select_region  (PLAY_GAME_REGION);
-                draw_region_at (220, 40);
-                select_region  (CREDITS_REGION);
-                draw_region_at (420, 40);
-            }
-            else if (currentState       == GAMESTATE_INGAME)
-            {
-                // clear screen
+                ////////////////////////////////////////////////////////////////////////
+                //
+                // Clear the screen
+                //
                 clear_screen (make_color_rgb (0, 0, 0));
 
-                // drawing the background
-                select_texture (BACKGROUND_TEXTURE);
-                select_region  (BACKGROUND_REGION);
-                draw_region_at (0, 0);
+                ////////////////////////////////////////////////////////////////////////
+                //
+                // Do an iteration of the title screen logic
+                //
+                title_screen (&alreadyrun);
 
-                // draw all objects list
+                ////////////////////////////////////////////////////////////////////////
+                //
+                // Iterate through each node in the list for processing/display
+                //
+                UpdateAllObjects (titleList);
+                UpdateAllObjects (objectList);
+                drawList (titleList);
                 drawList (GetObjectList ());
-                drawList (GetPlayerList ());
-                drawList (GetEnemyList ());
-                drawList (GetWeaponList ());
-                drawList (GetLaserList ());
 
                 if (position            >  325000)
                 {
                     max_obj_vy           = 8;
                     min_obj_vy           = 2;
                 }
-            }
-            else if (currentState       == GAMESTATE_PLAYAGAIN)
-            {
-                ;
-            }
-            else if (currentState       == GAMESTATE_CREDITS)
-            {
-                ;
-            }
-            else
-            {
-                if (alreadyrun          == false)
-                {
-                    alreadyrun           = true;
 
-                    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                  PLAYER_FRAME_1,                  // region ID
-                                  HALFWAY_ACROSS - 40,             // starting X
-                                  HALFWAY_DOWN,                    // starting Y
-                                  IS_ACTIVE_FLAG,                  // status flag bits
-                                  1.0,                             // shootCooldown
-                                  PLAYER_TWO);                     // gamepad ID
-
-                    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                  PLAYER_FRAME_2,                  // region ID
-                                  HALFWAY_ACROSS + 40,             // starting X
-                                  HALFWAY_DOWN,                    // starting Y
-                                  IS_ACTIVE_FLAG | ODD_TEAM_FLAG,  // status flag bits
-                                  1.0,                             // shootCooldown
-                                  PLAYER_TWO);                     // gamepad ID
-
-                    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                  PLAYER_FRAME_3,                  // region ID
-                                  HALFWAY_ACROSS - 80,             // starting X
-                                  HALFWAY_DOWN + 80,               // starting Y
-                                  IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status flag bits
-                                  1.0,                             // shootCooldown
-                                  PLAYER_ONE);                     // gamepad ID
-
-                    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                  PLAYER_FRAME_0,                  // region ID
-                                  HALFWAY_ACROSS + 80,             // starting X
-                                  HALFWAY_DOWN + 100,              // starting Y
-                                  IS_ACTIVE_FLAG | ODD_HIGH_FLAG,  // status flag bits
-                                  1.0,                             // shootCooldown
-                                  PLAYER_TWO);                     // gamepad ID
-                }
-
-                VisualizeLinkedList (GetPlayerList ());
-                // print statistics
-                PrintObjectDataAt (10, 60, GetPlayerList () -> head -> data);
-                PrintObjectDataAt ((screen_width - 180),
-                                   60,
-                                   GetPlayerList () -> head -> next -> next -> next -> data);
-            }
-        }
-//        else if ((frame % FRAME_SLICES) == PLAYER_PROCESSING_FRAME)
-//        {
-//            if (currentState            == GAMESTATE_INGAME)
-//            {
-                UpdateAllObjects (objectList);
-                UpdateAllPlayers ();
-//            }
-//            else if (currentState       == GAMESTATE_TITLE)
-            if (currentState       == GAMESTATE_TITLE)
-            {
                 start                    = (gamepad_button_start () >  0);
                 if (start               == true)
                 {
                     titleList            = deleteList (titleList);
                     alreadyrun           = false;
-                    currentState         = GAMESTATE_INGAME;
-                    pause_channel (0);
-                    stop_channel (0);
-                    select_sound (BETTER_THAN_FASTER_THAN_MUSIC);
+                    currentState         = GAMESTATE_GAMEPLAY;
+                    pause_channel  (0);
+                    stop_channel   (0);
+                    select_sound   (BETTER_THAN_FASTER_THAN_MUSIC);
                     select_channel (0);
                     assign_channel_sound (get_selected_channel (), get_selected_sound ());
                     play_channel (get_selected_channel ());
@@ -241,32 +140,192 @@ void main (void)
                     max_obj_vy           = 1;
                     min_obj_vy           = 1;
                 }
-            }
-//        }
-//        else if ((frame % FRAME_SLICES) == AUDIO_PROCESSING_FRAME)
-        if ((frame % FRAME_SLICES) == AUDIO_PROCESSING_FRAME)
-        {
-            UpdateAudioManager ();
-        }
-        else if ((frame % FRAME_SLICES) == ENEMY_PROCESSING_FRAME)
-        {
-            if (enemyList -> qty        == 0)
-            {
-                CreateEnemy (ENEMY_TEXTURE,                   // texture ID
-                             ENEMY_REGION,                    // region ID
-                             rand () % screen_width,          // starting X
-                             0,                               // starting Y
-                             IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
-                             1.0);                            // cooldown
-            }
-            UpdateAllEnemies ();
-        }
-        else if ((frame % FRAME_SLICES) == WEAPON_PROCESSING_FRAME)
-        {
-            UpdateAllWeapons ();
-            UpdateAllLasers ();
+                break;
         }
 
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // frame offset processing
+        //
+        switch (frame % FRAME_SLICES)
+        {
+            case SCREEN_REDRAWING_FRAME:
+                switch (currentState)
+                {
+                    case GAMESTATE_INTRO:
+                        break;
+
+                    case GAMESTATE_TITLE:
+                        break;
+
+                    ////////////////////////////////////////////////////////////////////
+                    //
+                    // GAMESTATE: main menu interface, selecting game mode and options
+                    //
+                    case GAMESTATE_MENU:
+                        select_texture (UI_TEXTURES);
+                        select_region  (EXIT_GAME_REGION);
+                        draw_region_at (20,  40);
+                        select_region  (PLAY_GAME_REGION);
+                        draw_region_at (220, 40);
+                        select_region  (CREDITS_REGION);
+                        draw_region_at (420, 40);
+                        break;
+
+                    ////////////////////////////////////////////////////////////////////
+                    //
+                    // GAMESTATE: gameplay
+                    //
+                    case GAMESTATE_GAMEPLAY:
+
+                        ////////////////////////////////////////////////////////////////
+                        //
+                        // clear the screen before repainting everything
+                        //
+                        clear_screen (make_color_rgb (0, 0, 0));
+
+                        ////////////////////////////////////////////////////////////////
+                        //
+                        // draw the background
+                        //
+                        select_texture (BACKGROUND_TEXTURE);
+                        select_region  (BACKGROUND_REGION);
+                        draw_region_at (0, 0);
+
+                        ////////////////////////////////////////////////////////////////
+                        //
+                        // render gameplay elements, note that rendering order will
+                        // influence display layering priority (first being most
+                        // backgrounded, last being most foregrounded)
+                        //
+                        drawList (GetObjectList ());
+                        drawList (GetPlayerList ());
+                        drawList (GetEnemyList  ());
+                        drawList (GetWeaponList ());
+                        drawList (GetLaserList  ());
+
+                        ////////////////////////////////////////////////////////////////
+                        //
+                        // music position object speed adjustment
+                        //
+                        if (position    >  325000)
+                        {
+                            max_obj_vy   = 8;
+                            min_obj_vy   = 2;
+                        }
+                        break;
+
+                    ////////////////////////////////////////////////////////////////////
+                    //
+                    // GAMESTATE: PAUSE
+                    //
+                    // The pause screen, a sub-transition only from the GAMEPLAY
+                    // state (stop most gameplay activities, except for music)
+                    //
+                    case GAMESTATE_PAUSE:
+                        break;
+
+                    ////////////////////////////////////////////////////////////////////
+                    //
+                    // GAMESTATE: PLAYAGAIN
+                    //
+                    // When the player dies/is out of lives, do we just restart or
+                    // return to the menu/title
+                    //
+                    case GAMESTATE_PLAYAGAIN:
+                        break;
+
+                    ////////////////////////////////////////////////////////////////////
+                    //
+                    // GAMESTATE: CREDITS
+                    //
+                    // Sequence displaying game credits (accessible from MENU)
+                    //
+                    case GAMESTATE_CREDITS:
+                        break;
+
+                    ////////////////////////////////////////////////////////////////////
+                    //
+                    // GAMESTATE: DEMO
+                    //
+                    // If all else fails, drop into demo mode
+                    //
+                    default:
+                        if (alreadyrun  == false)
+                        {
+                            alreadyrun   = true;
+
+                            CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                                          PLAYER_FRAME_1,                  // region ID
+                                          HALFWAY_ACROSS - 40,             // starting X
+                                          HALFWAY_DOWN,                    // starting Y
+                                          IS_ACTIVE_FLAG,                  // status flag bits
+                                          1.0,                             // shootCooldown
+                                          PLAYER_TWO);                     // gamepad ID
+
+                            CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                                          PLAYER_FRAME_2,                  // region ID
+                                          HALFWAY_ACROSS + 40,             // starting X
+                                          HALFWAY_DOWN,                    // starting Y
+                                          IS_ACTIVE_FLAG | ODD_TEAM_FLAG,  // status flag bits
+                                          1.0,                             // shootCooldown
+                                          PLAYER_TWO);                     // gamepad ID
+
+                            CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                                          PLAYER_FRAME_3,                  // region ID
+                                          HALFWAY_ACROSS - 80,             // starting X
+                                          HALFWAY_DOWN + 80,               // starting Y
+                                          IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status flag bits
+                                          1.0,                             // shootCooldown
+                                          PLAYER_ONE);                     // gamepad ID
+
+                            CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                                          PLAYER_FRAME_0,                  // region ID
+                                          HALFWAY_ACROSS + 80,             // starting X
+                                          HALFWAY_DOWN + 100,              // starting Y
+                                          IS_ACTIVE_FLAG | ODD_HIGH_FLAG,  // status flag bits
+                                          1.0,                             // shootCooldown
+                                          PLAYER_TWO);                     // gamepad ID
+                        }
+                        VisualizeLinkedList (GetPlayerList ());
+                        // print statistics
+                        PrintObjectDataAt (10, 60, GetPlayerList () -> head -> data);
+                        PrintObjectDataAt ((screen_width - 180),
+                                           60,
+                                           GetPlayerList () -> head -> next -> next -> next -> data);
+                        break;
+                    }
+                break;
+
+            case PLAYER_PROCESSING_FRAME:
+                break;
+
+            case ENEMY_PROCESSING_FRAME:
+                if (enemyList -> qty    == 0)
+                {
+                    CreateEnemy (ENEMY_TEXTURE,                   // texture ID
+                                 ENEMY_REGION,                    // region ID
+                                 rand () % screen_width,          // starting X
+                                 0,                               // starting Y
+                                 IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
+                                 1.0);                            // cooldown
+                }
+                UpdateAllEnemies ();
+                break;
+
+            case AUDIO_PROCESSING_FRAME:
+                UpdateAudioManager ();
+                break;
+
+            case WEAPON_PROCESSING_FRAME:
+                UpdateAllWeapons ();
+                UpdateAllLasers  ();
+                break;
+        }
+
+        UpdateAllObjects (objectList);
+        UpdateAllPlayers ();
+    
         if (frame                       == 0)
         {
             cycles                       = get_cycle_counter ();
@@ -290,7 +349,7 @@ void main (void)
         frame                            = (frame + 1) % 60;
         if ((get_frame_counter () % 30) == 0)
         {
-            seconds                      = seconds + 1;
+            half_seconds                 = half_seconds + 1;
         }
     }
 }

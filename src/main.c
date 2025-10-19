@@ -77,6 +77,8 @@ void main (void)
     player -> isActive   = true;
     player -> height     = 32;
     player -> width      = 32;
+	player -> texture	 = PLAYER_TEXTURE;
+	player -> region     = PLAYER_REGION;
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // 
@@ -212,9 +214,27 @@ void main (void)
             //
             // Select texture and region for the player, and draw it
             //
-            select_texture (PLAYER_TEXTURE);
-            select_region  (PLAYER_REGION);
-            draw_region_at (player -> x, player -> y);
+				mask = 0x00000010;
+				value = status & mask;
+				if (value == 0x00000010)
+					{
+						player->region = PLAYERSHIELD_REGION;
+					}	
+					if (value == 0x00000010)
+					{
+						if( time < get_time ())
+						{
+							player->region = PLAYER_REGION;
+							mask = 0x11111101;
+							status = status & mask;
+						}
+					}
+
+            	select_texture (player->texture);
+            	select_region  (player->region);
+				draw_region_at (player -> x, player -> y);
+			
+			
         }
 
         ///////////////////////////////////////////////////////////////////////////////
@@ -295,7 +315,7 @@ void main (void)
 					tmp2	= laserList->head;
 					while(tmp2 != NULL)
 					{
-            			if(tmp2->isActive == true && tmp->isActive == true && collision(tmp2, tmp) )
+            			if(tmp2->isActive == true && tmp->powerup == false && tmp->isActive == true && collision(tmp2, tmp) )
                 		{    
                     	tmp->hp         = tmp->hp - 1;
                     	tmp2->isActive 	= false;
@@ -305,10 +325,14 @@ void main (void)
                         	tmp->isActive = false;
                         	counter = counter + 8;
 							playAudio(2, 2, false, 0.1);		
+							b = rand () % ( 100 + 1);
+							if( b  > 95)
+							{
 							newNode	= mkPowerup (tmp);		
 							myStack	= push (myStack, newNode);
 							myStack = pop  (myStack, &(tmp3));
 							listA	= appendNode ( listA, listA->tail, tmp3);
+							}
 						
 							}
 						}
@@ -335,12 +359,19 @@ void main (void)
                     status = 0x00000000;
 					playAudio (2, 2, false, 0.1);
 					}
+					if (value == 0x00000010)
+					{
+						tmp->isActive = false;
+						score = score + tmp->points;
+						playAudio (2, 2, false, 0.1);
+					}
+						
 					// If you touch the power up you will become immortal for 5 seconds (For now);
 					if (tmp -> powerup == true)
 					{
 					status = mask | status;
 					tmp -> isActive	 	= false;
-					time	= get_time () + 10;
+					time	= get_time () + 5;
 					}
                 }
                 tmp                        	= tmp->next;

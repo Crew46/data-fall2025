@@ -8,7 +8,8 @@ int value;    // value is used to check to see if the values match for a flag.
 
 int counter;
 int max;
-int i;
+int i; // used for queue stuff;
+int b; // Used for rng stuff
 int check;
 int time;
 // The main struct that we use.

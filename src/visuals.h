@@ -10,6 +10,7 @@
 #define ENEMYB_TEXTURE		5
 #define SHIELD_TEXTURE 		6
 
+
 #define BACKGROUND_REGION	0
 #define NEBULA_REGION    	1
 #define PLAYER_REGION		2
@@ -19,6 +20,7 @@
 #define ENEMYB_REGION2		6
 #define ENEMYB_REGION3      7
 #define SHIELD_REGION		8
+#define PLAYERSHIELD_REGION 9
 
 #define LASERSPEED 			1
 
@@ -33,10 +35,12 @@ void visuals(void)
 	select_texture (NEBULA_TEXTURE);
 	select_region (NEBULA_REGION);
 	define_region_topleft (0, 0, 639, 1024);
-// Player
+// Player and player shield
 	select_texture (PLAYER_TEXTURE);
 	select_region (PLAYER_REGION);
 	define_region_center (0, 0, 31, 31);
+	select_region (PLAYERSHIELD_REGION);
+	define_region_center (0, 32, 31, 63 );
 //EnemyA
 	select_texture (ENEMYA_TEXTURE);
 	select_region (ENEMYA_REGION);

@@ -23,15 +23,17 @@ void main (void)
     int               score        	= 0;
     int              *scoreResult  	= NULL;
     Object           *newNode      	= NULL;
-    doublyLinkedList *listA        	= mkList (); // Main enemy list
-	doublyLinkedList *laserList	   	= mkList (); // laser list
+    doublyLinkedList *listA        	= mkList (); // Main enemy list.
+	doublyLinkedList *laserList	   	= mkList (); // laser list.
 	doublyLinkedList *listB			= mkList (); // queue list.
+	doublyLinkedList *listC			= mkList (); // stack list.
 	queue  *myQueue					= mkQueue (listB);
+	stack  *myStack					= mkStack (listC);
     Object *tmp             = NULL;
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
     max                     = 0; 
-    status                  = 0x10000000;
+    status                  = 0x00000001;
 
     srand (get_time ());     
 
@@ -95,17 +97,10 @@ void main (void)
     while (true)
     {
         // If the player is inactive. Stop the game
-        mask                     = 0x10000000;
+        mask                     = 0x00000001;
         value                    = status & mask;
-        if (value               != 0x10000000) // The first bit represents that the game is active.
+        if (value               != 0x00000001) // The first bit represents that the game is active.
         {
-            tmp                  = listA -> head;
-            while(tmp           != NULL)
-            {
-                tmp -> isActive  = false;
-                tmp              = tmp->next;
-            }
-
             //Game over fella. Erase everything.
             free (player);
             player               = NULL;
@@ -116,6 +111,7 @@ void main (void)
 			laserList			 = clearList(laserList);
 			laserList			 = deleteList(laserList);
 			myQueue				 = deleteQueue(myQueue);
+			myStack				 = deleteStack(myStack);
         }
 
 
@@ -273,9 +269,9 @@ void main (void)
 
         // This is here to make sure clearlist() and deleteList() is working.
         // Currently works!
-        mask            = 0x10000000;
+        mask            = 0x00000001;
         value           = status & mask;
-        if (value      != 0x10000000)
+        if (value      != 0x00000001)
         {
             draw_region ();
             set_drawing_point (200, 180);
@@ -308,7 +304,12 @@ void main (void)
 							score	= score + tmp->points;
                         	tmp->isActive = false;
                         	counter = counter + 8;
-							playAudio(2, 2, false, 0.1);
+							playAudio(2, 2, false, 0.1);		
+							newNode	= mkPowerup (tmp);		
+							myStack	= push (myStack, newNode);
+							myStack = pop  (myStack, &(tmp3));
+							listA	= appendNode ( listA, listA->tail, tmp3);
+						
 							}
 						}
 					tmp2 = tmp2->next;
@@ -326,9 +327,21 @@ void main (void)
       	// This checks for player and enemy collision. If they collide the game ends.
                if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
                 {
-                    player->isActive = false;
+					mask 	= 0x00000010;
+					value	= status & mask;
+					if (tmp->powerup == false && value != 0x0000010)// The second bit will represent being immortal. (shield powerup)
+					{
+                    player->isActive 	= false;
                     status = 0x00000000;
 					playAudio (2, 2, false, 0.1);
+					}
+					// If you touch the power up you will become immortal for 5 seconds (For now);
+					if (tmp -> powerup == true)
+					{
+					status = mask | status;
+					tmp -> isActive	 	= false;
+					time	= get_time () + 10;
+					}
                 }
                 tmp                        	= tmp->next;
          	}		

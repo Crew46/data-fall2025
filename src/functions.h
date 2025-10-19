@@ -38,14 +38,27 @@ Object * mkLaser(Object * player)
 	laser -> isActive      	= true;
 	laser -> height        	= 3;
 	laser -> width         	= 9;
-	laser -> x             	= player -> x + 4;
+	laser -> x             	= player -> x;
 	laser -> y             	= player->y;
 	laser -> next			= NULL;
 	laser -> prev			= NULL;
 return(laser);
 }	
 
-
-
+Object * mkPowerup (Object * enemy)
+{
+	Object * powerup		= (Object *)malloc(sizeof(Object));
+	powerup -> isActive		= true;
+	powerup -> height		= 11;
+	powerup -> width		= 11;
+	powerup -> x			= enemy -> x;
+	powerup -> y			= enemy -> y;
+	powerup -> texture		= SHIELD_TEXTURE;
+	powerup -> region		= SHIELD_REGION;
+	powerup -> powerup		= true;
+	powerup -> next			= NULL;
+	powerup -> prev			= NULL;
+return(powerup);
+}
 
 #endif  // _FUNCTIONS_H

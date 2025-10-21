@@ -37,7 +37,7 @@ v32rom: v32
 v32: game
 	@make -C data $(DEBUG)
 
-run: clean game
+run: clean cart
 	@Vircon32 bin/game.v32
 
 clean:

@@ -73,6 +73,9 @@ struct Player
     int     gamepadID;
     Queue  *weapons; // weapon that player has equipped
     int     weaponIndexer;
+    int     health;
+    int     maxHealth;
+    float   invincTimer;
 };
 
 //=========================================================
@@ -281,6 +284,8 @@ void PlayerUpdate (Player *player)
         HandleInput (player);
     }
 
+    player -> invincTimer -= 1.0 / 60.0 * (float)FRAME_SLICES;
+
     while (currentNode != NULL)
     {
         nextNode        = currentNode -> next;
@@ -289,7 +294,16 @@ void PlayerUpdate (Player *player)
         {
             if (collisionCheck (&player -> object, currentNode -> data))
             {
-                player -> object.status |= DELETION_FLAG;
+                if(player -> invincTimer <= 0.0)
+                {
+                    player -> invincTimer = 1.0;
+                    player -> health--;
+                }
+
+                if(player -> health <= 0)
+                {
+                    player -> object.status |= DELETION_FLAG;
+                }
             }
         }
 
@@ -332,6 +346,10 @@ Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, flo
     player -> weaponIndexer  = 1;
 
     append (playerList, playerList -> tail, createNode (&player -> object));
+
+    player -> health         = 3;
+    player -> maxHealth      = 3;
+    player ->invincTimer     = 0.0;
 
     // return pointer to player
     return player;

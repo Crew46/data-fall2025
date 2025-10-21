@@ -18,8 +18,13 @@ void PrintIntAt (int x, int y, int value)
     if (value < 0)
     {
         strcpy (stringToPrint, "-");
+        strcat (stringToPrint, stringValue);
     }
-    strcpy (stringToPrint, stringValue);
+    else
+    {
+        strcpy (stringToPrint, stringValue);
+    }
+
     print_at (x, y, stringToPrint);
     free (stringToPrint);
     free (stringValue);

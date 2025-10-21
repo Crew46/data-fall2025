@@ -178,9 +178,15 @@ void setEnemyWeaponPositions (Enemy *enemy)
     }
 }
 
-void enemyFireWeapons (Enemy *enemy)
+void enemyFireWeapons (Enemy *enemy, bool canFire)
 {
-    bool    fireStatus             = ((rand() % 10) >  5);
+    bool    fireStatus             = canFire;
+
+    if(canFire)
+    {
+        fireStatus             = ((rand() % 10) >  5);
+    }
+
 
     Node   *currentNode            = enemy -> weapons -> list -> head;
     Node   *nextNode               = NULL;
@@ -241,7 +247,16 @@ void enemyFindTarget (Enemy *enemy)
         currentNode                  = nextNode;
     }
 
-    enemy->target                    = bestTarget;
+    enemy -> target                  = bestTarget;
+
+    if(bestDistance                  < 10)
+    {
+        enemyFireWeapons(enemy, true);
+    }
+    else
+    {
+        enemyFireWeapons(enemy, false);
+    }
 }
 
 void enemyAI (Enemy *enemy)

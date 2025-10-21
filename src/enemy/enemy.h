@@ -87,17 +87,20 @@ void DrawEnemy (Enemy *enemy)
  * the enemy's model, view, and input.
  */
 
-void enemyDropWeapon (Enemy *enemy)
+bool enemyDropWeapon (Enemy *enemy)
 {
     Node *dropped              = dequeue (enemy -> weapons);
     if (dropped               != NULL)
     {
         ((Weapon *) dropped -> data) -> hasOwner = false;
+        ((Weapon *) dropped -> data) -> isFiring = false;
         free (dropped);
         dropped                = NULL;
 
-        // accessing dropped after free() is just asking for trouble
+        return true;
     }
+
+    return false;
 }
 
 void enemyGrabWeapon (Enemy *enemy)
@@ -360,16 +363,7 @@ Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float
 // deconstructor
 void DeconstructEnemy (Enemy *enemy)
 {
-    Node *currentNode            = dequeue (enemy -> weapons);
-
-    while (currentNode          != NULL)
-    {
-        if (currentNode -> data != NULL)
-        {
-            ((Weapon *) currentNode -> data) -> hasOwner  = false;
-        }
-        currentNode              = dequeue (enemy -> weapons);
-    }
+    while(enemyDropWeapon(enemy));
 
     free (enemy);
     enemy                       = NULL;

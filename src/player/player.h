@@ -125,7 +125,7 @@ void DrawPlayer (Player *player)
  * the player's model, view, and input.
  */
 
-void playerDropWeapon (Player *player)
+bool playerDropWeapon (Player *player)
 {
     Node *dropped              = dequeue (player -> weapons);
     if (dropped               != NULL)
@@ -135,8 +135,10 @@ void playerDropWeapon (Player *player)
         free (dropped);
         dropped                = NULL;
 
-        // accessing dropped after free() is just asking for trouble
+        return true;
     }
+
+    return false;
 }
 
 void playerGrabWeapon (Player *player)

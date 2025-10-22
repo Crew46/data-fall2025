@@ -33,7 +33,6 @@ void main (void)
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
     max                     = 0; 
-    status                  = 0x00000001;
 
     srand (get_time ());     
 
@@ -96,6 +95,27 @@ void main (void)
     // Game loop
     //
 	playAudio (0, 0, true, 1.0);
+while (status == 0x00000000)
+{
+	select_texture ( BACKGROUND_TEXTURE);
+	select_region ( BACKGROUND_REGION);
+	draw_region_at ( 0 , byb);
+	draw_region ();
+	set_drawing_point ( 200, 150);
+	print ( " PRESS ENTER TO START ");
+	draw_region ();
+	set_drawing_point ( 200, 250);
+	print ( " X TO FIRE LASER ");
+	if (gamepad_button_start () == true)
+		{
+			status = 0x00000001;
+		}
+
+}
+
+
+
+
     while (true)
     {
         // If the player is inactive. Stop the game
@@ -174,7 +194,7 @@ void main (void)
 		if (tmp -> isActive     == true)
         	{ 
             	tmp -> y             = tmp -> y - 10;
-            	if (tmp -> y        <  20)
+            	if (tmp -> y        <  -40)
             	{
 					tmp->isActive 	= false;
             	}
@@ -268,7 +288,7 @@ void main (void)
             while(tmp != NULL)
             {
     
-                if( tmp -> y > 300)
+                if( tmp -> y > 400)
                 {
                     tmp -> isActive = false;
                 }
@@ -295,7 +315,7 @@ void main (void)
         {
             draw_region ();
             set_drawing_point (200, 180);
-            print ("You have died. Restart to try again");
+            print ("You have died. CTRL+R to restart.");
             exit ();
         }
         draw_region ();
@@ -306,7 +326,7 @@ void main (void)
         itoa (score, scoreResult, 10);
         print_at (250, 10, scoreResult);
 
-        // use the obtainEnemyA function to delete nodes that hit a certain Y value.
+        // Make sure that the enemy list and laser lists are not NULL.
         if (listA      != NULL && laserList != NULL)
         {
 			tmp	= listA->head;
@@ -315,6 +335,7 @@ void main (void)
 					tmp2	= laserList->head;
 					while(tmp2 != NULL)
 					{
+// This checks the enemy to make sure it is not a powerup and that it is active.
             			if(tmp2->isActive == true && tmp->powerup == false && tmp->isActive == true && collision(tmp2, tmp) )
                 		{    
                     	tmp->hp         = tmp->hp - 1;
@@ -324,7 +345,8 @@ void main (void)
 							score	= score + tmp->points;
                         	tmp->isActive = false;
                         	counter = counter + 8;
-							playAudio(2, 2, false, 0.1);		
+							playAudio(2, 2, false, 0.1);
+// Rng to spawn the powerup.		
 							b = rand () % ( 100 + 1);
 							if( b  > 95)
 							{
@@ -437,21 +459,21 @@ void main (void)
 			tmp = tmp -> next;
 		}
  	}
-
-	if ( score % 50 == 0)
+// If the score is divisible by 110 then spawn enemies from a queue.
+	if ( score % 110 == 0)
 	{
 		if(score != check)
 		{
 			check = score;
-			for ( i = 0; i < 19; i++)
+			for ( i = 0; i < 14; i++)
 				{
 					newNode			= mkNode ();
 					myQueue	= enqueue (myQueue, newNode);
 					myQueue = dequeue (myQueue, &(tmp3));
 					listA   = appendNode (listA, listA->tail, tmp3);	
 					draw_region ();
-					set_drawing_point ( 260, 250);
-					print( " We are so boned");
+					set_drawing_point ( 260, 150);
+					print( " INVASION ");
 				}
 		}
 	}

@@ -36,3 +36,11 @@ This week I added the general list functions that we agreed on. Which added mkLi
 
 Week 6
 Stack is almost done. Most of the functions have been made. Push currently works, but needs some tweaks and pop needs to be ironed out a bit. Queues are still a WIP though. mkQueue and enqueue functions have been made, but they have not been tested. I did a little more organization such as moving node and list functions to node.h and linkedlist.h. There is also now a functions.h file for functions that have general uses that are not tied to specific thing.
+
+
+Week 7 and break.
+
+I got a laser list up and running. Queue is up and running. Stack is up and running. Queues are used for events to spawn multiple enemies. Stack is used to push and pop
+powerups (currently only a shield). I got audio up and running for my branch. There are explosions, music, and laser sounds. I made a quick main screen for my branch.
+I also made mkLaser () and mkPowerup () functions to make things easier. I also expanded on some sprites. Player now has a shielded sprite and EnemyB has damaged states.
+

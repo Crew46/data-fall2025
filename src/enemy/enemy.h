@@ -107,13 +107,11 @@ void enemyGrabWeapon (Enemy *enemy)
 {
     Node   *currentNode                      = GetWeaponList() -> head;
     Weapon *weapon                           = NULL;
-    Node   *nextNode                         = NULL;
     int     newStatus                        = 0;
     int     tmpStatus                        = 0;
 
     while (currentNode                      != NULL)
     {
-        nextNode                             = currentNode -> next;
         weapon                               = (Weapon *) currentNode -> data;
 
         if(weapon -> hasOwner               == false)
@@ -139,7 +137,7 @@ void enemyGrabWeapon (Enemy *enemy)
             }
         }
 
-        currentNode                          = nextNode;
+        currentNode                          = currentNode -> next;
     }
 }
 
@@ -147,7 +145,6 @@ void setEnemyWeaponPositions (Enemy *enemy)
 {
     int     team                   = 0;
     Node   *currentNode            = enemy -> weapons -> list -> head;
-    Node   *nextNode               = NULL;
     Weapon *currentWeapon          = NULL;
 
     team                           = (enemy -> object.status & TeamFlagMask);
@@ -155,7 +152,6 @@ void setEnemyWeaponPositions (Enemy *enemy)
 
     while (currentNode            != NULL)
     {
-        nextNode                   = currentNode -> next;
         currentWeapon              = (Weapon *) currentNode -> data;
 
         int  realX                 = currentWeapon -> xOffset;
@@ -177,7 +173,7 @@ void setEnemyWeaponPositions (Enemy *enemy)
         currentWeapon -> object.x  = enemy -> object.x + realX;
         currentWeapon -> object.y  = enemy -> object.y + realY;
 
-        currentNode                = nextNode;
+        currentNode                = currentNode -> next;
     }
 }
 
@@ -190,26 +186,20 @@ void enemyFireWeapons (Enemy *enemy, bool canFire)
         fireStatus             = ((rand() % 10) >  5);
     }
 
-
     Node   *currentNode            = enemy -> weapons -> list -> head;
-    Node   *nextNode               = NULL;
     Weapon *currentWeapon          = NULL;
 
     while (currentNode            != NULL)
     {
-        nextNode                   = currentNode -> next;
         currentWeapon              = (Weapon *) currentNode -> data;
-
         currentWeapon -> isFiring  = fireStatus;
-
-        currentNode                = nextNode;
+        currentNode                = currentNode -> next;
     }
 }
 
 void enemyFindTarget (Enemy *enemy)
 {
     Node   *currentNode              = playerList -> head;
-    Node   *nextNode                 = NULL;
     Object *bestTarget               = NULL;
     int     bestDistance;
     int     tmp;
@@ -217,7 +207,6 @@ void enemyFindTarget (Enemy *enemy)
 
     while (currentNode              != NULL)
     {
-        nextNode                     = currentNode -> next;
         if (currentNode -> data     != NULL)
         {
             if (currentNode -> data != NULL)
@@ -247,7 +236,7 @@ void enemyFindTarget (Enemy *enemy)
                 }
             }
         }
-        currentNode                  = nextNode;
+        currentNode                  = currentNode -> next;
     }
 
     enemy -> target                  = bestTarget;
@@ -305,7 +294,6 @@ void EnemyUpdate (Enemy *enemy)
 {
     List *lasers        = GetLaserList ();
     Node *currentNode   = lasers -> head;
-    Node *nextNode      = NULL;
 
     if (enemy -> object.status & IS_ACTIVE_FLAG)
     {
@@ -316,8 +304,6 @@ void EnemyUpdate (Enemy *enemy)
 
     while (currentNode != NULL)
     {
-        nextNode                        = currentNode -> next;
-
         if (((currentNode -> data -> status ^ enemy -> object.status) & TeamFlagMask) != 0)
         {
             if (collisionCheck (&enemy -> object, currentNode -> data))
@@ -326,7 +312,7 @@ void EnemyUpdate (Enemy *enemy)
             }
         }
 
-        currentNode                     = nextNode;
+        currentNode                     = currentNode -> next;
     }
 }
 
@@ -372,15 +358,11 @@ void DeconstructEnemy (Enemy *enemy)
 void DeconstructEnemyAndWeapon (Enemy *enemy)
 {
     Node *currentNode                  = enemy -> weapons -> list -> head;
-    Node *nextNode                     = NULL;
 
     while (currentNode                != NULL)
     {
-        nextNode                       = currentNode -> next;
-
         currentNode -> data -> status |= DELETION_FLAG;
-
-        currentNode                    = nextNode;
+        currentNode                    = currentNode -> next;
     }
 
     DeconstructEnemy (enemy);
@@ -390,16 +372,14 @@ void DeconstructAllEnemies ()
 {
     // loop through all instances of enemys
     Node *currentNode   = enemyList -> head;
-    Node *next          = NULL;
 
     while (currentNode != NULL)
     {
-        next            = currentNode -> next;
         DeconstructEnemy ((Enemy *) currentNode -> data);
         enemyList      = obtain (enemyList, &currentNode);
         deleteNode (currentNode);
 
-        currentNode     = next;
+        currentNode     = currentNode -> start;
     }
 }
 
@@ -407,16 +387,14 @@ void DeconstructAllEnemiesAndWeapons ()
 {
     // loop through all instances of enemys
     Node *currentNode   = enemyList -> head;
-    Node *next          = NULL;
 
     while (currentNode != NULL)
     {
-        next            = currentNode -> next;
         DeconstructEnemyAndWeapon ((Enemy *) currentNode -> data);
         enemyList      = obtain (enemyList, &currentNode);
         deleteNode (currentNode);
 
-        currentNode     = next;
+        currentNode     = currentNode -> next;
     }
 }
 
@@ -441,11 +419,9 @@ List *GetEnemyList ()
 void UpdateAllEnemies ()
 {
     Node *currentNode            = enemyList -> head;
-    Node *nextNode               = NULL;
 
     while (currentNode          != NULL)
     {
-        nextNode                 = currentNode -> next;
         if (currentNode -> data != NULL)
         {
             EnemyUpdate ((Enemy *) currentNode -> data);
@@ -457,7 +433,7 @@ void UpdateAllEnemies ()
                 deleteNode (currentNode);
             }
         }
-        currentNode              = nextNode;
+        currentNode              = currentNode -> next;
     }
 }
 

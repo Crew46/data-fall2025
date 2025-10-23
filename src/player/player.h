@@ -370,6 +370,7 @@ void DeconstructPlayer (Player *player, int status)
 
             currentNode           = currentNode -> next;
         }
+        return;
     }
 
     if ((status & PLAYER_WEAPON) == PLAYER_WEAPON) 
@@ -390,16 +391,7 @@ void DeconstructPlayer (Player *player, int status)
         player_weapon             = false;
     }
 
-    currentNode                   = dequeue (player -> weapons);
-    while (currentNode           != NULL)
-    {
-        if (currentNode -> data  != NULL)
-        {
-            wtmp                  = (Weapon *) currentNode -> data;
-            wtmp -> hasOwner      = false;
-        }
-        currentNode               = dequeue (player -> weapons);
-    }
+    while(playerDropWeapon(player));
 
     free (player);
     player                        = NULL;

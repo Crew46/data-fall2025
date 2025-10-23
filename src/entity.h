@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 struct Object;
+
 // Entity struct which is a substruct of Object
 struct Entity
 {
@@ -9,17 +10,17 @@ struct Entity
   Weapon* weapon;
 };
 
-Entity* createEntity(int textureID, int regionID, int x, int y, bool isActive, WeaponType wType)
+Entity* createEntity(int textureID, int regionID, int x, int y, int status, WeaponType wType)
 {
   Entity* entity = (Entity*)malloc(sizeof(Entity));
-  initObject(&entity->obj, Object_Type_Entity, textureID, regionID, x, y, isActive);
+  initObject(&entity->obj, Object_Type_Entity, textureID, regionID, x, y, status);
   entity->weapon  = createWeapon(wType);
   return entity;
 }
 
-DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos, WeaponType wType)
+DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos, int status, WeaponType wType)
 {
-  Entity* entity = createEntity( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, true, wType);
+  Entity* entity = createEntity( ENEMY_TEXTURE, ENEMY_REGION, xPos, yPos, status, wType);
   entity->obj.vx = 1;
   entity->obj.vy = 1;
   list = append( list, list->tail, &entity->obj );
@@ -29,47 +30,37 @@ DoublyLinkedList* spawnEnemy(DoublyLinkedList* list, int xPos, int yPos, WeaponT
 
 DoublyLinkedList* updateEnemies(DoublyLinkedList* enemyList)
 {
-  Node*   current = enemyList->head;
-  Node*   next    = NULL;
-  Object* enemy   = NULL;
-
-  while(current != NULL)
+  Node* current = enemyList->head;
+  while (current != NULL)
   {
-    next  = current->next;
-    enemy = current->data;
+      Node* next  = current->next;    
+      Object* enemy = current->data;
 
-    for(Node* b = next; b != NULL; b = b->next)
-    {
-      checkObjectCollision ( enemy, b->data, ENEMY_WIDTH, ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_HEIGHT );
-    }
-
-    if(enemy != NULL) // Make sure enemy was not deleted
-    {
-      moveObject( enemy, rand() % 3 - 1, 1 ); // Move enemy
-
-      // Check if enemy exceeds bounds
-      if(exceedsBounds(enemy))
-      {
-        deleteObject( &enemy );
-        enemyList = deleteNode( enemyList, &current );
+      if (enemy == NULL || (enemy->status & IS_ACTIVE_FLAG) == 0) {
+          if (enemy) deleteObject(&enemy);
+          enemyList = deleteNode(enemyList, &current);
+          current = next;              
+          continue;
       }
 
-    }
+      // Move active enemy
+      moveObject(enemy, rand() % 3 - 1, 1);  
 
-    // Next node
-    current = next;
+      // If the enemy exceeds bounds, delete it
+      if (exceedsBounds(enemy)) {
+          deleteObject(&enemy);
+          enemyList = deleteNode(enemyList, &current);
+      }
+
+      current = next;                  
   }
 
-    // Spawn 3 enemies every 3 seconds
-    if( get_frame_counter() % 180 == 0 )
-    {
-      for(int i = 0; i < 3; i++)
-      {
-        enemyList = spawnEnemy( enemyList, rand() % 630, 0, Weapon_Type_Laser );
+  if (get_frame_counter() % 180 == 0) {
+      for (int i = 0; i < 3; i++) {
+          enemyList = spawnEnemy(enemyList, rand() % 630, 0, IS_ACTIVE_FLAG, Weapon_Type_Laser);
       }
-    }
-
-    return enemyList;
+  }
+  return enemyList;
 }
 
 DoublyLinkedList* updateAmmo(DoublyLinkedList* ammoList)
@@ -78,27 +69,35 @@ DoublyLinkedList* updateAmmo(DoublyLinkedList* ammoList)
     return ammoList;
 
   Node* temp = ammoList->head;
-  Node* next = NULL;
   while(temp != NULL)
   {
-    next = temp->next;
-    moveObject(temp->data, temp->data->dx, temp->data->dy);
+    Node* curr = temp;
+    temp = temp->next;                 
 
-    if(exceedsBounds(temp->data))
-    {
-      deleteObject(&temp->data);
-      ammoList = deleteNode(ammoList, &temp);
+    Object* o = curr->data;           
+
+    // If bullets are inactive, delete them
+    if ((o->status & IS_ACTIVE_FLAG) == 0) {
+        deleteObject(&curr->data);
+        ammoList = deleteNode(ammoList, &curr);
+        continue;
     }
 
-    temp = next;
-  }
+    moveObject(o, o->dx, o->dy);
 
+    if (exceedsBounds(o)) {
+        deleteObject(&curr->data);
+        ammoList = deleteNode(ammoList, &curr);
+    }
+  }
+  
   return ammoList;
 }
 
+
 Entity* playerShoot(Entity* player)
 {
-  Laser* laser = createLaser(LASER_TEXTURE, LASER_REGION, player->obj.x + 12, player->obj.y, true);
+  Laser* laser = createLaser(LASER_TEXTURE, LASER_REGION, player->obj.x + 12, player->obj.y, IS_ACTIVE_FLAG);
   Object* laserObj = &laser->obj;
   player->weapon->ammoList = append(player->weapon->ammoList, player->weapon->ammoList->head, laserObj );
 
@@ -107,6 +106,9 @@ Entity* playerShoot(Entity* player)
 
 Entity* updatePlayer(Entity* player)
 {
+   if ( (player->obj.status & IS_ACTIVE_FLAG) == 0 ) // Player is inactive
+        return player;
+
   Object* playerObj = &player->obj;
   gamepad_direction(&playerObj->dx, &playerObj->dy);
   moveObject(playerObj, playerObj->dx, playerObj->dy);
@@ -138,12 +140,9 @@ void checkAmmoCollisionWithEnemies(DoublyLinkedList** ammoList, DoublyLinkedList
       if(enemy && checkObjectCollision(enemy->data, ammo->data, 
             ENEMY_WIDTH, LASER_WIDTH, ENEMY_HEIGHT, LASER_HEIGHT))
       {
-        // Delete both the enemy and the bullet
-        deleteObject(&enemy->data);
-        deleteNode(*enemyList, &enemy);
-
-        deleteObject(&ammo->data);
-        deleteNode(*ammoList, &ammo);
+        // Deactivate both the enemy and the bullet
+        enemy->data->status &= ~IS_ACTIVE_FLAG;
+        ammo->data->status &= ~IS_ACTIVE_FLAG;
 
         break;
       }

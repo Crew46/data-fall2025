@@ -11,10 +11,10 @@ struct Laser
   Object obj;
 };
 
-Laser* createLaser(int textureID, int regionID, int x, int y, bool isActive)
+Laser* createLaser(int textureID, int regionID, int x, int y, int status)
 {
   Laser* laser = (Laser*)malloc(sizeof(Laser));
-  initObject(&laser->obj, Object_Type_Laser, textureID, regionID, x, y, isActive);
+  initObject(&laser->obj, Object_Type_Laser, textureID, regionID, x, y, status);
 
   // Set these manually for now
   laser->obj.dx = 0;

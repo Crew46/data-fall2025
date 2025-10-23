@@ -1,6 +1,9 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#define INACTIVE_FLAG  0x00000000
+#define IS_ACTIVE_FLAG 0x00000001
+
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
 {
@@ -23,11 +26,11 @@ struct Object
   int         dy;
   int         vx;
   int         vy;
-  bool        isActive;
+  int         status;
 };
 
 // This function is mainly for our embedded object
-void initObject(Object* obj, ObjectType objT, int textureID, int regionID, int xPos, int yPos, bool isActive)
+void initObject(Object* obj, ObjectType objT, int textureID, int regionID, int xPos, int yPos, int status)
 {
   obj->type       = objT;
   obj->textureID  = textureID;
@@ -36,11 +39,11 @@ void initObject(Object* obj, ObjectType objT, int textureID, int regionID, int x
   obj->y          = yPos;
   obj->vx         = 1; // Set to 1 for now, will make it customizable eventually
   obj->vy         = 1;
-  obj->isActive   = isActive;
+  obj->status     = status;
 
 }
 
-Object* createObject(int textureID, int regionID, int x, int y, bool isActive)
+Object* createObject(int textureID, int regionID, int x, int y, int status)
 {
   Object* obj     = (Object*)malloc(sizeof(Object));
   obj->type       = Object_Type_None; // Has no parent
@@ -48,7 +51,7 @@ Object* createObject(int textureID, int regionID, int x, int y, bool isActive)
   obj->regionID   = regionID;
   obj->x          = x;
   obj->y          = y;
-  obj->isActive   = isActive;
+  obj->status     = status;
 
   return obj;
 }

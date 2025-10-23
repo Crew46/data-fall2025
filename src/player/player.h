@@ -354,6 +354,7 @@ void DeconstructPlayer (Player *player, int status)
     bool    all_weapons           = false;
     Node   *currentNode           = NULL;
     Object *otmp                  = NULL;
+    Weapon *wtmp                  = NULL;
 
     if ((status & ALL_PLAYERS)   == ALL_PLAYERS) 
     {
@@ -378,9 +379,7 @@ void DeconstructPlayer (Player *player, int status)
         while (currentNode       != NULL)
         {
             otmp                  = currentNode -> data;
-
             otmp -> status        = otmp -> status | DELETION_FLAG;
-
             currentNode           = currentNode -> next;
         }
     }
@@ -396,8 +395,8 @@ void DeconstructPlayer (Player *player, int status)
     {
         if (currentNode -> data  != NULL)
         {
-            otmp                  = (Weapon *) currentNode -> data;
-            otmp -> hasOwner      = false;
+            wtmp                  = (Weapon *) currentNode -> data;
+            wtmp -> hasOwner      = false;
         }
         currentNode               = dequeue (player -> weapons);
     }

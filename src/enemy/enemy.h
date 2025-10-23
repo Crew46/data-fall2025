@@ -376,10 +376,10 @@ void DeconstructAllEnemies ()
     while (currentNode != NULL)
     {
         DeconstructEnemy ((Enemy *) currentNode -> data);
-        enemyList      = obtain (enemyList, &currentNode);
+        enemyList       = obtain (enemyList, &currentNode);
         deleteNode (currentNode);
 
-        currentNode     = currentNode -> start;
+        currentNode     = currentNode -> next;
     }
 }
 

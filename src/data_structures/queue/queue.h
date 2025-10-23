@@ -5,7 +5,7 @@
 
 struct Queue
 {
-	List* list;
+	List* data;
 	int   size;
 	int   count;
 };
@@ -16,7 +16,7 @@ bool enqueue(Queue* queue, Node* newNode)
 	{
 		if(queue->count < queue->size || queue->size < 1)
 		{
-			insert(queue->list, queue->list->head, newNode);
+			insert(queue->data, queue->data->head, newNode);
 			queue->count++;
 			return true;
 		}
@@ -27,10 +27,10 @@ bool enqueue(Queue* queue, Node* newNode)
 
 Node* dequeue(Queue* queue)
 {
-	if(queue->list->tail != NULL)
+	if(queue->data->tail != NULL)
 	{
-		Node *node     = queue -> list -> tail;
-		queue -> list  = obtain (queue -> list, &node);
+		Node *node     = queue -> data -> tail;
+		queue -> data  = obtain (queue -> data, &node);
 		queue->count--;
 		return node;
 	}
@@ -43,7 +43,7 @@ Node* dequeue(Queue* queue)
 Queue* createQueue(int size)
 {
 	Queue* queue = (Queue*)malloc(sizeof(Queue));
-	queue->list  = createList();
+	queue->data  = createList();
 	queue->size  = size;
 	queue->count = 0;
 

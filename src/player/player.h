@@ -183,7 +183,7 @@ void playerGrabWeapon (Player *player)
 void setPlayerWeaponPositions (Player *player)
 {
     int     team                   = 0;
-    Node   *currentNode            = player -> weapons -> list -> head;
+    Node   *currentNode            = player -> weapons -> data -> head;
     Weapon *currentWeapon          = NULL;
 
     team                           = (player -> object.status & TeamFlagMask);
@@ -219,7 +219,7 @@ void setPlayerWeaponPositions (Player *player)
 void playerFireWeapons (Player *player)
 {
     bool    fireStatus             = (gamepad_button_a () >  0);
-    Node   *currentNode            = player -> weapons -> list -> head;
+    Node   *currentNode            = player -> weapons -> data -> head;
     Weapon *currentWeapon          = NULL;
 
     while (currentNode            != NULL)
@@ -354,7 +354,6 @@ void DeconstructPlayer (Player *player, int status)
     bool    all_weapons           = false;
     Node   *currentNode           = NULL;
     Object *otmp                  = NULL;
-    Weapon *wtmp                  = NULL;
 
     if ((status & ALL_PLAYERS)   == ALL_PLAYERS) 
     {
@@ -375,7 +374,7 @@ void DeconstructPlayer (Player *player, int status)
 
     if ((status & PLAYER_WEAPON) == PLAYER_WEAPON) 
     {
-        currentNode               = player -> weapons -> list -> head;
+        currentNode               = player -> weapons -> data -> head;
         player_weapon             = true;
         while (currentNode       != NULL)
         {
@@ -399,7 +398,7 @@ void DeconstructPlayer (Player *player, int status)
 
 void DeconstructPlayerAndWeapon (Player *player)
 {
-    Node *currentNode                  = player -> weapons -> list -> head;
+    Node *currentNode                  = player -> weapons -> data -> head;
 
     while (currentNode                != NULL)
     {

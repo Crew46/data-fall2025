@@ -102,7 +102,7 @@ void ChangeMusicLoop (MusicLoop musicLoopToChangeTo)
 void PlaySoundFx (SoundEffect soundEffect)
 {
     // each sound effect has 4 variants, randomize from 0-3.
-    int  randomValue  = rand() % 4;
+    //int  randomValue  = rand() % 4;
     switch (soundEffect)
     {
     case EXPLOSION_SOUND_EFFECT:

@@ -144,7 +144,7 @@ void enemyGrabWeapon (Enemy *enemy)
 void setEnemyWeaponPositions (Enemy *enemy)
 {
     int     team                   = 0;
-    Node   *currentNode            = enemy -> weapons -> list -> head;
+    Node   *currentNode            = enemy -> weapons -> data -> head;
     Weapon *currentWeapon          = NULL;
 
     team                           = (enemy -> object.status & TeamFlagMask);
@@ -186,7 +186,7 @@ void enemyFireWeapons (Enemy *enemy, bool canFire)
         fireStatus             = ((rand() % 10) >  5);
     }
 
-    Node   *currentNode            = enemy -> weapons -> list -> head;
+    Node   *currentNode            = enemy -> weapons -> data -> head;
     Weapon *currentWeapon          = NULL;
 
     while (currentNode            != NULL)
@@ -376,7 +376,7 @@ void DeconstructEnemy (Enemy *enemy)
 
 void DeconstructEnemyAndWeapon (Enemy *enemy)
 {
-    Node *currentNode                  = enemy -> weapons -> list -> head;
+    Node *currentNode                  = enemy -> weapons -> data -> head;
 
     while (currentNode                != NULL)
     {

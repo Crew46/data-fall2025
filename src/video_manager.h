@@ -22,14 +22,14 @@ void drawList (List *myList)
     }
 }
 
-void drawQueue (Queue *queue)
+void drawQueue (Queue *myQueue)
 {
-    drawList (queue -> list);
+    drawList (myQueue -> data);
 }
 
-void drawStack (Stack *stack)
+void drawStack (Stack *myStack)
 {
-    drawList (stack -> list);
+    drawList (myStack -> data);
 }
 
 #endif // _VIDEO_MANAGER_H

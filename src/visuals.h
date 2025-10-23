@@ -9,7 +9,7 @@
 #define LASER_TEXTURE		4
 #define ENEMYB_TEXTURE		5
 #define SHIELD_TEXTURE 		6
-
+#define EXPLOSION_TEXTURE   7
 
 #define BACKGROUND_REGION	0
 #define NEBULA_REGION    	1
@@ -21,6 +21,7 @@
 #define ENEMYB_REGION3      7
 #define SHIELD_REGION		8
 #define PLAYERSHIELD_REGION 9
+#define EXPLOSION_REGION    10
 
 #define LASERSPEED 			1
 
@@ -61,6 +62,10 @@ void visuals(void)
 	select_texture (SHIELD_TEXTURE);
 	select_region (SHIELD_REGION);
 	define_region_center (0, 0, 11, 11);
+// Explosion
+	select_texture ( EXPLOSION_TEXTURE);
+	select_region ( EXPLOSION_REGION);
+	define_region_center (0, 0, 19, 19);
 }
 
 Object * updateVisuals(Object * enemy)

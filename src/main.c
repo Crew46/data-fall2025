@@ -145,8 +145,8 @@ while (status == 0x00000000)
         select_texture (BACKGROUND_TEXTURE);
         select_region (BACKGROUND_REGION);
 		draw_region_at (0, byb);
-        if ((frame % 8) == 0)
-        {
+/*      if ((frame % 8) == 0)
+      {
             byb  = byb + 1;
             if (byb > 664)
                 byb  = 1;
@@ -161,7 +161,7 @@ while (status == 0x00000000)
         if (byn > 360)
             byn  = 1;
 //        }
-
+*/
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Obtain directional information (per axis) from selected gamepad
@@ -346,7 +346,10 @@ while (status == 0x00000000)
                         	tmp->isActive = false;
                         	counter = counter + 8;
 							playAudio(2, 2, false, 0.1);
-// Rng to spawn the powerup.		
+// Explosion texture and rng powerups.	
+							select_texture ( EXPLOSION_TEXTURE);
+							select_region ( EXPLOSION_REGION);
+							draw_region_at (tmp-> x, tmp->y);	
 							b = rand () % ( 100 + 1);
 							if( b  > 95)
 							{

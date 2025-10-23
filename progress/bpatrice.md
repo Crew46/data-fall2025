@@ -8,3 +8,5 @@
 **Week 4** Added player ability shoot and added collision between the bullets and enemies. I also cleaned up my main function by separating all my game logic functions into an updateGame() function and all my rendering functions into a renderGame() function and then calling those two functions in main.
 
 **Week 6** Added in Queue and Stack on top of list with functions. The stack and queue aren't used yet, but they compile. I also separated my main file into a bunch of separate header files to clean things up.
+
+**Week 8** Added in status flags, I only added the ISACTIVE flag for now but it is a start. I also moved all of the deletion of objects to the update functions and in the other functions where an object was deleted, I set its ISACTIVE flag off.

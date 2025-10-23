@@ -16,3 +16,9 @@ This week I mainly switched main over to use the new unified object, node, and l
 
 **week 7**
 I've have attempted to create queues and stacks, but I still need to test them. Currently I'm trying and failing to use queues so that the player can have multiple weapons at the same time. I've stumbled upon a weird major bug while doing this, and now I'm trying to find the root cause. Once I've done so I can start working on making main into more of a game and less of a demo, with enemies and a start screen.
+
+**break week 1**
+I've made some small progress this week, mainly updating the player/weapon system. I implemented queues to store weapons in the player, and fixed small bugs as they appeared. I also contributed to Haas' splitting of computation by separating out the rendering code from the object update functions and create a simple function to draw any desired list of objects
+
+**week 8**
+This week I added some simple enemy AI to the game, complimenting Haas' efforts to make a playable game. The AI currently is quite primitive; enemies lock onto the closest target and fire once in range. There are plenty of improvements left of make, like more natural targeting and movement, and changing it so they don't just fly downward into the endless void. A large portion of my time was spent debugging the C compiler to fix the most niche of and easily avoidable edge cases.

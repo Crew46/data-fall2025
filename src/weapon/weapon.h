@@ -36,6 +36,7 @@ struct Weapon {
     float maxShootCooldownTime; //shoot cooldown in seconds
     float shootCooldownElapsed; //seconds elapsed since last shot
     float lifetime; // Lifetime of the weapon's projectile in seconds
+    float despawnTimer;
     bool isFiring;
     int  xOffset;
     int  yOffset;
@@ -129,7 +130,20 @@ void WeaponUpdate(Weapon* weapon)
 {
     //logical operations here
     WeaponShoot(weapon);
-    weapon->shootCooldownElapsed -= 1.0/60.0 * (float)FRAME_SLICES;
+    weapon -> shootCooldownElapsed  -= 1.0/60.0 * (float)FRAME_SLICES;
+
+    if (weapon -> hasOwner)
+    {
+        weapon -> despawnTimer       = 7.5;
+    }
+    else
+    {
+        weapon -> despawnTimer      -= 1.0/60.0 * (float)FRAME_SLICES;
+        if (weapon -> despawnTimer  <  0)
+        {
+            weapon -> object.status |= DELETION_FLAG;
+        }
+    }
 }
 
 //=========================================================

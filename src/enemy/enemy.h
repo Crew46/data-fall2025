@@ -240,20 +240,35 @@ void enemyFindTarget (Enemy *enemy)
     }
 
     enemy -> target                  = bestTarget;
-
-    if(bestDistance                  < 10)
-    {
-        enemyFireWeapons(enemy, true);
-    }
-    else
-    {
-        enemyFireWeapons(enemy, false);
-    }
 }
 
 void enemyAI (Enemy *enemy)
 {
-    int  pick                             = 0;
+    int pick                              = rand () % 24;
+    if (enemy -> object.y                <  20)
+    {
+        enemy -> object.dy = 2;
+    }
+    else if (enemy -> object.y           >  200)
+    {
+        enemy -> object.dy = -2;
+    }
+    else if (pick                        >  21)
+    {
+        enemy -> object.dy = 0;
+    }
+    else if (pick                        >  20)
+    {
+        enemy -> object.dy = 2;
+    }
+    else if (pick                        >  18)
+    {
+        enemy -> object.dy = 1;
+    }
+    else if (pick                        >  16)
+    {
+        enemy -> object.dy = -1;
+    }
 
     enemyFindTarget (enemy);
 
@@ -263,6 +278,8 @@ void enemyAI (Enemy *enemy)
         if (! (target -> status & DELETION_FLAG))
         {
             enemy -> object.dx            = target -> x - enemy -> object.x;
+
+            //Set speed
             if (abs (enemy -> object.dx) <  FRAME_SLICES)
             {
                 enemy -> object.dx        = 0;
@@ -272,21 +289,23 @@ void enemyAI (Enemy *enemy)
                 enemy -> object.dx = min (enemy -> object.dx,  enemy -> object.vx);
                 enemy -> object.dx = max (enemy -> object.dx, -enemy -> object.vx);
             }
-        }
-    }
 
-    pick                                  = rand () % 24;
-    if (pick                             >  20)
-    {    
-        enemy -> object.dy = 0;
-    }
-    else if (pick                        >  12)
-    {
-        enemy -> object.dy = 2;
-    }
-    else
-    {
-        enemy -> object.dy = 1;
+            //Set firing and rush attack
+            int distance                  = abs(enemy->object.x - enemy->target->x);
+            if (distance                 <  10)
+            {
+                enemyFireWeapons(enemy, true);
+                if (pick                 <  10 &&
+                    enemy -> object.x    <  250)
+                {
+                    enemy -> object.dy    = 3;
+                }
+            }
+            else
+            {
+                enemyFireWeapons(enemy, false);
+            }
+        }
     }
 }
 

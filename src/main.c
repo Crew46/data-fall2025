@@ -387,6 +387,9 @@ while (status == 0x00000000)
 					if (value == 0x00000010)
 					{
 						tmp->isActive = false;
+						select_texture (EXPLOSION_TEXTURE);
+						select_region (EXPLOSION_REGION);
+						draw_region_at (tmp->x,tmp->y);
 						score = score + tmp->points;
 						playAudio (2, 2, false, 0.1);
 					}

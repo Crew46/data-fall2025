@@ -37,10 +37,10 @@
 //
 // part 4: instance management API
 //
-//         Player *CreatePlayer                 (int textureID, int regionID,
-//                                               int x,         int y,
-//                                               int status,    float maxShootCooldownTime,
-//                                               int gamepadID);
+//         Player *CreatePlayer (int textureID, int regionID,
+//                               int x,         int y,
+//                               int status,    float maxShootCooldownTime,
+//                               int gamepadID);
 //         void    DeconstructPlayer               (Player *player);
 //         void    DeconstructPlayerAndWeapon      (Player *player);
 //         void    DeconstructAllPlayers           (void);
@@ -145,13 +145,11 @@ void playerGrabWeapon (Player *player)
 {
     Node   *currentNode                      = GetWeaponList() -> head;
     Weapon *weapon                           = NULL;
-    Node   *nextNode                         = NULL;
     int     newStatus                        = 0;
     int     tmpStatus                        = 0;
 
     while (currentNode                      != NULL)
     {
-        nextNode                             = currentNode -> next;
         weapon                               = (Weapon *) currentNode -> data;
 
         if(weapon -> hasOwner               == false)
@@ -178,7 +176,7 @@ void playerGrabWeapon (Player *player)
             }
         }
 
-        currentNode                          = nextNode;
+        currentNode                          = currentNode -> next;
     }
 }
 
@@ -186,7 +184,6 @@ void setPlayerWeaponPositions (Player *player)
 {
     int     team                   = 0;
     Node   *currentNode            = player -> weapons -> list -> head;
-    Node   *nextNode               = NULL;
     Weapon *currentWeapon          = NULL;
 
     team                           = (player -> object.status & TeamFlagMask);
@@ -194,7 +191,6 @@ void setPlayerWeaponPositions (Player *player)
 
     while (currentNode            != NULL)
     {
-        nextNode                   = currentNode -> next;
         currentWeapon              = (Weapon *) currentNode -> data;
 
         int  realX                 = currentWeapon -> xOffset;
@@ -216,26 +212,21 @@ void setPlayerWeaponPositions (Player *player)
         currentWeapon -> object.x  = player -> object.x + realX;
         currentWeapon -> object.y  = player -> object.y + realY;
 
-        currentNode                = nextNode;
+        currentNode                = currentNode -> next;
     }
 }
 
 void playerFireWeapons (Player *player)
 {
     bool    fireStatus             = (gamepad_button_a () >  0);
-
     Node   *currentNode            = player -> weapons -> list -> head;
-    Node   *nextNode               = NULL;
     Weapon *currentWeapon          = NULL;
 
     while (currentNode            != NULL)
     {
-        nextNode                   = currentNode -> next;
         currentWeapon              = (Weapon *) currentNode -> data;
-
         currentWeapon -> isFiring  = fireStatus;
-
-        currentNode                = nextNode;
+        currentNode                = currentNode -> next;
     }
 }
 
@@ -278,7 +269,6 @@ void PlayerUpdate (Player *player)
 {
     List *lasers        = GetLaserList ();
     Node *currentNode   = lasers -> head;
-    Node *nextNode      = NULL;
 
     if (player -> object.status & IS_ACTIVE_FLAG)
     {
@@ -290,8 +280,6 @@ void PlayerUpdate (Player *player)
 
     while (currentNode != NULL)
     {
-        nextNode        = currentNode -> next;
-
         if (((currentNode -> data -> status ^ player -> object.status) & TeamFlagMask) != 0)
         {
             if (collisionCheck (&player -> object, currentNode -> data))
@@ -309,7 +297,7 @@ void PlayerUpdate (Player *player)
             }
         }
 
-        currentNode     = nextNode;
+        currentNode     = currentNode -> next;
     }
 }
 
@@ -365,8 +353,7 @@ void DeconstructPlayer (Player *player, int status)
     bool    player_weapon         = false;
     bool    all_weapons           = false;
     Node   *currentNode           = NULL;
-    Node   *nextNode              = NULL;
-	Object *otmp                  = NULL;
+    Object *otmp                  = NULL;
 
     if ((status & ALL_PLAYERS)   == ALL_PLAYERS) 
     {
@@ -374,30 +361,28 @@ void DeconstructPlayer (Player *player, int status)
         currentNode               = playerList -> head;
         just_player               = false;
 
-		while (currentNode       != NULL)
-		{
-			nextNode              = currentNode -> next;
-			DeconstructPlayer ((Player *) currentNode -> data, JUST_PLAYER | NOT_WEAPON);
-			playerList            = obtain (playerList, &currentNode);
-			deleteNode (currentNode);
+        while (currentNode       != NULL)
+        {
+            DeconstructPlayer ((Player *) currentNode -> data, JUST_PLAYER | NOT_WEAPON);
+            playerList            = obtain (playerList, &currentNode);
+            deleteNode (currentNode);
 
-			currentNode           = nextNode;
-		}
+            currentNode           = currentNode -> next;
+        }
     }
 
     if ((status & PLAYER_WEAPON) == PLAYER_WEAPON) 
     {
         currentNode               = player -> weapons -> list -> head;
         player_weapon             = true;
-		while (currentNode       != NULL)
-		{
-			nextNode              = currentNode -> next;
-			otmp                  = currentNode -> data;
+        while (currentNode       != NULL)
+        {
+            otmp                  = currentNode -> data;
 
-			otmp -> status        = otmp -> status | DELETION_FLAG;
+            otmp -> status        = otmp -> status | DELETION_FLAG;
 
-			currentNode           = nextNode;
-		}
+            currentNode           = currentNode -> next;
+        }
     }
 
     if ((status & ALL_WEAPONS)   == ALL_WEAPONS) 
@@ -411,7 +396,8 @@ void DeconstructPlayer (Player *player, int status)
     {
         if (currentNode -> data  != NULL)
         {
-            ((Weapon *) currentNode -> data) -> hasOwner  = false;
+            otmp                  = (Weapon *) currentNode -> data;
+            otmp -> hasOwner      = false;
         }
         currentNode               = dequeue (player -> weapons);
     }
@@ -423,15 +409,11 @@ void DeconstructPlayer (Player *player, int status)
 void DeconstructPlayerAndWeapon (Player *player)
 {
     Node *currentNode                  = player -> weapons -> list -> head;
-    Node *nextNode                     = NULL;
 
     while (currentNode                != NULL)
     {
-        nextNode                       = currentNode -> next;
-
         currentNode -> data -> status |= DELETION_FLAG;
-
-        currentNode                    = nextNode;
+        currentNode                    = currentNode -> next;
     }
 
     DeconstructPlayer (player, JUST_PLAYER | PLAYER_WEAPON);
@@ -441,16 +423,14 @@ void DeconstructAllPlayers ()
 {
     // loop through all instances of players
     Node *currentNode   = playerList -> head;
-    Node *next          = NULL;
 
     while (currentNode != NULL)
     {
-        next            = currentNode -> next;
         DeconstructPlayer ((Player *) currentNode -> data, ALL_PLAYERS);
         playerList      = obtain (playerList, &currentNode);
         deleteNode (currentNode);
 
-        currentNode     = next;
+        currentNode     = currentNode -> next;
     }
 }
 
@@ -458,16 +438,14 @@ void DeconstructAllPlayersAndWeapons ()
 {
     // loop through all instances of players
     Node *currentNode   = playerList -> head;
-    Node *next          = NULL;
 
     while (currentNode != NULL)
     {
-        next            = currentNode -> next;
         DeconstructPlayerAndWeapon ((Player *) currentNode -> data);
         playerList      = obtain (playerList, &currentNode);
         deleteNode (currentNode);
 
-        currentNode     = next;
+        currentNode     = currentNode -> next;
     }
 }
 
@@ -492,11 +470,9 @@ List *GetPlayerList ()
 void UpdateAllPlayers ()
 {
     Node *currentNode            = playerList -> head;
-    Node *nextNode               = NULL;
 
     while (currentNode          != NULL)
     {
-        nextNode                 = currentNode -> next;
         if (currentNode -> data != NULL)
         {
             PlayerUpdate ((Player *) currentNode -> data);
@@ -507,7 +483,7 @@ void UpdateAllPlayers ()
                 deleteNode (currentNode);
             }
         }
-        currentNode              = nextNode;
+        currentNode              = currentNode -> next;
     }
 }
 

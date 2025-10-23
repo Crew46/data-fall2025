@@ -146,13 +146,11 @@ void main (void)
                     currentState           = GAMESTATE_GAMEPLAY;
                     pause_channel  (0);
                     stop_channel   (0);
-                    /*
                     select_sound   (BETTER_THAN_FASTER_THAN_MUSIC);
                     select_channel (0);
                     assign_channel_sound (get_selected_channel (), get_selected_sound ());
                     play_channel (get_selected_channel ());
                     set_channel_loop (true);
-                    */
                     position               = 0;
                     max_obj_vy             = 1;
                     min_obj_vy             = 1;

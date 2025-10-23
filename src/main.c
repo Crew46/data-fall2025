@@ -61,19 +61,6 @@ void main (void)
     
     srand (get_time ());
 
-    // MANY INSTANCES OF PLAYER, WHEN  PLAYER IS CREATED, THE PLAYER FILE
-    // HAS STORED  IT IN A LINKED  LIST TO UPDATE ALL  INSTANCES, ALL YOU
-    // HAVE TO  CALL IS  UpdateAllPlayers(); create  player, which  is an
-    // extension of object, so need to pass in object params.
-
-    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                  PLAYER_FRAME_0,                  // region ID
-                  HALFWAY_ACROSS,                  // starting X
-                  HALFWAY_DOWN,                    // starting Y
-                  IS_ACTIVE_FLAG,                  // status flag bits
-                  1.0,                             // shootCooldown
-                  PLAYER_ONE);                     // gamepad ID
-
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Initialize moving celestial object nodes, inserting into list
@@ -155,6 +142,21 @@ void main (void)
                     max_obj_vy             = 1;
                     min_obj_vy             = 1;
                     vy_obj_factor          = 0;
+
+                    // MANY INSTANCES OF PLAYER,  WHEN PLAYER IS CREATED,
+                    // THE PLAYER FILE HAS STORED  IT IN A LINKED LIST TO
+                    // UPDATE  ALL INSTANCES,  ALL  YOU HAVE  TO CALL  IS
+                    // UpdateAllPlayers();  create  player, which  is  an
+                    // extension  of object,  so need  to pass  in object
+                    // params.
+
+                    CreatePlayer (PLAYER_TEXTURE,                  // texture ID
+                                  PLAYER_FRAME_0,                  // region ID
+                                  HALFWAY_ACROSS,                  // starting X
+                                  HALFWAY_DOWN,                    // starting Y
+                                  IS_ACTIVE_FLAG,                  // status flag bits
+                                  1.0,                             // shootCooldown
+                                  PLAYER_ONE);                     // gamepad ID
                 }
                 break;
         }
@@ -330,16 +332,19 @@ void main (void)
                 break;
 
             case ENEMY_PROCESSING_FRAME:
-                if (enemyList -> qty    <  8)
+                if (currentState         == GAMESTATE_GAMEPLAY)
                 {
-                    CreateEnemy (ENEMY_TEXTURE,                   // texture ID
-                                 ENEMY_REGION,                    // region ID
-                                 rand () % screen_width,          // starting X
-                                 rand () % 120 - 240,             // starting Y
-                                 IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
-                                 1.0);                            // cooldown
+                    if (enemyList -> qty <  8)
+                    {
+                        CreateEnemy (ENEMY_TEXTURE,                   // texture ID
+                                     ENEMY_REGION,                    // region ID
+                                     rand () % screen_width,          // starting X
+                                     rand () % 120 - 240,             // starting Y
+                                     IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
+                                     1.0);                            // cooldown
+                    }
+                    UpdateAllEnemies ();
                 }
-                UpdateAllEnemies ();
                 break;
 
             case AUDIO_PROCESSING_FRAME:

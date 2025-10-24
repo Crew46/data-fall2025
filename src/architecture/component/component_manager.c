@@ -49,7 +49,7 @@ void InitializeComponent(Component* component, ComponentType type)
     component->type = type;
     //not attached to gameobject when created  
     component->gameObject = NULL;
-    DoublyLinkedListInsertToTail(componentManager->componentList, ConstructDoublyNode((Object*)component));
+    DoublyLinkedListInsertToTail(componentManager->componentList, (Object*)component);
 }
 
 Component* ConstructComponent(ComponentType type)

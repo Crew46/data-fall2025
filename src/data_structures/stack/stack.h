@@ -12,7 +12,7 @@ struct Stack
 void Stack(DoublyNode* doublyNode);
 
 //remove node from stack and return it
-DoublyNode* Unstack();
+DoublyNode* Unstack(Stack* stack);
 
 //see the next node in the stack
 DoublyNode* Peak();

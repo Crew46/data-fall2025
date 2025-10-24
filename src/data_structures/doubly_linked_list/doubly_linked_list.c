@@ -21,8 +21,10 @@ void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList)
 ///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void DoublyLinkedListInsert(DoublyLinkedList* list, DoublyNode* place, DoublyNode* newNode)
+void DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
 {
+  DoublyNode* newNode = ConstructDoublyNode(data);
+
   if ((list != NULL) && (newNode != NULL))
   {
     DoublyNode *tmp = NULL;
@@ -52,8 +54,10 @@ void DoublyLinkedListInsert(DoublyLinkedList* list, DoublyNode* place, DoublyNod
   }
 }
 
-void DoublyLinkedListAppend(DoublyLinkedList* list, DoublyNode* place, DoublyNode* newNode)
+void DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
 {
+  DoublyNode* newNode = ConstructDoublyNode(data);
+
   if ((list != NULL) && (newNode != NULL))
   {
     DoublyNode *tmp = NULL;
@@ -82,14 +86,14 @@ void DoublyLinkedListAppend(DoublyLinkedList* list, DoublyNode* place, DoublyNod
   }
 }
 
-void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, DoublyNode* node)
+void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data)
 {
-  DoublyLinkedListInsert(doublyLinkedList, doublyLinkedList->tail, node);
+  DoublyLinkedListInsertToNode(doublyLinkedList, doublyLinkedList->tail, data);
 }
 
-void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, DoublyNode* node)
+void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data)
 {
-  DoublyLinkedListAppend(doublyLinkedList, doublyLinkedList->head, node);
+  DoublyLinkedListAppendToNode(doublyLinkedList, doublyLinkedList->head, data);
 }
 
 #endif // DOUBLY_LINKED_LIST_C

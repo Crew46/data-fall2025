@@ -15,14 +15,15 @@ DoublyLinkedList* ConstructDoublyLinkedList();
 //deconstruct doubly linked list
 void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList);
 
-void DoublyLinkedListAppend(DoublyLinkedList* list, DoublyNode* place, DoublyNode* newNode);
+void DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
 
-void DoublyLinkedListInsert(DoublyLinkedList* list, DoublyNode* place, DoublyNode* newNode);
+void DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
 
 //insert to tail
-void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, DoublyNode* node);
+void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data);
 
 //append to tail
-void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, DoublyNode* node);
+void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data);
+
 
 #endif // DOUBLY_LINKED_LIST_H

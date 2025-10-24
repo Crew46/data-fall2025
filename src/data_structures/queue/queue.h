@@ -5,14 +5,13 @@
 struct Queue
 {
     DoublyLinkedList* list;
-    int size;
     int count;
 };
 
 //add node to queue
-bool Enqueue(Queue* queue, DoublyNode* doublyNode);
+void Enqueue(Queue* queue, DoublyNode* doublyNode);
 
-//remove node from queue and return it
+//remove next node from queue
 DoublyNode* Dequeue(Queue* queue);
 
 //peaks to see the next node in queue

@@ -69,7 +69,7 @@ void InitializeGameObject(GameObject* gameObject)
         gameObject->parent = NULL;
     }
     //add to object list
-    DoublyLinkedListInsertToTail(gameObjectManager->gameObjectList, ConstructDoublyNode((Object*)gameObject));
+    DoublyLinkedListInsertToTail(gameObjectManager->gameObjectList, (Object*)gameObject);
     gameObjectManager->nextGameObjectID++;
 }
 
@@ -148,7 +148,7 @@ void AddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
     Component* component = ConstructComponent(type);
     SetGameObjectOfComponent(component, gameObject);
-    DoublyLinkedListInsertToTail(gameObject->components, ConstructDoublyNode((Object*)component));
+    DoublyLinkedListInsertToTail(gameObject->components, (Object*)component);
 }
 
 //=========================================================
@@ -188,7 +188,7 @@ void UpdateAllGameObjects()
 
 void GameObjectAddChild(GameObject* parent, GameObject* child)
 {
-    DoublyLinkedListInsertToTail(parent->children, ConstructDoublyNode((Object*)child));
+    DoublyLinkedListInsertToTail(parent->children, (Object*)child);
 }
 
 void GameObjectRemoveChild(GameObject* parent, GameObject* child)

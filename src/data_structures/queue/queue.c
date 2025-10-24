@@ -1,9 +1,16 @@
 #ifndef QUEUE_C
 #define QUEUE_C
 #include "queue.h"
+#include "../doubly_linked_list/doubly_linked_list.h"
 
-bool Enqueue()
+void Enqueue(Queue* queue, DoublyNode* doublyNode)
+{
+    DoublyLinkedListAppendNodeToTail(doublyNode);    
+}
+
+DoublyNode* Dequeue(Queue* queue)
 {
 
 }
+
 #endif

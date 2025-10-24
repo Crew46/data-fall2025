@@ -110,8 +110,8 @@ void UpdateGameManager()
     //updates all gameobject in scene, allong with the attatched components to those gameobjects
     UpdateAllGameObjects();
 
-    //PrintGameObjectDataAt(20, 50, player); 
-    //PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
+    PrintGameObjectDataAt(20, 50, player); 
+    PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

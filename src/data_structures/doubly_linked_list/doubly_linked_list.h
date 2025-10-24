@@ -15,6 +15,8 @@ DoublyLinkedList* ConstructDoublyLinkedList();
 //deconstruct doubly linked list
 void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList);
 
+
+
 void DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
 
 void DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
@@ -24,6 +26,9 @@ void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* da
 
 //append to tail
 void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data);
+
+
+void RemoveDataFromDoublyLinkedList(DoublyLinkedList* doublyLinkedList, Object* data);
 
 
 #endif // DOUBLY_LINKED_LIST_H

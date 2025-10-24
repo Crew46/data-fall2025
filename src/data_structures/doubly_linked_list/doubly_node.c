@@ -16,4 +16,14 @@ void DeconstructDoublyNode(DoublyNode* doublyNode)
   free(doublyNode);
 }
 
+void AppendNodeToNode(DoublyNode* nodeToAppendTo, DoublyNode* nodeToAppend)
+{
+
+}
+
+void InsertNodeToNode(DoublyNode* nodeToInsertTo, DoublyNode* nodeToInsert)
+{
+
+}
+
 #endif //DOUBLY_NODE_C

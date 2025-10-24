@@ -34,6 +34,7 @@ void DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Obj
       list->head = newNode;
       list->tail = newNode;
     }
+    //place is head
     else if (place == list->head)
     {
       tmp = list->head;
@@ -58,7 +59,7 @@ void DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Obj
 {
   DoublyNode* newNode = ConstructDoublyNode(data);
 
-  if ((list != NULL) && (newNode != NULL))
+  if ((list != NULL))
   {
     DoublyNode *tmp = NULL;
 
@@ -67,6 +68,7 @@ void DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Obj
       list->head = newNode;
       list->tail = newNode;
     }
+    //if place is tail
     else if (place == list->tail)
     {
       tmp = list->tail;
@@ -94,6 +96,11 @@ void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* da
 void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data)
 {
   DoublyLinkedListAppendToNode(doublyLinkedList, doublyLinkedList->head, data);
+}
+
+void RemoveDataFromDoublyLinkedList(DoublyLinkedList* doublyLinkedList, Object* data)
+{
+
 }
 
 #endif // DOUBLY_LINKED_LIST_C

@@ -10,10 +10,13 @@ struct DoublyNode
 };
 
 DoublyNode* ConstructDoublyNode(Object* data);
+
 void DeconstructDoublyNode(DoublyNode* doublyNode);
 
 void AppendDoublyNodeToDoublyNode(DoublyNode* nodeToAppendTo, DoublyNode* nodeToAppend);
 
 void InsertDoublyNodeToDoublyNode(DoublyNode* nodeToInsertTo, DoublyNode* nodeToInsert);
+
+void RemoveDoublyNodeFromChain(DoublyNode* doublyNode);
 
 #endif // DOUBLY_NODE_H

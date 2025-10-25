@@ -16,9 +16,18 @@ void DeconstructDoublyNode(DoublyNode* doublyNode)
   free(doublyNode);
 }
 
-void AppendDoublyNodeToDoublyNode(DoublyNode* nodeToAppendTo, DoublyNode* nodeToAppend)
+void AppendDoublyNodeToDoublyNode(DoublyNode* place, DoublyNode* newNode)
 {
+  DoublyNode* tmp = place->next;
 
+  if(tmp != NULL)
+  {
+    tmp->prev = newNode;
+  }
+
+  newNode->prev = place;
+  place->next = newNode;
+  newNode->next = tmp;
 }
 
 void InsertDoublyNodeToDoublyNode(DoublyNode* place, DoublyNode* newNode)
@@ -33,6 +42,22 @@ void InsertDoublyNodeToDoublyNode(DoublyNode* place, DoublyNode* newNode)
   newNode->next = place;
   place->prev = newNode;
   newNode->prev = tmp;
+}
+
+void RemoveDoublyNodeFromChain(DoublyNode* node)
+{
+  if(node->prev != NULL)
+  {
+    node->prev->next = node->next;
+  }
+
+  if(node->next != NULL)
+  {
+    node->next->prev = node->prev;
+  }
+
+  node->prev = NULL;
+  node->next = NULL;
 }
 
 #endif //DOUBLY_NODE_C

@@ -57,6 +57,7 @@ void InitializeGameObject(GameObject* gameObject)
     gameObject->components = ConstructDoublyLinkedList();
     //children list
     gameObject->children = ConstructDoublyLinkedList();
+    //if not root game object
     if(gameObjectManager->nextGameObjectID != 0)
     {
         GameObjectAddChild(GetRootGameObject(), gameObject);

@@ -13,7 +13,9 @@
 #define  CREDITS_REGION    4
 #define  SETTINGS_REGION   5
 #define  WEAPON_REGION     6
-#define  LASER_REGION      7
+#define  LAUNCHER_REGION   7
+#define  LASER_REGION      8
+#define  MISSILE_REGION    9
 #define  PLAYER_FRAME_0    20
 #define  PLAYER_FRAME_1    21
 #define  PLAYER_FRAME_2    22
@@ -29,6 +31,11 @@
 #define  STAR0             43
 #define  STAR1             44
 #define  STAR2             45
+#define  EXPLODE_FRAME_0   50
+#define  EXPLODE_FRAME_1   51
+#define  EXPLODE_FRAME_2   52
+#define  EXPLODE_FRAME_3   53
+#define  EXPLODE_FRAME_4   54
 
 void InitializeRegions ()
 {
@@ -92,15 +99,25 @@ void InitializeRegions ()
     select_region (CREDITS_REGION);
     define_region_topleft (0, 48, 191, 71);
 
-    // WEAPON
-    select_texture (WEAPON_TEXTURES );
+    // CANNON
+    select_texture (WEAPON_TEXTURES);
     select_region (WEAPON_REGION);
-    define_region_center (0, 0, 9, 19);
+    define_region_center (0, 0, 8, 19);
+
+    // LAUNCHER
+    select_texture (WEAPON_TEXTURES );
+    select_region (LAUNCHER_REGION);
+    define_region_center (9, 0, 17, 19);
 
     //LASER
     select_texture (LASER_TEXTURES);
     select_region (LASER_REGION);
     define_region_center (0, 0, 9, 19);
+
+    //MISSILE
+    select_texture (LASER_TEXTURES);
+    select_region (MISSILE_REGION);
+    define_region_center (10, 0, 19, 19);
 
     // CELESTIAL_SMALL
     select_texture (CELESTIAL_TEXTURES);
@@ -131,6 +148,10 @@ void InitializeRegions ()
     select_texture (CELESTIAL_TEXTURES);
     select_region (STAR2);
     define_region_center (133, 110, 145, 120);
+
+    // EXPLOSION
+    select_texture (EXPLOSION_TEXTURE);
+    define_region_matrix (EXPLODE_FRAME_0, 0, 0, 31, 31, 15, 15, 5, 1, 0);
 }
 
 #endif // _REGIONS_CONFIGURATIONS_H

@@ -7,7 +7,16 @@
 #include "../vector/vector2.h"
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
+
+enum ProjectileType
+{
+    LASER_TYPE_LASER_CANNON,
+    LASER_TYPE_MISSILE_LAUNCHER,
+    LASER_TYPE_LIGHTNING_ROD,
+};
+
 #include "laser.h"
+#include "missile.h"
 
 //initialize instances list
 List* weaponList = createList();
@@ -118,13 +127,27 @@ void WeaponShoot(Weapon* weapon)
         if(weapon->shootCooldownElapsed <= 0)
         {
             //shoot logic here
-            CreateLaser(LASER_TEXTURES, LASER_REGION, weapon->object.x, weapon->object.y, weapon->object.status, LASER_TYPE_LASER_CANNON, weapon->lifetime);
+            switch (weapon->type)
+            {
+                case WEAPON_TYPE_LASER_CANNON:
+                    CreateLaser(LASER_TEXTURES, LASER_REGION, weapon->object.x, weapon->object.y, weapon->object.status, LASER_TYPE_LASER_CANNON, weapon->lifetime);
+                    break;
+                case WEAPON_TYPE_MISSILE_LAUNCHER:
+                    CreateMissile(LASER_TEXTURES, MISSILE_REGION, weapon->object.x, weapon->object.y, weapon->object.status, LASER_TYPE_MISSILE_LAUNCHER, weapon->lifetime);
+                    break;
+            }
 
             // Reset cooldown
             weapon->shootCooldownElapsed = weapon->maxShootCooldownTime;
         }
     }
 }
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////PART 3: LOGICAL CONNECTION//////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
 
 void WeaponUpdate(Weapon* weapon)
 {

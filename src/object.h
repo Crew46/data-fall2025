@@ -35,18 +35,24 @@
 #define TeamFlagMask   0x000000C
 #define TeamFlagOffset 2
 
-#define SHIPWIDTH      64
-#define SHIPHEIGHT     64
-#define LASERWIDTH     10
-#define LASERHEIGHT    20
-#define WEAPONWIDTH    10
-#define WEAPONHEIGHT   10
+#define SHIPWIDTH       64
+#define SHIPHEIGHT      64
+#define LASERWIDTH      10
+#define LASERHEIGHT     20
+#define MISSILEWIDTH    10
+#define MISSILEHEIGHT   20
+#define EXPLOSIONWIDTH  40
+#define EXPLOSIONHEIGHT 40
+#define WEAPONWIDTH     10
+#define WEAPONHEIGHT    10
 
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
 {
     Object_Type_None,
     Object_Type_Laser,
+    Object_Type_Missile,
+    Object_Type_Explosion,
     Object_Type_Weapon,
     Object_Type_Entity
 };
@@ -154,6 +160,16 @@ bool  collisionCheck (Object *object1, Object *object2)
         object1width          = LASERWIDTH;
         object1height         = LASERHEIGHT;
     }
+    else if (object1 -> type == Object_Type_Missile)
+    {
+        object1width          = MISSILEWIDTH;
+        object1height         = MISSILEHEIGHT;
+    }
+    else if (object1 -> type == Object_Type_Explosion)
+    {
+        object1width          = EXPLOSIONWIDTH;
+        object1height         = EXPLOSIONHEIGHT;
+    }
     else if (object1 -> type == Object_Type_Weapon)
     {
         object1width          = WEAPONWIDTH;
@@ -173,6 +189,16 @@ bool  collisionCheck (Object *object1, Object *object2)
     {
         object2width          = LASERWIDTH;
         object2height         = LASERHEIGHT;
+    }
+    else if (object2 -> type == Object_Type_Missile)
+    {
+        object2width          = MISSILEWIDTH;
+        object2height         = MISSILEHEIGHT;
+    }
+    else if (object2 -> type == Object_Type_Explosion)
+    {
+        object2width          = EXPLOSIONWIDTH;
+        object2height         = EXPLOSIONHEIGHT;
     }
     else if (object2 -> type == Object_Type_Weapon)
     {

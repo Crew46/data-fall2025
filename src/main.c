@@ -216,11 +216,13 @@ void main (void)
                         // influence display layering priority (first being most
                         // backgrounded, last being most foregrounded)
                         //
-                        drawList (GetObjectList ());
-                        drawList (GetPlayerList ());
-                        drawList (GetEnemyList  ());
-                        drawList (GetWeaponList ());
-                        drawList (GetLaserList  ());
+                        drawList (GetObjectList    ());
+                        drawList (GetPlayerList    ());
+                        drawList (GetEnemyList     ());
+                        drawList (GetWeaponList    ());
+                        drawList (GetLaserList     ());
+                        drawList (GetMissileList   ());
+                        drawList (GetExplosionList ());
 
                         ////////////////////////////////////////////////////////////////
                         //
@@ -352,8 +354,10 @@ void main (void)
                 break;
 
             case WEAPON_PROCESSING_FRAME:
-                UpdateAllWeapons ();
-                UpdateAllLasers  ();
+                UpdateAllWeapons    ();
+                UpdateAllLasers     ();
+                UpdateAllMissiles   ();
+                UpdateAllExplosions ();
                 break;
         }
 

@@ -309,17 +309,10 @@ void enemyAI (Enemy *enemy)
     }
 }
 
-void EnemyUpdate (Enemy *enemy)
-{
-    List *lasers        = GetLaserList ();
-    Node *currentNode   = lasers -> head;
 
-    if (enemy -> object.status & IS_ACTIVE_FLAG)
-    {
-        enemyAI (enemy);
-        moveEnemy (enemy);
-        setEnemyWeaponPositions (enemy);
-    }
+void EnemyCheckProjectiles (Enemy* enemy, List* projectiles)
+{
+    Node *currentNode   = projectiles -> head;
 
     while (currentNode != NULL)
     {
@@ -327,12 +320,35 @@ void EnemyUpdate (Enemy *enemy)
         {
             if (collisionCheck (&enemy -> object, currentNode -> data))
             {
-                enemy -> object.status |= DELETION_FLAG;
+                int damage = 1;
+                if(currentNode -> data -> type == Object_Type_Missile)
+                {
+                    damage = 0;
+                    ((Missile *) currentNode -> data)->explode = true;
+                }
+                else
+                {
+                    enemy -> object.status |= DELETION_FLAG;
+                }
+
             }
         }
 
-        currentNode                     = currentNode -> next;
+        currentNode     = currentNode -> next;
     }
+}
+void EnemyUpdate (Enemy *enemy)
+{
+    if (enemy -> object.status & IS_ACTIVE_FLAG)
+    {
+        enemyAI (enemy);
+        moveEnemy (enemy);
+        setEnemyWeaponPositions (enemy);
+    }
+
+    EnemyCheckProjectiles (enemy, GetLaserList     ());
+    EnemyCheckProjectiles (enemy, GetMissileList   ());
+    EnemyCheckProjectiles (enemy, GetExplosionList ());
 }
 
 //=========================================================
@@ -353,7 +369,17 @@ Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float
 
     enemy -> object.dy       = 1;
     enemy -> weapons         = createQueue (3);
-    weapon                   = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
+
+    int pick                 = rand () % 20;
+    if(pick == 0)
+    {
+        weapon               = CreateWeapon (WEAPON_TEXTURES, LAUNCHER_REGION, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_MISSILE_LAUNCHER, maxShootCooldownTime, 2.0);
+    }
+    else
+    {
+        weapon               = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
+    }
+
     enqueue (enemy -> weapons, createNode (&weapon -> object));
     weapon -> hasOwner       = true;
 

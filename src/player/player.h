@@ -265,18 +265,9 @@ void HandleInput (Player *player)
     }
 }
 
-void PlayerUpdate (Player *player)
+void PlayerCheckProjectiles (Player* player, List* projectiles)
 {
-    List *lasers        = GetLaserList ();
-    Node *currentNode   = lasers -> head;
-
-    if (player -> object.status & IS_ACTIVE_FLAG)
-    {
-        //handle input every frame
-        HandleInput (player);
-    }
-
-    player -> invincTimer -= 1.0 / 60.0 * (float)FRAME_SLICES;
+    Node *currentNode   = projectiles -> head;
 
     while (currentNode != NULL)
     {
@@ -284,7 +275,19 @@ void PlayerUpdate (Player *player)
         {
             if (collisionCheck (&player -> object, currentNode -> data))
             {
-                if(player -> invincTimer <= 0.0)
+                int damage = 1;
+                if(currentNode -> data -> type == Object_Type_Missile)
+                {
+                    damage = 0;
+                    ((Missile *) currentNode -> data)->explode = true;
+                }
+                else if(currentNode -> data -> type == Object_Type_Explosion)
+                {
+                    damage = ((Explosion *) currentNode -> data)->damage;
+
+                }
+
+                if(player -> invincTimer <= 0.0 && damage != 0)
                 {
                     player -> invincTimer = 1.0;
                     player -> health--;
@@ -294,11 +297,27 @@ void PlayerUpdate (Player *player)
                 {
                     player -> object.status |= DELETION_FLAG;
                 }
+
             }
         }
 
         currentNode     = currentNode -> next;
     }
+}
+
+void PlayerUpdate (Player *player)
+{
+    if (player -> object.status & IS_ACTIVE_FLAG)
+    {
+        //handle input every frame
+        HandleInput (player);
+    }
+
+    player -> invincTimer -= 1.0 / 60.0 * (float)FRAME_SLICES;
+
+    PlayerCheckProjectiles (player, GetLaserList     ());
+    PlayerCheckProjectiles (player, GetMissileList   ());
+    PlayerCheckProjectiles (player, GetExplosionList ());
 }
 
 //=========================================================

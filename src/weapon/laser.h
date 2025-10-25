@@ -5,8 +5,8 @@
 #include "../vector/vector2.h"
 #include "../object.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
-#include "weapon.h"
 #include "../tools/debugger.h"
+#include "weapon.h"
 
 //initialize instances list
 List* laserList = createList();
@@ -21,16 +21,9 @@ List* laserList = createList();
 ///////////1: Struct/////////////////////////////
 /////////////////////////////////////////////////
 
-enum LaserType
-{
-    LASER_TYPE_LASER_CANNON,
-    LASER_TYPE_MISSILE_LAUNCHER,
-    LASER_TYPE_LIGHTNING_ROD,
-};
-
 struct Laser {
     Object object;
-    LaserType type;
+    ProjectileType type;
     float lifetime; // Lifetime of the laser in seconds
     float age;
 };
@@ -40,7 +33,7 @@ struct Laser {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Laser* CreateLaser(int textureID, int regionID, int x, int y, int status, LaserType type, float lifetime)
+Laser* CreateLaser(int textureID, int regionID, int x, int y, int status, ProjectileType type, float lifetime)
 {
     Laser* laser = (Laser*)malloc(sizeof(Laser));
     initObject(&laser->object, Object_Type_Laser, textureID, regionID, x, y, status);

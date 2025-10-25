@@ -21,41 +21,35 @@ void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList)
 ///////////INSERTION////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-void DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
+bool DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
 {
+  if( data == NULL || list == NULL ) return false;
+
   DoublyNode* newNode = ConstructDoublyNode(data);
 
-  if ((list != NULL) && (newNode != NULL))
+  //list is empty
+  if (list->head == NULL)
   {
-    DoublyNode *tmp = NULL;
-
-    if (list->head == NULL)
-    {
-      list->head = newNode;
-      list->tail = newNode;
-    }
-    //place is head
-    else if (place == list->head)
-    {
-      tmp = list->head;
-      tmp->prev = newNode;
-      newNode->next = tmp;
-      list->head = newNode;
-    }
-    else
-    {
-      tmp = place->prev;
-      tmp->next = newNode;
-      newNode->next = place;
-      place->prev = newNode;
-      newNode->prev = tmp;
-    }
-
-    list->qty = list->qty + 1;
+    list->head = newNode;
+    list->tail = newNode;
   }
+  //place is head
+  else if (place == list->head)
+  {
+    InsertDoublyNodeToDoublyNode(place, newNode);
+    list->head = newNode;
+  }
+  //default case
+  else
+  {
+    InsertDoublyNodeToDoublyNode(place, newNode); 
+  }
+
+  list->qty = list->qty + 1;
+  return true;
 }
 
-void DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
+bool DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
 {
   DoublyNode* newNode = ConstructDoublyNode(data);
 
@@ -88,14 +82,14 @@ void DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Obj
   }
 }
 
-void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data)
+bool DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data)
 {
-  DoublyLinkedListInsertToNode(doublyLinkedList, doublyLinkedList->tail, data);
+  return DoublyLinkedListInsertToNode(doublyLinkedList, doublyLinkedList->tail, data);
 }
 
-void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data)
+bool DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data)
 {
-  DoublyLinkedListAppendToNode(doublyLinkedList, doublyLinkedList->head, data);
+  return DoublyLinkedListAppendToNode(doublyLinkedList, doublyLinkedList->head, data);
 }
 
 void RemoveDataFromDoublyLinkedList(DoublyLinkedList* doublyLinkedList, Object* data)

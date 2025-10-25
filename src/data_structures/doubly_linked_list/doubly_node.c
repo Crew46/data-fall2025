@@ -16,14 +16,23 @@ void DeconstructDoublyNode(DoublyNode* doublyNode)
   free(doublyNode);
 }
 
-void AppendNodeToNode(DoublyNode* nodeToAppendTo, DoublyNode* nodeToAppend)
+void AppendDoublyNodeToDoublyNode(DoublyNode* nodeToAppendTo, DoublyNode* nodeToAppend)
 {
 
 }
 
-void InsertNodeToNode(DoublyNode* nodeToInsertTo, DoublyNode* nodeToInsert)
+void InsertDoublyNodeToDoublyNode(DoublyNode* place, DoublyNode* newNode)
 {
+  DoublyNode* tmp = place->prev;
 
+  if(tmp != NULL)
+  {
+    tmp->next = newNode;
+  }
+
+  newNode->next = place;
+  place->prev = newNode;
+  newNode->prev = tmp;
 }
 
 #endif //DOUBLY_NODE_C

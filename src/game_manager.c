@@ -62,7 +62,7 @@ void InitializeGameManager()
 
     //initialize regions
     InitializeRegions();
-    InitializeAudioManager();
+
     //component-based architecture initialization
     InitializeObjectManager();
     InitializeComponentManager();
@@ -71,6 +71,7 @@ void InitializeGameManager()
     InitializeTransformManager();
     InitializeRenderManager();
     InitializePlayerManager();
+    InitializeAudioManager();
 
     //player creation
     player = ConstructGameObject();

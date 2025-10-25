@@ -12,8 +12,8 @@ struct DoublyNode
 DoublyNode* ConstructDoublyNode(Object* data);
 void DeconstructDoublyNode(DoublyNode* doublyNode);
 
-void AppendNodeToNode(DoublyNode* nodeToAppendTo, DoublyNode* nodeToAppend);
+void AppendDoublyNodeToDoublyNode(DoublyNode* nodeToAppendTo, DoublyNode* nodeToAppend);
 
-void InsertNodeToNode(DoublyNode* nodeToInsertTo, DoublyNode* nodeToInsert);
+void InsertDoublyNodeToDoublyNode(DoublyNode* nodeToInsertTo, DoublyNode* nodeToInsert);
 
 #endif // DOUBLY_NODE_H

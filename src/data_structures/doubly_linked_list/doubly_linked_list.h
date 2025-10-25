@@ -17,15 +17,15 @@ void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList);
 
 
 
-void DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
+bool DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
 
-void DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
+bool DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
 
 //insert to tail
-void DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data);
+bool DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data);
 
 //append to tail
-void DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data);
+bool DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data);
 
 
 void RemoveDataFromDoublyLinkedList(DoublyLinkedList* doublyLinkedList, Object* data);

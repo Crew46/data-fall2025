@@ -3,14 +3,14 @@
 #include "queue.h"
 #include "../doubly_linked_list/doubly_linked_list.h"
 
-void Enqueue(Queue* queue, DoublyNode* doublyNode)
+void Enqueue(Queue* queue, Object* data)
 {
-    DoublyLinkedListAppendNodeToTail(doublyNode);    
+    DoublyLinkedListInsertToTail(queue->list, data);
 }
 
-DoublyNode* Dequeue(Queue* queue)
+Object* Dequeue(Queue* queue)
 {
-
+    RemoveDoublyNodeFromList(queue->list, queue->list->head);     
 }
 
 #endif

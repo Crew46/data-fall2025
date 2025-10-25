@@ -17,8 +17,12 @@ void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList)
   DoublyNode* current = doublyLinkedList->head;
   while (current != NULL)
   {
-
+    DoublyNode* next = current->next;
+    RemoveDoublyNodeFromList(doublyLinkedList, current);
+    DeconstructDoublyNode(current);
+    current = next;
   }
+  free(doublyLinkedList);
 }
 
 ////////////////////////////////////////////////////////////
@@ -90,7 +94,7 @@ bool DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* da
   return DoublyLinkedListAppendToNode(doublyLinkedList, doublyLinkedList->head, data);
 }
 
-bool RemoveDoublyNodeFromList(DoublyLinkedList* list, DoublyNode* node)
+void RemoveDoublyNodeFromList(DoublyLinkedList* list, DoublyNode* node)
 {
   if(node == list->head && node == list->tail)
   {
@@ -112,8 +116,29 @@ bool RemoveDoublyNodeFromList(DoublyLinkedList* list, DoublyNode* node)
   {
     RemoveDoublyNodeFromChain(node);
   }
+}
 
-  return false;
+//remove data from the list
+void RemoveDataFromDoublyLinkedList(DoublyLinkedList* list, Object* data)
+{
+  DoublyNode* nodeOfData = GetDoublyNodeOfData(list, data);
+  RemoveDoublyNodeFromList(list, nodeOfData);
+  DeconstructDoublyNode(nodeOfData);
+}
+
+//get the doubly node that contains the given data
+DoublyNode* GetDoublyNodeOfData(DoublyLinkedList* list, Object* data)
+{
+  DoublyNode* current = list->head;
+  while(current != NULL)
+  {
+    if(current->data == data)
+    {
+      return current;
+    }
+    current = current->next;
+  }
+  return NULL;
 }
 
 #endif // DOUBLY_LINKED_LIST_C

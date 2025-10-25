@@ -23,7 +23,10 @@ bool DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Obj
 bool DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data);
 bool DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data);
 
-bool RemoveDoublyNodeFromList(DoublyLinkedList* list, DoublyNode* node);
+void RemoveDoublyNodeFromList(DoublyLinkedList* list, DoublyNode* node);
 
+DoublyNode* GetDoublyNodeOfData(DoublyLinkedList* list, Object* data);
+
+void RemoveDataFromDoublyLinkedList(DoublyLinkedList* list, Object* data);
 
 #endif // DOUBLY_LINKED_LIST_H

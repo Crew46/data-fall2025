@@ -19,6 +19,7 @@ bool _DoublyLinkedListInsertElementToDoublyNode(DoublyLinkedList* list, DoublyNo
 DoublyNode* _GetDoublyNodeAtIndex(DoublyLinkedList* list, int index);
 void _DetatchDoublyNodeFromDoublyLinkedList(DoublyLinkedList* list, DoublyNode* node);
 void _DestroyDoublyNodeOfDoublyLinkedList(DoublyLinkedList* list, DoublyNode* nodeToDestroy);
+DoublyNode* _GetDoublyNodeOfElement(DoublyLinkedList* list, Object* data);
 
 
 //EXPOSED INTERFACES
@@ -27,7 +28,8 @@ bool DoublyLinkedListInsertElement(DoublyLinkedList* list, int index, Object* da
 bool DoublyLinkedListInsertElementToTail(DoublyLinkedList* doublyLinkedList, Object* data);
 bool DoublyLinkedListAppendElementToHead(DoublyLinkedList* doublyLinkedList, Object* data);
 
-Object* RemoveElementFromDoublyLinkedList(DoublyLinkedList* list, int index);
+Object* RemoveElementAtIndexFromDoublyLinkedList(DoublyLinkedList* list, int index);
+Object* RemoveElementFromDoublyLinkedList(DoublyLinkedList* list, Object* data);
 Object* RemoveElementAtHeadFromDoublyLinkedList(DoublyLinkedList* list);
 Object* RemoveElementAtTailFromDoublyLinkedList(DoublyLinkedList* list);
 

@@ -77,7 +77,9 @@ void DeconstructTransformComponent(TransformComponent* transform)
 
 void UpdateTransformComponent(TransformComponent* transformComponent)
 {
-
+    if(transformComponent != NULL)
+    {
+    }
 }
 // transform component functions
 

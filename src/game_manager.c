@@ -19,7 +19,7 @@
 #include "systems/audio/audio_manager.c"
 #include "systems/rendering/render_manager.c"
 #include "systems/transform/transform_manager.c"
-#include "systems/player/player_manager.c"
+#include "systems/player/player_controller_manager.c"
 #include "vector/vector2.h"
 //physics systems implementations
 #include "systems/physics/collider/collider_manager.c"
@@ -42,10 +42,10 @@ enum GameState
     GAMESTATE_INGAME
 };
 
-GameState currentState;
+GameState currentState = GAMESTATE_MENU;
 
-GameObject* player;
-GameObject* player1;
+GameObject* player = NULL;
+GameObject* player1 = NULL;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -55,11 +55,8 @@ GameObject* player1;
 
 void InitializeGameManager() 
 {
-    //temporary
+    //temporarplayer_managery
     select_gamepad(0);
-
-    // Initialize game manager state
-    currentState = GAMESTATE_MENU;
 
     //initialize regions
     InitializeRegions();
@@ -71,29 +68,29 @@ void InitializeGameManager()
     //systems initialization
     InitializeTransformManager();
     InitializeRenderManager();
-    InitializePlayerManager();
+    InitializePlayerControllerManager();
     InitializeAudioManager();
-
+    
     //player creation
     player = GameObjectManagerConstructGameObject();
     ObjectManagerSetObjectName((Object*)player, "player");
     GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player, RENDER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player, COLLIDER_COMPONENT);
+    //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
     //set position of the transform
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
-    
+
     //player creation
     player1 = GameObjectManagerConstructGameObject();
-    ObjectManagerSetObjectName((Object*)player1, "player");
+    ObjectManagerSetObjectName((Object*)player1, "player1");
     GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player1, RENDER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
+    //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
@@ -120,14 +117,13 @@ void UpdateGameManager()
     select_texture ( BACKGROUND_TEXTURE );
     select_region ( BACKGROUND_REGION );
     draw_region_at( 0, 0 );
-    UpdateAudioManager();
 
     //updates all gameobject in scene, allong with the attatched components to those gameobjects
     GameObjectManagerUpdateAllGameObjects();
 
-    //PrintGameObjectDataAt(0, 50, player); 
-    //PrintGameObjectDataAt(200, 50, player1); 
-    //PrintGameObjectDataAt(400, 50, gameObjectManager->root); 
+    PrintGameObjectDataAt(0, 50, player); 
+    PrintGameObjectDataAt(200, 50, player1); 
+    PrintGameObjectDataAt(400, 50, gameObjectManager->root); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

@@ -3,10 +3,15 @@
 #include "misc.h"
 #include "audio.h"
 
-enum SoundEffect
+enum SoundEffectType
 {
     EXPLOSION_SOUND_EFFECT,
     LASER_SOUND_EFFECT
+};
+
+enum SoundEffect
+{
+
 };
 
 enum MusicLoop
@@ -22,10 +27,9 @@ void ChangeMusicLoop(MusicLoop musicLoopToChangeTo)
     currentMusicLoop = musicLoopToChangeTo;
 }
 
-void PlaySoundFx(SoundEffect soundEffect)
+void PlayRandomSFXOfType(SoundEffectType soundEffect)
 {
     //each sound effect has 4 variants, randomize from 0-3.
-    int randomValue = rand() % 4;
     switch (soundEffect)
     {
     case EXPLOSION_SOUND_EFFECT:
@@ -35,6 +39,11 @@ void PlaySoundFx(SoundEffect soundEffect)
     default:
         break;
     }
+}
+
+void PlaySFX(SoundEffect sfx)
+{
+
 }
 
 void InitializeAudioManager()

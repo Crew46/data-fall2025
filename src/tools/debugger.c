@@ -146,7 +146,7 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
         }
         gameObjectIndex++;
     }
-    print_at(x + tracking, y + leading * 8, "ParentCID: ");
+    print_at(x + tracking, y + leading * 8, "ParentGID: ");
     //print parent id if there is a parent
     if(gameObject->parent != NULL)
     {

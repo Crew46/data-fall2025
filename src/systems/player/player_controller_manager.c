@@ -1,9 +1,9 @@
-#ifndef PLAYER_MANAGER_C
-#define PLAYER_MANAGER_C
-#include "player_manager.h"
+#ifndef PLAYER_CONTROLLER_MANAGER_C
+#define PLAYER_CONTROLLER_MANAGER_C
+#include "player_controller_manager.h"
 #include "../../architecture/component/component_manager.h"
 
-PlayerManager* playerManager;
+PlayerControllerManager* playerManager;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -11,12 +11,12 @@ PlayerManager* playerManager;
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializePlayerManager()
+void InitializePlayerControllerManager()
 {
-    playerManager = (PlayerManager*)malloc(sizeof(PlayerManager));
+    playerManager = (PlayerControllerManager*)malloc(sizeof(PlayerControllerManager));
 }
 
-void DeinitializePlayerManager()
+void DeinitializePlayerControllerManager()
 {
     //free linked list
     free(playerManager);
@@ -28,7 +28,7 @@ void DeinitializePlayerManager()
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializePlayer(PlayerController* player)
+void InitializePlayerController(PlayerController* player)
 {
     ComponentManagerInitializeComponent((Component*)player, PLAYER_CONTROLLER_COMPONENT);
     player->state = PLAYER_MOVEMENT_STATE_IDLE;
@@ -37,7 +37,7 @@ void InitializePlayer(PlayerController* player)
 PlayerController* ConstructPlayerController()
 {
     PlayerController* player = (PlayerController*)malloc(sizeof(PlayerController));
-    InitializePlayer(player);
+    InitializePlayerController(player);
     return player;
 }
 

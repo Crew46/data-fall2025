@@ -139,7 +139,9 @@ void GameObjectManagerUpdateAllComponentsInGameObject(GameObject* gameObject)
     {
         //set current component to next element in list
         currentComponent = (Component*)currentNode->data;
+
         ComponentManagerUpdateComponent(currentComponent);
+
         //move to next component in list
         currentNode = currentNode->next;
     }
@@ -162,7 +164,7 @@ void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, Component
 void GameObjectManagerGameObjectUpdate(GameObject* gameObject)
 {
     //if game object not null & is active
-    if(gameObject != NULL && gameObject->base.isActive)
+    if(gameObject != NULL && ((Object*)gameObject)->isActive)
     {
         GameObjectManagerUpdateAllComponentsInGameObject(gameObject);
     }

@@ -3,7 +3,7 @@
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
 #include "../../systems/rendering/render_manager.h"
-#include "../../systems/player/player_manager.h"
+#include "../../systems/player/player_controller_manager.h"
 #include "../../systems/physics/collider/collider_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)

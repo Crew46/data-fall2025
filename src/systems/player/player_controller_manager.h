@@ -1,16 +1,16 @@
-#ifndef PLAYER_MANAGER_H
-#define PLAYER_MANAGER_H
+#ifndef PLAYER_CONTROLLER_MANAGER_H
+#define PLAYER_CONTROLLER_MANAGER_H
 #include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 #include "player_controller.h"
 
-struct PlayerManager
+struct PlayerControllerManager
 {
     DoublyLinkedList* playerControllerList;
 };
 
-void InitializePlayerManager();
-void DeinitializePlayerManager();
-void InitializePlayer(PlayerController* player);
+void InitializePlayerControllerManager();
+void DeinitializePlayerControllerManager();
+void InitializePlayerController(PlayerController* player);
 PlayerController* ConstructPlayerController();
 void DeconstructPlayerController(PlayerController* player);
 void UpdatePlayerController(PlayerController* player);

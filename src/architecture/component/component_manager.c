@@ -55,8 +55,11 @@ Component* ComponentManagerConstructComponent(ComponentType type)
 
 void ComponentManagerDeconstructComponent(Component* component)
 {
-    ObjectManagerDeconstructObject((Object*)component);
-    //free struct
+    //remove from component list
+    RemoveElementFromDoublyLinkedList(componentManager->componentList, (Object*)component);
+    //dispatch destruct function to component systems
+    //
+    //
     free(component);
 }
 
@@ -69,7 +72,7 @@ void ComponentManagerDeconstructComponent(Component* component)
 void ComponentManagerUpdateComponent(Component* component)
 {
     //if active, update component
-    if(&component->base.isActive)
+    if(component != NULL && ((Object*)component)->isActive)
     {
         DispatchComponentsUpdateFunction(component);
     }
@@ -85,4 +88,5 @@ void ComponentManagerSetGameObjectOfComponent(Component* component, GameObject* 
 {
     component->gameObject = gameObject;
 }
+
 #endif // COMPONENT_MANAGER_C

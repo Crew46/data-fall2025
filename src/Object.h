@@ -29,6 +29,7 @@ struct Object
     int     texture;
     int     region;
     int     points;
+	int		type;
 	bool    powerup;
 	bool    boss;
     Object *next;

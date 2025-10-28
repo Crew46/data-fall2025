@@ -34,17 +34,17 @@ bool collision (Object *Thing1, Object *Thing2)
 
     return (result);
 }
-Object * mkLaser(Object * player)
+Object * mkAmmo(Object * player)
 {
-	Object * laser			= (Object *)malloc(sizeof(Object));
-	laser -> isActive      	= true;
-	laser -> height        	= 3;
-	laser -> width         	= 9;
-	laser -> x             	= player -> x;
-	laser -> y             	= player->y;
-	laser -> next			= NULL;
-	laser -> prev			= NULL;
-return(laser);
+	Object * ammo			= (Object *)malloc(sizeof(Object));
+	ammo  -> isActive      	= true;
+	ammo -> height        	= 3;
+	ammo -> width         	= 9;
+	ammo -> x             	= player -> x;
+	ammo -> y             	= player->y;
+	ammo -> next			= NULL;
+	ammo -> prev			= NULL;
+return(ammo);
 }	
 
 Object * mkPowerup (Object * enemy)
@@ -90,6 +90,21 @@ int bitMasking ( int b , int i)
 	}
 return (value);
 }
+// Make the player
 
+Object * mkPlayer()
+{
+	Object *player       = (Object *) malloc (sizeof (Object) * 1);
+	player-> next 		 = NULL;
+	player-> prev		 = NULL;
+	player-> x			 = 360;
+	player-> y			 = 300;
+	player-> isActive	 = true;
+	player-> height		 = 32;
+	player-> width		 = 32;
+	player -> texture    = PLAYER_TEXTURE;
+	player -> region     = PLAYER_REGION;
+return(player);
+}
 
 #endif  // _FUNCTIONS_H

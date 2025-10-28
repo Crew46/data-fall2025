@@ -12,7 +12,7 @@
 #include "functions.h"
 #include "sounds.h"
 #include "queue.h"
-#define LASERSPEED            1
+#define AMMOSPEED            1
 
 
 void main (void)
@@ -24,7 +24,7 @@ void main (void)
     int              *scoreResult  	= NULL;
     Object           *newNode      	= NULL;
     doublyLinkedList *listA        	= mkList (); // Main enemy list.
-	doublyLinkedList *laserList	   	= mkList (); // laser list.
+	doublyLinkedList *ammoList	   	= mkList (); // laser list.
 	doublyLinkedList *listB			= mkList (); // queue list.
 	doublyLinkedList *listC			= mkList (); // stack list.
 	queue  *myQueue					= mkQueue (listB);
@@ -32,6 +32,7 @@ void main (void)
     Object *tmp             = NULL;
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
+	Object *player			= NULL;
     max                     = 0; 
 
     srand (get_time ());     
@@ -69,15 +70,7 @@ void main (void)
     //
     // Create our player instance
     //
-    Object *player       = (Object *) malloc (sizeof (Object) * 1); 
-    player -> next       = NULL;
-    player -> x          = 360;
-    player -> y          = 300;
-    player -> isActive   = true;
-    player -> height     = 32;
-    player -> width      = 32;
-	player -> texture	 = PLAYER_TEXTURE;
-	player -> region     = PLAYER_REGION;
+    player = mkPlayer ();
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // 
@@ -128,8 +121,8 @@ while (status == 0x00000000)
 
             listA                = clearList(listA);
             listA                = deleteList(listA);
-			laserList			 = clearList(laserList);
-			laserList			 = deleteList(laserList);
+			ammoList			 = clearList(ammoList);
+			ammoList			 = deleteList(ammoList);
 			myQueue				 = deleteQueue(myQueue);
 			myStack				 = deleteStack(myStack);
         }
@@ -176,17 +169,17 @@ while (status == 0x00000000)
         }
 
 // player laser will fire if x is pressed pressed.
-	if(laserList != NULL)
+	if(ammoList != NULL)
 	{	 
         // FIRING THE LASER!!!!!
         if(gamepad_button_a () == true)                
         {
-            newNode		= mkLaser (player);
-			laserList	= appendNode (laserList, laserList->tail, newNode);
+            newNode		= mkAmmo (player);
+			ammoList	= appendNode (ammoList, ammoList->tail, newNode);
 			playAudio (1, 1, false, 0.1);	
         }
         // This will move the laser up. it will deactivate once it goes far enough.
-		tmp				= laserList->head;
+		tmp				= ammoList->head;
 		while(tmp != NULL)
 		{
 		if (tmp -> isActive     == true)
@@ -254,9 +247,9 @@ while (status == 0x00000000)
 
         ///////////////////////////////////////////////////////////////////////////////
         // This draws the laser if it is active.
-     	if(laserList 	!= NULL)
+     	if(ammoList 	!= NULL)
 		{	
-				tmp				= laserList->head;
+				tmp				= ammoList->head;
         		while(tmp 		!= NULL)
 				{
 				
@@ -320,12 +313,12 @@ while (status == 0x00000000)
         print_at (250, 10, scoreResult);
 
         // Make sure that the enemy list and laser lists are not NULL.
-        if (listA      != NULL && laserList != NULL)
+        if (listA      != NULL && ammoList != NULL)
         {
 			tmp	= listA->head;
 				while(tmp != NULL)
 				{
-					tmp2	= laserList->head;
+					tmp2	= ammoList->head;
 					while(tmp2 != NULL)
 					{
 // This checks the enemy to make sure it is not a powerup and that it is active.
@@ -421,9 +414,9 @@ while (status == 0x00000000)
             }
         }
 		// This is used to delete inactive lasers
-		if(laserList != NULL)
+		if(ammoList != NULL)
 		{
-			tmp 					= laserList->head;
+			tmp 					= ammoList->head;
 			while(tmp 	!=	NULL)
 			{
 
@@ -431,9 +424,9 @@ while (status == 0x00000000)
 				{
 					tmp3                = tmp;
 					tmp					= tmp->next;
-					laserList			= obtainNode ( laserList, &tmp3);
-					laserList			= rmNode ( &tmp3, laserList);
-					tmp					= laserList->head;
+					ammoList			= obtainNode ( ammoList, &tmp3);
+					ammoList			= rmNode ( &tmp3, ammoList);
+					tmp					= ammoList->head;
 				}
 				else
 				{

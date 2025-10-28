@@ -28,7 +28,7 @@ void DeinitializeColliderManager()
 
 void InitializeCollider(Collider* collider)
 {
-    InitializeComponent((Component*)collider, COLLIDER_COMPONENT);
+    ComponentManagerInitializeComponent((Component*)collider, COLLIDER_COMPONENT);
     collider->shape = RECTANGLE;
     collider->dimensions.x = 50;
     collider->dimensions.y = 50;
@@ -45,7 +45,7 @@ Collider* ConstructCollider()
 void DeconstructCollider(Collider* collider)
 {
     //free base
-    DeconstructComponent((Component*)collider);
+    ComponentManagerDeconstructComponent((Component*)collider);
     free(collider);
 }
 
@@ -62,7 +62,7 @@ bool CheckIfPointInBoundsOfCircle(Vector2* point, Collider* collider)
 
 bool CheckIfPointInBoundsOfRectangle(Vector2* point, Collider* collider)
 {
-    TransformComponent* transform = (TransformComponent*)GetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
+    TransformComponent* transform = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
     if(transform != NULL && collider != NULL)
     {
         float lengthFromCenterToHorizontalEdge = collider->dimensions.x / 2;
@@ -119,7 +119,7 @@ void ColliderUpdateIfCollision(Collider* collider)
 
 bool ColliderCalculateIfRectangleCollision(Collider* collider)
 {
-    TransformComponent* transformComponent = (TransformComponent*)GetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
+    TransformComponent* transformComponent = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
     TransformComponent* otherTransformComponent = NULL;
     Collider* otherColliderComponent = NULL;
 
@@ -135,8 +135,8 @@ bool ColliderCalculateIfRectangleCollision(Collider* collider)
     while(currentNode != NULL)
     {
         data = (Collider*)currentNode->data;
-        otherTransformComponent = (TransformComponent*)GetComponentFromComponent((Component*)data, TRANSFORM_COMPONENT);
-        otherColliderComponent = (Collider*)GetComponentFromComponent((Component*)data, COLLIDER_COMPONENT);
+        otherTransformComponent = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)data, TRANSFORM_COMPONENT);
+        otherColliderComponent = (Collider*)GameObjectManagerGetComponentFromComponent((Component*)data, COLLIDER_COMPONENT);
 
         //if current gameobject's transform & collider components exist
         if(otherTransformComponent != NULL && otherColliderComponent != NULL)

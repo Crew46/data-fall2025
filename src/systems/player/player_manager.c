@@ -30,7 +30,7 @@ void DeinitializePlayerManager()
 
 void InitializePlayer(PlayerController* player)
 {
-    InitializeComponent((Component*)player, PLAYER_CONTROLLER_COMPONENT);
+    ComponentManagerInitializeComponent((Component*)player, PLAYER_CONTROLLER_COMPONENT);
     player->state = PLAYER_MOVEMENT_STATE_IDLE;
 }
 
@@ -44,7 +44,7 @@ PlayerController* ConstructPlayerController()
 //player controller deconstructor
 void DeconstructPlayerController(PlayerController* player)
 {
-    DeconstructComponent((Component*)player);
+    ComponentManagerDeconstructComponent((Component*)player);
     free(player);
 }
 
@@ -59,7 +59,7 @@ void UpdatePlayerController(PlayerController* playerController)
     //if this component is attatched to an object
     if(((Component*)playerController)->gameObject != NULL)
     {
-        TransformComponent* transform = (TransformComponent*)GameObjectGetComponentByType(((Component*)playerController)->gameObject, TRANSFORM_COMPONENT);
+        TransformComponent* transform = (TransformComponent*)GameObjectManagerGameObjectGetComponentByType(((Component*)playerController)->gameObject, TRANSFORM_COMPONENT);
         Vector2* movement = CreateVector2(0, 0);
         gamepad_direction_normalized(&movement->x, &movement->y);
         Vector2* result = CreateVector2(0, 0);

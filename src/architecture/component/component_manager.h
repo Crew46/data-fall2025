@@ -18,14 +18,14 @@ ComponentManager* GetComponentManager();
 
 
 //component construction & initialization
-void InitializeComponent(Component* component, ComponentType type);
-Component* ConstructComponent(ComponentType type);
-void DeconstructComponent(Component* component);
+void ComponentManagerInitializeComponent(Component* component, ComponentType type);
+Component* ComponentManagerConstructComponent(ComponentType type);
+void ComponentManagerDeconstructComponent(Component* component);
 
 //functions
-void UpdateComponent(Component* component);
+void ComponentManagerUpdateComponent(Component* component);
 
 //component getters & setters
-void SetGameObjectOfComponent(Component* component, GameObject* gameObject);
+void ComponentManagerSetGameObjectOfComponent(Component* component, GameObject* gameObject);
 
 #endif // COMPONENT_MANAGER_H

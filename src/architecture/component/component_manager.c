@@ -27,10 +27,6 @@ void InitializeComponentManager()
 
 void DeinitializeComponentManager(ComponentManager* componentManager)
 {
-    //deconstruct all components in list
-    //here//
-    //free component manager struct
-    free(componentManager);
 }
 
 //=========================================================
@@ -39,10 +35,10 @@ void DeinitializeComponentManager(ComponentManager* componentManager)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializeComponent(Component* component, ComponentType type)
+void ComponentManagerInitializeComponent(Component* component, ComponentType type)
 {
     //initialize base object through object manager
-    InitializeObject(&component->base);
+    ObjectManagerInitializeObject((Object*)component);
     //initialize component
     component->componentID = componentManager->nextComponentID;
     componentManager->nextComponentID++;
@@ -52,17 +48,14 @@ void InitializeComponent(Component* component, ComponentType type)
     DoublyLinkedListInsertElementToTail(componentManager->componentList, (Object*)component);
 }
 
-Component* ConstructComponent(ComponentType type)
+Component* ComponentManagerConstructComponent(ComponentType type)
 {
     return DispatchComponentConstructionFunction(type);
 }
 
-void DeconstructComponent(Component* component)
+void ComponentManagerDeconstructComponent(Component* component)
 {
-    //remove from list
-    //deconstuct
-    //tell object manager to deconstuct object
-    DeconstructObject(&component->base);
+    ObjectManagerDeconstructObject((Object*)component);
     //free struct
     free(component);
 }
@@ -73,7 +66,7 @@ void DeconstructComponent(Component* component)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void UpdateComponent(Component* component)
+void ComponentManagerUpdateComponent(Component* component)
 {
     //if active, update component
     if(&component->base.isActive)
@@ -88,7 +81,7 @@ void UpdateComponent(Component* component)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void SetGameObjectOfComponent(Component* component, GameObject* gameObject)
+void ComponentManagerSetGameObjectOfComponent(Component* component, GameObject* gameObject)
 {
     component->gameObject = gameObject;
 }

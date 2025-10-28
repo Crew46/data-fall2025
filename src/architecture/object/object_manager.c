@@ -36,23 +36,23 @@ void DeinitializeObjectManager()
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializeObject(Object* object)
+void ObjectManagerInitializeObject(Object* object)
 {
-    SetObjectName(object, "unamed");
+    ObjectManagerSetObjectName(object, "unamed");
     object->isActive = true;
     object->objectID = objectManager->nextObjectID;
     objectManager->nextObjectID++;
     DoublyLinkedListInsertElementToTail(objectManager->objectList, object);
 }
 
-Object* ConstructObject()
+Object* ObjectManagerConstructObject()
 {
     Object* object = (Object*)malloc(sizeof(Object));
-    InitializeObject(object);
+    ObjectManagerInitializeObject(object);
     return object;
 }
 
-void DeconstructObject(Object* object)
+void ObjectManagerDeconstructObject(Object* object)
 {
     //remove from linked list
 
@@ -67,7 +67,7 @@ void DeconstructObject(Object* object)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void SetObjectName(Object* object, int* name)
+void ObjectManagerSetObjectName(Object* object, int* name)
 {
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
     strcpy(playerName, name);

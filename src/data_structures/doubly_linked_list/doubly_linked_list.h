@@ -14,11 +14,11 @@ DoublyLinkedList* ConstructDoublyLinkedList();
 void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList);
 
 //NODE MANIPULATIONS
-bool _DoublyLinkedListAppendElementToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
-bool _DoublyLinkedListInsertElementToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
+bool _DoublyLinkedListAppendElementToDoublyNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
+bool _DoublyLinkedListInsertElementToDoublyNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
 DoublyNode* _GetDoublyNodeAtIndex(DoublyLinkedList* list, int index);
 void _DetatchDoublyNodeFromDoublyLinkedList(DoublyLinkedList* list, DoublyNode* node);
-void _DestroyNodeOfDoublyLinkedList(DoublyLinkedList* list, DoublyNode* nodeToDestroy);
+void _DestroyDoublyNodeOfDoublyLinkedList(DoublyLinkedList* list, DoublyNode* nodeToDestroy);
 
 
 //EXPOSED INTERFACES

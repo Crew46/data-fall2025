@@ -13,11 +13,11 @@ struct ObjectManager
 void InitializeObjectManager();
 void DeinitializeObjectManager();
 //object creation
-void InitializeObject(Object* object);
-Object* ConstructObject();
-void DeconstructObject(Object* object);
+void ObjectManagerInitializeObject(Object* object);
+Object* ObjectManagerConstructObject();
+void ObjectManagerDeconstructObject(Object* object);
 //getters and setters
-void SetObjectName(Object* object, int* name);
+void ObjectManagerSetObjectName(Object* object, int* name);
 ObjectManager* GetObjectManager();
 
 #endif // OBJECT_MANAGER_H

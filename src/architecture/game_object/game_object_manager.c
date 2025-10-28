@@ -13,7 +13,7 @@ GameObjectManager* GetGameObjectManager()
     return gameObjectManager;
 }
 
-GameObject* GetRootGameObject()
+GameObject* GameObjectManagerGetRootGameObject()
 {
     return gameObjectManager->root;
 }
@@ -29,8 +29,8 @@ void InitializeGameObjectManager()
     gameObjectManager = (GameObjectManager*)malloc(sizeof(GameObjectManager));
     gameObjectManager->gameObjectList = ConstructDoublyLinkedList();
     gameObjectManager->nextGameObjectID = 0;
-    gameObjectManager->root = ConstructGameObject();
-    SetObjectName((Object*)gameObjectManager->root, "Root");
+    gameObjectManager->root = GameObjectManagerConstructGameObject();
+    ObjectManagerSetObjectName((Object*)gameObjectManager->root, "Root");
 }
 
 void DeinitializeGameObjectManager()
@@ -47,10 +47,10 @@ void DeinitializeGameObjectManager()
 //=========================================================
 
 //initialize game object
-void InitializeGameObject(GameObject* gameObject)
+void GameObjectManagerInitializeGameObject(GameObject* gameObject)
 {
     //initialize base object through object manager
-    InitializeObject(&gameObject->base);
+    ObjectManagerInitializeObject((Object*)gameObject);
     //initialize gameobject
     gameObject->gameObjectID = gameObjectManager->nextGameObjectID;
     //initialize linked list
@@ -60,9 +60,9 @@ void InitializeGameObject(GameObject* gameObject)
     //if not root game object
     if(gameObjectManager->nextGameObjectID != 0)
     {
-        GameObjectAddChild(GetRootGameObject(), gameObject);
+        GameObjectManagerGameObjectAddChild(GameObjectManagerGetRootGameObject(), gameObject);
         //set gameobjects parent to the root
-        gameObject->parent = GetRootGameObject();
+        gameObject->parent = GameObjectManagerGetRootGameObject();
     }
     else
     {
@@ -75,18 +75,18 @@ void InitializeGameObject(GameObject* gameObject)
 }
 
 //construct game object
-GameObject* ConstructGameObject()
+GameObject* GameObjectManagerConstructGameObject()
 {
     GameObject* gameObject = (GameObject*)malloc(sizeof(GameObject));
-    InitializeGameObject(gameObject);
+    GameObjectManagerInitializeGameObject(gameObject);
     return gameObject;
 }
 
 //deconstruct game object
-void DeconstructGameObject(GameObject* gameObject)
+void GameObjectManagerDeconstructGameObject(GameObject* gameObject)
 {
     //deconstruct object through object manager
-    DeconstructObject(&gameObject->base);
+    ObjectManagerDeconstructObject(&gameObject->base);
     //deconstuct all children of linked list
     //here//
 
@@ -101,7 +101,7 @@ void DeconstructGameObject(GameObject* gameObject)
 //=========================================================
 
 //get component of a specific type from a game object
-Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType type)
+Component* GameObjectManagerGameObjectGetComponentByType(GameObject* gameObject, ComponentType type)
 {
     DoublyNode* currentComponentNode = gameObject->components->head; 
     Component* currentComponent = NULL;
@@ -119,17 +119,17 @@ Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType ty
 }
 
 //find a component of a specific type, given a component that belongs to the same game object
-Component* GetComponentFromComponent(Component* component, ComponentType type)
+Component* GameObjectManagerGetComponentFromComponent(Component* component, ComponentType type)
 {
     if(component->gameObject != NULL)
     {
-        return GameObjectGetComponentByType(component->gameObject, type);
+        return GameObjectManagerGameObjectGetComponentByType(component->gameObject, type);
     }
     return NULL;
 }
 
 
-void UpdateAllComponentsInGameObject(GameObject* gameObject)
+void GameObjectManagerUpdateAllComponentsInGameObject(GameObject* gameObject)
 {
     DoublyNode* currentNode = gameObject->components->head;
     Component* currentComponent = NULL;
@@ -139,16 +139,16 @@ void UpdateAllComponentsInGameObject(GameObject* gameObject)
     {
         //set current component to next element in list
         currentComponent = (Component*)currentNode->data;
-        UpdateComponent(currentComponent);
+        ComponentManagerUpdateComponent(currentComponent);
         //move to next component in list
         currentNode = currentNode->next;
     }
 }
 
-void AddComponentToGameObject(GameObject* gameObject, ComponentType type)
+void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
-    Component* component = ConstructComponent(type);
-    SetGameObjectOfComponent(component, gameObject);
+    Component* component = ComponentManagerConstructComponent(type);
+    ComponentManagerSetGameObjectOfComponent(component, gameObject);
     DoublyLinkedListInsertElementToTail(gameObject->components, (Object*)component);
 }
 
@@ -159,17 +159,17 @@ void AddComponentToGameObject(GameObject* gameObject, ComponentType type)
 //=========================================================
 
 //update game object
-void GameObjectUpdate(GameObject* gameObject)
+void GameObjectManagerGameObjectUpdate(GameObject* gameObject)
 {
     //if game object not null & is active
     if(gameObject != NULL && gameObject->base.isActive)
     {
-        UpdateAllComponentsInGameObject(gameObject);
+        GameObjectManagerUpdateAllComponentsInGameObject(gameObject);
     }
 }
 
 //update all gameobjects
-void UpdateAllGameObjects()
+void GameObjectManagerUpdateAllGameObjects()
 {
     DoublyNode* currentNode = gameObjectManager->gameObjectList->head;
     GameObject* currentGameObject = NULL;
@@ -180,24 +180,24 @@ void UpdateAllGameObjects()
         //set current game object to next element in list
         currentGameObject = (GameObject*)currentNode->data;
 
-        GameObjectUpdate(currentGameObject);
+        GameObjectManagerGameObjectUpdate(currentGameObject);
 
         //move to next game object in list
         currentNode = currentNode->next;
     }
 }
 
-void GameObjectAddChild(GameObject* parent, GameObject* child)
+void GameObjectManagerGameObjectAddChild(GameObject* parent, GameObject* child)
 {
     DoublyLinkedListInsertElementToTail(parent->children, (Object*)child);
 }
 
-void GameObjectRemoveChild(GameObject* parent, GameObject* child)
+void GameObjectManagerGameObjectRemoveChild(GameObject* parent, GameObject* child)
 {
 
 }
 
-GameObject* GameObjectGetParent(GameObject* child)
+GameObject* GameObjectManagerGameObjectGetParent(GameObject* child)
 {
     DoublyNode* currentNode = gameObjectManager->gameObjectList->head;
     GameObject* currentGameObject = NULL;

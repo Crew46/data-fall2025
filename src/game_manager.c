@@ -45,6 +45,7 @@ enum GameState
 GameState currentState;
 
 GameObject* player;
+GameObject* player1;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -74,17 +75,30 @@ void InitializeGameManager()
     InitializeAudioManager();
 
     //player creation
-    player = ConstructGameObject();
-    SetObjectName((Object*)player, "player");
-    AddComponentToGameObject(player, TRANSFORM_COMPONENT);
-    AddComponentToGameObject(player, RENDER_COMPONENT);
-    AddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
-    AddComponentToGameObject(player, COLLIDER_COMPONENT);
+    player = GameObjectManagerConstructGameObject();
+    ObjectManagerSetObjectName((Object*)player, "player");
+    GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player, RENDER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player, COLLIDER_COMPONENT);
     //set the region and texture of the render component
-    SetRenderComponentRegion((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
-    SetRenderComponentTexture((RenderComponent*)GameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
+    SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
+    SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
     //set position of the transform
-    TransformComponentSetGlobalPosition((TransformComponent*)GameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
+    TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
+    
+    //player creation
+    player1 = GameObjectManagerConstructGameObject();
+    ObjectManagerSetObjectName((Object*)player1, "player");
+    GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player1, RENDER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
+    //set the region and texture of the render component
+    SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
+    SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
+    //set position of the transform
+    TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player1, TRANSFORM_COMPONENT), 400, 300);
 }
 
 void DeinitializeGameManager()
@@ -109,10 +123,11 @@ void UpdateGameManager()
     UpdateAudioManager();
 
     //updates all gameobject in scene, allong with the attatched components to those gameobjects
-    UpdateAllGameObjects();
+    GameObjectManagerUpdateAllGameObjects();
 
-    PrintGameObjectDataAt(20, 50, player); 
-    PrintGameObjectDataAt(380, 50, gameObjectManager->root); 
+    //PrintGameObjectDataAt(0, 50, player); 
+    //PrintGameObjectDataAt(200, 50, player1); 
+    //PrintGameObjectDataAt(400, 50, gameObjectManager->root); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

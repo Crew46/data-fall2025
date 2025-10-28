@@ -17,25 +17,25 @@ void InitializeGameObjectManager();
 void DeinitializeGameObjectManager();
 
 //gameobject creation
-void InitializeGameObject(GameObject* gameObject);
-GameObject* ConstructGameObject();
-void DeconstructGameObject(GameObject* gameObject);
+void GameObjectManagerInitializeGameObject(GameObject* gameObject);
+GameObject* GameObjectManagerConstructGameObject();
+void GameObjectManagerDeconstructGameObject(GameObject* gameObject);
 
 //gameobject-component related functions
-Component* GameObjectGetComponentByType(GameObject* gameObject, ComponentType type);
-Component* GetComponentFromComponent(Component* component, ComponentType componentType);
-void UpdateAllComponentsInGameObject(GameObject* gameObject);
-void GameObjectUpdate(GameObject* gameObject);
-void UpdateAllGameObjects();
-void AddComponentToGameObject(GameObject* gameObject, ComponentType type);
+Component* GameObjectManagerGameObjectGetComponentByType(GameObject* gameObject, ComponentType type);
+Component* GameObjectManagerGetComponentFromComponent(Component* component, ComponentType componentType);
+void GameObjectManagerUpdateAllComponentsInGameObject(GameObject* gameObject);
+void GameObjectManagerGameObjectUpdate(GameObject* gameObject);
+void GameObjectManagerUpdateAllGameObjects();
+void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type);
 
 //gameobject-gameobject related functions
-void GameObjectAddChild(GameObject* parent, GameObject* child);
-void GameObjectRemoveChild(GameObject* parent, GameObject* child);
-GameObject* GameObjectGetParent(GameObject* child);
+void GameObjectManagerGameObjectAddChild(GameObject* parent, GameObject* child);
+void GameObjectManagerGameObjectRemoveChild(GameObject* parent, GameObject* child);
+GameObject* GameObjectManagerGameObjectGetParent(GameObject* child);
 
 //getters and setters
 GameObjectManager* GetGameObjectManager();
-GameObject* GetRootGameObject();
+GameObject* GameObjectManagerGetRootGameObject();
 
 #endif // GAME_OBJECT_MANAGER_H

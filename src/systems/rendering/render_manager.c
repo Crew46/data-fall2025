@@ -36,8 +36,8 @@ void DeinitializeRenderManager()
 
 void InitializeRenderComponent(RenderComponent* renderComponent, int region, int texture)
 {
-    InitializeComponent((Component*)renderComponent, RENDER_COMPONENT);  
-    SetObjectName((Object*)renderComponent, "Render_Component"); 
+    ComponentManagerInitializeComponent((Component*)renderComponent, RENDER_COMPONENT);  
+    ObjectManagerSetObjectName((Object*)renderComponent, "Render_Component"); 
     renderComponent->regionID = region;
     renderComponent->textureID = texture;
     renderComponent->renderPriority = 0;
@@ -53,7 +53,7 @@ RenderComponent* ConstructRenderComponent()
 
 void DeconstructRenderComponent(RenderComponent* renderComponent)
 {
-    DeconstructComponent(&renderComponent->base);
+    ComponentManagerDeconstructComponent(&renderComponent->base);
     free(renderComponent);
 }
 
@@ -65,7 +65,7 @@ void DeconstructRenderComponent(RenderComponent* renderComponent)
 
 void UpdateRenderComponent(RenderComponent* renderComponent)
 {
-    TransformComponent* transformComponent = (TransformComponent*)GetComponentFromComponent((Component*)renderComponent, TRANSFORM_COMPONENT);
+    TransformComponent* transformComponent = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)renderComponent, TRANSFORM_COMPONENT);
 
     //if able to get transform component
     if(transformComponent != NULL)

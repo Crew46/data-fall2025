@@ -44,7 +44,7 @@ void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList)
   while (current != NULL)
   {
     DoublyNode* next = current->next;
-    _DestroyNodeOfDoublyLinkedList(doublyLinkedList, current);
+    _DestroyDoublyNodeOfDoublyLinkedList(doublyLinkedList, current);
     current = next;
   }
   free(doublyLinkedList);
@@ -52,7 +52,7 @@ void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList)
 
 //node
 
-bool _DoublyLinkedListInsertElementToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
+bool _DoublyLinkedListInsertElementToDoublyNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
 {
   if(data == NULL || list == NULL) return false;
 
@@ -80,7 +80,7 @@ bool _DoublyLinkedListInsertElementToNode(DoublyLinkedList* list, DoublyNode* pl
   return true;
 }
 
-bool _DoublyLinkedListAppendElementToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
+bool _DoublyLinkedListAppendElementToDoublyNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
 {
   if(data == NULL || list == NULL ) return false;
   
@@ -137,7 +137,7 @@ void _DetatchDoublyNodeFromDoublyLinkedList(DoublyLinkedList* list, DoublyNode* 
   list->qty = list->qty - 1;
 }
 
-void _DestroyNodeOfDoublyLinkedList(DoublyLinkedList* list, DoublyNode* nodeToDestroy)
+void _DestroyDoublyNodeOfDoublyLinkedList(DoublyLinkedList* list, DoublyNode* nodeToDestroy)
 {
   _DetatchDoublyNodeFromDoublyLinkedList(list, nodeToDestroy);
   DeconstructDoublyNode(nodeToDestroy);
@@ -165,41 +165,41 @@ DoublyNode* _GetDoublyNodeAtIndex(DoublyLinkedList* list, int index)
 bool DoublyLinkedListAppendElement(DoublyLinkedList* list, int index, Object* data)
 {
   DoublyNode* nodeToAppendTo = _GetDoublyNodeAtIndex(list, index);
-  return _DoublyLinkedListAppendElementToNode(list, nodeToAppendTo, data);
+  return _DoublyLinkedListAppendElementToDoublyNode(list, nodeToAppendTo, data);
 }
 
 bool DoublyLinkedListInsertElement(DoublyLinkedList* list, int index, Object* data)
 {
   DoublyNode* nodeToInsertTo = _GetDoublyNodeAtIndex(list, index);
-  return _DoublyLinkedListInsertElementToNode(list, nodeToInsertTo, data);
+  return _DoublyLinkedListInsertElementToDoublyNode(list, nodeToInsertTo, data);
 }
 
 bool DoublyLinkedListInsertElementToTail(DoublyLinkedList* doublyLinkedList, Object* data)
 {
-  return _DoublyLinkedListInsertElementToNode(doublyLinkedList, doublyLinkedList->tail, data);
+  return _DoublyLinkedListInsertElementToDoublyNode(doublyLinkedList, doublyLinkedList->tail, data);
 }
 
 bool DoublyLinkedListAppendElementToHead(DoublyLinkedList* doublyLinkedList, Object* data)
 {
-  return _DoublyLinkedListAppendElementToNode(doublyLinkedList, doublyLinkedList->head, data);
+  return _DoublyLinkedListAppendElementToDoublyNode(doublyLinkedList, doublyLinkedList->head, data);
 }
 
 Object* RemoveElementFromDoublyLinkedList(DoublyLinkedList* list, int index)
 {
   DoublyNode* nodeToDestroy = _GetDoublyNodeAtIndex(list, index);
   Object* objectToReturn = nodeToDestroy->data;
-  _DestroyNodeOfDoublyLinkedList(list, nodeToDestroy);
+  _DestroyDoublyNodeOfDoublyLinkedList(list, nodeToDestroy);
   return objectToReturn;
 }
 
 Object* RemoveElementAtHeadFromDoublyLinkedList(DoublyLinkedList* list)
 {
-
+  return RemoveElementFromDoublyLinkedList(list, 0);
 }
 
 Object* RemoveElementAtTailFromDoublyLinkedList(DoublyLinkedList* list)
 {
-
+  return RemoveElementFromDoublyLinkedList(list, list->qty-1);
 }
 
 #endif // DOUBLY_LINKED_LIST_C

@@ -30,6 +30,7 @@ struct Object
     int     region;
     int     points;
 	bool    powerup;
+	bool    boss;
     Object *next;
     Object *prev;
 };

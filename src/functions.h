@@ -2,6 +2,8 @@
 #define _FUNCTIONS_H
 
 // functions with no identity will go here.
+
+//Collision function
 bool collision (Object *Thing1, Object *Thing2)
 {
     bool  result                                   = true;
@@ -60,5 +62,34 @@ Object * mkPowerup (Object * enemy)
 	powerup -> prev			= NULL;
 return(powerup);
 }
+
+//Bitmasking functions
+// int b is the mask. int i is the operation number
+int bitMasking ( int b , int i)
+{
+	mask = b;
+// bitwise AND
+	if ( i == 0)
+	{
+	value = status & mask;
+	}
+// bitwise OR
+	if ( i == 1)
+	{
+	value = status | mask;
+	}
+// bitwise XOR
+	if ( i == 2)
+	{
+	value = status ^ mask;
+	}
+// bitwise NOT
+	if ( i == 3)
+	{
+	value = ~status;
+	}
+return (value);
+}
+
 
 #endif  // _FUNCTIONS_H

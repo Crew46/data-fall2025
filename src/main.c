@@ -18,7 +18,7 @@
 void main (void)
 {   
     int               byb          	= 1;
-    int               byn          	= 1;
+//  int               byn          	= 1;
     int               frame        	= 0;
     int               score        	= 0;
     int              *scoreResult  	= NULL;
@@ -119,9 +119,7 @@ while (status == 0x00000000)
     while (true)
     {
         // If the player is inactive. Stop the game
-        mask                     = 0x00000001;
-        value                    = status & mask;
-        if (value               != 0x00000001) // The first bit represents that the game is active.
+        if ( bitMasking (0x00000001, 0)	!= 0x00000001) // The first bit represents that the game is active.
         {
             //Game over fella. Erase everything.
             free (player);
@@ -234,19 +232,16 @@ while (status == 0x00000000)
             //
             // Select texture and region for the player, and draw it
             //
-				mask = 0x00000010;
-				value = status & mask;
-				if (value == 0x00000010)
+				if (bitMasking (0x00000010, 0) == 0x00000010)
 					{
 						player->region = PLAYERSHIELD_REGION;
 					}	
-					if (value == 0x00000010)
+					if (bitMasking (0x00000010,0)  == 0x00000010)
 					{
 						if( time < get_time ())
 						{
 							player->region = PLAYER_REGION;
-							mask = 0x11111101;
-							status = status & mask;
+							status = bitMasking (0x11111101, 0);
 						}
 					}
 
@@ -309,9 +304,7 @@ while (status == 0x00000000)
 
         // This is here to make sure clearlist() and deleteList() is working.
         // Currently works!
-        mask            = 0x00000001;
-        value           = status & mask;
-        if (value      != 0x00000001)
+        if (bitMasking (0x00000001, 0)  != 0x00000001)
         {
             draw_region ();
             set_drawing_point (200, 180);
@@ -376,8 +369,7 @@ while (status == 0x00000000)
       	// This checks for player and enemy collision. If they collide the game ends.
                if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
                 {
-					mask 	= 0x00000010;
-					value	= status & mask;
+					value = bitMasking (0x00000010, 0);
 					if (tmp->powerup == false && value != 0x0000010)// The second bit will represent being immortal. (shield powerup)
 					{
                     player->isActive 	= false;
@@ -397,7 +389,7 @@ while (status == 0x00000000)
 					// If you touch the power up you will become immortal for 5 seconds (For now);
 					if (tmp -> powerup == true)
 					{
-					status = mask | status;
+					status = bitMasking ( 0x00000010, 1);
 					tmp -> isActive	 	= false;
 					time	= get_time () + 5;
 					}

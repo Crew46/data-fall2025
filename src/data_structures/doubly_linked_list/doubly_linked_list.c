@@ -59,7 +59,7 @@ bool DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Obj
 
 bool DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data)
 {
-  if(data == NULL || list == NULL) return false;
+  if(data == NULL || list == NULL ) return false;
   
   DoublyNode* newNode = ConstructDoublyNode(data);
 
@@ -82,6 +82,19 @@ bool DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Obj
   }
 
   list->qty = list->qty + 1;
+  return true;
+}
+
+bool DoublyLinkedListAppend(DoublyLinkedList* list, int index, Object* data)
+{
+  DoublyNode* nodeToAppendTo = GetDoublyNodeOfIndex(list, index);
+  return DoublyLinkedListAppendToNode(list, nodeToAppendTo, data);
+}
+
+bool DoublyLinkedListInsert(DoublyLinkedList* list, int index, Object* data)
+{
+  DoublyNode* nodeToInsertTo = GetDoublyNodeOfIndex(list, index);
+  return DoublyLinkedListInsertToNode(list, nodeToInsertTo, data);
 }
 
 bool DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data)
@@ -94,9 +107,29 @@ bool DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* da
   return DoublyLinkedListAppendToNode(doublyLinkedList, doublyLinkedList->head, data);
 }
 
+DoublyNode* GetDoublyNodeOfIndex(DoublyLinkedList* list, int index)
+{
+  DoublyNode* currentNode = list->head;
+  int currentIndex = 0;
+  while(currentNode != NULL)
+  {
+    if(currentIndex == index)
+    {
+      return currentNode;
+    }
+    currentNode = currentNode->next;
+    currentIndex++;
+  }
+  return NULL;
+}
+
 void RemoveDoublyNodeFromList(DoublyLinkedList* list, DoublyNode* node)
 {
-  if(node == list->head && node == list->tail)
+  if(list == NULL || node == NULL)
+  {
+    return;
+  }
+  else if(node == list->head && node == list->tail)
   {
     list->head = NULL;
     list->tail = NULL;
@@ -116,6 +149,7 @@ void RemoveDoublyNodeFromList(DoublyLinkedList* list, DoublyNode* node)
   {
     RemoveDoublyNodeFromChain(node);
   }
+  list->qty = list->qty - 1;
 }
 
 //remove data from the list

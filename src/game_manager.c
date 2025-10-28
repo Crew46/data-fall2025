@@ -55,6 +55,8 @@ GameObject* player1 = NULL;
 
 void InitializeGameManager() 
 {
+    srand(get_time());
+
     //temporarplayer_managery
     select_gamepad(0);
 

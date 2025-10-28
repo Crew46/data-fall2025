@@ -2,6 +2,7 @@
 #define PLAYER_CONTROLLER_MANAGER_C
 #include "player_controller_manager.h"
 #include "../../architecture/component/component_manager.h"
+#include "../audio/audio_manager.h"
 
 PlayerControllerManager* playerManager;
 
@@ -70,6 +71,12 @@ void UpdatePlayerController(PlayerController* playerController)
         TransformComponentSetGlobalPosition(transform, result2->x, result2->y);
         free(result);
         free(result2);
+
+        if(gamepad_button_a() == 1)
+        {
+            //PlayRandomSFXOfType(EXPLOSION_SOUND_EFFECT);
+            PlayRandomSFXOfType(LASER_SOUND_EFFECT);
+        }
     }
 }
 

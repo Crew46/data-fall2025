@@ -1,19 +1,6 @@
 #ifndef AUDIO_MANAGER_H
 #define AUDIO_MANAGER_H
-
-int numSFX = 8;
-
-enum SFXName
-{
-    LASER_SHOOT_ZERO,
-    LASER_SHOOT_ONE,
-    LASER_SHOOT_TWO,
-    LASER_SHOOT_THREE,
-    EXPLOSION_ZERO,
-    EXPLOSION_ONE,
-    EXPLOSION_TWO,
-    EXPLOSION_THREE
-};
+#include "../../data_structures/doubly_linked_list/doubly_linked_list.h"
 
 enum SFXType
 {
@@ -24,18 +11,17 @@ enum SFXType
 struct SFX
 {
     int id;
-    SFXName Name;
     SFXType type;
 };
 
 struct AudioManager
 {
-    SFX* sfxArray;
+    DoublyLinkedList* sfxList;
 };
 
 //AudioManager* GetAudioManager();
 void PlayRandomSFXOfType(SFXType type);
-void PlaySFX(SFXName id);
+void PlaySFX(int id);
 void InitializeAudioManager();
 void DeInitializeAudioManager();
 void UpdateAudioManager();

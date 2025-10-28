@@ -4,6 +4,8 @@
 #include "misc.h"
 #include "audio.h"
 #include "../../configuration/sound_configurations.h"
+#include "time.h"
+#include "math.h"
 
 AudioManager* audioManager = NULL;
 
@@ -14,12 +16,22 @@ AudioManager* GetAudioManager()
 
 void PlayRandomSFXOfType(SFXType soundEffect)
 {
+    srand(get_time());
+    int randResult = rand() % 4;
     //each sound effect has 4 variants, randomize from 0-3.
     switch (soundEffect)
     {
     case EXPLOSION_SOUND_EFFECT:
+        if(randResult == 0) PlaySFX(EXPLOSION_0);
+        else if(randResult == 1) PlaySFX(EXPLOSION_1);
+        else if(randResult == 2) PlaySFX(EXPLOSION_2);
+        else if(randResult == 3) PlaySFX(EXPLOSION_3);
         break;
     case LASER_SOUND_EFFECT:
+        if(randResult == 0) PlaySFX(LASER_SHOOT_0);
+        else if(randResult == 1) PlaySFX(LASER_SHOOT_1);
+        else if(randResult == 2) PlaySFX(LASER_SHOOT_2);
+        else if(randResult == 3) PlaySFX(LASER_SHOOT_3);
         break;
     default:
         break;
@@ -29,7 +41,7 @@ void PlayRandomSFXOfType(SFXType soundEffect)
 void InitializeAudioManager()
 {
     audioManager = (AudioManager*)malloc(sizeof(AudioManager));
-    audioManager->sfxArray = (SFX*)malloc(sizeof(SFX) * numSFX);
+
     select_sound(THE_ABYSS_MUSIC);
     select_channel(0);
     assign_channel_sound(get_selected_channel(), get_selected_sound());
@@ -37,9 +49,9 @@ void InitializeAudioManager()
     set_channel_loop(true);
 }
 
-void PlaySFX(SFXName id)
+void PlaySFX(int id)
 {
-
+    play_sound(id);
 }
 
 void DeInitializeAudioManager()

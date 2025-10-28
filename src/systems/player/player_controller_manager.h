@@ -14,6 +14,7 @@ void InitializePlayerController(PlayerController* player);
 PlayerController* ConstructPlayerController();
 void DeconstructPlayerController(PlayerController* player);
 void UpdatePlayerController(PlayerController* player);
+void SetPlayerControllerGamepadID(PlayerController* playerController, int id);
 
 
 #endif //PLAYER_MANAGER_H

@@ -13,6 +13,7 @@ struct PlayerController
 {
     Component base;
     PlayerMovementState state; // Current state of the player
+    int gamepadID;
 };
 
 #endif // PLAYER_CONTROLLER_H 

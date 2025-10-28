@@ -55,8 +55,6 @@ GameObject* player1 = NULL;
 
 void InitializeGameManager() 
 {
-    //temporarplayer_managery
-    select_gamepad(0);
 
     //initialize regions
     InitializeRegions();
@@ -78,11 +76,27 @@ void InitializeGameManager()
     GameObjectManagerAddComponentToGameObject(player, RENDER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
     //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
+    //set gamepad of player controller component
+    SetPlayerControllerGamepadID((PlayerController*)GameObjectManagerGameObjectGetComponentByType(player, PLAYER_CONTROLLER_COMPONENT), 0);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
     //set position of the transform
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
+    
+    //player creation
+    player1 = GameObjectManagerConstructGameObject();
+    ObjectManagerSetObjectName((Object*)player1, "player");
+    GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player1, RENDER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
+    //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
+    SetPlayerControllerGamepadID((PlayerController*)GameObjectManagerGameObjectGetComponentByType(player1, PLAYER_CONTROLLER_COMPONENT), 1);
+    //set the region and texture of the render component
+    SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
+    SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
+    //set position of the transform
+    TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player1, TRANSFORM_COMPONENT), 400, 300);
 }
 
 void DeinitializeGameManager()
@@ -109,6 +123,7 @@ void UpdateGameManager()
     GameObjectManagerUpdateAllGameObjects();
 
     PrintGameObjectDataAt(0, 50, player); 
+    PrintGameObjectDataAt(200, 50, player1); 
     PrintGameObjectDataAt(400, 50, gameObjectManager->root); 
 
     //main menu UI

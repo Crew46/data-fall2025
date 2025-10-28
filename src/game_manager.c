@@ -55,8 +55,6 @@ GameObject* player1 = NULL;
 
 void InitializeGameManager() 
 {
-    srand(get_time());
-
     //temporarplayer_managery
     select_gamepad(0);
 
@@ -85,19 +83,6 @@ void InitializeGameManager()
     SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
     //set position of the transform
     TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
-
-    //player creation
-    player1 = GameObjectManagerConstructGameObject();
-    ObjectManagerSetObjectName((Object*)player1, "player1");
-    GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player1, RENDER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
-    //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
-    //set the region and texture of the render component
-    SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
-    SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
-    //set position of the transform
-    TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player1, TRANSFORM_COMPONENT), 400, 300);
 }
 
 void DeinitializeGameManager()
@@ -124,7 +109,6 @@ void UpdateGameManager()
     GameObjectManagerUpdateAllGameObjects();
 
     PrintGameObjectDataAt(0, 50, player); 
-    PrintGameObjectDataAt(200, 50, player1); 
     PrintGameObjectDataAt(400, 50, gameObjectManager->root); 
 
     //main menu UI

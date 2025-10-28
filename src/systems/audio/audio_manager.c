@@ -16,7 +16,6 @@ AudioManager* GetAudioManager()
 
 void PlayRandomSFXOfType(SFXType soundEffect)
 {
-    srand(get_time());
     int randResult = rand() % 4;
     //each sound effect has 4 variants, randomize from 0-3.
     switch (soundEffect)
@@ -42,11 +41,11 @@ void InitializeAudioManager()
 {
     audioManager = (AudioManager*)malloc(sizeof(AudioManager));
 
-    select_sound(THE_ABYSS_MUSIC);
-    select_channel(0);
-    assign_channel_sound(get_selected_channel(), get_selected_sound());
-    play_channel(get_selected_channel());
-    set_channel_loop(true);
+    //select_sound(THE_ABYSS_MUSIC);
+    //select_channel(0);
+    //assign_channel_sound(get_selected_channel(), get_selected_sound());
+    //play_channel(get_selected_channel());
+    //set_channel_loop(true);
 }
 
 void PlaySFX(int id)

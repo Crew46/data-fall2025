@@ -30,6 +30,7 @@ struct Object
     int     region;
     int     points;
 	int		type;
+	int 	damage;
 	bool    powerup;
 	bool    boss;
     Object *next;

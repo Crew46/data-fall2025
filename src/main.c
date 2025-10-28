@@ -39,7 +39,12 @@ void main (void)
 
     scoreResult             = (int *) malloc (sizeof (int) * 10);
 
-   
+// STATUS GUIDE. UPDATE WHEN NEEDED.
+/* 
+	0x00000001 means the game is active.
+	0x00000010 are for powerups.
+	0x00000100 are for weapons.
+*/
 		
 
  
@@ -101,7 +106,7 @@ while (status == 0x00000000)
 	print ( " X TO FIRE LASER ");
 	if (gamepad_button_start () == true)
 		{
-			status = 0x00000001;
+			status = 0x00000101;
 		}
 
 }
@@ -229,7 +234,7 @@ while (status == 0x00000000)
 					{
 						player->region = PLAYERSHIELD_REGION;
 					}	
-					if (bitMasking (0x00000010,0)  == 0x00000010)
+					if (bitMasking (0x00000010, 0)  == 0x00000010)
 					{
 						if( time < get_time ())
 						{
@@ -256,8 +261,8 @@ while (status == 0x00000000)
             		if(tmp->isActive)
             		{
 					
-                		select_texture(LASER_TEXTURE);
-               			select_region(LASER_REGION);
+                		select_texture(tmp->texture);
+               			select_region(tmp->region);
                 		draw_region_at(tmp->x, tmp->y);
             		}
 				tmp	= tmp->next;	
@@ -312,7 +317,7 @@ while (status == 0x00000000)
         itoa (score, scoreResult, 10);
         print_at (250, 10, scoreResult);
 
-        // Make sure that the enemy list and laser lists are not NULL.
+        // Make sure that the enemy list and ammo lists are not NULL.
         if (listA      != NULL && ammoList != NULL)
         {
 			tmp	= listA->head;
@@ -324,9 +329,13 @@ while (status == 0x00000000)
 // This checks the enemy to make sure it is not a powerup and that it is active.
             			if(tmp2->isActive == true && tmp->powerup == false && tmp->isActive == true && collision(tmp2, tmp) )
                 		{    
-                    	tmp->hp         = tmp->hp - 1;
-                    	tmp2->isActive 	= false;
-							if(tmp->hp == 0)
+                    	tmp->hp         = tmp->hp - tmp2 -> damage;
+						tmp2->hp		= tmp2->hp - 1;
+						if (tmp2->hp < 1)
+							{
+							tmp2->isActive = false;
+							}
+							if(tmp->hp < 1)
                     		{
 							score	= score + tmp->points;
                         	tmp->isActive = false;

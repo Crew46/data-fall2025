@@ -34,6 +34,35 @@ bool collision (Object *Thing1, Object *Thing2)
 
     return (result);
 }
+// Bitmasking functions
+// int b is the mask. int i is the operation number
+int bitMasking ( int b, int i)
+{
+	mask = b;
+// bitwise AND
+	if ( i == 0)
+	{
+		value = status & mask;
+	}
+// bitwise OR
+	if ( i == 1)
+	{
+		value = status | mask;
+	}
+// bitwise XOR
+	if ( i == 2)
+	{
+		value = status ^ mask;
+	}
+// bitwise NOT
+	if ( i == 3)
+	{
+		value = ~status;
+	}
+return (value);
+}
+
+// Used to make ammo for the ammo list
 Object * mkAmmo(Object * player)
 {
 	Object * ammo			= (Object *)malloc(sizeof(Object));
@@ -41,9 +70,17 @@ Object * mkAmmo(Object * player)
 	ammo -> height        	= 3;
 	ammo -> width         	= 9;
 	ammo -> x             	= player -> x;
-	ammo -> y             	= player->y;
+	ammo -> y             	= player -> y;
 	ammo -> next			= NULL;
 	ammo -> prev			= NULL;
+	if (bitMasking (0x00000100, 0) == 0x00000100)
+	{
+		ammo -> type = 0;
+		ammo -> texture = LASER_TEXTURE;
+		ammo -> region  = LASER_REGION;
+		ammo -> hp 		= 1;
+		ammo -> damage	= 1;
+	}
 return(ammo);
 }	
 
@@ -63,35 +100,7 @@ Object * mkPowerup (Object * enemy)
 return(powerup);
 }
 
-//Bitmasking functions
-// int b is the mask. int i is the operation number
-int bitMasking ( int b , int i)
-{
-	mask = b;
-// bitwise AND
-	if ( i == 0)
-	{
-	value = status & mask;
-	}
-// bitwise OR
-	if ( i == 1)
-	{
-	value = status | mask;
-	}
-// bitwise XOR
-	if ( i == 2)
-	{
-	value = status ^ mask;
-	}
-// bitwise NOT
-	if ( i == 3)
-	{
-	value = ~status;
-	}
-return (value);
-}
 // Make the player
-
 Object * mkPlayer()
 {
 	Object *player       = (Object *) malloc (sizeof (Object) * 1);

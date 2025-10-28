@@ -17,6 +17,6 @@ void AppendDoublyNodeToDoublyNode(DoublyNode* nodeToAppendTo, DoublyNode* nodeTo
 
 void InsertDoublyNodeToDoublyNode(DoublyNode* nodeToInsertTo, DoublyNode* nodeToInsert);
 
-void RemoveDoublyNodeFromChain(DoublyNode* doublyNode);
+void DetatchDoublyNodeFromChain(DoublyNode* doublyNode);
 
 #endif // DOUBLY_NODE_H

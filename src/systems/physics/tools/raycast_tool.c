@@ -24,7 +24,7 @@ DoublyLinkedList* CastRay(Vector2* vector, Vector2* origin)
             //see if the point on the linear equation is within the bounds of the hitbox of the collider
             if(CheckIfPointInBoundsOfCollider(pointOfPossibleCollision, currentCollider))
             {
-                DoublyLinkedListInsertToTail(list, (Object*)currentCollider);
+                DoublyLinkedListInsertElementToTail(list, (Object*)currentCollider);
             }
             DeconstructVector2(pointOfPossibleCollision);
         }

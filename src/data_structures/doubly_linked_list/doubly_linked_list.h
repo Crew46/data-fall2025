@@ -9,31 +9,30 @@ struct DoublyLinkedList
   int qty;
 };
 
-//create doubly linked list
+//creation
 DoublyLinkedList* ConstructDoublyLinkedList();
-
-//deconstruct doubly linked list
 void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList);
 
-//append & insert data to node
-bool DoublyLinkedListAppendToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
-bool DoublyLinkedListInsertToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
-
-//append & insert data to index
-bool DoublyLinkedListAppend(DoublyLinkedList* list, int index, Object* data);
-bool DoublyLinkedListInsert(DoublyLinkedList* list, int index, Object* data);
-
-//apend & insert data to head and tail
-bool DoublyLinkedListInsertToTail(DoublyLinkedList* doublyLinkedList, Object* data);
-bool DoublyLinkedListAppendToHead(DoublyLinkedList* doublyLinkedList, Object* data);
+//NODE MANIPULATIONS
+bool _DoublyLinkedListAppendElementToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
+bool _DoublyLinkedListInsertElementToNode(DoublyLinkedList* list, DoublyNode* place, Object* data);
+DoublyNode* _GetDoublyNodeAtIndex(DoublyLinkedList* list, int index);
+void _DetatchDoublyNodeFromDoublyLinkedList(DoublyLinkedList* list, DoublyNode* node);
+void _DestroyNodeOfDoublyLinkedList(DoublyLinkedList* list, DoublyNode* nodeToDestroy);
 
 
-DoublyNode* GetDoublyNodeOfIndex(DoublyLinkedList* list, int index);
+//EXPOSED INTERFACES
+bool DoublyLinkedListAppendElement(DoublyLinkedList* list, int index, Object* data);
+bool DoublyLinkedListInsertElement(DoublyLinkedList* list, int index, Object* data);
+bool DoublyLinkedListInsertElementToTail(DoublyLinkedList* doublyLinkedList, Object* data);
+bool DoublyLinkedListAppendElementToHead(DoublyLinkedList* doublyLinkedList, Object* data);
 
-void RemoveDoublyNodeFromList(DoublyLinkedList* list, DoublyNode* node);
+Object* RemoveElementFromDoublyLinkedList(DoublyLinkedList* list, int index);
+Object* RemoveElementAtHeadFromDoublyLinkedList(DoublyLinkedList* list);
+Object* RemoveElementAtTailFromDoublyLinkedList(DoublyLinkedList* list);
 
-DoublyNode* GetDoublyNodeOfData(DoublyLinkedList* list, Object* data);
 
-void RemoveDataFromDoublyLinkedList(DoublyLinkedList* list, Object* data);
+
+
 
 #endif // DOUBLY_LINKED_LIST_H

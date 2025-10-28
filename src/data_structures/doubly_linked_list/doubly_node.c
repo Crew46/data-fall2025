@@ -44,7 +44,7 @@ void InsertDoublyNodeToDoublyNode(DoublyNode* place, DoublyNode* newNode)
   newNode->prev = tmp;
 }
 
-void RemoveDoublyNodeFromChain(DoublyNode* node)
+void DetatchDoublyNodeFromChain(DoublyNode* node)
 {
   if(node->prev != NULL)
   {

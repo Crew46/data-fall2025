@@ -38,7 +38,7 @@ Collider* ConstructCollider()
 {
     Collider* collider = (Collider*)malloc(sizeof(Collider));
     InitializeCollider(collider);
-    DoublyLinkedListInsertToTail(colliderManager->colliderList, (Object*)collider);
+    DoublyLinkedListInsertElementToTail(colliderManager->colliderList, (Object*)collider);
     return collider;
 }
 

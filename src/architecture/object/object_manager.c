@@ -42,7 +42,7 @@ void InitializeObject(Object* object)
     object->isActive = true;
     object->objectID = objectManager->nextObjectID;
     objectManager->nextObjectID++;
-    DoublyLinkedListInsertToTail(objectManager->objectList, object);
+    DoublyLinkedListInsertElementToTail(objectManager->objectList, object);
 }
 
 Object* ConstructObject()

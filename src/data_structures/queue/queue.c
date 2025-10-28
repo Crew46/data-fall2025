@@ -5,12 +5,12 @@
 
 void Enqueue(Queue* queue, Object* data)
 {
-    DoublyLinkedListInsertToTail(queue->list, data);
+    DoublyLinkedListInsertElementToTail(queue->list, data);
 }
 
 Object* Dequeue(Queue* queue)
 {
-    RemoveDoublyNodeFromList(queue->list, queue->list->head);     
+    return RemoveElementAtHeadFromDoublyLinkedList(queue->list);
 }
 
 #endif

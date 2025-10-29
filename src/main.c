@@ -217,7 +217,7 @@ void main (void)
                         // backgrounded, last being most foregrounded)
                         //
                         drawList (GetObjectList    ());
-                        drawList (GetPlayerList    ());
+                        drawPlayers (GetPlayerList ());
                         drawList (GetEnemyList     ());
                         drawList (GetWeaponList    ());
                         drawList (GetLaserList     ());

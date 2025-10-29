@@ -6,6 +6,7 @@
 #include "math.h"
 #include "misc.h"
 #include "video.h"
+#include "time.h"
 
 // project custom libraries
 #include "../object.h"
@@ -111,6 +112,49 @@ void DrawPlayer (Player *player)
 {
     drawObject (&player -> object);
 }
+
+
+void drawPlayers (List* players)
+{
+    Node *currentNode            = players -> head;
+
+    while (currentNode          != NULL)
+    {
+        if (currentNode -> data != NULL)
+        {
+            Player* player       = (Player*)currentNode -> data;
+            if(player -> health <= 1)
+            {
+                int oldColor     = get_multiply_color ();
+                int oldMode      = get_blending_mode ();
+
+                int tmp          = get_frame_counter() * 5;
+                tmp             %= 512;
+                tmp              = abs(256 - tmp);
+
+                int newColor     = 0xFF0000FF;
+                newColor        |= (tmp) << 8;
+                newColor        |= (tmp) << 16;
+
+                set_multiply_color (newColor);
+                set_blending_mode (blending_alpha);
+
+                drawObject (currentNode -> data);
+
+                set_multiply_color (oldColor);
+                set_blending_mode (oldMode);
+
+            }
+            else
+            {
+                drawObject (currentNode -> data);
+            }
+
+            currentNode     = currentNode -> next;
+        }
+    }
+}
+
 
 //=========================================================
 ///////////////////////////////////////////////////////////

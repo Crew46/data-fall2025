@@ -110,7 +110,32 @@ void movePlayer (Player *player)
 
 void DrawPlayer (Player *player)
 {
-    drawObject (&player -> object);
+    if(player -> health <= 1)
+    {
+        int oldColor     = get_multiply_color ();
+        int oldMode      = get_blending_mode ();
+
+        int tmp          = get_frame_counter() * 5;
+        tmp             %= 512;
+        tmp              = abs(256 - tmp);
+
+        int newColor     = 0xFF0000FF;
+        newColor        |= (tmp) << 8;
+        newColor        |= (tmp) << 16;
+
+        set_multiply_color (newColor);
+        set_blending_mode (blending_alpha);
+
+        drawObject (&player -> object);
+
+        set_multiply_color (oldColor);
+        set_blending_mode (oldMode);
+
+    }
+    else
+    {
+        drawObject (&player -> object);
+    }
 }
 
 
@@ -122,34 +147,7 @@ void drawPlayers (List* players)
     {
         if (currentNode -> data != NULL)
         {
-            Player* player       = (Player*)currentNode -> data;
-            if(player -> health <= 1)
-            {
-                int oldColor     = get_multiply_color ();
-                int oldMode      = get_blending_mode ();
-
-                int tmp          = get_frame_counter() * 5;
-                tmp             %= 512;
-                tmp              = abs(256 - tmp);
-
-                int newColor     = 0xFF0000FF;
-                newColor        |= (tmp) << 8;
-                newColor        |= (tmp) << 16;
-
-                set_multiply_color (newColor);
-                set_blending_mode (blending_alpha);
-
-                drawObject (currentNode -> data);
-
-                set_multiply_color (oldColor);
-                set_blending_mode (oldMode);
-
-            }
-            else
-            {
-                drawObject (currentNode -> data);
-            }
-
+            DrawPlayer((Player*)currentNode -> data);
             currentNode     = currentNode -> next;
         }
     }

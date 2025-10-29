@@ -5,12 +5,12 @@
 #include "string.h"
 #include "audio.h"
 #include "Object.h"
+#include "sounds.h"
 #include "visuals.h"
 #include "node.h"
 #include "linkedlist.h"
 #include "stack.h"
 #include "functions.h"
-#include "sounds.h"
 #include "queue.h"
 #define AMMOSPEED            1
 
@@ -20,7 +20,6 @@ void main (void)
     int               byb          	= 1;
 //  int               byn          	= 1;
     int               frame        	= 0;
-    int               score        	= 0;
     int              *scoreResult  	= NULL;
     Object           *newNode      	= NULL;
     doublyLinkedList *listA        	= mkList (); // Main enemy list.
@@ -32,8 +31,10 @@ void main (void)
     Object *tmp             = NULL;
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
+	Object *tmp4 			= NULL;
 	Object *player			= NULL;
     max                     = 0; 
+	score 					= 0;
 
     srand (get_time ());     
 
@@ -341,19 +342,16 @@ while (status == 0x00000000)
                     	tmp->hp         = tmp->hp - tmp2 -> damage;
 						tmp2->hp		= tmp2->hp - 1;
 						if (tmp2->hp < 1)
+						{
+							if (tmp2 ->type == 0)
 							{
-							tmp2->isActive = false;
+								tmp2->isActive = false;
 							}
+						}
 							if(tmp->hp < 1)
                     		{
-							score	= score + tmp->points;
-                        	tmp->isActive = false;
-                        	counter = counter + 8;
-							playAudio(2, 2, false, 0.1);
-// Explosion texture and rng powerups.	
-							select_texture ( EXPLOSION_TEXTURE);
-							select_region ( EXPLOSION_REGION);
-							draw_region_at (tmp-> x, tmp->y);	
+// Function to update the deactivated enemy
+							tmp = explosion (tmp);
 							b = rand () % ( 100 + 1);
 							if( b  > 95)
 							{
@@ -363,6 +361,31 @@ while (status == 0x00000000)
 							listA	= appendNode ( listA, listA->tail, tmp3);
 							}
 						
+							}
+							if ( tmp2 -> type == 1)
+							{
+								tmp4 = listA->head;
+								tmp2 -> width = tmp2-> width + 60;
+								tmp2 -> height= tmp2-> height + 60;
+								while( tmp4 != NULL)
+								{
+// Explosion size.
+									if(tmp2->isActive == true && tmp4->powerup == false && tmp4->isActive == true && collision(tmp2, tmp4) )
+									{
+										tmp4 -> hp = tmp4-> hp - tmp2->damage;
+										tmp4 = explosion (tmp4);
+										b = rand () % ( 100 + 1);
+										if( b  > 95)
+										{
+											newNode = mkPowerup (tmp);
+											myStack = push (myStack, newNode);
+											myStack = pop  (myStack, &(tmp3));
+											listA   = appendNode ( listA, listA->tail, tmp3);
+										}
+									}
+								tmp4 = tmp4->next;
+								}
+								tmp2 -> isActive = false;
 							}
 						}
 					tmp2 = tmp2->next;

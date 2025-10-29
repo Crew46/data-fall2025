@@ -5,7 +5,7 @@
 int status;   // status will be used to trigger certain flags
 int mask;     // mask will change the value of status.
 int value;    // value is used to check to see if the values match for a flag.
-
+int score;
 int counter;
 int max;
 int i; // used for queue stuff;

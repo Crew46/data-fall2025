@@ -155,4 +155,19 @@ int changeWeapon()
 */
 return (status);
 }
+Object * explosion ( Object * tmp)
+{
+	if (tmp->hp < 1)
+	{
+	score   = score + tmp->points;
+	tmp->isActive = false;
+	counter = counter + 8;
+	playAudio(2, 2, false, 0.1);
+// Explosion texture and rng powerups
+	select_texture ( EXPLOSION_TEXTURE);
+	select_region ( EXPLOSION_REGION);
+	draw_region_at (tmp-> x, tmp->y);
+	}
+return (tmp);
+}
 #endif  // _FUNCTIONS_H

@@ -44,3 +44,6 @@ I got a laser list up and running. Queue is up and running. Stack is up and runn
 powerups (currently only a shield). I got audio up and running for my branch. There are explosions, music, and laser sounds. I made a quick main screen for my branch.
 I also made mkLaser () and mkPowerup () functions to make things easier. I also expanded on some sprites. Player now has a shielded sprite and EnemyB has damaged states.
 
+
+Week 8
+I took off developer mode and made things a little neater for the open house during the first part of the week and during the second half I started working towards more weapon types. I also made a bitMasking function and a function that changes weapons when z is pressed. I made a texture for the rocket and it seems to work like a laser for now. I had to make some changes towards weapons such as them now having hp values. The bitMasking function currently uses AND, OR, XOR, and NOT depending on the number given.

@@ -78,7 +78,6 @@ void InitializeGameManager()
     GameObjectManagerAddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
     //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
     //set gamepad of player controller component
-    SetPlayerControllerGamepadID((PlayerController*)GameObjectManagerGameObjectGetComponentByType(player, PLAYER_CONTROLLER_COMPONENT), 0);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
@@ -92,7 +91,6 @@ void InitializeGameManager()
     GameObjectManagerAddComponentToGameObject(player1, RENDER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
     //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
-    SetPlayerControllerGamepadID((PlayerController*)GameObjectManagerGameObjectGetComponentByType(player1, PLAYER_CONTROLLER_COMPONENT), 1);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);

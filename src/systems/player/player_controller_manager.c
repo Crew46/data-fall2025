@@ -3,6 +3,7 @@
 #include "player_controller_manager.h"
 #include "../../architecture/component/component_manager.h"
 #include "../audio/audio_manager.h"
+#include "../input/input_controller_manager.h"
 
 PlayerControllerManager* playerManager;
 
@@ -33,7 +34,6 @@ void InitializePlayerController(PlayerController* player)
 {
     ComponentManagerInitializeComponent((Component*)player, PLAYER_CONTROLLER_COMPONENT);
     player->state = PLAYER_MOVEMENT_STATE_IDLE;
-    player->gamepadID = 0;
 }
 
 PlayerController* ConstructPlayerController()
@@ -56,18 +56,11 @@ void DeconstructPlayerController(PlayerController* player)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void SetPlayerControllerGamepadID(PlayerController* playerController, int id)
-{
-    playerController->gamepadID = id;
-}
-
 void UpdatePlayerController(PlayerController* playerController)
 {
     //if this component is attatched to an object
     if(((Component*)playerController)->gameObject != NULL)
     {
-        select_gamepad(playerController->gamepadID);
-
         TransformComponent* transform = (TransformComponent*)GameObjectManagerGameObjectGetComponentByType(((Component*)playerController)->gameObject, TRANSFORM_COMPONENT);
         Vector2* movement = CreateVector2(0, 0);
         gamepad_direction_normalized(&movement->x, &movement->y);
@@ -80,10 +73,14 @@ void UpdatePlayerController(PlayerController* playerController)
         free(result);
         free(result2);
 
-        if(gamepad_button_a() == 1)
+        InputController* input = (InputController*)GameObjectManagerGameObjectGetComponentByType(((Component*)playerController)->gameObject, INPUT_CONTROLLER_COMPONENT);
+        if(input != NULL)
         {
-            //PlayRandomSFXOfType(EXPLOSION_SOUND_EFFECT);
-            PlayRandomSFXOfType(LASER_SOUND_EFFECT);
+            if(InputManagerGetButtonValueOfInputController(input, GAMEPAD_BUTTON_X) == 1)
+            {
+                //PlayRandomSFXOfType(EXPLOSION_SOUND_EFFECT);
+                PlayRandomSFXOfType(LASER_SOUND_EFFECT);
+            }
         }
     }
 }

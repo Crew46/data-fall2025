@@ -1,7 +1,7 @@
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
 #include "../../architecture/component/component.h"
-#include "../input/input_controller_manager.h"
+#include "../input/input_controller.h"
 
 enum PlayerMovementState
 {
@@ -14,7 +14,6 @@ struct PlayerController
 {
     Component base;
     PlayerMovementState state; // Current state of the player
-    int gamepadID;
 };
 
 #endif // PLAYER_CONTROLLER_H 

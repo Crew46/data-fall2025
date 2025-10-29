@@ -2,6 +2,7 @@
 #define INPUT_CONTROLLER_MANAGER_C
 #include "input_controller_manager.h"
 #include "../../architecture/component/component_manager.h"
+#include "input.h"
 
 InputManager* inputManager = NULL;
 
@@ -49,29 +50,39 @@ void InputManagerUpdateInputController(InputController* inputController)
 
 int InputManagerGetButtonValueOfInputController(InputController* inputController, GamepadButton button)
 {
-    switch (button)
+    //input to return for gamepad controllers
+    if(inputController->type = GAMEPAD)  
     {
-    case GAMEPAD_BUTTON_A:
-        return inputController->input.buttonA;
+        select_gamepad(inputController->gamepad);
+        switch (button)
+        {
+        case GAMEPAD_BUTTON_A:
+            return inputController->input.buttonA;
+            break;
+        case GAMEPAD_BUTTON_B:
+            return inputController->input.buttonB;
+            break;
+        case GAMEPAD_BUTTON_X:
+            return inputController->input.buttonX;
         break;
-    case GAMEPAD_BUTTON_B:
-        return inputController->input.buttonB;
-        break;
-    case GAMEPAD_BUTTON_X:
-        return inputController->input.buttonX;
-        break;
-    case GAMEPAD_BUTTON_Y:
-        return inputController->input.buttonY;
-        break;
-    case GAMEPAD_BUTTON_L:
-        return inputController->input.buttonL;
-        break;
-    case GAMEPAD_BUTTON_R:
-        return inputController->input.buttonR;
-        break;
-    case GAMEPAD_BUTTON_START:
-        return inputController->input.buttonStart;
-        break;
+        case GAMEPAD_BUTTON_Y:
+            return inputController->input.buttonY;
+            break;
+        case GAMEPAD_BUTTON_L:
+            return inputController->input.buttonL;
+            break;
+        case GAMEPAD_BUTTON_R:
+            return inputController->input.buttonR;
+            break;
+        case GAMEPAD_BUTTON_START:
+            return inputController->input.buttonStart;
+            break;
+        }
+    }
+    //input to return for ship cpu
+    else if(inputController->type = SHIP_CPU)
+    {
+
     }
 }
 

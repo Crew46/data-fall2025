@@ -67,19 +67,29 @@ Object * mkAmmo(Object * player)
 {
 	Object * ammo			= (Object *)malloc(sizeof(Object));
 	ammo  -> isActive      	= true;
-	ammo -> height        	= 3;
-	ammo -> width         	= 9;
 	ammo -> x             	= player -> x;
 	ammo -> y             	= player -> y;
 	ammo -> next			= NULL;
 	ammo -> prev			= NULL;
 	if (bitMasking (0x00000100, 0) == 0x00000100)
 	{
-		ammo -> type = 0;
+		ammo -> type	= 0;
+		ammo -> height 	= 3;
+		ammo -> width   = 9;
 		ammo -> texture = LASER_TEXTURE;
 		ammo -> region  = LASER_REGION;
 		ammo -> hp 		= 1;
 		ammo -> damage	= 1;
+	}
+	if (bitMasking (0x00000200, 0) == 0x000000200)
+	{
+		ammo -> type 	= 1;
+		ammo -> width   = 12;
+		ammo -> height  = 12;
+		ammo -> texture = ROCKET_TEXTURE;
+		ammo -> region  = ROCKET_REGION;
+		ammo -> hp	    = 1;
+		ammo -> damage  = 1;
 	}
 return(ammo);
 }	
@@ -115,5 +125,34 @@ Object * mkPlayer()
 	player -> region     = PLAYER_REGION;
 return(player);
 }
-
+int changeWeapon()
+{
+// laser into rocket
+		if (bitMasking( 0x00000100, 0) == 0x00000100)
+		{
+// We will reset the weapon status to put a new weapon.
+			status = bitMasking( 0x11111011, 0);
+			status = bitMasking( 0x00000200, 1);
+		}
+// rocket into laser for now
+		else if (bitMasking( 0x00000200, 0) == 0x00000200)
+		{
+			status = bitMasking( 0x11111011, 0);
+			status = bitMasking( 0x00000100, 1);
+		}
+// The rest will be used once enemies are added.
+/*
+		else if (bitMasking( 0x00000300, 0) == 0x00000300)
+		{
+			status = bitMasking( 0x11111011, 0);
+			status = bitMasking( 0x00000400, 1);
+		}
+		else if (bitMasking( 0x00000400, 0) == 0x00000400)
+		{
+			status = bitMasking( 0x11111011, 0);
+			status = bitMasking( 0x00000100, 1);
+		}
+*/
+return (status);
+}
 #endif  // _FUNCTIONS_H

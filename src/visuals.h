@@ -10,6 +10,7 @@
 #define ENEMYB_TEXTURE		5
 #define SHIELD_TEXTURE 		6
 #define EXPLOSION_TEXTURE   7
+#define ROCKET_TEXTURE      8
 
 #define BACKGROUND_REGION	0
 #define NEBULA_REGION    	1
@@ -22,6 +23,7 @@
 #define SHIELD_REGION		8
 #define PLAYERSHIELD_REGION 9
 #define EXPLOSION_REGION    10
+#define ROCKET_REGION      11
 
 #define LASERSPEED 			1
 
@@ -46,7 +48,7 @@ void visuals(void)
 	select_texture (ENEMYA_TEXTURE);
 	select_region (ENEMYA_REGION);
 	define_region_center (0, 0 , 9, 9 );
-// Player laser
+//laser ammo
 	select_texture (LASER_TEXTURE);
 	select_region (LASER_REGION);
 	define_region_center (0 ,0 , 3, 9);
@@ -66,6 +68,10 @@ void visuals(void)
 	select_texture ( EXPLOSION_TEXTURE);
 	select_region ( EXPLOSION_REGION);
 	define_region_center (0, 0, 19, 19);
+// Rocket ammo
+	select_texture ( ROCKET_TEXTURE);
+	select_region ( ROCKET_REGION);
+	define_region_center (0, 0, 11, 11);
 }
 
 Object * updateVisuals(Object * enemy)

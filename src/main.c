@@ -104,6 +104,8 @@ while (status == 0x00000000)
 	draw_region ();
 	set_drawing_point ( 200, 250);
 	print ( " X TO FIRE LASER ");
+	set_drawing_point ( 200, 350);
+	print (" Z TO CHANGE WEAPONS");
 	if (gamepad_button_start () == true)
 		{
 			status = 0x00000101;
@@ -172,12 +174,19 @@ while (status == 0x00000000)
             player -> x            = player -> x + player -> xdir * 3;
             player -> y            = player -> y + player -> ydir * 3;
         }
+	if (gamepad_button_b () == true)
+	{
+		status == changeWeapon ();
+	}
+	
+
+
 
 // player laser will fire if x is pressed pressed.
-	if(ammoList != NULL)
+	if (ammoList != NULL)
 	{	 
         // FIRING THE LASER!!!!!
-        if(gamepad_button_a () == true)                
+        if (gamepad_button_a () == true)                
         {
             newNode		= mkAmmo (player);
 			ammoList	= appendNode (ammoList, ammoList->tail, newNode);

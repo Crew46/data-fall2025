@@ -1,24 +1,26 @@
 #ifndef AUDIO_MANAGER.H
 #define AUDIO_MANAGER.H
 
-enum SFX_EVENT
+
+enum SfxEvent
 {
-  SFX_SHOOT_PLAYER,
+  SFX_SHOOT_PLAYER = 1,
   SFX_SHOOT_ENEMY
 };
 
+struct AudioNode
+{
+  AudioNode* next;
+  SfxEvent sfx;
+};
+struct AudioQueue
+{
+  AudioNode* front;
+  AudioNode* back;
+};
 struct AudioManager
 {
-  Queue* sfxQueue;
+  AudioQueue audioQueue;
 };
-
-AudioManager* createAudioManager()
-{
-  AudioManager* am = (AudioManager*)malloc(sizeof(AudioManager));
-  am->sfxQueue = createQueue();
-
-  return am;
-}
-
 
 #endif

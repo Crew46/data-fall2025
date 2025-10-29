@@ -32,6 +32,7 @@ struct Object
   int         status;
 };
 
+
 // This function is mainly for our embedded object
 void initObject(Object* obj, ObjectType objT, int textureID, int regionID, int xPos, int yPos, int status)
 {

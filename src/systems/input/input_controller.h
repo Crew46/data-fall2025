@@ -1,17 +1,20 @@
 #ifndef INPUT_CONTROLLER_H
 #define INPUT_CONTROLLER_H
 #include "../../architecture/component/component.h"
+#include "input.h"
 
-enum InputType
+enum InputControllerType
 {
-    Gamepad,
-    CPU 
+    GAMEPAD,
+    SHIP_CPU
 };
-
+ 
 struct InputController
 {
-    Component* component;
-    InputType type;
+    Component component;
+    Input input;
+    InputControllerType type;
+    int gamepad;
 };
 
 #endif //INPUT_CONTROLLER_H

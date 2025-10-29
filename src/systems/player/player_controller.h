@@ -1,6 +1,7 @@
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
 #include "../../architecture/component/component.h"
+#include "../input/input_controller_manager.h"
 
 enum PlayerMovementState
 {

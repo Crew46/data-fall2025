@@ -22,3 +22,6 @@ I've made some small progress this week, mainly updating the player/weapon syste
 
 **week 8**
 This week I added some simple enemy AI to the game, complimenting Haas' efforts to make a playable game. The AI currently is quite primitive; enemies lock onto the closest target and fire once in range. There are plenty of improvements left of make, like more natural targeting and movement, and changing it so they don't just fly downward into the endless void. A large portion of my time was spent debugging the C compiler to fix the most niche of and easily avoidable edge cases.
+
+**week 9**
+As we are slowly approaching the end of the semester, the game is getting more polished. This week I improved the enemy AI to play more naturally, and added natural despawning of weapons. I want the player to be able to pick up and change weapons, and I wanted the source of weapons to be the enemies. This would add more incentive to fight strong enemies and risk getting hit to pick up a good weapon. To go along with this I added a new weapon, the missile launcher. The launcher is rare to come by but explodes on impact and does massive damage. Creating the launcher was pretty simple since everything was designed with more weapons in mind. And finally I added a blinking effect when the player is low health.

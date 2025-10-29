@@ -4,6 +4,9 @@
 #define INACTIVE_FLAG  0x00000000
 #define IS_ACTIVE_FLAG 0x00000001
 
+struct Weapon;
+struct Laser;
+struct Entity;
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
 {

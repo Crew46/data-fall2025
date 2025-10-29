@@ -1,6 +1,7 @@
 #ifndef STACK_H // stack.h
 #define STACK_H
 
+struct List;
 //////////////////////////////////////////////////////////
 //
 // Stack data structure

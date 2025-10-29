@@ -59,7 +59,7 @@ void main(void)
     drawBackground( BACKGROUND_TEXTURE, BACKGROUND_REGION );
 
     // Update Game
-    updateGame(player, enemyList, player->weapon->ammoList);
+    updateGame(&player, &enemyList, &player->weapon->ammoList);
 
     // Render Game
     renderGame(player, enemyList, player->weapon->ammoList);

@@ -2,7 +2,9 @@
 #define ENTITY_H
 
 struct Object;
-
+struct DoublyLinkedList;
+struct Weapon;
+struct Laser;
 // Entity struct which is a substruct of Object
 struct Entity
 {

@@ -1,6 +1,8 @@
 #ifndef WEAPON_H // weapon.h
 #define WEAPON_H
 
+struct Object;
+struct DoublyLinkedList;
 ///////////////////////////////////////////////////////////////////////
 //
 // WeaponType enum and Weapon structure

@@ -6,6 +6,7 @@
 #include "misc.h"
 #include "video.h"
 #include "time.h"
+#include "audio.h"
 
 // Textures, Regions, and constants(for now)
 #define  BACKGROUND_TEXTURE 0
@@ -26,15 +27,6 @@
 #define  LASER_WIDTH        3
 #define  LASER_HEIGHT       10
 
-// Declare structs here to avoid compiler errors
-struct Object;
-struct Node;
-struct DoublyLinkedList;
-struct Stack;
-struct Queue;
-struct Laser;
-struct Weapon;
-struct Entity;
 
 // Header files
 #include "object.h"
@@ -47,14 +39,14 @@ struct Entity;
 #include "entity.h"
 
 
-void updateGame(Entity* player, DoublyLinkedList* enemyList, DoublyLinkedList* ammoList)
+void updateGame(Entity** player, DoublyLinkedList** enemyList, DoublyLinkedList** ammoList)
 {
 
-  player = updatePlayer( player );
-  ammoList = updateAmmo(ammoList);
-  enemyList = updateEnemies( enemyList );
+  *player = updatePlayer( *player );
+  *ammoList = updateAmmo(*ammoList);
+  *enemyList = updateEnemies( *enemyList );
 
-  checkAmmoCollisionWithEnemies(&ammoList, &enemyList);
+  checkAmmoCollisionWithEnemies(&(*ammoList), &(*enemyList));
 }
 
 void renderGame(Entity* player, DoublyLinkedList* enemyList, DoublyLinkedList* ammoList )

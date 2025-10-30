@@ -8,12 +8,12 @@
 //declarations
 GameObjectManager* gameObjectManager;
 
-GameObjectManager* GetGameObjectManager()
+GameObjectManager* GOM_GetGameObjectManager()
 {
     return gameObjectManager;
 }
 
-GameObject* GameObjectManagerGetRootGameObject()
+GameObject* GOM_GetRootGameObject()
 {
     return gameObjectManager->root;
 }
@@ -24,16 +24,16 @@ GameObject* GameObjectManagerGetRootGameObject()
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializeGameObjectManager()
+void GOM_Initialize()
 {
     gameObjectManager = (GameObjectManager*)malloc(sizeof(GameObjectManager));
     gameObjectManager->gameObjectList = ConstructDoublyLinkedList();
     gameObjectManager->nextGameObjectID = 0;
-    gameObjectManager->root = GameObjectManagerConstructGameObject();
+    gameObjectManager->root = GOM_ConstructGameObject();
     OM_ObjectSet_Name((Object*)gameObjectManager->root, "Root");
 }
 
-void DeinitializeGameObjectManager()
+void GOM_Deinitialize()
 {
     //deconstruct all components in list
     //here//
@@ -47,7 +47,7 @@ void DeinitializeGameObjectManager()
 //=========================================================
 
 //initialize game object
-void GameObjectManagerInitializeGameObject(GameObject* gameObject)
+void GOM_InitializeGameObject(GameObject* gameObject)
 {
     //initialize base object through object manager
     OM_InitializeObject((Object*)gameObject);
@@ -60,9 +60,9 @@ void GameObjectManagerInitializeGameObject(GameObject* gameObject)
     //if not root game object
     if(gameObjectManager->nextGameObjectID != 0)
     {
-        GameObjectManagerGameObjectAddChild(GameObjectManagerGetRootGameObject(), gameObject);
+        GOM_GameObjectAddChild(GOM_GetRootGameObject(), gameObject);
         //set gameobjects parent to the root
-        gameObject->parent = GameObjectManagerGetRootGameObject();
+        gameObject->parent = GOM_GetRootGameObject();
     }
     else
     {
@@ -75,15 +75,15 @@ void GameObjectManagerInitializeGameObject(GameObject* gameObject)
 }
 
 //construct game object
-GameObject* GameObjectManagerConstructGameObject()
+GameObject* GOM_ConstructGameObject()
 {
     GameObject* gameObject = (GameObject*)malloc(sizeof(GameObject));
-    GameObjectManagerInitializeGameObject(gameObject);
+    GOM_InitializeGameObject(gameObject);
     return gameObject;
 }
 
 //deconstruct game object
-void GameObjectManagerDeconstructGameObject(GameObject* gameObject)
+void GOM_DeconstructGameObject(GameObject* gameObject)
 {
     //deconstruct object through object manager
     OM_DeconstructObject(&gameObject->base);
@@ -101,7 +101,7 @@ void GameObjectManagerDeconstructGameObject(GameObject* gameObject)
 //=========================================================
 
 //get component of a specific type from a game object
-Component* GameObjectManagerGameObjectGetComponentByType(GameObject* gameObject, ComponentType type)
+Component* GOM_GameObjectGet_ComponentByType(GameObject* gameObject, ComponentType type)
 {
     DoublyNode* currentComponentNode = gameObject->components->head; 
     Component* currentComponent = NULL;
@@ -119,17 +119,17 @@ Component* GameObjectManagerGameObjectGetComponentByType(GameObject* gameObject,
 }
 
 //find a component of a specific type, given a component that belongs to the same game object
-Component* GameObjectManagerGetComponentFromComponent(Component* component, ComponentType type)
+Component* GOM_GetComponentFromComponent(Component* component, ComponentType type)
 {
     if(component->gameObjectAttatchedTo != NULL)
     {
-        return GameObjectManagerGameObjectGetComponentByType(component->gameObjectAttatchedTo, type);
+        return GOM_GameObjectGet_ComponentByType(component->gameObjectAttatchedTo, type);
     }
     return NULL;
 }
 
 
-void GameObjectManagerUpdateAllComponentsInGameObject(GameObject* gameObject)
+void GOM_UpdateAllComponentsInGameObject(GameObject* gameObject)
 {
     DoublyNode* currentNode = gameObject->components->head;
     Component* currentComponent = NULL;
@@ -147,7 +147,7 @@ void GameObjectManagerUpdateAllComponentsInGameObject(GameObject* gameObject)
     }
 }
 
-void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type)
+void GOM_AddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
     Component* component = CM_ConstructComponent(type);
     CM_ComponentSet_GameObjectAttatchedTo(component, gameObject);
@@ -161,17 +161,17 @@ void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, Component
 //=========================================================
 
 //update game object
-void GameObjectManagerGameObjectUpdate(GameObject* gameObject)
+void GOM_GameObjectUpdate(GameObject* gameObject)
 {
     //if game object not null & is active
     if(gameObject && GOM_GameObjectGet_IsActive(gameObject))
     {
-        GameObjectManagerUpdateAllComponentsInGameObject(gameObject);
+        GOM_UpdateAllComponentsInGameObject(gameObject);
     }
 }
 
 //update all gameobjects
-void GameObjectManagerUpdateAllGameObjects()
+void GOM_UpdateAllGameObjects()
 {
     DoublyNode* currentNode = gameObjectManager->gameObjectList->head;
     GameObject* currentGameObject = NULL;
@@ -182,24 +182,24 @@ void GameObjectManagerUpdateAllGameObjects()
         //set current game object to next element in list
         currentGameObject = (GameObject*)currentNode->data;
 
-        GameObjectManagerGameObjectUpdate(currentGameObject);
+        GOM_GameObjectUpdate(currentGameObject);
 
         //move to next game object in list
         currentNode = currentNode->next;
     }
 }
 
-void GameObjectManagerGameObjectAddChild(GameObject* parent, GameObject* child)
+void GOM_GameObjectAddChild(GameObject* parent, GameObject* child)
 {
     DoublyLinkedListInsertElementToTail(parent->children, (Object*)child);
 }
 
-void GameObjectManagerGameObjectRemoveChild(GameObject* parent, GameObject* child)
+void GOM_GameObjectRemoveChild(GameObject* parent, GameObject* child)
 {
 
 }
 
-GameObject* GameObjectManagerGameObjectGetParent(GameObject* child)
+GameObject* GOM_GameObjectGetParent(GameObject* child)
 {
     DoublyNode* currentNode = gameObjectManager->gameObjectList->head;
     GameObject* currentGameObject = NULL;

@@ -5,42 +5,32 @@
 #include "input.h"
 #include "input_controller_strategies/input_controller_dispatcher.c"
 
-
-void InitializeInputManager()
-{
-}
-
-void DeinitializeInputManager()
-{
-
-}
-
-void InputManagerInitializeInputController(InputController* controller)
+void ICM_InitializeInputController(InputController* controller)
 {
     CM_InitializeComponent((Component*)controller, INPUT_CONTROLLER_COMPONENT);
-    InputManagerInitializeInput(&controller->input);
+    ICM_InitializeInput(&controller->input);
     controller->type = INPUT_CONTROLLER_TYPE_GAMEPAD; 
     controller->gamepad = 0;
 }
 
-InputController* InputManagerConstructInputController()
+InputController* ICM_ConstructInputController()
 {
     InputController* controller = (InputController*)malloc(sizeof(InputController));
-    InputManagerInitializeInputController(controller);
+    ICM_InitializeInputController(controller);
     return controller;
 }
 
-void InputManagerDeconstructInputController(InputController* controller)
+void ICM_DeconstructInputController(InputController* controller)
 {
 }
 
 
-void InputManagerUpdateInputController(InputController* inputController)
+void ICM_UpdateInputController(InputController* inputController)
 {
     DispatchInputStrategy(inputController);
 }
 
-int InputManagerGetButtonValueOfInputController(InputController* inputController, GamepadButton button)
+int ICM_InputControllerGet_ValueOfButton(InputController* inputController, GamepadButton button)
 {
     switch (button)
     {
@@ -68,27 +58,27 @@ int InputManagerGetButtonValueOfInputController(InputController* inputController
     }
 }
 
-Vector2* InputManagerGetMovementOfInputController(InputController* inputController)
+Vector2* ICM_InputControllerGet_Movement(InputController* inputController)
 {
     return &inputController->input.movementDirection;
 }
 
-Vector2* InputManagerGetNormalizedMovementOfInputController(InputController* inputController)
+Vector2* ICM_InputControllerGet_NormalizedMovement(InputController* inputController)
 {
     return &inputController->input.normalizedMovementDirection;
 }
 
-void InputManagerSetInputControllerGamepad(InputController* controller, int gamepad)
+void ICM_InputControllerSet_Gamepad(InputController* controller, int gamepad)
 {
     controller->gamepad = gamepad;
 }
 
-void InputManagerSetInputControllerType(InputController* inputController, InputControllerType type)
+void ICM_InputControllerSet_Type(InputController* inputController, InputControllerType type)
 {
     inputController->type = type;
 }
 
-void InputManagerInitializeInput(Input* input)
+void ICM_InitializeInput(Input* input)
 {
     input->buttonA = -1;
     input->buttonB = -1;
@@ -103,7 +93,7 @@ void InputManagerInitializeInput(Input* input)
     input->normalizedMovementDirection.y = 0;
 }
 
-void InputManagerDeconstructInput(Input* input)
+void ICM_DeconstructInput(Input* input)
 {
 
 }

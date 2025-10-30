@@ -14,17 +14,11 @@ struct SFX
     SFXType type;
 };
 
-struct AudioManager
-{
-    DoublyLinkedList* sfxList;
-};
-
 //AudioManager* GetAudioManager();
 void PlayRandomSFXOfType(SFXType type);
 void PlaySFX(int id);
 void InitializeAudioManager();
 void DeInitializeAudioManager();
-void UpdateAudioManager();
 
 
 #endif //AUDIO_MANAGER_H

@@ -3,7 +3,7 @@
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
 #include "../../systems/rendering/render_manager.h"
-#include "../../systems/player/player_controller_manager.h"
+#include "../../systems/ship/ship_controller_manager.h"
 #include "../../systems/physics/collider/collider_manager.h"
 #include "../../systems/input/input_controller_manager.h"
 
@@ -12,7 +12,7 @@ void DispatchComponentsUpdateFunction(Component* component)
     switch(component->type)
     {
         case PLAYER_CONTROLLER_COMPONENT:
-            UpdatePlayerController((PlayerController*)component);
+            UpdateShipController((ShipController*)component);
             break;
         case TRANSFORM_COMPONENT:
             UpdateTransformComponent((TransformComponent*)component); 
@@ -30,7 +30,7 @@ void DispatchComponentsUpdateFunction(Component* component)
             //call weapon controller update function
             break;
         case INPUT_CONTROLLER_COMPONENT:
-            InputManagerUpdateInputController((InputController*)component);
+            ICM_UpdateInputController((InputController*)component);
             break;
         default:
             break;

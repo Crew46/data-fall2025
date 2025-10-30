@@ -3,7 +3,7 @@
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
 #include "../../systems/rendering/render_manager.h"
-#include "../../systems/player/player_controller_manager.h"
+#include "../../systems/ship/ship_controller_manager.h"
 #include "../../systems/physics/collider/collider_manager.h"
 #include "../../systems/input/input_controller_manager.h"
 
@@ -13,7 +13,7 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
     switch(type)
     {
         case PLAYER_CONTROLLER_COMPONENT:
-            componentToReturn = (Component*)ConstructPlayerController();
+            componentToReturn = (Component*)ConstructShipController();
             break;
         case TRANSFORM_COMPONENT:
             componentToReturn = (Component*)ConstructTransformComponent();
@@ -28,7 +28,7 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             componentToReturn = (Component*)ConstructCollider();
             break;
         case INPUT_CONTROLLER_COMPONENT:
-            componentToReturn = (Component*)InputManagerConstructInputController();
+            componentToReturn = (Component*)ICM_ConstructInputController();
             break;
         case WEAPON_CONTROLLER_COMPONENT:
             //construct weapon controller component

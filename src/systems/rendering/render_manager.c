@@ -8,26 +8,6 @@
 #include "video.h"
 #include "../../tools/debugger.c"
 
-RenderManager* renderManager;
-
-//=========================================================
-///////////////////////////////////////////////////////////
-///////////MANAGER INITIALIZATION//////////////////////////
-///////////////////////////////////////////////////////////
-//=========================================================
-
-void InitializeRenderManager()
-{
-    renderManager = (RenderManager*)malloc(sizeof(RenderManager));
-    renderManager->renderComponents = ConstructDoublyLinkedList();
-}
-
-void DeinitializeRenderManager()
-{
-    //deconstruct doubly linekd list
-    free(renderManager);
-}
-
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///////////COMPONENT CONSTRUCTION & DECONSTRUCTION/////////
@@ -41,7 +21,6 @@ void InitializeRenderComponent(RenderComponent* renderComponent, int region, int
     renderComponent->regionID = region;
     renderComponent->textureID = texture;
     renderComponent->renderPriority = 0;
-    DoublyLinkedListInsertElementToTail(renderManager->renderComponents, (Object*)renderComponent);
 }
 
 RenderComponent* ConstructRenderComponent()
@@ -65,7 +44,7 @@ void DeconstructRenderComponent(RenderComponent* renderComponent)
 
 void UpdateRenderComponent(RenderComponent* renderComponent)
 {
-    TransformComponent* transformComponent = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)renderComponent, TRANSFORM_COMPONENT);
+    TransformComponent* transformComponent = (TransformComponent*)GOM_GetComponentFromComponent((Component*)renderComponent, TRANSFORM_COMPONENT);
 
     //if able to get transform component
     if(transformComponent != NULL)
@@ -81,11 +60,6 @@ void UpdateRenderComponent(RenderComponent* renderComponent)
 ///////////GETTERS & SETTERS///////////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
-
-RenderManager* GetRenderManager()
-{
-    return renderManager;
-}
 
 void SetRenderComponentRegion(RenderComponent* renderComponent, int region)
 {

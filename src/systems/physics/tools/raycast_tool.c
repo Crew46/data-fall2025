@@ -15,7 +15,7 @@ DoublyLinkedList* CastRay(Vector2* vector, Vector2* origin)
     while(currentNode != NULL)
     {
         currentCollider = (Collider*)currentNode->data;
-        currentTransform = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)currentCollider, TRANSFORM_COMPONENT);
+        currentTransform = (TransformComponent*)GOM_GetComponentFromComponent((Component*)currentCollider, TRANSFORM_COMPONENT);
         if(currentCollider != NULL && currentTransform != NULL)
         {
             //linear equation of the vector

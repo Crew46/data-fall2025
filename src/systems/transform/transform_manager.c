@@ -5,30 +5,6 @@
 #include "../../architecture/game_object/game_object_manager.h"
 #include "../../architecture/object/object_manager.h"
 
-TransformManager* transformManager;
-
-//=========================================================
-///////////////////////////////////////////////////////////
-/////////////MANAGER INITIALIZATION////////////////////////
-///////////////////////////////////////////////////////////
-//=========================================================
-
-void InitializeTransformManager()
-{
-    //allocate memory
-    transformManager = (TransformManager*)malloc(sizeof(TransformManager));
-    //initialize
-    transformManager->transformComponents = ConstructDoublyLinkedList();
-}
-
-//deconstruct transform manager
-void DeinitializeTransformManager(TransformManager* transformManager)
-{
-    //free linked list
-    ///////////////
-    free(transformManager);
-}
-
 //=========================================================
 ///////////////////////////////////////////////////////////
 /////////////COMPONENT CONSTRUCTION & INITIALIZATION///////
@@ -117,11 +93,6 @@ void TransformComponentSetLocalPosition(TransformComponent* transformComponent, 
     transformComponent->localPosition.x = x;
     transformComponent->localPosition.y = y;
     //if parent is root, local position is global position
-}
-
-TransformManager* GetTransformManager()
-{
-    return transformManager;
 }
 
 

@@ -19,7 +19,7 @@
 #include "systems/audio/audio_manager.c"
 #include "systems/rendering/render_manager.c"
 #include "systems/transform/transform_manager.c"
-#include "systems/player/player_controller_manager.c"
+#include "systems/ship/ship_controller_manager.c"
 #include "vector/vector2.h"
 //physics systems implementations
 #include "systems/physics/collider/collider_manager.c"
@@ -56,50 +56,48 @@ GameObject* player1 = NULL;
 
 void InitializeGameManager() 
 {
-
     //initialize regions
     InitializeRegions();
 
     //component-based architecture initialization
+    //object manager
     OM_Initialize();
+    //component manager
     CM_Initialize();
-    InitializeGameObjectManager();
+    //game-object manager
+    GOM_Initialize();
     //systems initialization
-    InitializeTransformManager();
-    InitializeRenderManager();
-    InitializePlayerControllerManager();
     InitializeAudioManager();
-    InitializeInputManager();
     
     //player creation
-    player = GameObjectManagerConstructGameObject();
+    player = GOM_ConstructGameObject();
     GOM_GameObjectSet_Name(player, "player0");
-    GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player, RENDER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player, INPUT_CONTROLLER_COMPONENT);
+    GOM_AddComponentToGameObject(player, TRANSFORM_COMPONENT);
+    GOM_AddComponentToGameObject(player, RENDER_COMPONENT);
+    GOM_AddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
+    GOM_AddComponentToGameObject(player, INPUT_CONTROLLER_COMPONENT);
     //set gamepad of player controller component
-    InputManagerSetInputControllerGamepad((InputController*)GameObjectManagerGameObjectGetComponentByType(player, INPUT_CONTROLLER_COMPONENT), 0);
-    InputManagerSetInputControllerType((InputController*)GameObjectManagerGameObjectGetComponentByType(player, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_GAMEPAD);
+    ICM_InputControllerSet_Gamepad((InputController*)GOM_GameObjectGet_ComponentByType(player, INPUT_CONTROLLER_COMPONENT), 0);
+    ICM_InputControllerSet_Type((InputController*)GOM_GameObjectGet_ComponentByType(player, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_GAMEPAD);
     //set the region and texture of the render component
-    SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
-    SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
+    SetRenderComponentRegion((RenderComponent*)GOM_GameObjectGet_ComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
+    SetRenderComponentTexture((RenderComponent*)GOM_GameObjectGet_ComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
     //set position of the transform
-    TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
+    TransformComponentSetGlobalPosition((TransformComponent*)GOM_GameObjectGet_ComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
     
     //player creation
-    player1 = GameObjectManagerConstructGameObject();
+    player1 = GOM_ConstructGameObject();
     GOM_GameObjectSet_Name(player1, "player1");
-    GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player1, RENDER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
-    GameObjectManagerAddComponentToGameObject(player1, INPUT_CONTROLLER_COMPONENT);
-    InputManagerSetInputControllerType((InputController*)GameObjectManagerGameObjectGetComponentByType(player1, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_SHIP_CPU);
+    GOM_AddComponentToGameObject(player1, TRANSFORM_COMPONENT);
+    GOM_AddComponentToGameObject(player1, RENDER_COMPONENT);
+    GOM_AddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
+    GOM_AddComponentToGameObject(player1, INPUT_CONTROLLER_COMPONENT);
+    ICM_InputControllerSet_Type((InputController*)GOM_GameObjectGet_ComponentByType(player1, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_SHIP_CPU);
     //set the region and texture of the render component
-    SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
-    SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
+    SetRenderComponentRegion((RenderComponent*)GOM_GameObjectGet_ComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
+    SetRenderComponentTexture((RenderComponent*)GOM_GameObjectGet_ComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
     //set position of the transform
-    TransformComponentSetGlobalPosition((TransformComponent*)GameObjectManagerGameObjectGetComponentByType(player1, TRANSFORM_COMPONENT), 400, 300);
+    TransformComponentSetGlobalPosition((TransformComponent*)GOM_GameObjectGet_ComponentByType(player1, TRANSFORM_COMPONENT), 400, 300);
 }
 
 void DeinitializeGameManager()
@@ -123,11 +121,11 @@ void UpdateGameManager()
     draw_region_at( 0, 0 );
 
     //updates all gameobject in scene, allong with the attatched components to those gameobjects
-    GameObjectManagerUpdateAllGameObjects();
+    GOM_UpdateAllGameObjects();
 
     PrintGameObjectDataAt(0, 50, player); 
     PrintGameObjectDataAt(200, 50, player1); 
-    PrintGameObjectDataAt(400, 50, gameObjectManager->root); 
+    PrintGameObjectDataAt(400, 50, GOM_GetRootGameObject()); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

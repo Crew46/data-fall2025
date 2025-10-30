@@ -13,30 +13,30 @@ struct GameObjectManager
 };
 
 //manager initialization
-void InitializeGameObjectManager();
-void DeinitializeGameObjectManager();
+void GOM_Initialize();
+void GOM_Deinitialize();
 
 //gameobject creation
-void GameObjectManagerInitializeGameObject(GameObject* gameObjectAttatchedTo);
-GameObject* GameObjectManagerConstructGameObject();
-void GameObjectManagerDeconstructGameObject(GameObject* gameObjectAttatchedTo);
+void GOM_InitializeGameObject(GameObject* gameObjectAttatchedTo);
+GameObject* GOM_ConstructGameObject();
+void GOM_DeconstructGameObject(GameObject* gameObjectAttatchedTo);
 
 //gameobject-component related functions
-Component* GameObjectManagerGameObjectGetComponentByType(GameObject* gameObjectAttatchedTo, ComponentType type);
-Component* GameObjectManagerGetComponentFromComponent(Component* component, ComponentType componentType);
-void GameObjectManagerUpdateAllComponentsInGameObject(GameObject* gameObjectAttatchedTo);
-void GameObjectManagerGameObjectUpdate(GameObject* gameObjectAttatchedTo);
-void GameObjectManagerUpdateAllGameObjects();
-void GameObjectManagerAddComponentToGameObject(GameObject* gameObjectAttatchedTo, ComponentType type);
+Component* GOM_GameObjectGet_ComponentByType(GameObject* gameObjectAttatchedTo, ComponentType type);
+Component* GOM_GetComponentFromComponent(Component* component, ComponentType componentType);
+void GOM_UpdateAllComponentsInGameObject(GameObject* gameObjectAttatchedTo);
+void GOM_GameObjectUpdate(GameObject* gameObjectAttatchedTo);
+void GOM_UpdateAllGameObjects();
+void GOM_AddComponentToGameObject(GameObject* gameObjectAttatchedTo, ComponentType type);
 
 //gameobject-gameobject related functions
-void GameObjectManagerGameObjectAddChild(GameObject* parent, GameObject* child);
-void GameObjectManagerGameObjectRemoveChild(GameObject* parent, GameObject* child);
-GameObject* GameObjectManagerGameObjectGetParent(GameObject* child);
+void GOM_GameObjectAddChild(GameObject* parent, GameObject* child);
+void GOM_GameObjectRemoveChild(GameObject* parent, GameObject* child);
+GameObject* GOM_GameObjectGetParent(GameObject* child);
 
 //getters and setters
-GameObjectManager* GetGameObjectManager();
-GameObject* GameObjectManagerGetRootGameObject();
+GameObjectManager* GOM_GetGameObjectManager();
+GameObject* GOM_GetRootGameObject();
 
 
 //=========================================================

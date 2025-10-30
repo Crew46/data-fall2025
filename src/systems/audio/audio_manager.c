@@ -7,13 +7,6 @@
 #include "time.h"
 #include "math.h"
 
-AudioManager* audioManager = NULL;
-
-AudioManager* GetAudioManager()
-{
-    return audioManager;
-}
-
 void PlayRandomSFXOfType(SFXType soundEffect)
 {
     int randResult = rand() % 4;
@@ -39,8 +32,6 @@ void PlayRandomSFXOfType(SFXType soundEffect)
 
 void InitializeAudioManager()
 {
-    audioManager = (AudioManager*)malloc(sizeof(AudioManager));
-
     select_sound(THE_ABYSS_MUSIC);
     select_channel(0);
     assign_channel_sound(get_selected_channel(), get_selected_sound());
@@ -54,11 +45,6 @@ void PlaySFX(int id)
 }
 
 void DeInitializeAudioManager()
-{
-
-}
-
-void UpdateAudioManager()
 {
 
 }

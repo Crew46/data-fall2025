@@ -15,23 +15,19 @@ enum GamepadButton
     GAMEPAD_BUTTON_START
 };
 
+void ICM_UpdateInputController(InputController* inputController);
 
-void InitializeInputManager();
-void DeinitializeInputManager();
+InputController* ICM_ConstructInputController();
+void ICM_InitializeInputController(InputController* controller);
+void ICM_DeconstructInputController(InputController* controller);
 
-void InputManagerUpdateInputController(InputController* inputController);
+int ICM_InputControllerGet_ValueOfButton(InputController* inputController, GamepadButton button);
+Vector2* ICM_InputControllerGet_Movement(InputController* inputController);
+Vector2* ICM_InputControllerGet_NormalizedMovement(InputController* inputController);
+void ICM_InputControllerSet_Gamepad(InputController* controller, int gamepad);
+void ICM_InputControllerSet_Type(InputController* inputController, InputControllerType type);
 
-InputController* InputManagerConstructInputController();
-void InputManagerInitializeInputController(InputController* controller);
-void InputManagerDeconstructInputController(InputController* controller);
-
-int InputManagerGetButtonValueOfInputController(InputController* inputController, GamepadButton button);
-Vector2* InputManagerGetMovementOfInputController(InputController* inputController);
-Vector2* InputManagerGetNormalizedMovementOfInputController(InputController* inputController);
-void InputManagerSetInputControllerGamepad(InputController* controller, int gamepad);
-void InputManagerSetInputControllerType(InputController* inputController, InputControllerType type);
-
-void InputManagerInitializeInput(Input* input);
-void InputManagerDeconstructInput(Input* input);
+void ICM_InitializeInput(Input* input);
+void ICM_DeconstructInput(Input* input);
 
 #endif //INPUT_MANAGER_H

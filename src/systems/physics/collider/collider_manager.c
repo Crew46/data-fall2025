@@ -62,7 +62,7 @@ bool CheckIfPointInBoundsOfCircle(Vector2* point, Collider* collider)
 
 bool CheckIfPointInBoundsOfRectangle(Vector2* point, Collider* collider)
 {
-    TransformComponent* transform = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
+    TransformComponent* transform = (TransformComponent*)GOM_GetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
     if(transform != NULL && collider != NULL)
     {
         float lengthFromCenterToHorizontalEdge = collider->dimensions.x / 2;
@@ -119,7 +119,7 @@ void ColliderUpdateIfCollision(Collider* collider)
 
 bool ColliderCalculateIfRectangleCollision(Collider* collider)
 {
-    TransformComponent* transformComponent = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
+    TransformComponent* transformComponent = (TransformComponent*)GOM_GetComponentFromComponent((Component*)collider, TRANSFORM_COMPONENT);
     TransformComponent* otherTransformComponent = NULL;
     Collider* otherColliderComponent = NULL;
 
@@ -135,8 +135,8 @@ bool ColliderCalculateIfRectangleCollision(Collider* collider)
     while(currentNode != NULL)
     {
         data = (Collider*)currentNode->data;
-        otherTransformComponent = (TransformComponent*)GameObjectManagerGetComponentFromComponent((Component*)data, TRANSFORM_COMPONENT);
-        otherColliderComponent = (Collider*)GameObjectManagerGetComponentFromComponent((Component*)data, COLLIDER_COMPONENT);
+        otherTransformComponent = (TransformComponent*)GOM_GetComponentFromComponent((Component*)data, TRANSFORM_COMPONENT);
+        otherColliderComponent = (Collider*)GOM_GetComponentFromComponent((Component*)data, COLLIDER_COMPONENT);
 
         //if current gameobject's transform & collider components exist
         if(otherTransformComponent != NULL && otherColliderComponent != NULL)

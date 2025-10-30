@@ -10,3 +10,5 @@
 **Week 6** Added in Queue and Stack on top of list with functions. The stack and queue aren't used yet, but they compile. I also separated my main file into a bunch of separate header files to clean things up.
 
 **Week 8** Added in status flags, I only added the ISACTIVE flag for now but it is a start. I also moved all of the deletion of objects to the update functions and in the other functions where an object was deleted, I set its ISACTIVE flag off.
+
+**Week 9** Added in an audio manager file, for now I just added in a playSound() function but I started and am going to implement a global audio manager struct that will queue sfx and that way we can separate the audio from the game logic and just run throught the queue.

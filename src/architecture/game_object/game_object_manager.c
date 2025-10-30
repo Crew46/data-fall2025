@@ -164,7 +164,7 @@ void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, Component
 void GameObjectManagerGameObjectUpdate(GameObject* gameObject)
 {
     //if game object not null & is active
-    if(gameObject != NULL && ((Object*)gameObject)->isActive)
+    if(gameObject && GOM_GameObjectGet_IsActive(gameObject))
     {
         GameObjectManagerUpdateAllComponentsInGameObject(gameObject);
     }
@@ -222,5 +222,51 @@ GameObject* GameObjectManagerGameObjectGetParent(GameObject* child)
         currentNode = currentNode->next;
     }
 }
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////GETTERS AND SETTERS/////////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+//======//
+//OBJECT//
+//======//
+
+//set name
+void GOM_GameObjectSet_Name(GameObject* gameObject, int* name)
+{
+    OM_ObjectSet_Name((Object*)gameObject, name);
+}
+//get name
+int* GOM_GameObjectGet_Name(GameObject* gameObject)
+{
+    return OM_ObjectGet_Name((Object*)gameObject);
+}
+//set isactive
+void GOM_GameObjectSet_IsActive(GameObject* gameObject, bool isActive)
+{
+    OM_ObjectSet_IsActive((Object*)gameObject, isActive);
+}
+//get isactive
+bool GOM_GameObjectGet_IsActive(GameObject* gameObject)
+{
+    return OM_ObjectGet_IsActive((Object*)gameObject);
+}
+//get underlying objectid
+int GOM_GameObjectGet_ObjectID(GameObject* gameObject)
+{
+    return OM_ObjectGet_OID((Object*)gameObject);
+}
+
+//==========//
+//GAMEOBJECT//
+//==========//
+
+//=======//
+//MANAGER//
+//=======//
+
+
 
 #endif // GAME_OBJECT_MANAGER_C

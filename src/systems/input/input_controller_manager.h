@@ -24,8 +24,6 @@ enum GamepadButton
 void InitializeInputManager();
 void DeinitializeInputManager();
 
-void UpdateInputManager();
-
 void InputManagerUpdateInputController(InputController* inputController);
 
 InputController* InputManagerConstructInputController();

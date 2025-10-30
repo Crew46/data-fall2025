@@ -5,6 +5,7 @@
 #include "../../systems/rendering/render_manager.h"
 #include "../../systems/player/player_controller_manager.h"
 #include "../../systems/physics/collider/collider_manager.h"
+#include "../../systems/input/input_controller_manager.h"
 
 void DispatchComponentsUpdateFunction(Component* component)
 {
@@ -27,6 +28,9 @@ void DispatchComponentsUpdateFunction(Component* component)
             break;
         case WEAPON_CONTROLLER_COMPONENT:
             //call weapon controller update function
+            break;
+        case INPUT_CONTROLLER_COMPONENT:
+            InputManagerUpdateInputController((InputController*)component);
             break;
         default:
             break;

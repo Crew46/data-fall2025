@@ -5,8 +5,8 @@
 
 enum InputControllerType
 {
-    GAMEPAD,
-    SHIP_CPU
+    INPUT_CONTROLLER_TYPE_GAMEPAD,
+    INPUT_CONTROLLER_TYPE_SHIP_CPU
 };
  
 struct InputController

@@ -38,4 +38,26 @@ GameObject* GameObjectManagerGameObjectGetParent(GameObject* child);
 GameObjectManager* GetGameObjectManager();
 GameObject* GameObjectManagerGetRootGameObject();
 
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////GETTERS AND SETTERS/////////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+//////////
+//OBJECT//
+//////////
+
+//set name
+void GOM_GameObjectSet_Name(GameObject* gameObject, int* name);
+//get name
+int* GOM_GameObjectGet_Name(GameObject* gameObject);
+//set isactive
+void GOM_GameObjectSet_IsActive(GameObject* gameObject, bool isActive);
+//get isactive
+bool GOM_GameObjectGet_IsActive(GameObject* gameObject);
+//get underlying objectid
+int GOM_GameObjectGet_ObjectID(GameObject* gameObject);
+
 #endif // GAME_OBJECT_MANAGER_H

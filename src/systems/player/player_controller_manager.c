@@ -74,8 +74,7 @@ void UpdatePlayerController(PlayerController* playerController)
         free(result);
         free(result2);
 
-        PrintIntAt(screen_width / 2, screen_height - 20, InputManagerGetButtonValueOfInputController(input, GAMEPAD_BUTTON_X));
-        if(InputManagerGetButtonValueOfInputController(input, GAMEPAD_BUTTON_X) == 1)
+        if(InputManagerGetButtonValueOfInputController(input, GAMEPAD_BUTTON_A) == 1)
         {
             //PlayRandomSFXOfType(EXPLOSION_SOUND_EFFECT);
             PlayRandomSFXOfType(LASER_SOUND_EFFECT);

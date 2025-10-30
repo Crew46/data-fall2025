@@ -3,14 +3,11 @@
 #include "input_controller_manager.h"
 #include "../../architecture/component/component_manager.h"
 #include "input.h"
-#include "input_controller_dispatcher.c"
+#include "input_controller_strategies/input_controller_dispatcher.c"
 
-InputManager* inputManager = NULL;
 
 void InitializeInputManager()
 {
-    inputManager = (InputManager*)malloc(sizeof(InputManager));
-    inputManager->inputControllerList = ConstructDoublyLinkedList();
 }
 
 void DeinitializeInputManager()
@@ -22,7 +19,6 @@ void InputManagerInitializeInputController(InputController* controller)
 {
     CM_InitializeComponent((Component*)controller, INPUT_CONTROLLER_COMPONENT);
     InputManagerInitializeInput(&controller->input);
-    DoublyLinkedListInsertElementToTail(inputManager->inputControllerList, (Object*)controller);
     controller->type = INPUT_CONTROLLER_TYPE_GAMEPAD; 
     controller->gamepad = 0;
 }
@@ -41,7 +37,6 @@ void InputManagerDeconstructInputController(InputController* controller)
 
 void InputManagerUpdateInputController(InputController* inputController)
 {
-    print_at(screen_width / 2, screen_height / 2, "UPDATING");
     DispatchInputStrategy(inputController);
 }
 

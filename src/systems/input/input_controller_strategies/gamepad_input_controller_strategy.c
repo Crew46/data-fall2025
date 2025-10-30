@@ -1,6 +1,6 @@
 #ifndef GAMEPAD_INPUT_CONTROLLER_STRATEGY_C
 #define GAMEPAD_INPUT_CONTROLLER_STRATEGY_C
-#include "input_controller_manager.h"
+#include "../input_controller_manager.h"
 #include "input.h"
 #include "video.h"
 

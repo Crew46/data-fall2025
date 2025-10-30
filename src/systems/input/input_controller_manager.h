@@ -4,11 +4,6 @@
 #include "../../vector/vector2.h"
 #include "input_controller.h"
 
-struct InputManager
-{
-    DoublyLinkedList* inputControllerList;
-};
-
 enum GamepadButton
 {
     GAMEPAD_BUTTON_A,

@@ -2,6 +2,7 @@
 #define INPUT_CONTROLLER_DISPATCHER
 #include "../input_controller.h"
 #include "gamepad_input_controller_strategy.c"
+#include "ship_cpu_input_controller_strategy.c"
    
 void DispatchInputStrategy(InputController* inputController)
 {
@@ -11,6 +12,7 @@ void DispatchInputStrategy(InputController* inputController)
         UpdateGamepadInput(inputController);
         break;
     case INPUT_CONTROLLER_TYPE_SHIP_CPU:
+        UpdateShipCPUInput(inputController);
         break;
     default:
         break;

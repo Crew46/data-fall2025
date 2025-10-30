@@ -73,13 +73,14 @@ void InitializeGameManager()
     
     //player creation
     player = GameObjectManagerConstructGameObject();
-    OM_ObjectSet_Name((Object*)player, "player");
+    GOM_GameObjectSet_Name(player, "player0");
     GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player, RENDER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player, INPUT_CONTROLLER_COMPONENT);
-    //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
     //set gamepad of player controller component
+    InputManagerSetInputControllerGamepad((InputController*)GameObjectManagerGameObjectGetComponentByType(player, INPUT_CONTROLLER_COMPONENT), 0);
+    InputManagerSetInputControllerType((InputController*)GameObjectManagerGameObjectGetComponentByType(player, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_GAMEPAD);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
@@ -88,11 +89,12 @@ void InitializeGameManager()
     
     //player creation
     player1 = GameObjectManagerConstructGameObject();
-    OM_ObjectSet_Name((Object*)player1, "player1");
+    GOM_GameObjectSet_Name(player1, "player1");
     GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player1, RENDER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
-    //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player1, INPUT_CONTROLLER_COMPONENT);
+    InputManagerSetInputControllerType((InputController*)GameObjectManagerGameObjectGetComponentByType(player1, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_SHIP_CPU);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GameObjectManagerGameObjectGetComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);

@@ -27,6 +27,7 @@ void InputManagerDeconstructInputController(InputController* controller);
 
 int InputManagerGetButtonValueOfInputController(InputController* inputController, GamepadButton button);
 Vector2* InputManagerGetMovementOfInputController(InputController* inputController);
+Vector2* InputManagerGetNormalizedMovementOfInputController(InputController* inputController);
 void InputManagerSetInputControllerGamepad(InputController* controller, int gamepad);
 void InputManagerSetInputControllerType(InputController* inputController, InputControllerType type);
 

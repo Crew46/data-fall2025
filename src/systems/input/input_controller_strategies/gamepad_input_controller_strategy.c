@@ -20,6 +20,7 @@ void UpdateGamepadInput(InputController* inputController)
     gamepad_direction(&deltaX, &deltaY);
     input->movementDirection.x = deltaX;
     input->movementDirection.y = deltaY;
+    gamepad_direction_normalized(&(&input->normalizedMovementDirection)->x, &(&input->normalizedMovementDirection)->y);
 }
 
 #endif

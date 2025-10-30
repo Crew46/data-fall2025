@@ -12,6 +12,7 @@ struct Input
     int buttonR;
     int buttonStart;
     Vector2 movementDirection;
+    Vector2 normalizedMovementDirection;
 };
 
 #endif //INPUT

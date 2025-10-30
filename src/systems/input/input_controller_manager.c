@@ -73,6 +73,11 @@ Vector2* InputManagerGetMovementOfInputController(InputController* inputControll
     return &inputController->input.movementDirection;
 }
 
+Vector2* InputManagerGetNormalizedMovementOfInputController(InputController* inputController)
+{
+    return &inputController->input.normalizedMovementDirection;
+}
+
 void InputManagerSetInputControllerGamepad(InputController* controller, int gamepad)
 {
     controller->gamepad = gamepad;
@@ -94,6 +99,8 @@ void InputManagerInitializeInput(Input* input)
     input->buttonStart = -1;
     input->movementDirection.x = 0;
     input->movementDirection.y = 0;
+    input->normalizedMovementDirection.x = 0;
+    input->normalizedMovementDirection.y = 0;
 }
 
 void InputManagerDeconstructInput(Input* input)

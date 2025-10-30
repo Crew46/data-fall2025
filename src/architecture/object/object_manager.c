@@ -10,19 +10,14 @@ ObjectManager* objectManager;
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-ObjectManager* GetObjectManager()
-{
-    return objectManager;
-}
-
-void InitializeObjectManager()
+void OM_Initialize()
 {
     objectManager = (ObjectManager*)malloc(sizeof(ObjectManager));
     objectManager->objectList = ConstructDoublyLinkedList();
     objectManager->nextObjectID = 0;
 }
 
-void DeinitializeObjectManager()
+void OM_Deinitialize()
 {
     //deconstruct all objects in list
     //here//
@@ -32,27 +27,28 @@ void DeinitializeObjectManager()
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-//////////OBJECT CONSTRUCTION AND INITIALIZATION///////////
+//////////OBJECT //////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void ObjectManagerInitializeObject(Object* object)
+void OM_InitializeObject(Object* object)
 {
-    ObjectManagerSetObjectName(object, "unamed");
+    object->name = NULL;
     object->isActive = true;
-    object->objectID = objectManager->nextObjectID;
+    object->OID = objectManager->nextObjectID;
     objectManager->nextObjectID++;
+    OM_ObjectSet_Name(object, "unamed");
     DoublyLinkedListInsertElementToTail(objectManager->objectList, object);
 }
 
-Object* ObjectManagerConstructObject()
+Object* OM_ConstructObject()
 {
     Object* object = (Object*)malloc(sizeof(Object));
-    ObjectManagerInitializeObject(object);
+    OM_InitializeObject(object);
     return object;
 }
 
-void ObjectManagerDeconstructObject(Object* object)
+void OM_DeconstructObject(Object* object)
 {
     //remove from linked list
 
@@ -63,15 +59,56 @@ void ObjectManagerDeconstructObject(Object* object)
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-/////////GETTERS & SETTERS/////////////////////////////////
+///////////GETTERS AND SETTERS/////////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void ObjectManagerSetObjectName(Object* object, int* name)
+//======//
+//OBJECT//
+//======//
+
+void OM_ObjectSet_Name(Object* object, int* name)
 {
     int* playerName = (int*)malloc(sizeof(int) * (strlen(name) + 1));
     strcpy(playerName, name);
+
+    if(object->name)
+    {
+       free(object->name);
+    }
+
     object->name = playerName;
+}
+int* OM_ObjectGet_Name(Object* object)
+{
+    return object->name;
+}
+
+void OM_ObjectSet_IsActive(Object* object, bool isActive)
+{
+    object->isActive = isActive;
+}
+bool OM_ObjectGet_IsActive(Object* object)
+{
+    return object->isActive;
+}
+
+void OM_ObjectSet_OID(Object* object, int OID)
+{
+    object->OID = OID;
+}
+int OM_ObjectGet_OID(Object* object)
+{
+    return object->OID;
+}
+
+//=======//
+//MANAGER//
+//=======//
+
+ObjectManager* OM_GetObjectManager()
+{
+    return objectManager;
 }
 
 #endif // OBJECT_MANAGER_C

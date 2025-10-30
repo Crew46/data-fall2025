@@ -6,7 +6,7 @@ struct Object
 {
     int* name; //string for name of object
     bool isActive; //active in scene
-    int objectID;
+    int OID;
 };
 
 #endif // OBJECT_H

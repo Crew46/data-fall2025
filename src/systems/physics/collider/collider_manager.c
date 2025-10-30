@@ -28,7 +28,7 @@ void DeinitializeColliderManager()
 
 void InitializeCollider(Collider* collider)
 {
-    ComponentManagerInitializeComponent((Component*)collider, COLLIDER_COMPONENT);
+    CM_InitializeComponent((Component*)collider, COLLIDER_COMPONENT);
     collider->shape = RECTANGLE;
     collider->dimensions.x = 50;
     collider->dimensions.y = 50;
@@ -45,7 +45,7 @@ Collider* ConstructCollider()
 void DeconstructCollider(Collider* collider)
 {
     //free base
-    ComponentManagerDeconstructComponent((Component*)collider);
+    CM_DeconstructComponent((Component*)collider);
     free(collider);
 }
 

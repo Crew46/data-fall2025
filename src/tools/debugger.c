@@ -64,7 +64,7 @@ void DrawLine(Vector2* starting, Vector2* ending, int* character)
 
 void DrawDoublyNodeAt(int x, int y, DoublyNode* node)
 {
-    PrintIntAt(x, y, node->data->objectID);
+    PrintIntAt(x, y, node->data->OID);
 }
 
 void VisualizeDoublyLinkedList(DoublyLinkedList* list)
@@ -98,7 +98,7 @@ void VisualizeDoublyLinkedList(DoublyLinkedList* list)
     }
 }
 
-void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
+void PrintGameObjectDataAt(int x, int y, GameObject* gameObjectAttatchedTo)
 {
     int leading = 20;
     int tracking = 20;
@@ -106,10 +106,10 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
     print_at(x, y + leading, "GameObject: ");
 
     print_at(x + tracking * 1, y + leading * 2, "gID: ");
-    PrintIntAt(x + tracking * 5, y + leading * 2, gameObject->gameObjectID);
+    PrintIntAt(x + tracking * 5, y + leading * 2, gameObjectAttatchedTo->GID);
     
     print_at(x + tracking, y + leading * 3, "components: ");
-    DoublyNode* currentNode = gameObject->components->head;
+    DoublyNode* currentNode = gameObjectAttatchedTo->components->head;
     Component* currentComponent = NULL;
     int index = 0;
     while(currentNode != NULL)
@@ -126,14 +126,14 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
             PrintIntAt(x + tracking * (5 + (2 * index)), y + leading * 4, currentComponent->type);
 
             print_at(x + tracking * 2, y + leading * 5, "cID: ");
-            PrintIntAt(x + tracking * (5 + (2 * index)), y + leading * 5, currentComponent->componentID);
+            PrintIntAt(x + tracking * (5 + (2 * index)), y + leading * 5, currentComponent->CID);
         }
         currentNode = currentNode->next;
         index++;
     }
     print_at(x + tracking * 1, y + leading * 6, "children:");
     print_at(x + tracking * 2, y + leading * 7, "gID:");
-    DoublyNode* currentChildNode = gameObject->children->head;
+    DoublyNode* currentChildNode = gameObjectAttatchedTo->children->head;
     GameObject* currentGameObject = NULL;
     int gameObjectIndex = 0;
     while(currentChildNode != NULL)
@@ -142,23 +142,23 @@ void PrintGameObjectDataAt(int x, int y, GameObject* gameObject)
         currentChildNode = currentChildNode->next;
         if(currentGameObject != NULL)
         {
-            PrintIntAt(x + tracking * (5 + (2 * gameObjectIndex)), y + leading * 7, currentGameObject->gameObjectID);
+            PrintIntAt(x + tracking * (5 + (2 * gameObjectIndex)), y + leading * 7, currentGameObject->GID);
         }
         gameObjectIndex++;
     }
     print_at(x + tracking, y + leading * 8, "ParentGID: ");
     //print parent id if there is a parent
-    if(gameObject->parent != NULL)
+    if(gameObjectAttatchedTo->parent != NULL)
     {
-        PrintIntAt(x + tracking * 6, y + leading * 8, gameObject->parent->gameObjectID);
+        PrintIntAt(x + tracking * 6, y + leading * 8, gameObjectAttatchedTo->parent->GID);
     }
     print_at(x + tracking, y + leading * 9, "Object: ");
     print_at(x + tracking * 2, y + leading * 10, "active: ");
-    PrintIntAt(x + tracking * 6, y + leading * 10, gameObject->base.isActive);
+    PrintIntAt(x + tracking * 6, y + leading * 10, gameObjectAttatchedTo->base.isActive);
     print_at(x + tracking * 2, y + leading * 11, "name: ");
-    print_at(x + tracking * 6, y + leading * 11, gameObject->base.name);
+    print_at(x + tracking * 6, y + leading * 11, gameObjectAttatchedTo->base.name);
     print_at(x + tracking * 2, y + leading * 12, "oID: ");
-    PrintIntAt(x + tracking * 6, y + leading * 12, gameObject->base.objectID);
+    PrintIntAt(x + tracking * 6, y + leading * 12, gameObjectAttatchedTo->base.OID);
 }
 
 #endif //DEBUGGER_C

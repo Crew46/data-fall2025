@@ -61,21 +61,23 @@ void InitializeGameManager()
     InitializeRegions();
 
     //component-based architecture initialization
-    InitializeObjectManager();
-    InitializeComponentManager();
+    OM_Initialize();
+    CM_Initialize();
     InitializeGameObjectManager();
     //systems initialization
     InitializeTransformManager();
     InitializeRenderManager();
     InitializePlayerControllerManager();
     InitializeAudioManager();
+    InitializeInputManager();
     
     //player creation
     player = GameObjectManagerConstructGameObject();
-    ObjectManagerSetObjectName((Object*)player, "player");
+    OM_ObjectSet_Name((Object*)player, "player");
     GameObjectManagerAddComponentToGameObject(player, TRANSFORM_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player, RENDER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
+    GameObjectManagerAddComponentToGameObject(player, INPUT_CONTROLLER_COMPONENT);
     //GameObjectManagerAddComponentToGameObject(player1, COLLIDER_COMPONENT);
     //set gamepad of player controller component
     //set the region and texture of the render component
@@ -86,7 +88,7 @@ void InitializeGameManager()
     
     //player creation
     player1 = GameObjectManagerConstructGameObject();
-    ObjectManagerSetObjectName((Object*)player1, "player");
+    OM_ObjectSet_Name((Object*)player1, "player1");
     GameObjectManagerAddComponentToGameObject(player1, TRANSFORM_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player1, RENDER_COMPONENT);
     GameObjectManagerAddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);

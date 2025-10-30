@@ -10,14 +10,36 @@ struct ObjectManager
 };
 
 //manager initialization
-void InitializeObjectManager();
-void DeinitializeObjectManager();
+void OM_Initialize();
+void OM_Deinitialize();
 //object creation
-void ObjectManagerInitializeObject(Object* object);
-Object* ObjectManagerConstructObject();
-void ObjectManagerDeconstructObject(Object* object);
-//getters and setters
-void ObjectManagerSetObjectName(Object* object, int* name);
-ObjectManager* GetObjectManager();
+void OM_InitializeObject(Object* object);
+Object* OM_ConstructObject();
+void OM_DeconstructObject(Object* object);
+
+//=========================================================
+///////////////////////////////////////////////////////////
+///////////GETTERS AND SETTERS/////////////////////////////
+///////////////////////////////////////////////////////////
+//=========================================================
+
+//======//
+//OBJECT//
+//======//
+
+void OM_ObjectSet_Name(Object* object, int* name);
+int* OM_ObjectGet_Name(Object* object);
+
+void OM_ObjectSet_IsActive(Object* object, bool isActive);
+bool OM_ObjectGet_IsActive(Object* object);
+
+void OM_ObjectSet_OID(Object* object, int OID);
+int OM_ObjectGet_OID(Object* object);
+
+//=======//
+//MANAGER//
+//=======//
+
+ObjectManager* OM_GetObjectManager();
 
 #endif // OBJECT_MANAGER_H

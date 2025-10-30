@@ -30,7 +30,7 @@ void InitializeGameObjectManager()
     gameObjectManager->gameObjectList = ConstructDoublyLinkedList();
     gameObjectManager->nextGameObjectID = 0;
     gameObjectManager->root = GameObjectManagerConstructGameObject();
-    ObjectManagerSetObjectName((Object*)gameObjectManager->root, "Root");
+    OM_ObjectSet_Name((Object*)gameObjectManager->root, "Root");
 }
 
 void DeinitializeGameObjectManager()
@@ -50,9 +50,9 @@ void DeinitializeGameObjectManager()
 void GameObjectManagerInitializeGameObject(GameObject* gameObject)
 {
     //initialize base object through object manager
-    ObjectManagerInitializeObject((Object*)gameObject);
+    OM_InitializeObject((Object*)gameObject);
     //initialize gameobject
-    gameObject->gameObjectID = gameObjectManager->nextGameObjectID;
+    gameObject->GID = gameObjectManager->nextGameObjectID;
     //initialize linked list
     gameObject->components = ConstructDoublyLinkedList();
     //children list
@@ -86,7 +86,7 @@ GameObject* GameObjectManagerConstructGameObject()
 void GameObjectManagerDeconstructGameObject(GameObject* gameObject)
 {
     //deconstruct object through object manager
-    ObjectManagerDeconstructObject(&gameObject->base);
+    OM_DeconstructObject(&gameObject->base);
     //deconstuct all children of linked list
     //here//
 
@@ -121,9 +121,9 @@ Component* GameObjectManagerGameObjectGetComponentByType(GameObject* gameObject,
 //find a component of a specific type, given a component that belongs to the same game object
 Component* GameObjectManagerGetComponentFromComponent(Component* component, ComponentType type)
 {
-    if(component->gameObject != NULL)
+    if(component->gameObjectAttatchedTo != NULL)
     {
-        return GameObjectManagerGameObjectGetComponentByType(component->gameObject, type);
+        return GameObjectManagerGameObjectGetComponentByType(component->gameObjectAttatchedTo, type);
     }
     return NULL;
 }
@@ -140,7 +140,7 @@ void GameObjectManagerUpdateAllComponentsInGameObject(GameObject* gameObject)
         //set current component to next element in list
         currentComponent = (Component*)currentNode->data;
 
-        ComponentManagerUpdateComponent(currentComponent);
+        CM_UpdateComponent(currentComponent);
 
         //move to next component in list
         currentNode = currentNode->next;
@@ -149,8 +149,8 @@ void GameObjectManagerUpdateAllComponentsInGameObject(GameObject* gameObject)
 
 void GameObjectManagerAddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
-    Component* component = ComponentManagerConstructComponent(type);
-    ComponentManagerSetGameObjectOfComponent(component, gameObject);
+    Component* component = CM_ConstructComponent(type);
+    CM_ComponentSet_GameObjectAttatchedTo(component, gameObject);
     DoublyLinkedListInsertElementToTail(gameObject->components, (Object*)component);
 }
 

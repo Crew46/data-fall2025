@@ -7,72 +7,61 @@
 
 ComponentManager* componentManager;
 
-ComponentManager* GetComponentManager()
-{
-    return componentManager;
-}
-
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///////////MANAGER INITIALIZATION//////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void InitializeComponentManager()
+void CM_Initialize()
 {
     componentManager = (ComponentManager*)malloc(sizeof(ComponentManager));
-    componentManager->componentList = ConstructDoublyLinkedList();
+    componentManager->list = ConstructDoublyLinkedList();
     componentManager->nextComponentID = 0;
 }
 
-void DeinitializeComponentManager(ComponentManager* componentManager)
+void CM_Deinitialize(ComponentManager* componentManager)
 {
 }
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///////////COMPONENT CONSTRUCTION & DECONSTRUCTION/////////
+///////////COMPONENT FUNCTIONS/////////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void ComponentManagerInitializeComponent(Component* component, ComponentType type)
+void CM_InitializeComponent(Component* component, ComponentType type)
 {
     //initialize base object through object manager
-    ObjectManagerInitializeObject((Object*)component);
+    OM_InitializeObject((Object*)component);
     //initialize component
-    component->componentID = componentManager->nextComponentID;
+    component->CID = componentManager->nextComponentID;
     componentManager->nextComponentID++;
     component->type = type;
     //not attached to gameobject when created  
-    component->gameObject = NULL;
-    DoublyLinkedListInsertElementToTail(componentManager->componentList, (Object*)component);
+    component->gameObjectAttatchedTo = NULL;
+    DoublyLinkedListInsertElementToTail(componentManager->list, (Object*)component);
 }
 
-Component* ComponentManagerConstructComponent(ComponentType type)
+Component* CM_ConstructComponent(ComponentType type)
 {
     return DispatchComponentConstructionFunction(type);
 }
 
-void ComponentManagerDeconstructComponent(Component* component)
+void CM_DeconstructComponent(Component* component)
 {
     //remove from component list
-    RemoveElementFromDoublyLinkedList(componentManager->componentList, (Object*)component);
+    RemoveElementFromDoublyLinkedList(componentManager->list, (Object*)component);
     //dispatch destruct function to component systems
     //
     //
     free(component);
 }
 
-//=========================================================
-///////////////////////////////////////////////////////////
-///////////UPDATE ALL COMPONENTS///////////////////////////
-///////////////////////////////////////////////////////////
-//=========================================================
-
-void ComponentManagerUpdateComponent(Component* component)
+void CM_UpdateComponent(Component* component)
 {
     //if active, update component
-    if(component != NULL && ((Object*)component)->isActive)
+    if(component && CM_ComponentGet_IsActive(component))
     {
         DispatchComponentsUpdateFunction(component);
     }
@@ -80,13 +69,82 @@ void ComponentManagerUpdateComponent(Component* component)
 
 //=========================================================
 ///////////////////////////////////////////////////////////
-///////////GETTERS & SETTERS///////////////////////////////
+///////////GETTERS AND SETTERS/////////////////////////////
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void ComponentManagerSetGameObjectOfComponent(Component* component, GameObject* gameObject)
+//======//
+//OBJECT//
+//======//
+
+//set name
+void CM_ComponentSet_Name(Component* component, int* name)
 {
-    component->gameObject = gameObject;
+    OM_ObjectSet_Name((Object*)component, name);
+}
+//get name
+int* CM_ComponentGet_Name(Component* component)
+{
+    return OM_ObjectGet_Name((Object*)component);
+}
+//set isactive
+void CM_ComponentSet_IsActive(Component* component, bool isActive)
+{
+    OM_ObjectSet_IsActive((Object*)component, isActive);
+}
+//get isactive
+bool CM_ComponentGet_IsActive(Component* component)
+{
+    return OM_ObjectGet_IsActive((Object*)component);
+}
+//get underlying objectid
+int CM_ComponentGet_ObjectID(Component* component)
+{
+    return OM_ObjectGet_OID((Object*)component);
+}
+
+//=========//
+//COMPONENT//
+//=========//
+
+//set GameObjectAttatchedTo
+void CM_ComponentSet_GameObjectAttatchedTo(Component* component, GameObject* gameObjectAttatchedTo)
+{
+    component->gameObjectAttatchedTo = gameObjectAttatchedTo;
+}
+//get GameObjectAttatchedTo
+GameObject* CM_ComponentGet_GameObjectAttatchedTo(Component* component)
+{
+    return component->gameObjectAttatchedTo;
+}
+//set ComponentType
+void CM_ComponentSet_ComponentType(Component* component, ComponentType type)
+{
+    component->type = type;
+}
+//get ComponentType
+ComponentType CM_ComponentGet_ComponentType(Component* component)
+{
+    return component->type;
+}
+//set Component ID
+void CM_ComponentSet_CID(Component* component, int CID)
+{
+    component->CID = CID;
+}
+//Get Component ID
+int CM_ComponentGet_CID(Component* component)
+{
+    return component->CID;
+}
+
+//=======//
+//MANAGER//
+//=======//
+
+ComponentManager* CM_GetComponentManager()
+{
+    return componentManager;
 }
 
 #endif // COMPONENT_MANAGER_C

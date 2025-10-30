@@ -10,7 +10,7 @@ struct GameObject
     GameObject* parent; //parent to gameobject
     DoublyLinkedList* components; //list of components
     DoublyLinkedList* children; //list of child game objects
-    int gameObjectID;
+    int GID;
 };
 
 #endif // GAME_OBJECT_H

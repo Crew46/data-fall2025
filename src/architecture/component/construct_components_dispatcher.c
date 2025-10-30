@@ -5,6 +5,7 @@
 #include "../../systems/rendering/render_manager.h"
 #include "../../systems/player/player_controller_manager.h"
 #include "../../systems/physics/collider/collider_manager.h"
+#include "../../systems/input/input_controller_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)
 {
@@ -25,6 +26,9 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             break;
         case COLLIDER_COMPONENT:
             componentToReturn = (Component*)ConstructCollider();
+            break;
+        case INPUT_CONTROLLER_COMPONENT:
+            componentToReturn = (Component*)InputManagerConstructInputController();
             break;
         case WEAPON_CONTROLLER_COMPONENT:
             //construct weapon controller component

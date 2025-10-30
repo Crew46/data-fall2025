@@ -17,9 +17,9 @@ enum ComponentType
 struct Component
 {
     Object base; //base object
-    GameObject* gameObject; //reference to gameobject of this component
+    GameObject* gameObjectAttatchedTo; //reference to gameobject of this component
     ComponentType type; //type of component
-    int componentID; //component id
+    int CID; //component id
 };
 
 #endif // COMPONENT_H

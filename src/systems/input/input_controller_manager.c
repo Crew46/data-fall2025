@@ -19,9 +19,9 @@ void DeinitializeInputManager()
 
 void InputManagerInitializeInputController(InputController* controller)
 {
-    DoublyLinkedListInsertElementToTail(inputManager->inputControllerList, (Object*)controller);
-    ComponentManagerInitializeComponent((Component*)controller, INPUT_CONTROLLER_COMPONENT);
+    CM_InitializeComponent((Component*)controller, INPUT_CONTROLLER_COMPONENT);
     InputManagerInitializeInput(&controller->input);
+    DoublyLinkedListInsertElementToTail(inputManager->inputControllerList, (Object*)controller);
     controller->type = GAMEPAD; 
     controller->gamepad = 0;
 }
@@ -51,7 +51,7 @@ void InputManagerUpdateInputController(InputController* inputController)
 int InputManagerGetButtonValueOfInputController(InputController* inputController, GamepadButton button)
 {
     //input to return for gamepad controllers
-    if(inputController->type = GAMEPAD)  
+    if(inputController->type == GAMEPAD)  
     {
         select_gamepad(inputController->gamepad);
         switch (button)

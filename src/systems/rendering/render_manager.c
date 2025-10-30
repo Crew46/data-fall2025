@@ -36,8 +36,8 @@ void DeinitializeRenderManager()
 
 void InitializeRenderComponent(RenderComponent* renderComponent, int region, int texture)
 {
-    ComponentManagerInitializeComponent((Component*)renderComponent, RENDER_COMPONENT);  
-    ObjectManagerSetObjectName((Object*)renderComponent, "Render_Component"); 
+    CM_InitializeComponent((Component*)renderComponent, RENDER_COMPONENT);  
+    OM_ObjectSet_Name((Object*)renderComponent, "Render_Component"); 
     renderComponent->regionID = region;
     renderComponent->textureID = texture;
     renderComponent->renderPriority = 0;
@@ -53,7 +53,7 @@ RenderComponent* ConstructRenderComponent()
 
 void DeconstructRenderComponent(RenderComponent* renderComponent)
 {
-    ComponentManagerDeconstructComponent(&renderComponent->base);
+    CM_DeconstructComponent(&renderComponent->base);
     free(renderComponent);
 }
 

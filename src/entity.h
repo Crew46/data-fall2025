@@ -1,6 +1,8 @@
 #ifndef ENTITY_H // entity.h
 #define ENTITY_H
 
+#include "audio_manager.h"
+
 struct Object;
 struct DoublyLinkedList;
 struct Weapon;
@@ -124,6 +126,7 @@ Entity* updatePlayer(Entity* player)
   if(gamepad_button_a() == 1)
   {
     player = playerShoot(player);
+    playSound(2, 2, false, 0.5);
   }
   return player;
 }

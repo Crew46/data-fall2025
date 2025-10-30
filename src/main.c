@@ -249,7 +249,16 @@ while (status == 0x00000000)
 						if( time < get_time ())
 						{
 							player->region = PLAYER_REGION;
-							status = bitMasking (0x11111101, 0);
+// This checks the weapon bit before resetting.
+							if ( bitMasking (0x00000100, 0) == 0x00000100)
+								{
+									status = bitMasking (0x11111101, 0);
+								}
+							if ( bitMasking (0x00000200, 0) == 0x00000200)
+								{
+									status = bitMasking (0x11111201, 0);
+								}
+				
 						}
 					}
 
@@ -353,14 +362,13 @@ while (status == 0x00000000)
 // Function to update the deactivated enemy
 							tmp = explosion (tmp);
 							b = rand () % ( 100 + 1);
-							if( b  > 95)
-							{
-							newNode	= mkPowerup (tmp);		
-							myStack	= push (myStack, newNode);
-							myStack = pop  (myStack, &(tmp3));
-							listA	= appendNode ( listA, listA->tail, tmp3);
-							}
-						
+								if( b  > 95)
+								{
+								newNode	= mkPowerup (tmp);		
+								myStack	= push (myStack, newNode);
+								myStack = pop  (myStack, &(tmp3));
+								listA	= appendNode ( listA, listA->tail, tmp3);
+								}
 							}
 							if ( tmp2 -> type == 1)
 							{

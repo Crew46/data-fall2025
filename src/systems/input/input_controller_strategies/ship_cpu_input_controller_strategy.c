@@ -7,8 +7,6 @@
 
 void UpdateShipCPUInput(InputController* inputController)
 {
-    print_at(screen_width / 2, screen_height - 20, "CPU UPDATING");
-
     int rand = rand() % 1000;
     if(get_frame_counter() % 20 == 0)
     {

@@ -4,6 +4,7 @@
 #include "../../architecture/component/component_manager.h"
 #include "../audio/audio_manager.h"
 #include "../input/input_controller_manager.h"
+#include "../../tools/debugger.c"
 
 PlayerControllerManager* playerManager;
 
@@ -58,29 +59,26 @@ void DeconstructPlayerController(PlayerController* player)
 
 void UpdatePlayerController(PlayerController* playerController)
 {
-    //if this component is attatched to an object
-    if(((Component*)playerController)->gameObjectAttatchedTo != NULL)
+    InputController* input = (InputController*)GameObjectManagerGameObjectGetComponentByType(((Component*)playerController)->gameObjectAttatchedTo, INPUT_CONTROLLER_COMPONENT);
+    if(input)
     {
-        InputController* input = (InputController*)GameObjectManagerGameObjectGetComponentByType(((Component*)playerController)->gameObjectAttatchedTo, INPUT_CONTROLLER_COMPONENT);
-        if(input != NULL)
-        {
-            TransformComponent* transform = (TransformComponent*)GameObjectManagerGameObjectGetComponentByType(((Component*)playerController)->gameObjectAttatchedTo, TRANSFORM_COMPONENT);
-            Vector2* movement = CreateVector2(0, 0);
-            gamepad_direction_normalized(&movement->x, &movement->y);
-            Vector2* result = CreateVector2(0, 0);
-            int speed = 8;
-            MultiplyVector2ByScalar(movement, speed, result);
-            Vector2* result2 = CreateVector2(0, 0);
-            AddVector2Components(&transform->position, result, result2);
-            TransformComponentSetGlobalPosition(transform, result2->x, result2->y);
-            free(result);
-            free(result2);
+        TransformComponent* transform = (TransformComponent*)GameObjectManagerGameObjectGetComponentByType(((Component*)playerController)->gameObjectAttatchedTo, TRANSFORM_COMPONENT);
+        Vector2* movement = CreateVector2(0, 0);
+        gamepad_direction_normalized(&movement->x, &movement->y);
+        Vector2* result = CreateVector2(0, 0);
+        int speed = 8;
+        MultiplyVector2ByScalar(movement, speed, result);
+        Vector2* result2 = CreateVector2(0, 0);
+        AddVector2Components(&transform->position, result, result2);
+        TransformComponentSetGlobalPosition(transform, result2->x, result2->y);
+        free(result);
+        free(result2);
 
-            if(InputManagerGetButtonValueOfInputController(input, GAMEPAD_BUTTON_X) == 1)
-            {
-                //PlayRandomSFXOfType(EXPLOSION_SOUND_EFFECT);
-                PlayRandomSFXOfType(LASER_SOUND_EFFECT);
-            }
+        PrintIntAt(screen_width / 2, screen_height - 20, InputManagerGetButtonValueOfInputController(input, GAMEPAD_BUTTON_X));
+        if(InputManagerGetButtonValueOfInputController(input, GAMEPAD_BUTTON_X) == 1)
+        {
+            //PlayRandomSFXOfType(EXPLOSION_SOUND_EFFECT);
+            PlayRandomSFXOfType(LASER_SOUND_EFFECT);
         }
     }
 }

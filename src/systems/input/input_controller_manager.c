@@ -3,6 +3,7 @@
 #include "input_controller_manager.h"
 #include "../../architecture/component/component_manager.h"
 #include "input.h"
+#include "input_controller_dispatcher.c"
 
 InputManager* inputManager = NULL;
 
@@ -35,21 +36,13 @@ InputController* InputManagerConstructInputController()
 
 void InputManagerDeconstructInputController(InputController* controller)
 {
-
 }
 
 
 void InputManagerUpdateInputController(InputController* inputController)
 {
-    switch (inputController->type)
-    {
-    case INPUT_CONTROLLER_TYPE_GAMEPAD:
-        break;
-    case INPUT_CONTROLLER_TYPE_SHIP_CPU:
-        break;
-    default:
-        break;
-    }
+    print_at(screen_width / 2, screen_height / 2, "UPDATING");
+    DispatchInputStrategy(inputController);
 }
 
 int InputManagerGetButtonValueOfInputController(InputController* inputController, GamepadButton button)
@@ -64,7 +57,7 @@ int InputManagerGetButtonValueOfInputController(InputController* inputController
         break;
     case GAMEPAD_BUTTON_X:
         return inputController->input.buttonX;
-    break;
+        break;
     case GAMEPAD_BUTTON_Y:
         return inputController->input.buttonY;
         break;

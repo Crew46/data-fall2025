@@ -105,7 +105,7 @@ while (status == 0x00000000)
 	draw_region ();
 	set_drawing_point ( 200, 250);
 	print ( " X TO FIRE LASER ");
-	set_drawing_point ( 200, 350);
+	set_drawing_point ( 200, 300);
 	print (" Z TO CHANGE WEAPONS");
 	if (gamepad_button_start () == true)
 		{
@@ -385,7 +385,7 @@ while (status == 0x00000000)
 										b = rand () % ( 100 + 1);
 										if( b  > 95)
 										{
-											newNode = mkPowerup (tmp);
+											newNode = mkPowerup (tmp4);
 											myStack = push (myStack, newNode);
 											myStack = pop  (myStack, &(tmp3));
 											listA   = appendNode ( listA, listA->tail, tmp3);

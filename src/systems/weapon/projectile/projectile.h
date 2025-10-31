@@ -1,5 +1,5 @@
-#ifndef PROJECTILE_COMPONENT_H
-#define PROJECTILE_COMPONENT_H struct 
+#ifndef PROJECTILE_H
+#define PROJECTILE_H
 #include "../../architecture/component/component.h"
 
 enum ProjectileComponentType
@@ -14,4 +14,4 @@ struct ProjectileComponent
     ProjectileComponentType type;
 };
 
-#endif //PROJECTILE_COMPONENT_H
+#endif //PROJECTILE_H

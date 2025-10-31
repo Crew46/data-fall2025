@@ -26,6 +26,7 @@
 #include "systems/physics/rigidbody/rigidbody_manager.c"
 #include "systems/physics/tools/raycast_tool.c"
 #include "systems/input/input_controller_manager.c"
+#include "systems/health/health_controller_manager.c"
 //other implementations
 #include "data_structures/doubly_linked_list/doubly_linked_list.c"
 #include "data_structures/singly_linked_list/linked_list.c"
@@ -74,11 +75,16 @@ void InitializeGameManager()
     GOM_GameObjectSet_Name(player, "player0");
     GOM_AddComponentToGameObject(player, TRANSFORM_COMPONENT);
     GOM_AddComponentToGameObject(player, RENDER_COMPONENT);
-    GOM_AddComponentToGameObject(player, PLAYER_CONTROLLER_COMPONENT);
+    GOM_AddComponentToGameObject(player, SHIP_CONTROLLER_COMPONENT);
     GOM_AddComponentToGameObject(player, INPUT_CONTROLLER_COMPONENT);
+    GOM_AddComponentToGameObject(player, HEALTH_CONTROLLER_COMPONENT);
+
     //set gamepad of player controller component
     ICM_InputControllerSet_Gamepad((InputController*)GOM_GameObjectGet_ComponentByType(player, INPUT_CONTROLLER_COMPONENT), 0);
     ICM_InputControllerSet_Type((InputController*)GOM_GameObjectGet_ComponentByType(player, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_GAMEPAD);
+    //ship
+    ShipControllerSet_Speed((ShipController*)GOM_GameObjectGet_ComponentByType(player, SHIP_CONTROLLER_COMPONENT), 8);
+
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GOM_GameObjectGet_ComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GOM_GameObjectGet_ComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
@@ -90,9 +96,11 @@ void InitializeGameManager()
     GOM_GameObjectSet_Name(player1, "player1");
     GOM_AddComponentToGameObject(player1, TRANSFORM_COMPONENT);
     GOM_AddComponentToGameObject(player1, RENDER_COMPONENT);
-    GOM_AddComponentToGameObject(player1, PLAYER_CONTROLLER_COMPONENT);
+    GOM_AddComponentToGameObject(player1, SHIP_CONTROLLER_COMPONENT);
     GOM_AddComponentToGameObject(player1, INPUT_CONTROLLER_COMPONENT);
     ICM_InputControllerSet_Type((InputController*)GOM_GameObjectGet_ComponentByType(player1, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_SHIP_CPU);
+    //ship
+    ShipControllerSet_Speed((ShipController*)GOM_GameObjectGet_ComponentByType(player1, SHIP_CONTROLLER_COMPONENT), 2);
     //set the region and texture of the render component
     SetRenderComponentRegion((RenderComponent*)GOM_GameObjectGet_ComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
     SetRenderComponentTexture((RenderComponent*)GOM_GameObjectGet_ComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
@@ -123,9 +131,8 @@ void UpdateGameManager()
     //updates all gameobject in scene, allong with the attatched components to those gameobjects
     GOM_UpdateAllGameObjects();
 
-    PrintGameObjectDataAt(0, 50, player); 
-    PrintGameObjectDataAt(200, 50, player1); 
-    PrintGameObjectDataAt(400, 50, GOM_GetRootGameObject()); 
+    //PrintGameObjectDataAt(0, 50, player); 
+    //PrintGameObjectDataAt(400, 50, player1); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

@@ -6,12 +6,13 @@
 #include "../../systems/ship/ship_controller_manager.h"
 #include "../../systems/physics/collider/collider_manager.h"
 #include "../../systems/input/input_controller_manager.h"
+#include "../../systems/health/health_controller_manager.h"
 
 void DispatchComponentsUpdateFunction(Component* component)
 {
     switch(component->type)
     {
-        case PLAYER_CONTROLLER_COMPONENT:
+        case SHIP_CONTROLLER_COMPONENT:
             UpdateShipController((ShipController*)component);
             break;
         case TRANSFORM_COMPONENT:
@@ -31,6 +32,9 @@ void DispatchComponentsUpdateFunction(Component* component)
             break;
         case INPUT_CONTROLLER_COMPONENT:
             ICM_UpdateInputController((InputController*)component);
+            break;
+        case HEALTH_CONTROLLER_COMPONENT:
+            UpdateHealthController((HealthController*)component);
             break;
         default:
             break;

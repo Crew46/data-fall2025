@@ -2,6 +2,9 @@
 #define NODE_H
 
 // This will make a node for either enemy or enemy (more will be added.)
+
+
+//Types for things other than ammo. 0 = normal enemy, 1 = boss, 2 = powerup.
 Object *mkNode ()
 {
     Object *enemy           = NULL;
@@ -19,8 +22,7 @@ Object *mkNode ()
     enemy -> x              = xpos;
     enemy -> y              = ypos;
     enemy -> isActive       = true;
-	enemy -> powerup		= false;
-	enemy -> boss			= false;
+	enemy -> type			= 0;
 
     if (pickVariant        <= 80)
     {

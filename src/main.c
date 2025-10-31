@@ -346,7 +346,7 @@ while (status == 0x00000000)
 					while(tmp2 != NULL)
 					{
 // This checks the enemy to make sure it is not a powerup and that it is active.
-            			if(tmp2->isActive == true && tmp->powerup == false && tmp->isActive == true && collision(tmp2, tmp) )
+            			if(tmp2->isActive == true && tmp->type != 2 && tmp->isActive == true && collision(tmp2, tmp) )
                 		{    
                     	tmp->hp         = tmp->hp - tmp2 -> damage;
 						tmp2->hp		= tmp2->hp - 1;
@@ -378,7 +378,7 @@ while (status == 0x00000000)
 								while( tmp4 != NULL)
 								{
 // Explosion size.
-									if(tmp2->isActive == true && tmp4->powerup == false && tmp4->isActive == true && collision(tmp2, tmp4) )
+									if(tmp2->isActive == true && tmp4->type != 2 && tmp4->isActive == true && collision(tmp2, tmp4) )
 									{
 										tmp4 -> hp = tmp4-> hp - tmp2->damage;
 										tmp4 = explosion (tmp4);
@@ -412,7 +412,7 @@ while (status == 0x00000000)
                if(player->isActive == true && tmp->isActive == true && collision(player, tmp ) )
                 {
 					value = bitMasking (0x00000010, 0);
-					if (tmp->powerup == false && value != 0x0000010)// The second bit will represent being immortal. (shield powerup)
+					if (tmp->type != 2 && value != 0x0000010)// The second bit will represent being immortal. (shield powerup)
 					{
                     player->isActive 	= false;
                     status = 0x00000000;
@@ -429,7 +429,7 @@ while (status == 0x00000000)
 					}
 						
 					// If you touch the power up you will become immortal for 5 seconds (For now);
-					if (tmp -> powerup == true)
+					if (tmp -> type == 2)
 					{
 					status = bitMasking ( 0x00000010, 1);
 					tmp -> isActive	 	= false;

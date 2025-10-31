@@ -104,7 +104,7 @@ Object * mkPowerup (Object * enemy)
 	powerup -> y			= enemy -> y;
 	powerup -> texture		= SHIELD_TEXTURE;
 	powerup -> region		= SHIELD_REGION;
-	powerup -> powerup		= true;
+	powerup -> type			= 2;
 	powerup -> next			= NULL;
 	powerup -> prev			= NULL;
 return(powerup);

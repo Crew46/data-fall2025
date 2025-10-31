@@ -20,8 +20,6 @@ struct Object
     int     xdir;
     int     ydir;
     bool    isActive;
-    bool    laser;
-    bool    laserFired;
     int     speed;
     int     height;
     int     width;
@@ -31,8 +29,6 @@ struct Object
     int     points;
 	int		type;
 	int 	damage;
-	bool    powerup;
-	bool    boss;
     Object *next;
     Object *prev;
 };
@@ -60,4 +56,10 @@ struct queue
     Object           *front;
     Object           *back;
 };
+// struct for the binary tree.
+struct binaryTree
+{
+	Object * root;
+};
+
 #endif // _OBJECT_H

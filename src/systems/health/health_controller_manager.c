@@ -31,6 +31,15 @@ void UpdateHealthController(HealthController* controller)
     print_at(screen_width / 2, screen_height - 20, "updating health");
 }
 
+void HealthControllerDamage(HealthController* controller, int damage)
+{
+}
+
+void HealthControllerHeal(HealthController* controller, int health)
+{
+
+}
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 /////////////GETTERS & SETTERS/////////////////////////////

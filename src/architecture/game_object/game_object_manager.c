@@ -147,11 +147,14 @@ void GOM_UpdateAllComponentsInGameObject(GameObject* gameObject)
     }
 }
 
-void GOM_AddComponentToGameObject(GameObject* gameObject, ComponentType type)
+Component* GOM_AddComponentToGameObject(GameObject* gameObject, ComponentType type)
 {
     Component* component = CM_ConstructComponent(type);
     CM_ComponentSet_GameObjectAttatchedTo(component, gameObject);
     DoublyLinkedListInsertElementToTail(gameObject->components, (Object*)component);
+    
+    //return if attatching was successful
+    return component;
 }
 
 //=========================================================

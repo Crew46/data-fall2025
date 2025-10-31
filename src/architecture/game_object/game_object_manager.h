@@ -27,7 +27,7 @@ Component* GOM_GetComponentFromComponent(Component* component, ComponentType com
 void GOM_UpdateAllComponentsInGameObject(GameObject* gameObjectAttatchedTo);
 void GOM_GameObjectUpdate(GameObject* gameObjectAttatchedTo);
 void GOM_UpdateAllGameObjects();
-void GOM_AddComponentToGameObject(GameObject* gameObjectAttatchedTo, ComponentType type);
+Component* GOM_AddComponentToGameObject(GameObject* gameObjectAttatchedTo, ComponentType type);
 
 //gameobject-gameobject related functions
 void GOM_GameObjectAddChild(GameObject* parent, GameObject* child);

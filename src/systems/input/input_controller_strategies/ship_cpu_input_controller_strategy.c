@@ -7,14 +7,16 @@
 
 void UpdateShipCPUInput(InputController* inputController)
 {
-    int randnum = rand() % 1000;
-    if(get_frame_counter() % 20 == 0)
+    int randnum = (rand() % 60) + 60;
+    if(get_frame_counter() % randnum == 0)
     {
+        int randnum = rand() % 1000;
         inputController->input.normalizedMovementDirection.x = cos(randnum); 
         inputController->input.normalizedMovementDirection.y = sin(randnum); 
     }
-   
-    if(get_frame_counter() % 20 == 0) 
+  
+    randnum = (rand() % 30 + 10) + 60;
+    if(get_frame_counter() % randnum == 0) 
     {
         inputController->input.buttonA = 1;
     }
@@ -22,8 +24,9 @@ void UpdateShipCPUInput(InputController* inputController)
     {
         inputController->input.buttonA = -1;
     }
-
-    if(get_frame_counter() % 100 == 0)
+   
+    randnum = (rand() % 180 + 60) + 180;
+    if(get_frame_counter() % randnum == 0)
     {
         inputController->input.buttonB = 1;
     }

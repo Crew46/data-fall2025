@@ -28,16 +28,33 @@ void DeconstructHealthController(HealthController* controller)
 
 void UpdateHealthController(HealthController* controller)
 {
-    print_at(screen_width / 2, screen_height - 20, "updating health");
 }
 
 void HealthControllerDamage(HealthController* controller, int damage)
 {
+    if(damage >= controller->health)
+    {
+        HealthControllerDie(controller);
+    }
+    else
+    {
+        controller->health = controller->health - damage;
+    }
 }
 
 void HealthControllerHeal(HealthController* controller, int health)
 {
+    controller->health = health;
+}
 
+void HealthControllerDie(HealthController* controller)
+{
+    controller->health = 0;
+}
+
+void HealthControllerRevive(HealthController* controller, int healthToHeal)
+{
+    HealthControllerHeal(controller, healthToHeal);
 }
 
 //=========================================================
@@ -84,6 +101,14 @@ float HealthControllerGet_MaxGraceTime(HealthController* controller)
 void HealthControllerSet_MaxGraceTime(HealthController* controller, float maxGraceTime)
 {
     controller->maxGraceTime = maxGraceTime;
+}
+
+bool HealthControllerGet_IsDead(HealthController* controller)
+{
+    if(controller->health == 0)
+    {
+        return true;
+    }
 }
 
 #endif //HEALTH_CONTROLLER_MANAGER_C

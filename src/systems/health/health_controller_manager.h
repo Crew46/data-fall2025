@@ -15,6 +15,10 @@ void HealthControllerDamage(HealthController* controller, int damage);
 
 void HealthControllerHeal(HealthController* controller, int health);
 
+void HealthControllerDie(HealthController* controller);
+
+void HealthControllerRevive(HealthController* controller, int healthToHeal);
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 /////////////GETTERS & SETTERS/////////////////////////////
@@ -36,5 +40,7 @@ float HealthControllerGet_GraceTimeElapsed(HealthController* controller);
 void HealthControllerSet_MaxGraceTime(HealthController* controller, float maxGraceTime);
 
 float HealthControllerGet_MaxGraceTime(HealthController* controller);
+
+bool HealthControllerGet_IsDead(HealthController* controller);
 
 #endif //HEALTH_CONTROLLER_MANAGER_H

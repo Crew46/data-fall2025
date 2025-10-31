@@ -32,6 +32,9 @@
 #include "data_structures/singly_linked_list/linked_list.c"
 #include "tools/debugger.c"
 
+//prefabrication
+#include "systems/ship/ship_game_object_factory.c"
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 ///////////DECLARATIONS////////////////////////////////////
@@ -45,9 +48,6 @@ enum GameState
 };
 
 GameState currentState = GAMESTATE_MENU;
-
-GameObject* player = NULL;
-GameObject* player1 = NULL;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -70,42 +70,15 @@ void InitializeGameManager()
     //systems initialization
     InitializeAudioManager();
     
-    //player creation
-    player = GOM_ConstructGameObject();
-    GOM_GameObjectSet_Name(player, "player0");
-    GOM_AddComponentToGameObject(player, TRANSFORM_COMPONENT);
-    GOM_AddComponentToGameObject(player, RENDER_COMPONENT);
-    GOM_AddComponentToGameObject(player, SHIP_CONTROLLER_COMPONENT);
-    GOM_AddComponentToGameObject(player, INPUT_CONTROLLER_COMPONENT);
-    GOM_AddComponentToGameObject(player, HEALTH_CONTROLLER_COMPONENT);
-
-    //set gamepad of player controller component
-    ICM_InputControllerSet_Gamepad((InputController*)GOM_GameObjectGet_ComponentByType(player, INPUT_CONTROLLER_COMPONENT), 0);
-    ICM_InputControllerSet_Type((InputController*)GOM_GameObjectGet_ComponentByType(player, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_GAMEPAD);
-    //ship
-    ShipControllerSet_Speed((ShipController*)GOM_GameObjectGet_ComponentByType(player, SHIP_CONTROLLER_COMPONENT), 8);
-
-    //set the region and texture of the render component
-    SetRenderComponentRegion((RenderComponent*)GOM_GameObjectGet_ComponentByType(player, RENDER_COMPONENT), PLAYER_REGION);
-    SetRenderComponentTexture((RenderComponent*)GOM_GameObjectGet_ComponentByType(player, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
-    //set position of the transform
-    TransformComponentSetGlobalPosition((TransformComponent*)GOM_GameObjectGet_ComponentByType(player, TRANSFORM_COMPONENT), 300, 300);
-    
-    //player creation
-    player1 = GOM_ConstructGameObject();
-    GOM_GameObjectSet_Name(player1, "player1");
-    GOM_AddComponentToGameObject(player1, TRANSFORM_COMPONENT);
-    GOM_AddComponentToGameObject(player1, RENDER_COMPONENT);
-    GOM_AddComponentToGameObject(player1, SHIP_CONTROLLER_COMPONENT);
-    GOM_AddComponentToGameObject(player1, INPUT_CONTROLLER_COMPONENT);
-    ICM_InputControllerSet_Type((InputController*)GOM_GameObjectGet_ComponentByType(player1, INPUT_CONTROLLER_COMPONENT), INPUT_CONTROLLER_TYPE_SHIP_CPU);
-    //ship
-    ShipControllerSet_Speed((ShipController*)GOM_GameObjectGet_ComponentByType(player1, SHIP_CONTROLLER_COMPONENT), 2);
-    //set the region and texture of the render component
-    SetRenderComponentRegion((RenderComponent*)GOM_GameObjectGet_ComponentByType(player1, RENDER_COMPONENT), PLAYER_REGION);
-    SetRenderComponentTexture((RenderComponent*)GOM_GameObjectGet_ComponentByType(player1, RENDER_COMPONENT), PLAYER_SPRITES_TEXTURE);
-    //set position of the transform
-    TransformComponentSetGlobalPosition((TransformComponent*)GOM_GameObjectGet_ComponentByType(player1, TRANSFORM_COMPONENT), 400, 300);
+    CreateShipGameObject("player0", 0, INPUT_CONTROLLER_TYPE_GAMEPAD, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 300, 300); 
+    CreateShipGameObject("cpu0", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 400, 300); 
+    CreateShipGameObject("cpu1", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 500, 300); 
+    CreateShipGameObject("cpu2", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 400, 300); 
+    CreateShipGameObject("cpu3", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 500, 300); 
+    CreateShipGameObject("cpu4", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 400, 300); 
+    CreateShipGameObject("cpu5", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 500, 300); 
+    CreateShipGameObject("cpu6", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 400, 300); 
+    CreateShipGameObject("cpu7", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 300, 300); 
 }
 
 void DeinitializeGameManager()

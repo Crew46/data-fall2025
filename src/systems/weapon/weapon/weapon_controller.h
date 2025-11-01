@@ -1,6 +1,6 @@
 #ifndef WEAPON_CONTROLLER_H
 #define WEAPON_CONTROLLER_H
-#include "../../architecture/component/component.h"
+#include "../../../architecture/component/component.h"
 
 enum WeaponType
 {
@@ -10,7 +10,8 @@ enum WeaponType
     WEAPON_TYPE_MAGNETIC_ATTRACTION_DEVICE
 };
 
-struct WeaponController {
+struct WeaponController 
+{
     Component base;
     WeaponType type;
 };

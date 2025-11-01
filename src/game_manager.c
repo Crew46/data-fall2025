@@ -21,6 +21,7 @@
 #include "systems/transform/transform_manager.c"
 #include "systems/ship/ship_controller_manager.c"
 #include "vector/vector2.h"
+#include "systems/weapon/weapon/weapon_controller_manager.c"
 //physics systems implementations
 #include "systems/physics/collider/collider_manager.c"
 #include "systems/physics/rigidbody/rigidbody_manager.c"

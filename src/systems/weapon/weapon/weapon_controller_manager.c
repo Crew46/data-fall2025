@@ -2,6 +2,7 @@
 #define WEAPON_CONTROLLER_MANAGER_C
 #include "weapon_controller_manager.h"
 #include "../../../architecture/component/component_manager.h"
+#include "strategies/weapon_controller_strategy_dispatcher.c"
 
 void WCM_WeaponControllerInitialize(WeaponController* controller)
 {

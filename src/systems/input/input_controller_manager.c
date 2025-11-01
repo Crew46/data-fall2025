@@ -98,4 +98,10 @@ void ICM_DeconstructInput(Input* input)
 
 }
 
+void ICM_InputControllerSet_DescriptiveData(InputController* controller, InputControllerType type, int gamepad)
+{
+    controller->type = type; 
+    controller->gamepad = gamepad;
+}
+
 #endif //INPUT_CONTRROLLER_MANAGER_H

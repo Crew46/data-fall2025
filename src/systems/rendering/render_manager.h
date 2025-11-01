@@ -16,5 +16,7 @@ void SetRenderComponentRegion(RenderComponent* renderComponent, int region);
 
 void SetRenderComponentTexture(RenderComponent* renderComponent, int texture);
 
+void SetRenderComponentDescriptiveData(RenderComponent* renderComponent, int region, int texture, int renderPriority);
+
 
 #endif //RENDER_MANAGER_H

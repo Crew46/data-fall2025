@@ -95,5 +95,11 @@ void TransformComponentSetLocalPosition(TransformComponent* transformComponent, 
     //if parent is root, local position is global position
 }
 
+void TransformComponentSet_DescriptiveData(TransformComponent* transformComponent, int x, int y)
+{
+    transformComponent->position.x = x;
+    transformComponent->position.y = y;
+}
+
 
 #endif // TRANSFORM_MANAGER_C

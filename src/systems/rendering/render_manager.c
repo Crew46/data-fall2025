@@ -71,4 +71,11 @@ void SetRenderComponentTexture(RenderComponent* renderComponent, int texture)
     renderComponent->textureID = texture;
 }
 
+void SetRenderComponentDescriptiveData(RenderComponent* renderComponent, int region, int texture, int renderPriority)
+{
+    renderComponent->regionID = region;
+    renderComponent->textureID = texture;
+    renderComponent->renderPriority = renderPriority;
+}
+
 #endif //RENDER_MANAGER_C

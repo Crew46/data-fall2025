@@ -53,4 +53,10 @@ void UpdateShipController(ShipController* controller)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
+void ShipControllerSet_DescriptiveData(ShipController* controller, ShipType type, int speed)
+{
+    controller->type = type;
+    controller->speed = speed;
+}
+
 #endif //SHIP_CONTROLLER_MANAGER_C

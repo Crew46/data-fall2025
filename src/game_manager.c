@@ -48,6 +48,7 @@ enum GameState
 };
 
 GameState currentState = GAMESTATE_MENU;
+GameObject* ship = NULL;
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -69,16 +70,7 @@ void InitializeGameManager()
     GOM_Initialize();
     //systems initialization
     InitializeAudioManager();
-    
-    CreateShipGameObject("player0", 0, INPUT_CONTROLLER_TYPE_GAMEPAD, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 300, 300); 
-    CreateShipGameObject("cpu0", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 400, 300); 
-    CreateShipGameObject("cpu1", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 500, 300); 
-    CreateShipGameObject("cpu2", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 400, 300); 
-    CreateShipGameObject("cpu3", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 500, 300); 
-    CreateShipGameObject("cpu4", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 400, 300); 
-    CreateShipGameObject("cpu5", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 500, 300); 
-    CreateShipGameObject("cpu6", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 400, 300); 
-    CreateShipGameObject("cpu7", 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 300, 300); 
+    ship = CreateShipGameObject("player", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_GAMEPAD, 100, 5, SHIP_TYPE_DEFAULT, 5); 
 }
 
 void DeinitializeGameManager()
@@ -104,8 +96,8 @@ void UpdateGameManager()
     //updates all gameobject in scene, allong with the attatched components to those gameobjects
     GOM_UpdateAllGameObjects();
 
-    //PrintGameObjectDataAt(0, 50, player); 
-    //PrintGameObjectDataAt(400, 50, player1); 
+    //PrintGameObjectDataAt(0, 50, ship); 
+    //PrintGameObjectDataAt(400, 50, GOM_GetRootGameObject()); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

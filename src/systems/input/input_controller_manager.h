@@ -26,6 +26,7 @@ Vector2* ICM_InputControllerGet_Movement(InputController* inputController);
 Vector2* ICM_InputControllerGet_NormalizedMovement(InputController* inputController);
 void ICM_InputControllerSet_Gamepad(InputController* controller, int gamepad);
 void ICM_InputControllerSet_Type(InputController* inputController, InputControllerType type);
+void ICM_InputControllerSet_DescriptiveData(InputController* controller, InputControllerType type, int gamepad);
 
 void ICM_InitializeInput(Input* input);
 void ICM_DeconstructInput(Input* input);

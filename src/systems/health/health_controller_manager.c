@@ -68,29 +68,14 @@ int HealthControllerGet_Health(HealthController* controller)
     return controller->health;
 }
 
-void HealthControllerSet_Health(HealthController* controller, int health)
-{
-    controller->health = health;
-}
-
 bool HealthControllerGet_InGrace(HealthController* controller)
 {
     return controller->inGrace;
 }
 
-void HealthControllerSet_InGrace(HealthController* controller, bool inGrace)
-{
-    controller->inGrace = inGrace;
-}
-
 float HealthControllerGet_GraceTimeElapsed(HealthController* controller)
 {
     return controller->graceTimeElapsed;
-}
-
-void HealthControllerSet_GraceTimeElapsed(HealthController* controller, float time)
-{
-    controller->graceTimeElapsed = time;
 }
 
 float HealthControllerGet_MaxGraceTime(HealthController* controller)
@@ -109,6 +94,12 @@ bool HealthControllerGet_IsDead(HealthController* controller)
     {
         return true;
     }
+}
+
+void HealthControllerSet_DescriptiveData(HealthController* controller, int maxHealth, int maxGraceTime)
+{
+    controller->maxHealth = maxHealth;
+    controller->maxGraceTime = maxGraceTime;
 }
 
 #endif //HEALTH_CONTROLLER_MANAGER_C

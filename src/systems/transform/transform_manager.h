@@ -9,6 +9,7 @@ void DeconstructTransformComponent(TransformComponent* transform);
 void UpdateTransformComponent(TransformComponent* transformComponent);
 void TransformComponentSetGlobalPosition(TransformComponent* transformComponent, int x, int y);
 void TransformComponentSetLocalPosition(TransformComponent* transformComponent, int x, int y);
+void TransformComponentSet_DescriptiveData(TransformComponent* transformComponent, int x, int y);
 
 //functions
 Vector2* CalculateGlobalPosition(TransformComponent* transformComponent);

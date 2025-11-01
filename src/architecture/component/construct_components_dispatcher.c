@@ -7,6 +7,7 @@
 #include "../../systems/physics/collider/collider_manager.h"
 #include "../../systems/input/input_controller_manager.h"
 #include "../../systems/health/health_controller_manager.h"
+#include "../../systems/weapon/weapon/weapon_controller_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)
 {
@@ -32,7 +33,7 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             componentToReturn = (Component*)ICM_ConstructInputController();
             break;
         case WEAPON_CONTROLLER_COMPONENT:
-            //construct weapon controller component
+            componentToReturn = (Component*)WCM_WeaponControllerConstruct();
             break;
         case HEALTH_CONTROLLER_COMPONENT:
             componentToReturn = (Component*)ConstructHealthController();

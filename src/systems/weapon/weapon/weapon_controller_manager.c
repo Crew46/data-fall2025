@@ -22,6 +22,16 @@ void WCM_WeaponControllerDeconstruct(WeaponController* controller)
 
 }
 
+void WCM_WeaponController_Update(WeaponController* controller)
+{
+    print_at(screen_width / 2, screen_height -20, "weapon controller updating");
+}
+
+void WCM_WeaponController_Shoot(WeaponController* controller)
+{
+    //dispatch
+}
+
 //=========================================================
 ///////////////////////////////////////////////////////////
 /////////////GETTERS & SETTERS/////////////////////////////

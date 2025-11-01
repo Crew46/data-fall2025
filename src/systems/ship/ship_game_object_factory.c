@@ -6,8 +6,9 @@
 #include "../transform/transform_manager.h"
 #include "../health/health_controller_manager.h"
 #include "../rendering/render_manager.h"
+#include "../weapon/weapon/weapon_controller_manager.h"
 
-GameObject* CreateShipGameObject(int* name, int x, int y, int region, int texture, int drawPriority, int gamePad, InputControllerType inputType, int maxHealth, int maxGraceTime, ShipType shipType, int speed)
+GameObject* CreateShipGameObject(int* name, int x, int y, int region, int texture, int drawPriority, int gamePad, InputControllerType inputType, int maxHealth, int maxGraceTime, ShipType shipType, int speed, WeaponType weaponType)
 {
     GameObject* ship = GOM_ConstructGameObject();
     TransformComponent* transform = (TransformComponent*)GOM_AddComponentToGameObject(ship, TRANSFORM_COMPONENT);
@@ -15,6 +16,7 @@ GameObject* CreateShipGameObject(int* name, int x, int y, int region, int textur
     InputController* inputController = (InputController*)GOM_AddComponentToGameObject(ship, INPUT_CONTROLLER_COMPONENT);
     HealthController* healthController = (HealthController*)GOM_AddComponentToGameObject(ship, HEALTH_CONTROLLER_COMPONENT);
     ShipController* shipController = (ShipController*)GOM_AddComponentToGameObject(ship, SHIP_CONTROLLER_COMPONENT);
+    WeaponController* weaponController = (WeaponController*)GOM_AddComponentToGameObject(ship, WEAPON_CONTROLLER_COMPONENT);
     
     GOM_GameObjectSet_Name(ship, name);
 
@@ -22,6 +24,7 @@ GameObject* CreateShipGameObject(int* name, int x, int y, int region, int textur
     SetRenderComponentDescriptiveData(renderComponent, region, texture, drawPriority);
     ICM_InputControllerSet_DescriptiveData(inputController, inputType, gamePad);
     HealthControllerSet_DescriptiveData(healthController, maxHealth, maxGraceTime);
+    WCM_WeaponControllerSet_DescriptiveData(weaponController, weaponType);
     ShipControllerSet_DescriptiveData(shipController, shipType, speed);
     return ship;
 }

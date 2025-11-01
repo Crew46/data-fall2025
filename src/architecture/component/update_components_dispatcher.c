@@ -7,6 +7,7 @@
 #include "../../systems/physics/collider/collider_manager.h"
 #include "../../systems/input/input_controller_manager.h"
 #include "../../systems/health/health_controller_manager.h"
+#include "../../systems/weapon/weapon/weapon_controller_manager.h"
 
 void DispatchComponentsUpdateFunction(Component* component)
 {
@@ -28,7 +29,7 @@ void DispatchComponentsUpdateFunction(Component* component)
             UpdateCollider((Collider*)component); 
             break;
         case WEAPON_CONTROLLER_COMPONENT:
-            //call weapon controller update function
+            WCM_WeaponController_Update((WeaponController*)component);
             break;
         case INPUT_CONTROLLER_COMPONENT:
             ICM_UpdateInputController((InputController*)component);

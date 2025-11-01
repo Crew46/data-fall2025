@@ -23,6 +23,7 @@ void GOM_DeconstructGameObject(GameObject* gameObjectAttatchedTo);
 
 //gameobject-component related functions
 Component* GOM_GameObjectGet_ComponentByType(GameObject* gameObjectAttatchedTo, ComponentType type);
+void GOM_GameObjectGet_ComponentsByType(GameObject* gameObjectAttatchedTo, ComponentType type, DoublyLinkedList** out);
 Component* GOM_GetComponentFromComponent(Component* component, ComponentType componentType);
 void GOM_UpdateAllComponentsInGameObject(GameObject* gameObjectAttatchedTo);
 void GOM_GameObjectUpdate(GameObject* gameObjectAttatchedTo);

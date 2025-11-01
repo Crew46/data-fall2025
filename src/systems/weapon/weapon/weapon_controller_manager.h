@@ -5,6 +5,8 @@
 void WCM_WeaponControllerInitialize(WeaponController* controller);
 WeaponController* WCM_WeaponControllerConstruct();
 void WCM_WeaponControllerDeconstruct(WeaponController* controller);
+void WCM_WeaponController_Update(WeaponController* controller);
+void WCM_WeaponController_Shoot(WeaponController* controller);
 
 //=========================================================
 ///////////////////////////////////////////////////////////

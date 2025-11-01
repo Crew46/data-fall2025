@@ -7,6 +7,7 @@ void InitializeShipController(ShipController* player);
 ShipController* ConstructShipController();
 void DeconstructShipController(ShipController* player);
 void UpdateShipController(ShipController* player);
+void ShipControllerShootWeapon(ShipController* controller);
 
 //=========================================================
 ///////////////////////////////////////////////////////////

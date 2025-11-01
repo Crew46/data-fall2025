@@ -1,6 +1,7 @@
 #ifndef SHIP_CONTROLLER_H
 #define SHIP_CONTROLLER_H
 #include "../../architecture/component/component.h"
+#include "../weapon/weapon/weapon_controller.h"
 
 enum ShipMovementState
 {
@@ -22,32 +23,5 @@ struct ShipController
     ShipType type;
     int speed;
 };
-
-void ShipControllerSet_Speed(ShipController* controller, int speed)
-{
-    controller->speed = speed;
-}
-int ShipControllerGet_Speed(ShipController* controller)
-{
-    return controller->speed;
-}
-
-ShipType ShipControllerSet_Type(ShipController* controller, ShipType type)
-{
-    controller->type = type; 
-}
-ShipType ShipControllerGet_Type(ShipController* controller)
-{
-    return controller->type;
-}
-
-void ShipControllerSet_State(ShipController* controller, ShipMovementState state)
-{
-    controller->state = state;
-}
-ShipMovementState ShipControllerGet_State(ShipController* controller)
-{
-    return controller->state;
-}
 
 #endif //SHIP_CONTROLLER

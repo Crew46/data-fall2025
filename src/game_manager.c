@@ -71,6 +71,13 @@ void InitializeGameManager()
     //systems initialization
     InitializeAudioManager();
     ship = CreateShipGameObject("player", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_GAMEPAD, 100, 5, SHIP_TYPE_DEFAULT, 5); 
+    CreateShipGameObject("cpu", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, 100, 5, SHIP_TYPE_DEFAULT, 1); 
+    CreateShipGameObject("cpu", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, 100, 5, SHIP_TYPE_DEFAULT, 1); 
+    CreateShipGameObject("cpu", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, 100, 5, SHIP_TYPE_DEFAULT, 1); 
+    CreateShipGameObject("cpu", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, 100, 5, SHIP_TYPE_DEFAULT, 1); 
+    CreateShipGameObject("cpu", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, 100, 5, SHIP_TYPE_DEFAULT, 1); 
+    CreateShipGameObject("cpu", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, 100, 5, SHIP_TYPE_DEFAULT, 1); 
+    CreateShipGameObject("cpu", 300, 300, PLAYER_REGION, PLAYER_SPRITES_TEXTURE, 0, 0, INPUT_CONTROLLER_TYPE_SHIP_CPU, 100, 5, SHIP_TYPE_DEFAULT, 1); 
 }
 
 void DeinitializeGameManager()
@@ -96,8 +103,8 @@ void UpdateGameManager()
     //updates all gameobject in scene, allong with the attatched components to those gameobjects
     GOM_UpdateAllGameObjects();
 
-    //PrintGameObjectDataAt(0, 50, ship); 
-    //PrintGameObjectDataAt(400, 50, GOM_GetRootGameObject()); 
+    PrintGameObjectDataAt(0, 50, ship); 
+    PrintGameObjectDataAt(300, 50, GOM_GetRootGameObject()); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

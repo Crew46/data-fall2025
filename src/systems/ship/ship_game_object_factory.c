@@ -23,6 +23,7 @@ GameObject* CreateShipGameObject(int* name, int x, int y, int region, int textur
     ICM_InputControllerSet_DescriptiveData(inputController, inputType, gamePad);
     HealthControllerSet_DescriptiveData(healthController, maxHealth, maxGraceTime);
     ShipControllerSet_DescriptiveData(shipController, shipType, speed);
+    return ship;
 }
 
 #endif //SHIP_GAMEOBJECT_FACTORY_C

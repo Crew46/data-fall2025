@@ -45,5 +45,45 @@ Object *mkNode ()
 
     return (enemy);
 }
+// Used to make bosses
+Object * mkBoss(Object * player)
+{
+	Object * boss 	= NULL;
+	boss 			= (Object *)malloc(sizeof(Object));
+	boss ->	next	= NULL;
+	boss -> prev	= NULL;
+	boss -> x		= player -> x;
+	boss -> y		= -30;
+	boss -> isActive= true;
+	boss -> type	= 1;
+	boss -> height  = 100;
+	boss -> width	= 100;
+	boss -> hp 		= 50;
+	boss -> texture = BOSSA_TEXTURE;
+	boss -> region  = BOSSA_REGION;
+	boss -> points	= 200;
+return(boss);
+}
+// Used to make boss pawns.
+Object * mkPawn (Object * boss)
+{
+	Object * pawn 	= NULL;
+	pawn			= (Object *) malloc(sizeof(Object));
+	pawn -> next	= NULL;
+	pawn -> prev	= NULL;
+	pawn -> x		= boss -> x + rand () % 20 - 20;
+	pawn -> y       = boss -> y + 100;
+	pawn -> isActive= true;
+	pawn -> type	= 0;
+	pawn -> height  = 30;
+	pawn -> width	= 30;
+	pawn -> hp 		= 5;
+	pawn -> texture = PAWNA_TEXTURE;
+	pawn -> region	= PAWNA_REGION;
+	pawn -> points	= 50;
+return (pawn);
+} 
+	
+
 
 #endif // NODE_H

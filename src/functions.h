@@ -63,6 +63,7 @@ return (value);
 }
 
 // Used to make ammo for the ammo list
+// Type guide. 0 = Laser and 1 = Rocket.
 Object * mkAmmo(Object * player)
 {
 	Object * ammo			= (Object *)malloc(sizeof(Object));
@@ -79,7 +80,7 @@ Object * mkAmmo(Object * player)
 		ammo -> texture = LASER_TEXTURE;
 		ammo -> region  = LASER_REGION;
 		ammo -> hp 		= 1;
-		ammo -> damage	= 1;
+		ammo -> damage	= 5;
 	}
 	if (bitMasking (0x00000200, 0) == 0x000000200)
 	{
@@ -161,7 +162,7 @@ Object * explosion ( Object * tmp)
 	{
 	score   = score + tmp->points;
 	tmp->isActive = false;
-	counter = counter + 8;
+	counter = counter + 5;
 	playAudio(2, 2, false, 0.1);
 // Explosion texture and rng powerups
 	select_texture ( EXPLOSION_TEXTURE);

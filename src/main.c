@@ -45,6 +45,7 @@ void main (void)
 	0x00000001 means the game is active.
 	0x00000010 are for powerups.
 	0x00000100 are for weapons.
+	0x00001000 means a boss is active.
 */
 		
 
@@ -357,6 +358,14 @@ while (status == 0x00000000)
 								tmp2->isActive = false;
 							}
 						}
+// If you hit the boss it will spawn a pawn
+// Except if the ammo is a rocket. It will spawn during the explosion.
+								if (tmp ->type == 1 && tmp2->type != 1)
+								{
+									newNode = mkPawn (tmp);
+									listA 	= appendNode (listA, listA->tail, newNode);
+								}
+
 							if(tmp->hp < 1)
                     		{
 // Function to update the deactivated enemy
@@ -372,6 +381,7 @@ while (status == 0x00000000)
 							}
 							if ( tmp2 -> type == 1)
 							{
+// If the ammo is a rocket. Then we have to do another AOE check.
 								tmp4 = listA->head;
 								tmp2 -> width = tmp2-> width + 60;
 								tmp2 -> height= tmp2-> height + 60;
@@ -381,14 +391,23 @@ while (status == 0x00000000)
 									if(tmp2->isActive == true && tmp4->type != 2 && tmp4->isActive == true && collision(tmp2, tmp4) )
 									{
 										tmp4 -> hp = tmp4-> hp - tmp2->damage;
+// If the rocket aoe hits the boss. Then spawn a pawn.
+										if (tmp4 -> type == 1 && tmp4-> isActive == true)
+											{
+												newNode = mkPawn (tmp4);
+												listA   = appendNode (listA, listA->tail, newNode);
+											}
+										if (tmp4->hp < 1)
+										{
 										tmp4 = explosion (tmp4);
 										b = rand () % ( 100 + 1);
 										if( b  > 95)
-										{
-											newNode = mkPowerup (tmp4);
-											myStack = push (myStack, newNode);
-											myStack = pop  (myStack, &(tmp3));
-											listA   = appendNode ( listA, listA->tail, tmp3);
+											{
+												newNode = mkPowerup (tmp4);
+												myStack = push (myStack, newNode);
+												myStack = pop  (myStack, &(tmp3));
+												listA   = appendNode ( listA, listA->tail, tmp3);
+											}
 										}
 									}
 								tmp4 = tmp4->next;
@@ -418,7 +437,8 @@ while (status == 0x00000000)
                     status = 0x00000000;
 					playAudio (2, 2, false, 0.1);
 					}
-					if (value == 0x00000010)
+// If the powerup is active destroy any enemy, however it will not work on a boss.
+					if (value == 0x00000010 && tmp->type != 1)
 					{
 						tmp->isActive = false;
 						select_texture (EXPLOSION_TEXTURE);
@@ -441,14 +461,26 @@ while (status == 0x00000000)
         }
 		
         // This will obtain the enemy and delete them
-        if(listA != NULL)
+        if (listA != NULL)
         {
             tmp                    = listA->head;
-            while(tmp != NULL)
+            while (tmp != NULL)
             {
                 // If we delete a node we need to move tmp before tmp3 deletes the node.
-                if(tmp->isActive == false)
+                if (tmp->isActive == false)
                 {
+				// If a boss dies then we will allow another boss.
+					if ( tmp->type == 1)
+					{
+						if ( bitMasking (0x00000100, 0) == 0x00000100)
+							{
+							status = bitMasking (0x11110111, 0);
+							}
+						if ( bitMasking (0x00000200, 0) == 0x00000200)
+							{
+							status = bitMasking (0x11110211, 0);
+							}
+					}
                     tmp3                	= tmp;
                     tmp						= tmp->next;
                     listA                 	= obtainNode (listA, &tmp3);
@@ -499,6 +531,17 @@ while (status == 0x00000000)
 			tmp = tmp -> next;
 		}
  	}
+// Boss spawning
+		if ( bitMasking (0x00001000, 0) != 0x00001000 && counter > 30)
+			{
+				status 	= bitMasking (0x00001000, 1);
+				newNode = mkBoss (player);
+				listA 	= appendNode( listA, listA->tail, newNode);
+				counter = 0;
+			}
+
+
+
 // If the score is divisible by 110 then spawn enemies from a queue.
 	if ( score % 110 == 0)
 	{

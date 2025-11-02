@@ -2,6 +2,7 @@
 #define VISUALS_H_
 #include "video.h"
 
+// Textures
 #define BACKGROUND_TEXTURE  0
 #define NEBULA_TEXTURE      1
 #define PLAYER_TEXTURE		2
@@ -11,7 +12,10 @@
 #define SHIELD_TEXTURE 		6
 #define EXPLOSION_TEXTURE   7
 #define ROCKET_TEXTURE      8
+#define BOSSA_TEXTURE		9
+#define PAWNA_TEXTURE 		10
 
+// Regions
 #define BACKGROUND_REGION	0
 #define NEBULA_REGION    	1
 #define PLAYER_REGION		2
@@ -23,9 +27,11 @@
 #define SHIELD_REGION		8
 #define PLAYERSHIELD_REGION 9
 #define EXPLOSION_REGION    10
-#define ROCKET_REGION      11
-
+#define ROCKET_REGION      	11
+#define BOSSA_REGION		12	
+#define PAWNA_REGION		13
 #define LASERSPEED 			1
+
 
 // Visuals will be used to define textures 
 void visuals(void)
@@ -72,6 +78,14 @@ void visuals(void)
 	select_texture ( ROCKET_TEXTURE);
 	select_region ( ROCKET_REGION);
 	define_region_center (0, 0, 11, 11);
+// BossA 
+	select_texture ( BOSSA_TEXTURE);
+	select_region (BOSSA_REGION);
+	define_region_center (0, 0, 99, 99 );
+// PawnA
+	select_texture ( PAWNA_TEXTURE);
+	select_region ( PAWNA_REGION);
+	define_region_center (0, 0, 29, 29);
 }
 
 Object * updateVisuals(Object * enemy)

@@ -6,6 +6,7 @@
 #include "../vector/vector2.h"
 #include "math.h"
 #include "../data_structures/doubly_linked_list/doubly_linked_list.h"
+#include "../data_structures/bin_tree/bin_tree.c"
 
 void PrintIntAt (int x, int y, int value)
 {
@@ -143,5 +144,26 @@ void PrintObjectDataAt(int x, int y, Object* object)
         currentNode = currentNode->next;
     }
 }
+
+ void VisualizeBinTree(BinNode* node)
+ {
+    if(node == NULL)
+        return;
+
+    Object* currentData = node->base.data;
+    PrintIntAt(currentData->x, currentData->y, currentData->id);
+
+    //draw line to children
+    if(node->base.next != NULL)
+    {
+        DrawLine(node->base.data->x, node->base.data->y - 10, node->base.next->data->x, node->base.next->data->y - 10, ".");
+        VisualizeBinTree((BinNode*)node->base.next);
+    }
+    if(node->base.prev != NULL)
+    {
+        DrawLine(node->base.data->x, node->base.data->y - 10, node->base.prev->data->x, node->base.prev->data->y - 10, ",");
+        VisualizeBinTree((BinNode*)node->base.prev);
+    }
+ }
 
 #endif //DEBUGGER_H

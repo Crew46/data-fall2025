@@ -71,6 +71,7 @@ List *append (List *myList, Node *place, Node *newNode)
             tmp              = myList -> tail;
             tmp -> next      = newNode;
             newNode -> prev  = tmp;
+            newNode -> next  = NULL;
             myList -> tail   = newNode;
         }
         else
@@ -113,6 +114,7 @@ List *insert (List *myList, Node *place, Node *newNode)
             tmp              = myList -> head;
             tmp -> prev      = newNode;
             newNode -> next  = tmp;
+            newNode -> prev  = NULL;
             myList -> head   = newNode;
         }
         else

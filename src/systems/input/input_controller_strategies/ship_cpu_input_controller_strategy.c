@@ -4,6 +4,7 @@
 #include "video.h"
 #include "math.h"
 #include "misc.h"
+#include "time.h"
 
 void UpdateShipCPUInput(InputController* inputController)
 {

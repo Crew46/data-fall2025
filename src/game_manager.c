@@ -7,35 +7,47 @@
 #include "string.h"
 #include "input.h"
 #include "math.h"
+
 //include texture, region, and audio definitions and configuration values
 #include "configuration/texture_configurations.h"
 #include "configuration/region_configurations.h"
 #include "configuration/sound_configurations.h"
+
 //architecture implementations
 #include "architecture/game_object/game_object_manager.c"
 #include "architecture/component/component_manager.c"
 #include "architecture/object/object_manager.c"
+
 //systems implementations
-#include "systems/audio/audio_manager.c"
-#include "systems/rendering/render_manager.c"
-#include "systems/transform/transform_manager.c"
-#include "systems/ship/ship_controller_manager.c"
-#include "vector/vector2.h"
+
+//ship system
+#include "systems/ship/ship_controller/ship_controller_manager.c"
+#include "systems/ship/ship_movement_controller/ship_movement_controller_manager.c"
+//weapon system
 #include "systems/weapon/weapon/weapon_controller_manager.c"
 #include "systems/weapon/weapon_selection_controller/weapon_selection_controller_manager.c"
+//input system
+#include "systems/input/input_controller_manager.c"
+//health system
+#include "systems/health/health_controller_manager.c"
+//audio system
+#include "systems/audio/audio_manager.c"
+//rendering system
+#include "systems/rendering/render_manager.c"
+//transform system
+#include "systems/transform/transform_manager.c"
 //physics systems implementations
 #include "systems/physics/collider/collider_manager.c"
 #include "systems/physics/rigidbody/rigidbody_manager.c"
 #include "systems/physics/tools/raycast_tool.c"
-#include "systems/input/input_controller_manager.c"
-#include "systems/health/health_controller_manager.c"
 //other implementations
 #include "data_structures/doubly_linked_list/doubly_linked_list.c"
 #include "data_structures/singly_linked_list/linked_list.c"
 #include "tools/debugger.c"
+#include "vector/vector2.h"
 
 //prefabrication
-#include "systems/ship/ship_game_object_factory.c"
+#include "systems/ship/prefabrication/ship_game_object_factory.c"
 
 //=========================================================
 ///////////////////////////////////////////////////////////

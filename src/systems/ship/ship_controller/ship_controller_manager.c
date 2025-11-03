@@ -1,12 +1,12 @@
 #ifndef SHIP_CONTROLLER_MANAGER_C
 #define SHIP_CONTROLLER_MANAGER_C
 #include "ship_controller_manager.h"
-#include "../../architecture/component/component_manager.h"
-#include "../../architecture/game_object/game_object_manager.h"
-#include "../audio/audio_manager.h"
-#include "../input/input_controller_manager.h"
-#include "../weapon/weapon/weapon_controller_manager.h"
-#include "../../tools/debugger.c"
+#include "../../../architecture/component/component_manager.h"
+#include "../../../architecture/game_object/game_object_manager.h"
+#include "../../audio/audio_manager.h"
+#include "../../input/input_controller_manager.h"
+#include "../../weapon/weapon/weapon_controller_manager.h"
+#include "../../../tools/debugger.c"
 #include "video.h"
 #include "ship_strategies/ship_strategy_dispatcher.c"
 

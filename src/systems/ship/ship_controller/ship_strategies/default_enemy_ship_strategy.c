@@ -1,10 +1,10 @@
 #ifndef DEFAULT_ENEMY_SHIP_STRATEGY_C
 #define DEFAULT_ENEMY_SHIP_STRATEGY_C
 #include "../ship_controller_manager.h"
-#include "../../../architecture/game_object/game_object_manager.h"
-#include "../../input/input_controller_manager.h"
-#include "../../../vector/vector2.h"
-#include "../../audio/audio_manager.h"
+#include "../../../../architecture/game_object/game_object_manager.h"
+#include "../../../input/input_controller_manager.h"
+#include "../../../../vector/vector2.h"
+#include "../../../audio/audio_manager.h"
 
 void UpdateDefaultShipStrategy(ShipController* controller)
 {

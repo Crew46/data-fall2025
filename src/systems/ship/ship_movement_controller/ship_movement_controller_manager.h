@@ -1,0 +1,10 @@
+#ifndef SHIP_MOVEMENT_CONTROLLER_MANAGER_H
+#define SHIP_MOVEMENT_CONTROLLER_MANAGER_H
+#include "ship_movement_controller.h"
+
+void SMCM_ShipMovementController_Initialize(ShipMovementController* controller);
+ShipMovementController* SMCM_ShipMovementController_Construct();
+void SMCM_ShipMovementController_Deconstruct(ShipMovementController* controller);
+void SMCM_ShipMovementController_Update(ShipMovementController* controller);
+
+#endif //SHIP_MOVEMENT_CONTROLLER_MANAGER_H

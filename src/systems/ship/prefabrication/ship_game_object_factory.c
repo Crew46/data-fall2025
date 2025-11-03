@@ -1,13 +1,13 @@
 #ifndef SHIP_GAMEOBJECT_FACTORY_C
 #define SHIP_GAMEOBJECT_FACTORY_C
-#include "../../architecture/game_object/game_object_manager.h"
-#include "../input/input_controller_manager.h"
-#include "../ship/ship_controller_manager.h"
-#include "../transform/transform_manager.h"
-#include "../health/health_controller_manager.h"
-#include "../rendering/render_manager.h"
-#include "../weapon/weapon/weapon_controller_manager.h"
-#include "../weapon/weapon_selection_controller/weapon_selection_controller_manager.h"
+#include "../../../architecture/game_object/game_object_manager.h"
+#include "../../input/input_controller_manager.h"
+#include "../ship_controller/ship_controller_manager.h"
+#include "../../transform/transform_manager.h"
+#include "../../health/health_controller_manager.h"
+#include "../../rendering/render_manager.h"
+#include "../../weapon/weapon/weapon_controller_manager.h"
+#include "../../weapon/weapon_selection_controller/weapon_selection_controller_manager.h"
 
 GameObject* CreateShipGameObject(int* name, int x, int y, int region, int texture, int drawPriority, int gamePad, InputControllerType inputType, int maxHealth, int maxGraceTime, ShipType shipType, int speed, WeaponType weaponType)
 {

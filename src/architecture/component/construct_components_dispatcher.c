@@ -3,12 +3,13 @@
 #include "component.h"
 #include "../../systems/transform/transform_manager.h"
 #include "../../systems/rendering/render_manager.h"
-#include "../../systems/ship/ship_controller_manager.h"
+#include "../../systems/ship/ship_controller/ship_controller_manager.h"
 #include "../../systems/physics/collider/collider_manager.h"
 #include "../../systems/input/input_controller_manager.h"
 #include "../../systems/health/health_controller_manager.h"
 #include "../../systems/weapon/weapon/weapon_controller_manager.h"
 #include "../../systems/weapon/weapon_selection_controller/weapon_selection_controller_manager.h"
+#include "../../systems/ship/ship_movement_controller/ship_movement_controller_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)
 {
@@ -41,6 +42,9 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             break;
         case WEAPON_SELECTION_CONTROLLER:
             componentToReturn = (Component*)WSCM_WeaponSelectionController_Construct();
+            break;
+        case SHIP_MOVEMENT_CONTROLLER_COMPONENT:
+            componentToReturn = (Component*)SMCM_ShipMovementController_Construct();
             break;
         default:
             break;

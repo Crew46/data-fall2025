@@ -1,7 +1,7 @@
 #ifndef SHIP_CONTROLLER_H
 #define SHIP_CONTROLLER_H
-#include "../../architecture/component/component.h"
-#include "../weapon/weapon/weapon_controller.h"
+#include "../../../architecture/component/component.h"
+#include "../../weapon/weapon/weapon_controller.h"
 
 enum ShipMovementState
 {

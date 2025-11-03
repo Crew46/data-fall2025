@@ -108,7 +108,7 @@ void UpdateGameManager()
     GOM_UpdateAllGameObjects();
 
     PrintGameObjectDataAt(0, 50, ship); 
-    PrintGameObjectDataAt(300, 50, GOM_GetRootGameObject()); 
+    //PrintGameObjectDataAt(300, 50, GOM_GetRootGameObject()); 
 
     //main menu UI
     if(currentState == GAMESTATE_MENU)

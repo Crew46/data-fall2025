@@ -130,6 +130,8 @@ Component* GOM_GetComponentFromComponent(Component* component, ComponentType typ
 
 void GOM_GameObjectGet_ComponentsByType(GameObject* gameObjectAttatchedTo, ComponentType type, DoublyLinkedList** out)
 {
+    if(gameObjectAttatchedTo == NULL) return;
+
     DeconstructDoublyLinkedList(*out);
     *out = ConstructDoublyLinkedList();
     DoublyNode* node = gameObjectAttatchedTo->components->head; 

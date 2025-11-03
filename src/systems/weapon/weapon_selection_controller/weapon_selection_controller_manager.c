@@ -29,7 +29,6 @@ void WSCM_WeaponSelectionController_Deconstruct(WeaponSelectionController* contr
 
 void WSCM_WeaponSelectionController_Update(WeaponSelectionController* controller)
 {
-
 }
 
 void WSCM_WeaponSelectionController_UpdateWeaponsList(WeaponSelectionController* controller)
@@ -37,9 +36,8 @@ void WSCM_WeaponSelectionController_UpdateWeaponsList(WeaponSelectionController*
     GOM_GameObjectGet_ComponentsByType(controller->component.gameObjectAttatchedTo, WEAPON_CONTROLLER_COMPONENT, &controller->weaponsList);
 }
 
-WeaponController* WSCM_WeaponSelectionController_SelectWeapon(WeaponController* controller)
+WeaponController* WSCM_WeaponSelectionController_SelectWeapon(WeaponSelectionController* controller, WeaponController* weaponController)
 {
-
 }
 
 WeaponController* WSCM_WeaponSelectionController_SelectNextWeapon()

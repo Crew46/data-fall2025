@@ -10,7 +10,7 @@ void WSCM_WeaponSelectionController_Update(WeaponSelectionController* controller
 
 void WSCM_WeaponSelectionController_UpdateWeaponsList(WeaponSelectionController* controller);
 
-WeaponController* WSCM_WeaponSelectionController_SelectWeapon(WeaponController* controller);
+WeaponController* WSCM_WeaponSelectionController_SelectWeapon(WeaponSelectionController* controller, WeaponController* weaponController);
 
 WeaponController* WSCM_WeaponSelectionController_SelectNextWeapon();
 

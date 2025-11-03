@@ -7,6 +7,7 @@
 #include "../health/health_controller_manager.h"
 #include "../rendering/render_manager.h"
 #include "../weapon/weapon/weapon_controller_manager.h"
+#include "../weapon/weapon_selection_controller/weapon_selection_controller_manager.h"
 
 GameObject* CreateShipGameObject(int* name, int x, int y, int region, int texture, int drawPriority, int gamePad, InputControllerType inputType, int maxHealth, int maxGraceTime, ShipType shipType, int speed, WeaponType weaponType)
 {
@@ -15,8 +16,12 @@ GameObject* CreateShipGameObject(int* name, int x, int y, int region, int textur
     RenderComponent* renderComponent = (RenderComponent*)GOM_AddComponentToGameObject(ship, RENDER_COMPONENT);
     InputController* inputController = (InputController*)GOM_AddComponentToGameObject(ship, INPUT_CONTROLLER_COMPONENT);
     HealthController* healthController = (HealthController*)GOM_AddComponentToGameObject(ship, HEALTH_CONTROLLER_COMPONENT);
-    ShipController* shipController = (ShipController*)GOM_AddComponentToGameObject(ship, SHIP_CONTROLLER_COMPONENT);
+    //weapon
     WeaponController* weaponController = (WeaponController*)GOM_AddComponentToGameObject(ship, WEAPON_CONTROLLER_COMPONENT);
+    WeaponSelectionController* weaponSelectionController = (WeaponSelectionController*)GOM_AddComponentToGameObject(ship, WEAPON_SELECTION_CONTROLLER);
+
+    //ship
+    ShipController* shipController = (ShipController*)GOM_AddComponentToGameObject(ship, SHIP_CONTROLLER_COMPONENT);
     
     GOM_GameObjectSet_Name(ship, name);
 

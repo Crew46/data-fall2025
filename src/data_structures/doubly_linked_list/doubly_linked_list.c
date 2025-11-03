@@ -40,6 +40,8 @@ DoublyLinkedList* ConstructDoublyLinkedList()
 
 void DeconstructDoublyLinkedList(DoublyLinkedList* doublyLinkedList)
 {
+  if(doublyLinkedList == NULL) return;
+
   DoublyNode* current = doublyLinkedList->head;
   while (current != NULL)
   {

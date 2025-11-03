@@ -13,6 +13,7 @@ struct ShipMovementController
 {
     Component component;
     ShipMovementControllerType type;
+    int speed;
 };
 
 #endif //SHIP_MOVEMENT_CONTROLLER_H

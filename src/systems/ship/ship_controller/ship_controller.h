@@ -21,7 +21,6 @@ struct ShipController
     Component base;
     ShipMovementState state; // Current state of the player
     ShipType type;
-    int speed;
 };
 
 #endif //SHIP_CONTROLLER

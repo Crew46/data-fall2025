@@ -8,7 +8,7 @@
 #include "../../weapon/weapon/weapon_controller_manager.h"
 #include "../../../tools/debugger.c"
 #include "video.h"
-#include "ship_strategies/ship_strategy_dispatcher.c"
+#include "../ship_movement_controller/ship_movement_controller_manager.h"
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@
 void InitializeShipController(ShipController* controller)
 {
     CM_InitializeComponent((Component*)controller, SHIP_CONTROLLER_COMPONENT);
-    ShipControllerSet_DescriptiveData(controller, SHIP_TYPE_DEFAULT, 1);
+    ShipControllerSet_DescriptiveData(controller, SHIP_TYPE_DEFAULT);
     controller->state = PLAYER_MOVEMENT_STATE_IDLE;
 }
 
@@ -45,7 +45,16 @@ void DeconstructShipController(ShipController* controller)
 
 void UpdateShipController(ShipController* controller)
 {
-    DispatchShipStrategy(controller);
+    ShipControllerUpdateMovement(controller);
+}
+
+void ShipControllerUpdateMovement(ShipController* controller)
+{
+    ShipMovementController* movementController = (ShipMovementController*)GOM_GetComponentFromComponent((Component*)controller, SHIP_MOVEMENT_CONTROLLER_COMPONENT);
+    if(movementController != NULL)
+    {
+        SMCM_ShipMovementController_Update(movementController);
+    }
 }
 
 void ShipControllerShootWeapon(ShipController* controller)
@@ -58,19 +67,9 @@ void ShipControllerShootWeapon(ShipController* controller)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void ShipControllerSet_DescriptiveData(ShipController* controller, ShipType type, int speed)
+void ShipControllerSet_DescriptiveData(ShipController* controller, ShipType type)
 {
     controller->type = type;
-    controller->speed = speed;
-}
-
-void ShipControllerSet_Speed(ShipController* controller, int speed)
-{
-    controller->speed = speed;
-}
-int ShipControllerGet_Speed(ShipController* controller)
-{
-    return controller->speed;
 }
 
 ShipType ShipControllerSet_Type(ShipController* controller, ShipType type)

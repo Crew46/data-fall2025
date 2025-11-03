@@ -1,6 +1,7 @@
 #ifndef WEAPON_SELECTION_CONTROLLER_MANAGER_H
 #define WEAPON_SELECTION_CONTROLLER_MANAGER_H
 #include "weapon_selection_controller.h"
+#include "../weapon/weapon_controller.h"
 
 void WSCM_WeaponSelectionController_Initialize(WeaponSelectionController* controller);
 WeaponSelectionController* WSCM_WeaponSelectionController_Construct();
@@ -8,5 +9,11 @@ void WSCM_WeaponSelectionController_Deconstruct(WeaponSelectionController* contr
 void WSCM_WeaponSelectionController_Update(WeaponSelectionController* controller);
 
 void WSCM_WeaponSelectionController_UpdateWeaponsList(WeaponSelectionController* controller);
+
+WeaponController* WSCM_WeaponSelectionController_SelectWeapon(WeaponController* controller);
+
+WeaponController* WSCM_WeaponSelectionController_SelectNextWeapon();
+
+void WSCM_ShootSelectedWeapon(WeaponSelectionController* controller);
 
 #endif //WEAPON_SELECTION_CONTROLLER_MANAGER_H

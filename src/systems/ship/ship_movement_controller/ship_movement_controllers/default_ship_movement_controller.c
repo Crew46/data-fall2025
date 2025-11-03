@@ -2,6 +2,7 @@
 #define DEFAULT_SHIP_MOVEMENT_CONTROLLER_C
 #include "../ship_movement_controller.h"
 #include "../../../input/input_controller_manager.h"
+#include "../../../../tools/debugger.c"
 
 struct DefaultShipMovementController
 {
@@ -10,6 +11,7 @@ struct DefaultShipMovementController
 
 void DefaultShipMovementControllerUpdate(DefaultShipMovementController* controller)
 {
+    PrintIntAt(screen_width - 400, screen_height -20, controller->base.speed);
     InputController* input = (InputController*)GOM_GameObjectGet_ComponentByType(((Component*)controller)->gameObjectAttatchedTo, INPUT_CONTROLLER_COMPONENT);
     if(input && controller)
     {

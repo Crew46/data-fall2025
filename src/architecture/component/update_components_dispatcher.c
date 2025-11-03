@@ -8,6 +8,7 @@
 #include "../../systems/input/input_controller_manager.h"
 #include "../../systems/health/health_controller_manager.h"
 #include "../../systems/weapon/weapon/weapon_controller_manager.h"
+#include "../../systems/weapon/weapon_selection_controller/weapon_selection_controller_manager.h"
 
 void DispatchComponentsUpdateFunction(Component* component)
 {
@@ -36,6 +37,9 @@ void DispatchComponentsUpdateFunction(Component* component)
             break;
         case HEALTH_CONTROLLER_COMPONENT:
             UpdateHealthController((HealthController*)component);
+            break;
+        case WEAPON_SELECTION_CONTROLLER:
+            WSCM_WeaponSelectionController_Update((WeaponSelectionController*)component);
             break;
         default:
             break;

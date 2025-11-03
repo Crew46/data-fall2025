@@ -8,6 +8,7 @@
 #include "../../systems/input/input_controller_manager.h"
 #include "../../systems/health/health_controller_manager.h"
 #include "../../systems/weapon/weapon/weapon_controller_manager.h"
+#include "../../systems/weapon/weapon_selection_controller/weapon_selection_controller_manager.h"
 
 Component* DispatchComponentConstructionFunction(ComponentType type)
 {
@@ -37,6 +38,9 @@ Component* DispatchComponentConstructionFunction(ComponentType type)
             break;
         case HEALTH_CONTROLLER_COMPONENT:
             componentToReturn = (Component*)ConstructHealthController();
+            break;
+        case WEAPON_SELECTION_CONTROLLER:
+            componentToReturn = (Component*)WSCM_WeaponSelectionController_Construct();
             break;
         default:
             break;

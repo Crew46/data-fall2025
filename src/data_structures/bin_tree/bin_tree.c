@@ -194,6 +194,35 @@ void PreOrder(BinNode* node, List* list)
     }
 }
 
+void PostOrder(BinNode* node, List* list)
+{
+    if(node != NULL)
+    {
+        if(node -> base.next != NULL)
+            PostOrder((BinNode*)node -> base.next, list);
+
+        append(list, list -> tail, createNode(node -> base.data));
+
+        if(node -> base.prev != NULL)
+            PostOrder((BinNode*)node -> base.prev, list);
+    }
+}
+
+void InOrder(BinNode* node, List* list)
+{
+    if(node != NULL)
+    {
+        append(list, list -> tail, createNode(node -> base.data));
+
+        if(node -> base.prev != NULL)
+            InOrder((BinNode*)node -> base.prev, list);
+
+        if(node -> base.next != NULL)
+            InOrder((BinNode*)node -> base.next, list);
+
+    }
+}
+
 BinNode* grabRandom(BinTree* tree)
 {
     if(tree != NULL)

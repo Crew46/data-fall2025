@@ -571,6 +571,7 @@ while (status == 0x00000000)
 	}
 	inOrder ( myTree, myTree->root);
 	preOrder ( myTree, myTree->root);
+	postOrder ( myTree, myTree->root);
         end_frame ();
         frame = frame + 1;
     }

@@ -47,3 +47,7 @@ I also made mkLaser () and mkPowerup () functions to make things easier. I also 
 
 Week 8
 I took off developer mode and made things a little neater for the open house during the first part of the week and during the second half I started working towards more weapon types. I also made a bitMasking function and a function that changes weapons when z is pressed. I made a texture for the rocket and it seems to work like a laser for now. I had to make some changes towards weapons such as them now having hp values. The bitMasking function currently uses AND, OR, XOR, and NOT depending on the given parameter. The rocket ammo currently works minus the visual explosion on impact.
+
+
+Week 9
+I added new functions such as mkBoss and mkPawn. A boss now spawns after the counter hits higher than a certain number and resets it. I'm using bitmasking to make sure only 1 boss can exist at a time. The current bossA spawns a pawn whenever it is hit to add a swarm like effect and also to encourage laser usage against tougher enemies.. I also started working on the binary tree this week and I started working on the new functions to traverse the list. Adding nodes to the binary list seems to not cause any issues, but for now it needs more testing to be sure.

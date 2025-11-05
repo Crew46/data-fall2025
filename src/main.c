@@ -29,6 +29,8 @@
 #include "enemy/enemy.h"
 // linked list
 #include "data_structures/doubly_linked_list/doubly_linked_list.h"
+// binary tree
+#include "data_structures/bin_tree/bin_tree.c"
 // other managers
 #include "audio_manager.h"
 #include "video_manager.h"
@@ -36,6 +38,7 @@
 #include "weapon/weapon.h"
 #include "object_manager.h"
 #include "title_screen.h"
+#include "tools/debugger.h"
 
 void main (void)
 {
@@ -47,6 +50,9 @@ void main (void)
     int  [7]   creport;
     int  [12]  sreport;
     int  [2]   vreport;
+
+    Node* enemy;
+    BinTree* reserves = ConstructBinTree();
 
     max_obj_vy                             = 1;
     min_obj_vy                             = 1;
@@ -142,6 +148,42 @@ void main (void)
                     max_obj_vy             = 1;
                     min_obj_vy             = 1;
                     vy_obj_factor          = 0;
+
+                    Enemy* tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
+                                              ENEMY_REGION,                    // region ID
+                                              rand () % screen_width,          // starting X
+                                              rand () % 120 - 240,             // starting Y
+                                              IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
+                                              0.5,                             // cooldown
+                                              false);                          // add to scene
+
+                    Weapon* weapon = CreateWeapon (WEAPON_TEXTURES,
+                                                   LAUNCHER_REGION,
+                                                   tmp->object.x,
+                                                   tmp->object.y,
+                                                   IS_ACTIVE_FLAG | HIGH_TEAM_FLAG,
+                                                   WEAPON_TYPE_MISSILE_LAUNCHER,
+                                                   0.5,
+                                                   2.0);
+
+                    weapon -> xOffset     = 0;
+                    weapon -> hasOwner    = true;
+                    tmp -> weaponIndexer += 1;
+                    enqueue (tmp -> weapons, createNode (&weapon -> object));
+
+                    AddBinTree(reserves, ConstructBinNode(&tmp -> object));
+
+                    for(int i = 0; i < 15; i++)
+                    {
+                        tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
+                                           ENEMY_REGION,                    // region ID
+                                           rand () % screen_width,          // starting X
+                                           rand () % 120 - 240,             // starting Y
+                                           IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
+                                           1.0,                             // cooldown
+                                           false);                          // add to scene
+                        AddBinTree(reserves, ConstructBinNode(&tmp -> object));
+                    }
 
                     // MANY INSTANCES OF PLAYER,  WHEN PLAYER IS CREATED,
                     // THE PLAYER FILE HAS STORED  IT IN A LINKED LIST TO
@@ -331,21 +373,34 @@ void main (void)
                 break;
 
             case PLAYER_PROCESSING_FRAME:
+                UpdateAllPlayers ();
                 break;
 
             case ENEMY_PROCESSING_FRAME:
                 if (currentState         == GAMESTATE_GAMEPLAY)
                 {
-                    if (enemyList -> qty <  8)
+
+                    List* list = GetEnemyList ();
+                    if (list -> qty <  8)
                     {
-                        CreateEnemy (ENEMY_TEXTURE,                   // texture ID
-                                     ENEMY_REGION,                    // region ID
-                                     rand () % screen_width,          // starting X
-                                     rand () % 120 - 240,             // starting Y
-                                     IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
-                                     1.0);                            // cooldown
+                        BinNode* newGuy = grabRandom(reserves);
+                        if(newGuy != NULL)
+                        {
+                            append(list, list -> tail, createNode(newGuy -> base.data));
+                            DeconstructBinNode(newGuy);
+                        }
                     }
                     UpdateAllEnemies ();
+                    if (list -> qty == 0 && reserves -> root == NULL)
+                    {
+                        DeconstructAllEnemies   ();
+                        DeconstructAllPlayers   ();
+                        DeconstructAllWeapons   ();
+                        DeconstructAllMissiles  ();
+                        DeconstructAllLasers    ();
+                        DeconstructAllExplosions();
+                        currentState = GAMESTATE_TITLE;
+                    }
                 }
                 break;
 
@@ -361,8 +416,8 @@ void main (void)
                 break;
         }
 
+
         UpdateAllObjects (objectList);
-        UpdateAllPlayers ();
     
         if (frame                       == 0)
         {

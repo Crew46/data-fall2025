@@ -358,7 +358,7 @@ void EnemyUpdate (Enemy *enemy)
 //=========================================================
 
 //constructor
-Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime)
+Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime, bool addToList)
 {
     // allocate memory for enemy
     Enemy  *enemy            = (Enemy *) malloc (sizeof (Enemy));
@@ -385,7 +385,10 @@ Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float
 
     enemy -> weaponIndexer   = 1;
 
-    enemyList                = append (enemyList, enemyList -> tail, createNode (&enemy -> object));
+    if(addToList)
+    {
+        enemyList            = append (enemyList, enemyList -> tail, createNode (&enemy -> object));
+    }
 
     // return pointer to enemy
     return (enemy);

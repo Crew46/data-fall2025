@@ -378,6 +378,9 @@ Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, flo
     // player object properties initialization
     initObject (&player -> object, Object_Type_Entity, textureID, regionID, x, y, status);
 
+    player -> object.vx = 3;
+    player -> object.vy = 3;
+
     // player properties initialization
     player -> gamepadID      = gamepadID;
 

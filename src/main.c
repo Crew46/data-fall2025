@@ -12,6 +12,7 @@
 #include "stack.h"
 #include "functions.h"
 #include "queue.h"
+#include "binaryTree.h"
 #define AMMOSPEED            1
 
 
@@ -28,6 +29,7 @@ void main (void)
 	doublyLinkedList *listC			= mkList (); // stack list.
 	queue  *myQueue					= mkQueue (listB);
 	stack  *myStack					= mkStack (listC);
+	binaryTree * myTree				= mkBinaryTree ();
     Object *tmp             = NULL;
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
@@ -78,7 +80,14 @@ void main (void)
     // Create our player instance
     //
     player = mkPlayer ();
-    ////////////////////////////////////////////////////////////////////////////////////
+    
+	for ( i = 0; i < 5; i ++)
+	{
+		newNode = mkNode ();
+		myTree 	= addBinaryNode (myTree, newNode);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
     //
     // 
     //Visuals will define and select textures.

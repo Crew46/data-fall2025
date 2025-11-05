@@ -4,7 +4,11 @@
 queue * mkQueue (doublyLinkedList * listB)
 {
 	queue * myQueue;
-	myQueue				= (queue *)malloc(sizeof(queue));	
+	myQueue				= (queue *)malloc(sizeof(queue));
+	if (myQueue == NULL)
+	{
+		exit ();
+	}	
 // Infinite queue
 	myQueue->size		= 0;
 	myQueue->data		= listB;

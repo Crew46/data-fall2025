@@ -141,7 +141,7 @@ int changeWeapon()
 			status = bitMasking( 0x11111011, 0);
 			status = bitMasking( 0x00000100, 1);
 		}
-// The rest will be used once enemies are added.
+// The rest will be used once weapons are added.
 /*
 		else if (bitMasking( 0x00000300, 0) == 0x00000300)
 		{

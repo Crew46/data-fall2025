@@ -18,36 +18,38 @@ binaryTree * addBinaryNode (binaryTree * myTree, Object * newNode)
 	if ( myTree -> root == NULL)
 	{
 		myTree -> root 	= newNode;
-		return (myTree);
 	}
-	Object * tmp		= NULL;
-	tmp					= myTree -> root;
-	while (1)
+	else
 	{
+		Object * tmp		= NULL;
+		tmp					= myTree -> root;
+		while (1)
+		{
 // If the newNode is greater than the root we will go right.
-		if ( newNode -> points > tmp->points)
-		{
-			if ( tmp -> next == NULL)
+			if ( newNode -> points > tmp->points)
 			{
-				tmp -> next = newNode;
-				break;
+				if ( tmp -> next == NULL)
+				{
+					tmp -> next = newNode;
+					break;
+				}
+				else 
+				{
+					tmp 		= tmp -> next;
+				}
 			}
-			else 
-			{
-				tmp 		= tmp -> next;
-			}
-		}
 // Otherwise we will go left if lesser than or equal.
-		if ( newNode -> points <= tmp -> points)
-		{
-			if ( tmp -> prev == NULL)
-			{
-				tmp -> prev = newNode;
-				break;
-			}
 			else
 			{
-				tmp = tmp -> prev;
+				if ( tmp -> prev == NULL)
+				{
+					tmp -> prev = newNode;
+					break;
+				}
+				else
+				{
+					tmp = tmp -> prev;
+				}
 			}
 		}
 	}
@@ -57,14 +59,42 @@ return (myTree);
 
 
 //inorder: parent, left, right.
-
-
-
-
+void inOrder( binaryTree * myTree, Object * root) 
+{
+	Object * tmp;
+	tmp = root;
+	if ( tmp == NULL)
+	{
+		return;
+	}
+	inOrder (myTree, tmp->prev);
+	tmp = root;
+	inOrder (myTree, tmp->next);
+	tmp = root;
+}
 //preorder left, parent, right.
-
-
+void preOrder( binaryTree * myTree, Object * root)
+{
+	Object * tmp;
+	tmp = root;
+	if (tmp != NULL)
+	{
+		preOrder ( myTree, tmp -> prev);
+	}
+	tmp = root;
+	if (tmp == NULL)
+	{
+		return;
+	}	
+	tmp = root;
+	if ( tmp != NULL)
+	{
+		preOrder ( myTree, tmp -> next);	
+	}
+	tmp = root;
+}
 //postorder right, parent, left.
+
 
 
 

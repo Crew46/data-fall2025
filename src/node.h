@@ -71,8 +71,8 @@ Object * mkPawn (Object * boss)
 	pawn			= (Object *) malloc(sizeof(Object));
 	pawn -> next	= NULL;
 	pawn -> prev	= NULL;
-	pawn -> x		= boss -> x + rand () % 20 - 20;
-	pawn -> y       = boss -> y + 100;
+	pawn -> x		= boss -> x + rand () % 40 - 40;
+	pawn -> y       = boss -> y + 50;
 	pawn -> isActive= true;
 	pawn -> type	= 0;
 	pawn -> height  = 30;

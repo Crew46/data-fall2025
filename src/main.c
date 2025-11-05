@@ -81,7 +81,7 @@ void main (void)
     //
     player = mkPlayer ();
     
-	for ( i = 0; i < 5; i ++)
+	for ( i = 0; i < 11; i ++)
 	{
 		newNode = mkNode ();
 		myTree 	= addBinaryNode (myTree, newNode);
@@ -569,6 +569,8 @@ while (status == 0x00000000)
 				}
 		}
 	}
+	inOrder ( myTree, myTree->root);
+	preOrder ( myTree, myTree->root);
         end_frame ();
         frame = frame + 1;
     }

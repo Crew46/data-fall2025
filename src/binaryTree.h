@@ -59,11 +59,11 @@ return (myTree);
 
 
 //inorder: parent, left, right.
-void inOrder( binaryTree * myTree, Object * parameter) 
+void inOrder( binaryTree * myTree, Object * root) 
 {
 	Object * tmp;
 	tmp 			= (Object *)malloc(sizeof(Object));
-	tmp = parameter;
+	tmp = root;
 	if ( tmp == NULL)
 	{
 		return;
@@ -73,11 +73,11 @@ void inOrder( binaryTree * myTree, Object * parameter)
 	free(tmp);
 }
 //preorder left, parent, right.
-void preOrder( binaryTree * myTree, Object * parameter)
+void preOrder( binaryTree * myTree, Object * root)
 {
 	Object * tmp;
 	tmp				= (Object *)malloc(sizeof(Object));
-	tmp = parameter;
+	tmp = root;
 	if (tmp != NULL)
 	{
 		preOrder ( myTree, tmp -> prev);
@@ -93,16 +93,15 @@ void preOrder( binaryTree * myTree, Object * parameter)
 	free(tmp);
 }
 //postorder right, parent, left.
-void postOrder ( binaryTree * myTree, Object * parameter)
+void postOrder ( binaryTree * myTree, Object * root)
 {
 	Object * tmp;
 	tmp				= (Object *)malloc(sizeof(Object));
-	tmp = parameter;
+	tmp = root;
 	if ( tmp != NULL)
 	{
 		postOrder (myTree, tmp -> next);
 	}
-	tmp = parameter;
 	if ( tmp == NULL)
 	{
 		return;
@@ -113,8 +112,19 @@ void postOrder ( binaryTree * myTree, Object * parameter)
 	}
 	free(tmp);
 }
-
-
+// Obtaining a node;
+/*binaryTree * obtainNode( binaryTree * myTree, int points, Object **thatNode)
+{
+	Object * tmp;
+	tmp			= (Object *)malloc(sizeof(Object);
+	if (myTree -> root == NULL)
+	{
+ 		return (myTree);
+	}
+	tmp = myTree -> root;
+	if ( points == tmp->points)
+	{
+*/
 
 
 

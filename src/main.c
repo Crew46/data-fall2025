@@ -197,7 +197,7 @@ void main (void)
                                   HALFWAY_ACROSS,                  // starting X
                                   HALFWAY_DOWN,                    // starting Y
                                   IS_ACTIVE_FLAG,                  // status flag bits
-                                  1.0,                             // shootCooldown
+                                  0.25,                            // shootCooldown
                                   PLAYER_ONE);                     // gamepad ID
                 }
                 break;

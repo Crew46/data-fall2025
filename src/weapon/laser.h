@@ -88,7 +88,7 @@ void LaserUpdate(Laser* laser)
     if(team      == 0)
     {
         laser->object.dx = 0.0;
-        laser->object.dy = -1.0;
+        laser->object.dy = -6.0;
     }
     else if(team == 1)
     {
@@ -98,11 +98,11 @@ void LaserUpdate(Laser* laser)
     else if(team == 2)
     {
         laser->object.dx = 0.0;
-        laser->object.dy = 1.0;
+        laser->object.dy = 2.0;
     }
     else if(team == 3)
     {
-        laser->object.dx = -1.0;
+        laser->object.dx = -4.0;
         laser->object.dy = 0.0;
     }
 

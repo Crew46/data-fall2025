@@ -12,7 +12,7 @@
 #include "stack.h"
 #include "functions.h"
 #include "queue.h"
-#include "binaryTree.h"
+//#include "binaryTree.h"
 #define AMMOSPEED            1
 
 
@@ -29,7 +29,6 @@ void main (void)
 	doublyLinkedList *listC			= mkList (); // stack list.
 	queue  *myQueue					= mkQueue (listB);
 	stack  *myStack					= mkStack (listC);
-	binaryTree * myTree				= mkBinaryTree ();
     Object *tmp             = NULL;
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
@@ -80,13 +79,6 @@ void main (void)
     // Create our player instance
     //
     player = mkPlayer ();
-    
-	for ( i = 0; i < 11; i ++)
-	{
-		newNode = mkNode ();
-		myTree 	= addBinaryNode (myTree, newNode);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////
     //
     // 
@@ -569,9 +561,6 @@ while (status == 0x00000000)
 				}
 		}
 	}
-	inOrder ( myTree, myTree->root);
-	preOrder ( myTree, myTree->root);
-	postOrder ( myTree, myTree->root);
         end_frame ();
         frame = frame + 1;
     }

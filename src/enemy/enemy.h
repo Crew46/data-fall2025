@@ -367,7 +367,7 @@ Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float
     Weapon *weapon           = NULL;
 
     // enemy object properties initialization
-    initObject (&enemy -> object, Object_Type_Entity, textureID, regionID, x, y, status);
+    initObject (&enemy -> object, Object_Type_Entity, textureID, &regionID, 1, x, y, status);
 
     enemy -> object.dy       = 1;
     enemy -> weapons         = createQueue (3);

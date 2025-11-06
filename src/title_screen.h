@@ -45,7 +45,8 @@ void title_screen (bool *alreadyrun)
         //
         for (index = 1; index <= 2; index++)
         {
-            otmp                      = createObject (PLAYER_TEXTURE, PLAYER_FRAME_0,
+            pick                      = PLAYER_FRAME_0;
+            otmp                      = createObject (PLAYER_TEXTURE, &pick, 1,
                                                       (210 * index),  340,
                                                       INACTIVE_FLAG);
             ntmp                      = createNode (otmp);
@@ -61,7 +62,8 @@ void title_screen (bool *alreadyrun)
         //
         // Initialize LOGO node, inserting into list
         //
-        otmp                          = createObject (TITLE_TEXTURE, TITLE_LOGO,
+        pick                          = TITLE_LOGO;
+        otmp                          = createObject (TITLE_TEXTURE, &pick, 1,
                                                       110,           360,
                                                       IS_ACTIVE_FLAG);
         ntmp                          = createNode (otmp);
@@ -77,7 +79,8 @@ void title_screen (bool *alreadyrun)
         //
         // Initialize SUBTITLE node, inserting into list
         //
-        otmp                          = createObject (TITLE_TEXTURE, TITLE_SUBTITLE,
+        pick                          = TITLE_SUBTITLE;
+        otmp                          = createObject (TITLE_TEXTURE, &pick, 1,
                                                       150,           -60,
                                                       IS_ACTIVE_FLAG);
         ntmp                          = createNode (otmp);
@@ -93,7 +96,8 @@ void title_screen (bool *alreadyrun)
         //
         // Initialize MESSAGE node, inserting into list
         //
-        otmp                          = createObject (TITLE_TEXTURE, TITLE_MESSAGE,
+        pick                          = TITLE_MESSAGE;
+        otmp                          = createObject (TITLE_TEXTURE, &pick, 1,
                                                       -500,          240,
                                                       IS_ACTIVE_FLAG);
         ntmp                          = createNode (otmp);
@@ -115,7 +119,7 @@ void title_screen (bool *alreadyrun)
             x                         = rand () % 630 + 0;
             y                         = rand () % 350 + 0;
 
-            otmp                      = createObject (CELESTIAL_TEXTURES, pick,
+            otmp                      = createObject (CELESTIAL_TEXTURES, &pick, 1,
                                                       x,                  y,
                                                       IS_ACTIVE_FLAG | ZOOM_FLAG);
             ntmp                      = createNode (otmp);
@@ -133,7 +137,8 @@ void title_screen (bool *alreadyrun)
         //
         // Initialize START node, inserting into list
         //
-        otmp                          = createObject (TITLE_TEXTURE, TITLE_START,
+        pick                          = TITLE_START;
+        otmp                          = createObject (TITLE_TEXTURE, &pick, 1,
                                                       640,           240,
                                                       IS_ACTIVE_FLAG);
         ntmp                          = createNode (otmp);

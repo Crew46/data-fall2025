@@ -22,7 +22,7 @@ struct Explosion {
 Explosion* CreateExplosion(int textureID, int regionID, int x, int y, int status, int damage, float lifetime)
 {
     Explosion* explosion = (Explosion*)malloc(sizeof(Explosion));
-    initObject(&explosion->object, Object_Type_Explosion, textureID, regionID, x, y, status);
+    initObject(&explosion->object, Object_Type_Explosion, textureID, &regionID, 1, x, y, status);
     explosion->damage = damage;
     explosion->lifetime = lifetime;
     explosion->age = 0.0;
@@ -55,7 +55,7 @@ void ExplosionUpdate(Explosion* explosion)
     explosion->age += 1.0/60.0 * (float)FRAME_SLICES;
 
     int frame = floor(explosion->age / explosion->lifetime * 5.0);
-    explosion->object.regionID = EXPLODE_FRAME_0 + frame;
+    explosion->object.regionID[0] = EXPLODE_FRAME_0 + frame;
 
     if(explosion->age > explosion->lifetime)
     {

@@ -38,7 +38,7 @@ struct Missile {
 Missile* CreateMissile(int textureID, int regionID, int x, int y, int status, ProjectileType type, float lifetime)
 {
     Missile* missile = (Missile*)malloc(sizeof(Missile));
-    initObject(&missile->object, Object_Type_Missile, textureID, regionID, x, y, status);
+    initObject(&missile->object, Object_Type_Missile, textureID, &regionID, 1, x, y, status);
     missile->type = type;
     missile->lifetime = lifetime;
     missile->age = 0.0;

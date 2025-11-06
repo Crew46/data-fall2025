@@ -9,12 +9,14 @@
 // void    initObject    (Object     *obj,
 //                        ObjectType  objT,
 //                        int         textureID,
-//                        int         regionID,
+//                        int        *regionID,
+//                        int         num_regions,
 //                        int         xPos,
 //                        int         yPos,
 //                        int         status);
 // Object *createObject  (int         textureID,
-//                        int         regionID,
+//                        int        *regionID,
+//                        int         num_regions,
 //                        int         x,
 //                        int         y,
 //                        int         status);
@@ -51,6 +53,7 @@ enum ObjectType
 {
     Object_Type_None,
     Object_Type_Laser,
+    Object_Type_Plasma,
     Object_Type_Missile,
     Object_Type_Explosion,
     Object_Type_Weapon,
@@ -62,7 +65,8 @@ struct Object
 {
     ObjectType  type;
     int         textureID;
-    int         regionID;
+    int        *regionID;
+    int         num_regions;
     int         frame;
     int         id;
     int         x;
@@ -75,29 +79,44 @@ struct Object
 };
 
 // This function is mainly for our embedded object 
-void    initObject (Object* obj, ObjectType objT, int textureID, int regionID, int xPos, int yPos, int status)
+void    initObject (Object *obj,      ObjectType objT,        int textureID,
+                    int    *regionID, int        num_regions, int xPos,
+                    int     yPos,     int        status)
 {
-    obj -> type       = objT;
-    obj -> textureID  = textureID;
-    obj -> regionID   = regionID;
-    obj -> x          = xPos;
-    obj -> y          = yPos;
-    obj -> dx         = 0;
-    obj -> dy         = 0;
-    obj -> vx         = 1; // Set to 1 for now, will make it customizable eventually
-    obj -> vy         = 1;
-    obj -> status     = status;
+    int  index          = 0;
+    obj -> type         = objT;
+    obj -> textureID    = textureID;
+    obj -> regionID     = (int *) malloc (sizeof (int) * num_regions);
+    for (index = 0; index < num_regions; index++)
+    {
+        obj -> regionID[index]  = regionID[index];
+    }
+    obj -> num_regions  = num_regions;
+    obj -> x            = xPos;
+    obj -> y            = yPos;
+    obj -> dx           = 0;
+    obj -> dy           = 0;
+    obj -> vx           = 1; // Set to 1 for now, will make it customizable eventually
+    obj -> vy           = 1;
+    obj -> status       = status;
 }
 
-Object *createObject (int textureID, int regionID, int x, int y, int status)
+Object *createObject (int textureID, int *regionID, int num_regions,
+                      int x,         int  y,        int status)
 {
-    Object *obj       = (Object *) malloc (sizeof (Object));
-    obj -> type       = Object_Type_None; // Has no parent
-    obj -> textureID  = textureID;
-    obj -> regionID   = regionID;
-    obj -> x          = x;
-    obj -> y          = y;
-    obj -> status     = status;
+    int  index          = 0;
+    Object *obj         = (Object *) malloc (sizeof (Object));
+    obj -> type         = Object_Type_None; // Has no parent
+    obj -> textureID    = textureID;
+    obj -> regionID     = (int *) malloc (sizeof (int) * num_regions);
+    for (index = 0; index < num_regions; index++)
+    {
+        obj -> regionID[index]  = regionID[index];
+    }
+    obj -> num_regions  = num_regions;
+    obj -> x            = x;
+    obj -> y            = y;
+    obj -> status       = status;
 
     return (obj);
 }
@@ -109,7 +128,7 @@ void  drawObject (Object *object)
     if (IS_ACTIVE_FLAG == (object -> status & IS_ACTIVE_FLAG))
     {
         select_texture (object -> textureID);
-        select_region  (object -> regionID);
+        select_region  (object -> regionID[0]);
 
         team            = (object -> status & TeamFlagMask) >> TeamFlagOffset;
 

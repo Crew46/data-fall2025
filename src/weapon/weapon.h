@@ -59,7 +59,7 @@ struct Weapon {
 Weapon* CreateWeapon(int textureID, int regionID, int x, int y, int status, WeaponType type, float cooldown, float lifetime)
 {
     Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
-    initObject(&weapon->object, Object_Type_Weapon, textureID, regionID, x, y, status);
+    initObject(&weapon->object, Object_Type_Weapon, textureID, &regionID, 1, x, y, status);
     weapon->type = type;
     weapon->maxShootCooldownTime = cooldown;
     weapon->shootCooldownElapsed = 0.0;

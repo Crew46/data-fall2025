@@ -36,7 +36,7 @@ struct Laser {
 Laser* CreateLaser(int textureID, int regionID, int x, int y, int status, ProjectileType type, float lifetime)
 {
     Laser* laser = (Laser*)malloc(sizeof(Laser));
-    initObject(&laser->object, Object_Type_Laser, textureID, regionID, x, y, status);
+    initObject(&laser->object, Object_Type_Laser, textureID, &regionID, 1, x, y, status);
     laser->type = type;
     laser->lifetime = lifetime;
     laser->age = 0.0;

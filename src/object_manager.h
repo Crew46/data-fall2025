@@ -33,7 +33,7 @@ void CreateCelestials (void)
             x                     = rand () % 630 + 0;
             y                     = rand () % 350 - 360;
 
-            otmp                  = createObject (CELESTIAL_TEXTURES, pick,
+            otmp                  = createObject (CELESTIAL_TEXTURES, &pick, 1,
                                                   x,                  y,
                                                   IS_ACTIVE_FLAG | ZOOM_FLAG);
             ntmp                  = createNode (otmp);
@@ -81,7 +81,7 @@ void  UpdateAllObjects (List *myList)
                     pick              = (otmp -> frame + 1) % 6 + 1;
                     otmp -> id        = half_seconds;
                     otmp -> frame     = pick;
-                    otmp -> regionID  = pick + (CELESTIAL_LARGE - 1);
+                    otmp -> regionID[0]  = pick + (CELESTIAL_LARGE - 1);
                 }
             }
 
@@ -117,7 +117,7 @@ void  UpdateAllObjects (List *myList)
                     otmp -> vx        = 0;
                     otmp -> y         = -1 * (rand () % 40 + 20);
                     otmp -> vy        = rand () % max_obj_vy + min_obj_vy;
-                    otmp -> regionID  = rand () % 4 + CELESTIAL_LARGE + 2;
+                    otmp -> regionID[0]  = rand () % 4 + CELESTIAL_LARGE + 2;
                 }
             }
             currentNode               = currentNode -> next;

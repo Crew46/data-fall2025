@@ -376,7 +376,7 @@ Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, flo
     Weapon *weapon           = NULL;
 
     // player object properties initialization
-    initObject (&player -> object, Object_Type_Entity, textureID, regionID, x, y, status);
+    initObject (&player -> object, Object_Type_Entity, textureID, &regionID, 1, x, y, status);
 
     player -> object.vx = 3;
     player -> object.vy = 3;

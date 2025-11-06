@@ -95,7 +95,7 @@ void PrintObjectDataAt(int x, int y, Object* object)
     print_at(x, y + leading * 7, "Sprite: ");
 
     print_at(x + tracking * 1, y + leading * 8, "rID: ");
-    PrintIntAt(x + tracking * 5, y + leading * 8, object->regionID);
+    PrintIntAt(x + tracking * 5, y + leading * 8, object->regionID[0]);
     
     print_at(x + tracking * 1, y + leading * 9, "tID: ");
     PrintIntAt(x + tracking * 5, y + leading * 9, object->textureID);

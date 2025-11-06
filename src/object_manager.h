@@ -14,6 +14,7 @@
 // list of objects in scene
 List      *objectList;
 
+// these constitute the moving starfield
 void CreateCelestials (void)
 {
     int     index                 = 0;
@@ -36,6 +37,7 @@ void CreateCelestials (void)
             otmp                  = createObject (CELESTIAL_TEXTURES, &pick, 1,
                                                   x,                  y,
                                                   IS_ACTIVE_FLAG | ZOOM_FLAG);
+            otmp -> type          = Object_Type_Celestial;
             ntmp                  = createNode (otmp);
             otmp                  = ntmp -> data;
             otmp -> id            = half_seconds;
@@ -76,12 +78,15 @@ void  UpdateAllObjects (List *myList)
             if ((otmp -> frame       >  0) &&
                 (otmp -> vy          == 0))
             {
-                if (half_seconds     >  otmp -> id + (otmp -> frame - 1))
+                if (otmp -> type         == Object_Type_Celestial)
                 {
-                    pick              = (otmp -> frame + 1) % 6 + 1;
-                    otmp -> id        = half_seconds;
-                    otmp -> frame     = pick;
-                    otmp -> regionID[0]  = pick + (CELESTIAL_LARGE - 1);
+                    if (half_seconds     >  otmp -> id + (otmp -> frame - 1))
+                    {
+                        pick              = (otmp -> frame + 1) % 6 + 1;
+                        otmp -> id        = half_seconds;
+                        otmp -> frame     = pick;
+                        otmp -> regionID  = pick + (CELESTIAL_LARGE - 1);
+                    }
                 }
             }
 
@@ -117,7 +122,10 @@ void  UpdateAllObjects (List *myList)
                     otmp -> vx        = 0;
                     otmp -> y         = -1 * (rand () % 40 + 20);
                     otmp -> vy        = rand () % max_obj_vy + min_obj_vy;
-                    otmp -> regionID[0]  = rand () % 4 + CELESTIAL_LARGE + 2;
+					if (otmp -> type         == Object_Type_Celestial)
+					{
+						otmp -> regionID  = otmp -> regions [(rand () % 4 + CELESTIAL_LARGE + 2)];
+					}
                 }
             }
             currentNode               = currentNode -> next;

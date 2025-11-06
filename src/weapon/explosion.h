@@ -55,7 +55,7 @@ void ExplosionUpdate(Explosion* explosion)
     explosion->age += 1.0/60.0 * (float)FRAME_SLICES;
 
     int frame = floor(explosion->age / explosion->lifetime * 5.0);
-    explosion->object.regionID[0] = EXPLODE_FRAME_0 + frame;
+    explosion->object.regionID = explosion->object.regions[EXPLODE_FRAME_0 + frame];
 
     if(explosion->age > explosion->lifetime)
     {

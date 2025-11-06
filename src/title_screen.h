@@ -122,6 +122,7 @@ void title_screen (bool *alreadyrun)
             otmp                      = createObject (CELESTIAL_TEXTURES, &pick, 1,
                                                       x,                  y,
                                                       IS_ACTIVE_FLAG | ZOOM_FLAG);
+            otmp -> type              = Object_Type_Celestial;
             ntmp                      = createNode (otmp);
             otmp                      = ntmp -> data;
             otmp -> id                = half_seconds;

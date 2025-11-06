@@ -44,6 +44,7 @@ void main (void)
 {
     bool       alreadyrun                  = false;
     bool       start                       = false;
+    float      value                       = 0.0;
     int        cycles                      = 0;
     int        position                    = 0;
     int        frame                       = 0;
@@ -175,12 +176,13 @@ void main (void)
 
                     for(int i = 0; i < 15; i++)
                     {
+                        value  = (float) (rand () % 15 + 3) / 10;
                         tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
                                            ENEMY_REGION,                    // region ID
                                            rand () % screen_width,          // starting X
                                            rand () % 120 - 240,             // starting Y
                                            IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
-                                           1.0,                             // cooldown
+                                           value,                           // cooldown
                                            false);                          // add to scene
                         AddBinTree(reserves, ConstructBinNode(&tmp -> object));
                     }

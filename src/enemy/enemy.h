@@ -89,18 +89,20 @@ void DrawEnemy (Enemy *enemy)
 
 bool enemyDropWeapon (Enemy *enemy)
 {
-    Node *dropped              = dequeue (enemy -> weapons);
+    Node   *dropped            = dequeue (enemy -> weapons);
+    Weapon *wtmp               = NULL;
     if (dropped               != NULL)
     {
-        ((Weapon *) dropped -> data) -> hasOwner = false;
-        ((Weapon *) dropped -> data) -> isFiring = false;
+        wtmp                   = ((Weapon *) dropped -> data);
+        wtmp -> hasOwner       = false;
+        wtmp -> isFiring       = false;
         free (dropped);
         dropped                = NULL;
 
-        return true;
+        return (true);
     }
 
-    return false;
+    return (false);
 }
 
 void enemyGrabWeapon (Enemy *enemy)
@@ -131,8 +133,8 @@ void enemyGrabWeapon (Enemy *enemy)
                     weapon -> yOffset        = -5;
                     weapon -> xOffset        = -10 + (10 * enemy -> weaponIndexer);
 
-                    enemy -> weaponIndexer  = enemy -> weaponIndexer + 1;
-                    enemy -> weaponIndexer  = enemy -> weaponIndexer % 3;
+                    enemy  -> weaponIndexer  = enemy -> weaponIndexer + 1;
+                    enemy  -> weaponIndexer  = enemy -> weaponIndexer % 3;
                 }
             }
         }
@@ -183,7 +185,7 @@ void enemyFireWeapons (Enemy *enemy, bool canFire)
 
     if(canFire)
     {
-        fireStatus             = ((rand() % 10) >  5);
+        fireStatus                 = ((rand() % 10) >  5);
     }
 
     Node   *currentNode            = enemy -> weapons -> data -> head;

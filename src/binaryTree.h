@@ -59,26 +59,17 @@ return (myTree);
 
 
 //inorder: parent, left, right.
-binaryTree * inOrder( binaryTree * myTree, Object * child, int pointsValue, **thatNode) 
+binaryTree * inOrder( binaryTree * myTree, Object * root) 
 {
 	Object * tmp;
-	Object * tmp2;
 	tmp 			= (Object *)malloc(sizeof(Object));
-	tmp2			= (Object *)malloc(sizeof(Object));
-//tmp 2 is following tmp;
-	tmp2= tmp;
-	tmp = child;
+	tmp = root;
 	if ( tmp == NULL)
 	{
 		return;
 	}
-	if (tmp -> points == pointsvalue)
-		{
-			myTree = obtainBinaryNode (mytree,
-		}
 	myTree = inOrder (myTree , tmp->prev);
 	myTree = inOrder (myTree, tmp->next);
-	free(tmp);
 	free(tmp2);
 return (myTree);
 }
@@ -123,7 +114,31 @@ void postOrder ( binaryTree * myTree, Object * root)
 	free(tmp);
 }
 
-binaryTree * obtainBinaryNode ( binaryTree * myTree			
+binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * root, Object **thatNode);
+	{
+		Object * tmp;
+		Object * tmp2;
+		Object * tmp 	=	(Object *)malloc(sizeof(Object));
+		Object * tmp2	=	(Object *)malloc(sizeof(Object));
+		tmp2			= tmp;
+		tmp				= root;
+		if (tmp == NULL)
+		{
+			return (myTree)
+		}
+		if ( pointsValue > tmp -> value)
+		{
+			myTree = obtainBinaryNode (myTree, pointsValue, tmp -> next, **thatNode);
+		}
+		if ( pointsValue < tmp -> value)
+		{
+			myTree = obtainBinaryNode (myTree, pointsValue, tmp -> prev, **thatNode);
+		}
+// Cases where we could have the value!
+		if ( pointsValue == tmp -> value)	
+			{
+				
+		
 		
 
 

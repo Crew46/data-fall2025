@@ -116,29 +116,72 @@ void postOrder ( binaryTree * myTree, Object * root)
 
 binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * root, Object **thatNode);
 	{
-		Object * tmp;
-		Object * tmp2;
-		Object * tmp 	=	(Object *)malloc(sizeof(Object));
-		Object * tmp2	=	(Object *)malloc(sizeof(Object));
+		Object * tmp	= NULL;
+		Object * tmp2	= NULL;
+		Object * tmp3 	= NULL;
 		tmp2			= tmp;
 		tmp				= root;
 		if (tmp == NULL)
 		{
 			return (myTree)
 		}
-		if ( pointsValue > tmp -> value)
+		if ( pointsValue > tmp -> points)
 		{
 			myTree = obtainBinaryNode (myTree, pointsValue, tmp -> next, **thatNode);
 		}
-		if ( pointsValue < tmp -> value)
+		if ( pointsValue < tmp -> points)
 		{
 			myTree = obtainBinaryNode (myTree, pointsValue, tmp -> prev, **thatNode);
 		}
 // Cases where we could have the value!
-		if ( pointsValue == tmp -> value)	
+// Leaf case. No children.
+		if ( pointsValue == tmp -> points)	
 			{
-				
-		
+				if ( tmp -> next == NULL && tmp -> prev == NULL)
+				{
+					**thatNode = tmp;
+					if (tmp2 -> next == tmp)
+					{
+						tmp2 -> next = NULL;
+					}
+					else
+					{
+						tmp2 -> prev = NULL;
+					}
+				return (myTree);
+				}
+// Two child case.
+				if ( tmp -> next != NULL && tmp -> prev != NULL)
+				{
+				 	**thatNode = tmp;
+					if (tmp2 -> prev == tmp)
+					{
+						tmp2 -> prev 	= tmp -> next;
+						tmp -> next 	= NULL;
+						tmp3 			= tmp2 -> prev;
+						while (tmp3 -> prev != NULL;)
+						{
+							tmp3 = tmp3 -> prev;
+						}
+							tmp3 -> prev = tmp -> prev;
+							tmp -> prev = NULL;
+					}
+					if (tmp2 -> prev == tmp)
+					{
+						tmp2 -> next   	= tmp -> prev;
+						tmp  -> prev 	= NULL;
+						tmp3			= tmp2 -> next;
+						while (tmp3 -> next != NULL;)
+						{
+							tmp3 = tmp3 -> next;
+						}
+							tmp3 -> next 	= tmp -> next 
+							tmp -> next 	= NULL;
+					}
+				return (myTree);
+				}
+	
+// Two children case		
 		
 
 

@@ -33,6 +33,7 @@ void main (void)
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
 	Object *tmp4 			= NULL;
+	Object *tmp5			= NULL;
 	Object *player			= NULL;
     max                     = 0; 
 	score 					= 0;

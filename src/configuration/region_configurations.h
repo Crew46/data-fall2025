@@ -112,12 +112,12 @@ void InitializeRegions ()
     //LASER
     select_texture (LASER_TEXTURES);
     select_region (LASER_REGION);
-    define_region_center (0, 0, 9, 19);
+    define_region_center (0, 0, 9, 69);
 
     //MISSILE
     select_texture (LASER_TEXTURES);
     select_region (MISSILE_REGION);
-    define_region_center (10, 0, 19, 19);
+    define_region_center (10, 0, 19, 20);
 
     // CELESTIAL_SMALL
     select_texture (CELESTIAL_TEXTURES);

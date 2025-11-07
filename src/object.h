@@ -87,44 +87,44 @@ void    initObject (Object *obj,      ObjectType objT,        int textureID,
                     int    *regions,  int        num_regions, int xPos,
                     int     yPos,     int        status)
 {
-    int  index          = 0;
-    obj -> type         = objT;
-    obj -> textureID    = textureID;
-    obj -> regions      = (int *) malloc (sizeof (int) * num_regions);
+    int  index                 = 0;
+    obj -> type                = objT;
+    obj -> textureID           = textureID;
+    obj -> regions             = (int *) malloc (sizeof (int) * num_regions);
     for (index = 0; index < num_regions; index++)
     {
         obj -> regions[index]  = regions[index];
     }
-    obj -> frame        = 0;
-    obj -> regionID     = obj -> regions[obj -> frame];
-    obj -> num_regions  = num_regions;
-    obj -> x            = xPos;
-    obj -> y            = yPos;
-    obj -> dx           = 0;
-    obj -> dy           = 0;
-    obj -> vx           = 1; // Set to 1 for now, will make it customizable eventually
-    obj -> vy           = 1;
-    obj -> status       = status;
+    obj -> frame               = 0;
+    obj -> regionID            = obj -> regions[obj -> frame];
+    obj -> num_regions         = num_regions;
+    obj -> x                   = xPos;
+    obj -> y                   = yPos;
+    obj -> dx                  = 0;
+    obj -> dy                  = 0;
+    obj -> vx                  = 1; // Set to 1 for now, will make it customizable eventually
+    obj -> vy                  = 1;
+    obj -> status              = status;
 }
 
 Object *createObject (int textureID, int *regions,  int num_regions,
                       int x,         int  y,        int status)
 {
-    int  index          = 0;
-    Object *obj         = (Object *) malloc (sizeof (Object));
-    obj -> type         = Object_Type_None; // Has no parent
-    obj -> frame        = 0;
-    obj -> textureID    = textureID;
-    obj -> regions      = (int *) malloc (sizeof (int) * num_regions);
+    int  index                 = 0;
+    Object *obj                = (Object *) malloc (sizeof (Object));
+    obj -> type                = Object_Type_None; // Has no parent
+    obj -> frame               = 0;
+    obj -> textureID           = textureID;
+    obj -> regions             = (int *) malloc (sizeof (int) * num_regions);
     for (index = 0; index < num_regions; index++)
     {
         obj -> regions[index]  = regions[index];
     }
-    obj -> num_regions  = num_regions;
-    obj -> regionID     = obj -> regions[obj -> frame];
-    obj -> x            = x;
-    obj -> y            = y;
-    obj -> status       = status;
+    obj -> num_regions         = num_regions;
+    obj -> regionID            = obj -> regions[obj -> frame];
+    obj -> x                   = x;
+    obj -> y                   = y;
+    obj -> status              = status;
 
     return (obj);
 }

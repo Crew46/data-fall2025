@@ -13,6 +13,7 @@ void title_screen (bool *alreadyrun)
     //
     // Declare variables
     //
+    int [6] celestial;
     int     index                     = 0;
     int     pick                      = 0;
     int     position                  = 0;
@@ -111,22 +112,30 @@ void title_screen (bool *alreadyrun)
 
         ////////////////////////////////////////////////////////////////////////////
         //
+        // Initialize celestial regionID array
+        //
+        for (index = 0; index < 6; index++)
+        {
+            celestial[index]          = CELESTIAL_LARGE + index;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////
+        //
         // Initialize celestial starfield nodes, inserting into list
         //
         for (index = 0; index < 128; index++)
         {
-            pick                      = rand () % 6   + CELESTIAL_LARGE;
             x                         = rand () % 630 + 0;
             y                         = rand () % 350 + 0;
 
-            otmp                      = createObject (CELESTIAL_TEXTURES, &pick, 1,
+            otmp                      = createObject (CELESTIAL_TEXTURES, celestial, 6,
                                                       x,                  y,
                                                       IS_ACTIVE_FLAG | ZOOM_FLAG);
             otmp -> type              = Object_Type_Celestial;
             ntmp                      = createNode (otmp);
             otmp                      = ntmp -> data;
             otmp -> id                = half_seconds;
-            otmp -> frame             = pick - (CELESTIAL_LARGE - 1);
+            otmp -> frame             = rand () % 6;
             otmp -> vx                = 0;
             otmp -> vy                = 0;
             otmp -> dx                = -1000;  // destination X

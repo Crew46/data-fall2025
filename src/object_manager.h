@@ -19,6 +19,7 @@ void CreateCelestials (void)
 {
     int     index                 = 0;
     int     pick                  = 0;
+    int [6] stars;
     int     x                     = 0;
     int     y                     = 0;
     List   *ltmp                  = NULL;
@@ -27,21 +28,26 @@ void CreateCelestials (void)
 
     if (objectList               == NULL)
     {
+        for (index = 0; index < 3; index++)
+        {
+            stars[index]          = STAR0 + index;
+        }
+
         ltmp                      = createList ();
         for (index = 0; index < 96; index++)
         {
-            pick                  = rand () % 3   + CELESTIAL_LARGE + 3;
+            pick                  = rand () % 3   + STAR0;
             x                     = rand () % 630 + 0;
             y                     = rand () % 350 - 360;
 
-            otmp                  = createObject (CELESTIAL_TEXTURES, &pick, 1,
+            otmp                  = createObject (CELESTIAL_TEXTURES, stars, 3,
                                                   x,                  y,
                                                   IS_ACTIVE_FLAG | ZOOM_FLAG);
             otmp -> type          = Object_Type_Celestial;
             ntmp                  = createNode (otmp);
             otmp                  = ntmp -> data;
             otmp -> id            = half_seconds;
-            otmp -> frame         = pick - (CELESTIAL_LARGE - 1);
+            otmp -> frame         = pick;
             otmp -> vx            = 0;
             otmp -> vy            = rand () % max_obj_vy + min_obj_vy;
             otmp -> dx            = -1000;  // destination X
@@ -60,32 +66,35 @@ List *GetObjectList ()
 
 void  UpdateAllObjects (List *myList)
 {
-    int     pick                      = 0;
-    Node   *currentNode               = NULL;
-    Object *otmp                      = NULL;  
+    int     pick                           = 0;
+    Node   *currentNode                    = NULL;
+    Object *otmp                           = NULL;
 
-    if (myList                       != NULL)
+    if (myList                            != NULL)
     {
-        currentNode                   = myList      -> head;
-        while (currentNode           != NULL)
+        currentNode                        = myList      -> head;
+        while (currentNode                != NULL)
         {
-            otmp                      = currentNode -> data;
+            otmp                           = currentNode -> data;
 
             ////////////////////////////////////////////////////////////////////////
             //
             // Adjust celestial objects
             //
-            if ((otmp -> frame       >  0) &&
-                (otmp -> vy          == 0))
+            if ((otmp -> frame            >  0) &&
+                (otmp -> vy               == 0))
             {
-                if (otmp -> type         == Object_Type_Celestial)
+                if (otmp -> type          == Object_Type_Celestial)
                 {
-                    if (half_seconds     >  otmp -> id + (otmp -> frame - 1))
+                    if (half_seconds      >  otmp -> id + otmp -> frame)
                     {
-                        pick              = (otmp -> frame + 1) % 6 + 1;
-                        otmp -> id        = half_seconds;
-                        otmp -> frame     = pick;
-                        otmp -> regionID  = pick + (CELESTIAL_LARGE - 1);
+                        otmp -> frame      = otmp -> frame + 1;
+                        if (otmp -> frame >= otmp -> num_regions)
+                        {
+                            otmp -> frame  = 0;
+                        }    
+                        otmp -> id         = half_seconds;
+                        otmp -> regionID   = otmp -> regions[otmp -> frame];
                     }
                 }
             }
@@ -94,18 +103,18 @@ void  UpdateAllObjects (List *myList)
             //
             // Adjust node X position, comparing to desired destination X
             //
-            if (otmp -> vx           <  0)
+            if (otmp -> vx                <  0)
             {
-                if (otmp -> x        >= otmp -> dx)
+                if (otmp -> x             >= otmp -> dx)
                 {
-                    otmp -> x         = otmp -> x + otmp -> vx;
+                    otmp -> x              = otmp -> x + otmp -> vx;
                 }
             }
-            else if (otmp -> vx      >  0)
+            else if (otmp -> vx           >  0)
             {
-                if (otmp -> x        <= otmp -> dx)
+                if (otmp -> x             <= otmp -> dx)
                 {
-                    otmp -> x         = otmp -> x + otmp -> vx;
+                    otmp -> x              = otmp -> x + otmp -> vx;
                 }
             }
 
@@ -113,22 +122,23 @@ void  UpdateAllObjects (List *myList)
             //
             // Adjust object's Y position, comparing to desired destination Y
             //
-            if (otmp -> y            != otmp -> dy)
+            if (otmp -> y                 != otmp -> dy)
             {
-                otmp -> y             = otmp -> y + (otmp -> vy * vy_obj_factor);
-                if (otmp -> y        >  360)
+                otmp -> y                 += otmp -> vy * vy_obj_factor;
+                if (otmp -> y             >  360)
                 {
-                    otmp -> x         = rand () % 630;
-                    otmp -> vx        = 0;
-                    otmp -> y         = -1 * (rand () % 40 + 20);
-                    otmp -> vy        = rand () % max_obj_vy + min_obj_vy;
-					if (otmp -> type         == Object_Type_Celestial)
-					{
-						otmp -> regionID  = otmp -> regions [(rand () % 4 + CELESTIAL_LARGE + 2)];
-					}
+                    otmp -> x              = rand () % 630;
+                    otmp -> vx             = 0;
+                    otmp -> y              = -1 * (rand () % 40 + 20);
+                    otmp -> vy             = rand () % max_obj_vy + min_obj_vy;
+                    if (otmp -> type      == Object_Type_Celestial)
+                    {
+                        pick               = rand () % otmp -> num_regions;
+                        otmp -> regionID   = otmp -> regions[pick];
+                    }
                 }
             }
-            currentNode               = currentNode -> next;
+            currentNode                    = currentNode -> next;
         }
     }
 }

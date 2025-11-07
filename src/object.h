@@ -74,6 +74,7 @@ struct Object
     int         frame;
     int         id;
     int         offset;
+    int         delay;
     int         x;
     int         y;
     int         dx;

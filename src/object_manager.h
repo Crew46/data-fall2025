@@ -48,6 +48,7 @@ void CreateCelestials (void)
             otmp                  = ntmp -> data;
             otmp -> offset        = half_seconds;
             otmp -> frame         = pick;
+            otmp -> delay         = pick;
             otmp -> vx            = 0;
             otmp -> vy            = rand () % max_obj_vy + min_obj_vy;
             otmp -> dx            = -1000;  // destination X
@@ -81,15 +82,16 @@ void  UpdateAllObjects (List *myList)
             //
             // Adjust celestial objects
             //
-            if ((otmp -> frame            >  0) &&
-                (otmp -> vy               == 0))
+            if (otmp -> vy                == 0)
             {
                 if (otmp -> type          == Object_Type_Celestial)
                 {
-                    if (half_seconds      >  otmp -> offset + otmp -> num_regions)
+                    if (half_seconds      >  otmp -> offset + otmp -> delay)
                     {
-                        otmp -> frame     += 1 % otmp -> num_regions;
+                        otmp -> frame      = otmp -> frame + 1;
+                        otmp -> frame     %= otmp -> num_regions;
                         otmp -> offset     = half_seconds;
+                        otmp -> delay      = otmp -> frame;
                         otmp -> regionID   = otmp -> regions[otmp -> frame];
                     }
                 }

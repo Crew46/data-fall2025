@@ -134,8 +134,9 @@ void title_screen (bool *alreadyrun)
             otmp -> type              = Object_Type_Celestial;
             ntmp                      = createNode (otmp);
             otmp                      = ntmp -> data;
-            otmp -> id                = half_seconds;
+            otmp -> offset            = half_seconds;
             otmp -> frame             = rand () % 6;
+            otmp -> delay             = otmp -> frame;
             otmp -> vx                = 0;
             otmp -> vy                = 0;
             otmp -> dx                = -1000;  // destination X

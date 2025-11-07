@@ -46,7 +46,7 @@ void CreateCelestials (void)
             otmp -> type          = Object_Type_Celestial;
             ntmp                  = createNode (otmp);
             otmp                  = ntmp -> data;
-            otmp -> id            = half_seconds;
+            otmp -> offset        = half_seconds;
             otmp -> frame         = pick;
             otmp -> vx            = 0;
             otmp -> vy            = rand () % max_obj_vy + min_obj_vy;
@@ -86,14 +86,10 @@ void  UpdateAllObjects (List *myList)
             {
                 if (otmp -> type          == Object_Type_Celestial)
                 {
-                    if (half_seconds      >  otmp -> id + otmp -> frame)
+                    if (half_seconds      >  otmp -> offset + otmp -> num_regions)
                     {
-                        otmp -> frame      = otmp -> frame + 1;
-                        if (otmp -> frame >= otmp -> num_regions)
-                        {
-                            otmp -> frame  = 0;
-                        }    
-                        otmp -> id         = half_seconds;
+                        otmp -> frame     += 1 % otmp -> num_regions;
+                        otmp -> offset     = half_seconds;
                         otmp -> regionID   = otmp -> regions[otmp -> frame];
                     }
                 }

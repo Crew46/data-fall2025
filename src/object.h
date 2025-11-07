@@ -73,6 +73,7 @@ struct Object
     int         num_regions;
     int         frame;
     int         id;
+    int         offset;
     int         x;
     int         y;
     int         dx;

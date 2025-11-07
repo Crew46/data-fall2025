@@ -52,8 +52,8 @@ void main (void)
     int  [12]  sreport;
     int  [2]   vreport;
 
-    Node* enemy;
-    BinTree* reserves = ConstructBinTree();
+    Node      *enemy                       = NULL;
+    BinTree   *reserves                    = ConstructBinTree ();
 
     max_obj_vy                             = 1;
     min_obj_vy                             = 1;

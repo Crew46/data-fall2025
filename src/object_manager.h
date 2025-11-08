@@ -92,7 +92,6 @@ void  UpdateAllObjects (List *myList)
                         otmp -> frame     %= otmp -> num_regions;
                         otmp -> offset     = half_seconds;
                         otmp -> delay      = otmp -> frame;
-                        otmp -> regionID   = otmp -> regions[otmp -> frame];
                     }
                 }
             }
@@ -131,8 +130,7 @@ void  UpdateAllObjects (List *myList)
                     otmp -> vy             = rand () % max_obj_vy + min_obj_vy;
                     if (otmp -> type      == Object_Type_Celestial)
                     {
-                        pick               = rand () % otmp -> num_regions;
-                        otmp -> regionID   = otmp -> regions[pick];
+                        otmp -> frame      = rand () % otmp -> num_regions;
                     }
                 }
             }

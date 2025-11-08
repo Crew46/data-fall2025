@@ -112,7 +112,7 @@ void title_screen (bool *alreadyrun)
 
         ////////////////////////////////////////////////////////////////////////////
         //
-        // Initialize celestial regionID array
+        // Initialize celestial regions array
         //
         for (index = 0; index < 6; index++)
         {
@@ -135,7 +135,7 @@ void title_screen (bool *alreadyrun)
             ntmp                      = createNode (otmp);
             otmp                      = ntmp -> data;
             otmp -> offset            = half_seconds;
-            otmp -> frame             = rand () % 6;
+            otmp -> frame             = index % 6;
             otmp -> delay             = otmp -> frame;
             otmp -> vx                = 0;
             otmp -> vy                = 0;

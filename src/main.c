@@ -48,6 +48,7 @@ void main (void)
     int        cycles                      = 0;
     int        position                    = 0;
     int        frame                       = 0;
+	int  [1]   tmpregion;
     int  [7]   creport;
     int  [12]  sreport;
     int  [2]   vreport;
@@ -150,16 +151,18 @@ void main (void)
                     min_obj_vy             = 1;
                     vy_obj_factor          = 0;
 
+					tmpregion[0]           = ENEMY_REGION;
                     Enemy* tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
-                                              ENEMY_REGION,                    // region ID
+                                              tmpregion, 1,                    // region ID
                                               rand () % screen_width,          // starting X
                                               rand () % 120 - 240,             // starting Y
                                               IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
                                               0.5,                             // cooldown
                                               false);                          // add to scene
 
+					tmpregion[0]           = LAUNCHER_REGION;
                     Weapon* weapon = CreateWeapon (WEAPON_TEXTURES,
-                                                   LAUNCHER_REGION,
+                                                   tmpregion, 1,
                                                    tmp->object.x,
                                                    tmp->object.y,
                                                    IS_ACTIVE_FLAG | HIGH_TEAM_FLAG,
@@ -177,8 +180,9 @@ void main (void)
                     for(int i = 0; i < 15; i++)
                     {
                         value  = (float) (rand () % 15 + 3) / 10;
+						tmpregion[0]       = ENEMY_REGION;
                         tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
-                                           ENEMY_REGION,                    // region ID
+                                           tmpregion, 1,                    // region ID
                                            rand () % screen_width,          // starting X
                                            rand () % 120 - 240,             // starting Y
                                            IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
@@ -194,8 +198,9 @@ void main (void)
                     // extension  of object,  so need  to pass  in object
                     // params.
 
+					tmpregion[0]        = PLAYER_FRAME_0;
                     CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                  PLAYER_FRAME_0,                  // region ID
+                                  tmpregion, 1,                    // region ID
                                   HALFWAY_ACROSS,                  // starting X
                                   HALFWAY_DOWN,                    // starting Y
                                   IS_ACTIVE_FLAG,                  // status flag bits
@@ -332,32 +337,36 @@ void main (void)
                         {
                             alreadyrun   = true;
 
+							tmpregion[0]        = PLAYER_FRAME_1;
                             CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                          PLAYER_FRAME_1,                  // region ID
+                                          tmpregion, 1,                    // region ID
                                           HALFWAY_ACROSS - 40,             // starting X
                                           HALFWAY_DOWN,                    // starting Y
                                           IS_ACTIVE_FLAG,                  // status flag bits
                                           1.0,                             // shootCooldown
                                           PLAYER_TWO);                     // gamepad ID
 
+							tmpregion[0]        = PLAYER_FRAME_2;
                             CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                          PLAYER_FRAME_2,                  // region ID
+                                          tmpregion, 1,                    // region ID
                                           HALFWAY_ACROSS + 40,             // starting X
                                           HALFWAY_DOWN,                    // starting Y
                                           IS_ACTIVE_FLAG | ODD_TEAM_FLAG,  // status flag bits
                                           1.0,                             // shootCooldown
                                           PLAYER_TWO);                     // gamepad ID
 
+							tmpregion[0]        = PLAYER_FRAME_3;
                             CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                          PLAYER_FRAME_3,                  // region ID
+                                          tmpregion, 1,                    // region ID
                                           HALFWAY_ACROSS - 80,             // starting X
                                           HALFWAY_DOWN + 80,               // starting Y
                                           IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status flag bits
                                           1.0,                             // shootCooldown
                                           PLAYER_ONE);                     // gamepad ID
 
+							tmpregion[0]        = PLAYER_FRAME_3;
                             CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                          PLAYER_FRAME_0,                  // region ID
+                                          tmpregion, 1,                    // region ID
                                           HALFWAY_ACROSS + 80,             // starting X
                                           HALFWAY_DOWN + 100,              // starting Y
                                           IS_ACTIVE_FLAG | ODD_HIGH_FLAG,  // status flag bits

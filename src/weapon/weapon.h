@@ -19,7 +19,7 @@ enum ProjectileType
 #include "missile.h"
 
 //initialize instances list
-List* weaponList = createList();
+List* weaponList = createList ();
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -56,50 +56,50 @@ struct Weapon {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Weapon* CreateWeapon(int textureID, int regionID, int x, int y, int status, WeaponType type, float cooldown, float lifetime)
+Weapon* CreateWeapon (int textureID, int *regions, int num_regions, int x, int y, int status, WeaponType type, float cooldown, float lifetime)
 {
-    Weapon* weapon = (Weapon*)malloc(sizeof(Weapon));
-    initObject(&weapon->object, Object_Type_Weapon, textureID, &regionID, 1, x, y, status);
-    weapon->type = type;
-    weapon->maxShootCooldownTime = cooldown;
-    weapon->shootCooldownElapsed = 0.0;
-    weapon->lifetime = lifetime;
-    weapon->hasOwner = false;
+    Weapon* weapon = (Weapon*)malloc (sizeof (Weapon));
+    initObject (&weapon -> object, Object_Type_Weapon, textureID, regions, num_regions, x, y, status);
+    weapon -> type = type;
+    weapon -> maxShootCooldownTime = cooldown;
+    weapon -> shootCooldownElapsed = 0.0;
+    weapon -> lifetime = lifetime;
+    weapon -> hasOwner = false;
 
-    weaponList = append(weaponList, weaponList->tail, createNode(&weapon->object));
+    weaponList = append (weaponList, weaponList -> tail, createNode (&weapon -> object));
 
     int xOffset = -10;
     int yOffset = -5;
 
     int team = status & TeamFlagMask >> TeamFlagMask;
 
-    if(team      == 0)
+    if (team      == 0)
     {
-        weapon->xOffset =  xOffset;
-        weapon->yOffset =  yOffset;
+        weapon -> xOffset =  xOffset;
+        weapon -> yOffset =  yOffset;
     }
-    else if(team == 1)
+    else if (team == 1)
     {
-        weapon->xOffset = -yOffset;
-        weapon->yOffset =  xOffset;
+        weapon -> xOffset = -yOffset;
+        weapon -> yOffset =  xOffset;
     }
-    else if(team == 1)
+    else if (team == 1)
     {
-        weapon->xOffset = -xOffset;
-        weapon->yOffset = -yOffset;
+        weapon -> xOffset = -xOffset;
+        weapon -> yOffset = -yOffset;
     }
-    else if(team == 1)
+    else if (team == 1)
     {
-        weapon->xOffset =  yOffset;
-        weapon->yOffset = -xOffset;
+        weapon -> xOffset =  yOffset;
+        weapon -> yOffset = -xOffset;
     }
 
     return weapon;
 }
 
-void DeconstructWeapon(Weapon* weapon)
+void DeconstructWeapon (Weapon* weapon)
 {
-    free(weapon);
+    free (weapon);
 }
 
 //=========================================================
@@ -108,9 +108,9 @@ void DeconstructWeapon(Weapon* weapon)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void DrawWeapon(Weapon* weapon)
+void DrawWeapon (Weapon* weapon)
 {
-    drawObject(&weapon->object);
+    drawObject (&weapon -> object);
 }
 
 //=========================================================
@@ -119,26 +119,29 @@ void DrawWeapon(Weapon* weapon)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void WeaponShoot(Weapon* weapon)
+void WeaponShoot (Weapon* weapon)
 {
-    if(weapon->isFiring)
+	int [1] tmpregion;
+    if (weapon -> isFiring)
     {
         //if not in cooldown, shoot
-        if(weapon->shootCooldownElapsed <= 0)
+        if (weapon -> shootCooldownElapsed <= 0)
         {
             //shoot logic here
-            switch (weapon->type)
+            switch (weapon -> type)
             {
                 case WEAPON_TYPE_LASER_CANNON:
-                    CreateLaser(LASER_TEXTURES, LASER_REGION, weapon->object.x, weapon->object.y, weapon->object.status, LASER_TYPE_LASER_CANNON, weapon->lifetime);
+					tmpregion[0]            = LASER_REGION;
+                    CreateLaser (LASER_TEXTURES, tmpregion, 1, weapon -> object.x, weapon -> object.y, weapon -> object.status, LASER_TYPE_LASER_CANNON, weapon -> lifetime);
                     break;
                 case WEAPON_TYPE_MISSILE_LAUNCHER:
-                    CreateMissile(LASER_TEXTURES, MISSILE_REGION, weapon->object.x, weapon->object.y, weapon->object.status, LASER_TYPE_MISSILE_LAUNCHER, weapon->lifetime);
+					tmpregion[0]            = MISSILE_REGION;
+                    CreateMissile (LASER_TEXTURES, tmpregion, 1, weapon -> object.x, weapon -> object.y, weapon -> object.status, LASER_TYPE_MISSILE_LAUNCHER, weapon -> lifetime);
                     break;
             }
 
             // Reset cooldown
-            weapon->shootCooldownElapsed = weapon->maxShootCooldownTime;
+            weapon -> shootCooldownElapsed = weapon -> maxShootCooldownTime;
         }
     }
 }
@@ -149,10 +152,10 @@ void WeaponShoot(Weapon* weapon)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void WeaponUpdate(Weapon* weapon)
+void WeaponUpdate (Weapon* weapon)
 {
     //logical operations here
-    WeaponShoot(weapon);
+    WeaponShoot (weapon);
     weapon -> shootCooldownElapsed  -= 1.0/60.0 * (float)FRAME_SLICES;
 
     if (weapon -> hasOwner)
@@ -176,29 +179,29 @@ void WeaponUpdate(Weapon* weapon)
 //=========================================================
 
 //return linked list of weapons
-List* GetWeaponList()
+List* GetWeaponList ()
 {
     return weaponList;
 }
 
 //update all weapon controller in the weapon controller list
-void UpdateAllWeapons()
+void UpdateAllWeapons ()
 {
     //loop through all instances of weapon controller
-    Node* currentNode = weaponList->head;
+    Node* currentNode = weaponList -> head;
     Node* nextNode;
 
-    while(currentNode != NULL)
+    while (currentNode != NULL)
     {
-        nextNode = currentNode->next;
-        if(currentNode->data != NULL)
+        nextNode = currentNode -> next;
+        if (currentNode -> data != NULL)
         {
-            WeaponUpdate((Weapon*)currentNode->data);
-            if(currentNode->data->status & DELETION_FLAG)
+            WeaponUpdate ((Weapon*)currentNode -> data);
+            if (currentNode -> data -> status & DELETION_FLAG)
             {
-                DeconstructWeapon((Weapon*)currentNode->data);
-                weaponList  = obtain(weaponList, &currentNode);
-                deleteNode(currentNode);
+                DeconstructWeapon ((Weapon*)currentNode -> data);
+                weaponList  = obtain (weaponList, &currentNode);
+                deleteNode (currentNode);
             }
         }
 
@@ -207,18 +210,18 @@ void UpdateAllWeapons()
 }
 
 //deconstruct linked list and all laser controllers in list 
-void DeconstructAllWeapons()
+void DeconstructAllWeapons ()
 {
     //loop through all instances of weapon controller
-    Node* currentNode = weaponList->head;
+    Node* currentNode = weaponList -> head;
     Node* next;
 
-    while(currentNode != NULL)
+    while (currentNode != NULL)
     {
-        next = currentNode->next;
-        DeconstructWeapon((Weapon*)currentNode->data);
-        weaponList  = obtain(weaponList, &currentNode);
-        deleteNode(currentNode);
+        next = currentNode -> next;
+        DeconstructWeapon ((Weapon*)currentNode -> data);
+        weaponList  = obtain (weaponList, &currentNode);
+        deleteNode (currentNode);
 
         currentNode = next;
     }

@@ -9,14 +9,12 @@
 // void    initObject    (Object     *obj,
 //                        ObjectType  objT,
 //                        int         textureID,
-//                        int         regionID,
 //                        int        *regions,
 //                        int         num_regions,
 //                        int         xPos,
 //                        int         yPos,
 //                        int         status);
 // Object *createObject  (int         textureID,
-//                        int         regionID,
 //                        int        *regions,
 //                        int         num_regions,
 //                        int         x,
@@ -68,7 +66,6 @@ struct Object
 {
     ObjectType  type;
     int         textureID;
-    int         regionID;
     int        *regions;
     int         num_regions;
     int         frame;
@@ -98,7 +95,6 @@ void    initObject (Object *obj,      ObjectType objT,        int textureID,
         obj -> regions[index]  = regions[index];
     }
     obj -> frame               = 0;
-    obj -> regionID            = obj -> regions[obj -> frame];
     obj -> num_regions         = num_regions;
     obj -> x                   = xPos;
     obj -> y                   = yPos;
@@ -123,7 +119,6 @@ Object *createObject (int textureID, int *regions,  int num_regions,
         obj -> regions[index]  = regions[index];
     }
     obj -> num_regions         = num_regions;
-    obj -> regionID            = obj -> regions[obj -> frame];
     obj -> x                   = x;
     obj -> y                   = y;
     obj -> status              = status;
@@ -138,7 +133,7 @@ void  drawObject (Object *object)
     if (IS_ACTIVE_FLAG == (object -> status & IS_ACTIVE_FLAG))
     {
         select_texture (object -> textureID);
-        select_region  (object -> regionID);
+        select_region  (object -> regions[object -> frame]);
 
         team            = (object -> status & TeamFlagMask) >> TeamFlagOffset;
 

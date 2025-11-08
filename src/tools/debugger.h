@@ -31,7 +31,7 @@ void PrintIntAt (int x, int y, int value)
     free (stringValue);
 }
 
-void DrawLine(int startingX, int startingY, int endX, int endY, int* character)
+void DrawLine (int startingX, int startingY, int endX, int endY, int* character)
 {
     //find the change in x and y
     int deltaX = endX - startingX;
@@ -40,11 +40,11 @@ void DrawLine(int startingX, int startingY, int endX, int endY, int* character)
     //distance between the visual dots
     int distanceBetweenDots = 6;
     //distance betweent he two passed in vectors
-    float distance = GetDistanceBetweenVector2s(startingX, startingY, endX, endY);
+    float distance = GetDistanceBetweenVector2s (startingX, startingY, endX, endY);
     //number of dots that will fit into distance
-    int numberOfDots = floor(distance / distanceBetweenDots);
+    int numberOfDots = floor (distance / distanceBetweenDots);
     //if they are actually apart from eachother
-    if(distance != 0)
+    if (distance != 0)
     {
         float newX  = startingX;
         float newY  = startingY;
@@ -53,116 +53,116 @@ void DrawLine(int startingX, int startingY, int endX, int endY, int* character)
         float yStep = (deltaY / distance) * (float)distanceBetweenDots;
 
         //for every dot starting at 1st, rather than 0st 
-        for(int i = 1; i < (numberOfDots); i++)
+        for (int i = 1; i < (numberOfDots); i++)
         {
             //find the x of that dot
             newX += xStep;
             //find the y of that dot
             newY += yStep;
 
-            print_at(round(newX), round(newY), character);
+            print_at (round (newX), round (newY), character);
         }
     }
 }
 
-void PrintObjectDataAt(int x, int y, Object* object)
+void PrintObjectDataAt (int x, int y, Object* object)
 {
     int leading = 20;
     int tracking = 20;
 
-    print_at(x, y + leading, "Position: ");
+    print_at (x, y + leading, "Position: ");
 
     //x and y
-    print_at(x + tracking * 1, y + leading * 2, "X: ");
-    PrintIntAt(x + tracking * 5, y + leading * 2, object->x);
+    print_at (x + tracking * 1, y + leading * 2, "X: ");
+    PrintIntAt (x + tracking * 5, y + leading * 2, object -> x);
 
-    print_at(x + tracking * 1, y + leading * 3, "Y: ");
-    PrintIntAt(x + tracking * 5, y + leading * 3, object->y);
+    print_at (x + tracking * 1, y + leading * 3, "Y: ");
+    PrintIntAt (x + tracking * 5, y + leading * 3, object -> y);
 
 
 
     //x and y velocity
-    print_at(x, y + leading * 4, "Dir: ");
+    print_at (x, y + leading * 4, "Dir: ");
 
-    print_at(x + tracking * 1, y + leading * 5, "dx: ");
-    PrintIntAt(x + tracking * 5, y + leading * 5, object->dx);
+    print_at (x + tracking * 1, y + leading * 5, "dx: ");
+    PrintIntAt (x + tracking * 5, y + leading * 5, object -> dx);
 
-    print_at(x + tracking * 1, y + leading * 6, "dy: ");
-    PrintIntAt(x + tracking * 5, y + leading * 6, object->dy);
+    print_at (x + tracking * 1, y + leading * 6, "dy: ");
+    PrintIntAt (x + tracking * 5, y + leading * 6, object -> dy);
 
 
     //sprite region and texture
-    print_at(x, y + leading * 7, "Sprite: ");
+    print_at (x, y + leading * 7, "Sprite: ");
 
-    print_at(x + tracking * 1, y + leading * 8, "rID: ");
-    PrintIntAt(x + tracking * 5, y + leading * 8, object->regionID);
+    print_at (x + tracking * 1, y + leading * 8, "rID: ");
+    PrintIntAt (x + tracking * 5, y + leading * 8, object -> regions[object -> frame]);
     
-    print_at(x + tracking * 1, y + leading * 9, "tID: ");
-    PrintIntAt(x + tracking * 5, y + leading * 9, object->textureID);
+    print_at (x + tracking * 1, y + leading * 9, "tID: ");
+    PrintIntAt (x + tracking * 5, y + leading * 9, object -> textureID);
 
 
 
     //misc
-    print_at(x, y + leading * 10, "Misc: ");
+    print_at (x, y + leading * 10, "Misc: ");
 
-    print_at(x + tracking * 1, y + leading * 11, "status: ");
-    PrintIntAt(x + tracking * 5, y + leading * 11, object->status);
+    print_at (x + tracking * 1, y + leading * 11, "status: ");
+    PrintIntAt (x + tracking * 5, y + leading * 11, object -> status);
 
-    print_at(x + tracking * 1, y + leading * 12, "vx: ");
-    PrintIntAt(x + tracking * 5, y + leading * 12, object->vx);
-    print_at(x + tracking * 1, y + leading * 13, "vx: ");
-    PrintIntAt(x + tracking * 5, y + leading * 13, object->vy);
+    print_at (x + tracking * 1, y + leading * 12, "vx: ");
+    PrintIntAt (x + tracking * 5, y + leading * 12, object -> vx);
+    print_at (x + tracking * 1, y + leading * 13, "vx: ");
+    PrintIntAt (x + tracking * 5, y + leading * 13, object -> vy);
 }
 
- void VisualizeLinkedList(List* list)
+ void VisualizeLinkedList (List* list)
  {
     Node* previousNode = NULL;
-    Node* currentNode = list->head;
+    Node* currentNode = list -> head;
     Object* currentData = NULL;
-    while(currentNode != NULL)
+    while (currentNode != NULL)
     {
-        currentData = currentNode->data;
-        PrintIntAt(currentData->x, currentData->y, currentData->id);
+        currentData = currentNode -> data;
+        PrintIntAt (currentData -> x, currentData -> y, currentData -> id);
         //draw line from current node to previous node
-        if(currentNode->prev == previousNode)
+        if (currentNode -> prev == previousNode)
         {
-            if(previousNode == NULL)
+            if (previousNode == NULL)
             {
 
             }
             else
             {
-                DrawLine(currentNode->data->x, currentNode->data->y - 10, previousNode->data->x, previousNode->data->y - 10, ".");
+                DrawLine (currentNode -> data -> x, currentNode -> data -> y - 10, previousNode -> data -> x, previousNode -> data -> y - 10, ".");
             }
         }
         //draw line from previous node to current node
-        if(previousNode != NULL)
+        if (previousNode != NULL)
         {
-            DrawLine(previousNode->data->x, previousNode->data->y + 10, currentNode->data->x, currentNode->data->y + 10, ",");
+            DrawLine (previousNode -> data -> x, previousNode -> data -> y + 10, currentNode -> data -> x, currentNode -> data -> y + 10, ",");
         }
         previousNode = currentNode;
-        currentNode = currentNode->next;
+        currentNode = currentNode -> next;
     }
 }
 
- void VisualizeBinTree(BinNode* node)
+ void VisualizeBinTree (BinNode* node)
  {
-    if(node == NULL)
+    if (node == NULL)
         return;
 
-    Object* currentData = node->base.data;
-    PrintIntAt(currentData->x, currentData->y, currentData->id);
+    Object* currentData = node -> base.data;
+    PrintIntAt (currentData -> x, currentData -> y, currentData -> id);
 
     //draw line to children
-    if(node->base.next != NULL)
+    if (node -> base.next != NULL)
     {
-        DrawLine(node->base.data->x, node->base.data->y - 10, node->base.next->data->x, node->base.next->data->y - 10, ".");
-        VisualizeBinTree((BinNode*)node->base.next);
+        DrawLine (node -> base.data -> x, node -> base.data -> y - 10, node -> base.next -> data -> x, node -> base.next -> data -> y - 10, ".");
+        VisualizeBinTree ((BinNode*)node -> base.next);
     }
-    if(node->base.prev != NULL)
+    if (node -> base.prev != NULL)
     {
-        DrawLine(node->base.data->x, node->base.data->y - 10, node->base.prev->data->x, node->base.prev->data->y - 10, ",");
-        VisualizeBinTree((BinNode*)node->base.prev);
+        DrawLine (node -> base.data -> x, node -> base.data -> y - 10, node -> base.prev -> data -> x, node -> base.prev -> data -> y - 10, ",");
+        VisualizeBinTree ((BinNode*)node -> base.prev);
     }
  }
 

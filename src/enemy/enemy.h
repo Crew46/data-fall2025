@@ -360,14 +360,15 @@ void EnemyUpdate (Enemy *enemy)
 //=========================================================
 
 //constructor
-Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime, bool addToList)
+Enemy *CreateEnemy (int textureID, int *regions, int num_regions, int x, int y, int status, float maxShootCooldownTime, bool addToList)
 {
+	int [1] tmpregion;
     // allocate memory for enemy
     Enemy  *enemy            = (Enemy *) malloc (sizeof (Enemy));
     Weapon *weapon           = NULL;
 
     // enemy object properties initialization
-    initObject (&enemy -> object, Object_Type_Entity, textureID, &regionID, 1, x, y, status);
+    initObject (&enemy -> object, Object_Type_Entity, textureID, regions, num_regions, x, y, status);
 
     enemy -> object.dy       = 1;
     enemy -> weapons         = createQueue (3);
@@ -375,11 +376,13 @@ Enemy *CreateEnemy (int textureID, int regionID, int x, int y, int status, float
     int pick                 = rand () % 20;
     if(pick == 0)
     {
-        weapon               = CreateWeapon (WEAPON_TEXTURES, LAUNCHER_REGION, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_MISSILE_LAUNCHER, maxShootCooldownTime, 2.0);
+		tmpregion[0]         = LAUNCHER_REGION;
+        weapon               = CreateWeapon (WEAPON_TEXTURES, tmpregion, 1, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_MISSILE_LAUNCHER, maxShootCooldownTime, 2.0);
     }
     else
     {
-        weapon               = CreateWeapon (WEAPON_TEXTURES, WEAPON_REGION, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
+		tmpregion[0]         = WEAPON_REGION;
+        weapon               = CreateWeapon (WEAPON_TEXTURES, tmpregion, 1, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
     }
 
     enqueue (enemy -> weapons, createNode (&weapon -> object));

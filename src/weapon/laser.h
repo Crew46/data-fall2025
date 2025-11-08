@@ -9,7 +9,7 @@
 #include "weapon.h"
 
 //initialize instances list
-List* laserList = createList();
+List* laserList = createList ();
 
 //=========================================================
 ///////////////////////////////////////////////////////////
@@ -33,22 +33,22 @@ struct Laser {
 ///////////1: Constructor and Deconstructor//////
 /////////////////////////////////////////////////
 
-Laser* CreateLaser(int textureID, int regionID, int x, int y, int status, ProjectileType type, float lifetime)
+Laser* CreateLaser (int textureID, int *regions, int num_regions, int x, int y, int status, ProjectileType type, float lifetime)
 {
-    Laser* laser = (Laser*)malloc(sizeof(Laser));
-    initObject(&laser->object, Object_Type_Laser, textureID, &regionID, 1, x, y, status);
-    laser->type = type;
-    laser->lifetime = lifetime;
-    laser->age = 0.0;
+    Laser* laser = (Laser*)malloc (sizeof (Laser));
+    initObject (&laser -> object, Object_Type_Laser, textureID, regions, num_regions, x, y, status);
+    laser -> type = type;
+    laser -> lifetime = lifetime;
+    laser -> age = 0.0;
 
-    laserList = append(laserList, laserList->tail, createNode(&laser->object));
+    laserList = append (laserList, laserList -> tail, createNode (&laser -> object));
 
     return laser;
 }
 
-void DeconstructLaser(Laser* laser)
+void DeconstructLaser (Laser* laser)
 {
-    free(laser);
+    free (laser);
 }
 
 //=========================================================
@@ -57,9 +57,9 @@ void DeconstructLaser(Laser* laser)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void DrawLaser(Laser* laser)
+void DrawLaser (Laser* laser)
 {
-    drawObject(&laser->object);
+    drawObject (&laser -> object);
 }
 
 //=========================================================
@@ -69,44 +69,44 @@ void DrawLaser(Laser* laser)
 //=========================================================
 
 //move laser in a direction, where then direction is scaled by the laser's speed
-void LaserMoveInDirection(Laser* laser)
+void LaserMoveInDirection (Laser* laser)
 {
-    moveObject(&laser->object);
+    moveObject (&laser -> object);
 }
 
-void LaserUpdate(Laser* laser)
+void LaserUpdate (Laser* laser)
 {
     //logical operations here
-    laser->age += 1.0 / 60.0 * (float)FRAME_SLICES;
-    if(laser->age > laser->lifetime)
+    laser -> age += 1.0 / 60.0 * (float)FRAME_SLICES;
+    if (laser -> age > laser -> lifetime)
     {
-        laser->object.status |= DELETION_FLAG;
+        laser -> object.status |= DELETION_FLAG;
     }
 
-    int team = (laser->object.status & TeamFlagMask) >> TeamFlagOffset;
+    int team = (laser -> object.status & TeamFlagMask) >> TeamFlagOffset;
 
-    if(team      == 0)
+    if (team      == 0)
     {
-        laser->object.dx = 0.0;
-        laser->object.dy = -6.0;
+        laser -> object.dx = 0.0;
+        laser -> object.dy = -6.0;
     }
-    else if(team == 1)
+    else if (team == 1)
     {
-        laser->object.dx = 1.0;
-        laser->object.dy = 0.0;
+        laser -> object.dx = 1.0;
+        laser -> object.dy = 0.0;
     }
-    else if(team == 2)
+    else if (team == 2)
     {
-        laser->object.dx = 0.0;
-        laser->object.dy = 2.0;
+        laser -> object.dx = 0.0;
+        laser -> object.dy = 2.0;
     }
-    else if(team == 3)
+    else if (team == 3)
     {
-        laser->object.dx = -4.0;
-        laser->object.dy = 0.0;
+        laser -> object.dx = -4.0;
+        laser -> object.dy = 0.0;
     }
 
-    LaserMoveInDirection(laser);
+    LaserMoveInDirection (laser);
 }
 
 //=========================================================
@@ -116,29 +116,29 @@ void LaserUpdate(Laser* laser)
 //=========================================================
 
 //return linked list of lasers
-List* GetLaserList()
+List* GetLaserList ()
 {
     return laserList;
 }
 
 //update all laser controller in the laser controller list
-void UpdateAllLasers()
+void UpdateAllLasers ()
 {
     //loop through all instances of laser controller
-    Node* currentNode = laserList->head;
+    Node* currentNode = laserList -> head;
     Node* nextNode;
 
-    while(currentNode != NULL)
+    while (currentNode != NULL)
     {
-        nextNode = currentNode->next;
-        if(currentNode->data != NULL)
+        nextNode = currentNode -> next;
+        if (currentNode -> data != NULL)
         {
-            LaserUpdate((Laser*)currentNode->data);
-            if(currentNode->data->status & DELETION_FLAG)
+            LaserUpdate ((Laser*)currentNode -> data);
+            if (currentNode -> data -> status & DELETION_FLAG)
             {
-                DeconstructLaser((Laser*)currentNode->data);
-                laserList  = obtain(laserList, &currentNode);
-                deleteNode(currentNode);
+                DeconstructLaser ((Laser*)currentNode -> data);
+                laserList  = obtain (laserList, &currentNode);
+                deleteNode (currentNode);
             }
         }
         currentNode = nextNode;
@@ -146,18 +146,18 @@ void UpdateAllLasers()
 }
 
 //deconstruct linked list and all laser controllers in list
-void DeconstructAllLasers()
+void DeconstructAllLasers ()
 {
     //loop through all instances of laser controller
-    Node* currentNode = laserList->head;
+    Node* currentNode = laserList -> head;
     Node* next;
 
-    while(currentNode != NULL)
+    while (currentNode != NULL)
     {
-        next = currentNode->next;
-        DeconstructLaser((Laser*)currentNode->data);
-        laserList  = obtain(laserList, &currentNode);
-        deleteNode(currentNode);
+        next = currentNode -> next;
+        DeconstructLaser ((Laser*)currentNode -> data);
+        laserList  = obtain (laserList, &currentNode);
+        deleteNode (currentNode);
 
         currentNode = next;
     }

@@ -38,7 +38,7 @@
 //
 // part 4: instance management API
 //
-//         Player *CreatePlayer (int textureID, int regionID,
+//         Player *CreatePlayer (int textureID, int *regions, int num_regions,
 //                               int x,         int y,
 //                               int status,    float maxShootCooldownTime,
 //                               int gamepadID);
@@ -369,14 +369,16 @@ void PlayerUpdate (Player *player)
 //=========================================================
 
 //constructor
-Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, float maxShootCooldownTime, int gamepadID)
+Player *CreatePlayer (int textureID, int *regions, int num_regions, int x, int y, int status, float maxShootCooldownTime, int gamepadID)
 {
+	int [1] tmpregion;
+
     // allocate memory for player
     Player *player           = (Player *) malloc (sizeof (Player));
     Weapon *weapon           = NULL;
 
     // player object properties initialization
-    initObject (&player -> object, Object_Type_Entity, textureID, &regionID, 1, x, y, status);
+    initObject (&player -> object, Object_Type_Entity, textureID, regions, num_regions, x, y, status);
 
     player -> object.vx = 3;
     player -> object.vy = 3;
@@ -385,8 +387,9 @@ Player *CreatePlayer (int textureID, int regionID, int x, int y, int status, flo
     player -> gamepadID      = gamepadID;
 
     player -> weapons        = createQueue (MAXWEAPONS);
+	tmpregion[0]             = WEAPON_REGION;
     weapon                   = CreateWeapon (WEAPON_TEXTURES,
-                                             WEAPON_REGION,
+                                             tmpregion, 1,
                                              player -> object.x,
                                              player -> object.y,
                                              status,

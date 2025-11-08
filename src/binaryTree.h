@@ -62,6 +62,7 @@ return (myTree);
 bool inOrder( binaryTree * myTree, Object * root, int pointsValue) 
 {
 	Object * tmp	= NULL;
+	tmp				= root;
 	if ( tmp == NULL)
 	{
 		return (false);
@@ -82,51 +83,61 @@ bool inOrder( binaryTree * myTree, Object * root, int pointsValue)
 return (false);
 }
 //preorder left, parent, right.
-void preOrder( binaryTree * myTree, Object * root)
+bool preOrder( binaryTree * myTree, Object * root)
 {
-	Object * tmp;
-	tmp				= (Object *)malloc(sizeof(Object));
+	Object * tmp	= NULL;
 	tmp = root;
 	if (tmp != NULL)
 	{
-		preOrder ( myTree, tmp -> prev);
+		if ( preOrder ( myTree, tmp -> prev) == true);
+		{
+			return (true);
+		}
 	}
 	if (tmp == NULL)
 	{
-		return;
+		return false;
 	}	
 	if ( tmp != NULL)
 	{
-		preOrder ( myTree, tmp -> next);	
+		if ( preOrder ( myTree, tmp -> next) == true);
+		{
+			return (true);
+		}	
 	}
-	free(tmp);
+	return false;
 }
 //postorder right, parent, left.
-void postOrder ( binaryTree * myTree, Object * root)
+bool postOrder ( binaryTree * myTree, Object * root)
 {
-	Object * tmp;
-	tmp				= (Object *)malloc(sizeof(Object));
+	Object * tmp = NULL;
 	tmp = root;
 	if ( tmp != NULL)
 	{
-		postOrder (myTree, tmp -> next);
+		if ( postOrder (myTree, tmp -> next) == true)
+		{
+			return (true);
 	}
 	if ( tmp == NULL)
 	{
-		return;
+		return (false);
 	}
 	if ( tmp != NULL)
 	{
-		postOrder (myTree, tmp -> prev);
+		if ( postOrder (myTree, tmp -> prev) == true );
+		{
+			return (true);
+		}
 	}
-	free(tmp);
+	return (false);
 }
-
-binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue,Object * follower,  Object * root, Object **thatNode);
+// For the first call in main. The follower must be the root node
+binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * follower,  Object * root, Object **thatNode);
 	{
 		Object * tmp	= NULL;
 		Object * tmp2	= NULL;
 		Object * tmp3 	= NULL;
+		
 		tmp2			= follower; 
 		tmp				= root;
 		if (tmp == NULL)
@@ -169,24 +180,30 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue,Object * fo
 		
 					return (myTree);
 				}	
-// Two child case.
+// Two child case.  I FORGOT TO COMMENT MY CODE.
 				if ( tmp -> next != NULL && tmp -> prev != NULL)
 				{
+// If it is not the root node then continue
 					if ( tmp != myTree -> root)
 					{
 				 		**thatNode = tmp;
+//tmp2 is following tmp. This means that tmp must be prev.
 						if (tmp2 -> prev == tmp)
 						{
+//Connect tmp2 -> prev to tmp -> next.
 							tmp2 -> prev 	= tmp -> next;
 							tmp -> next 	= NULL;
 							tmp3 			= tmp2 -> prev;
+// Once that happens we want the lowest depth of tmp2 -> prev
 							while (tmp3 -> prev != NULL;)
 							{
 								tmp3 = tmp3 -> prev;
 							}
+// Once we are at the lowest depth we can connect tmp3 -> prev to tmp ->prev.
 								tmp3 -> prev = tmp -> prev;
 								tmp -> prev = NULL;
 						}
+//tmp2 is following tmp. This means that
 						if (tmp2 -> next == tmp)
 						{
 							tmp2 -> next   	= tmp -> prev;

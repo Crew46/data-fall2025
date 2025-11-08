@@ -59,19 +59,27 @@ return (myTree);
 
 
 //inorder: parent, left, right.
-binaryTree * inOrder( binaryTree * myTree, Object * root) 
+bool inOrder( binaryTree * myTree, Object * root, int pointsValue) 
 {
-	Object * tmp;
-	tmp 			= (Object *)malloc(sizeof(Object));
-	tmp = root;
+	Object * tmp	= NULL;
 	if ( tmp == NULL)
 	{
-		return;
+		return (false);
 	}
-	myTree = inOrder (myTree , tmp->prev);
-	myTree = inOrder (myTree, tmp->next);
-	free(tmp2);
-return (myTree);
+	if ( tmp-> points == pointsValue)
+	{
+		return (true);
+	}
+	
+	if (inOrder (myTree , tmp->prev, pointsValue) == true)
+	{
+		return (true);
+	}
+	if (inOrder (myTree, tmp->next, pointsValue) == true)
+	{
+		return (true);
+	}
+return (false);
 }
 //preorder left, parent, right.
 void preOrder( binaryTree * myTree, Object * root)
@@ -114,12 +122,13 @@ void postOrder ( binaryTree * myTree, Object * root)
 	free(tmp);
 }
 
-binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * root, Object **thatNode);
+binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue,Object * follower,  Object * root, Object **thatNode);
 	{
 		Object * tmp	= NULL;
 		Object * tmp2	= NULL;
 		Object * tmp3 	= NULL;
-		tmp2			= tmp;
+		Object * tmp4	= NULL;
+		tmp2			= follower; 
 		tmp				= root;
 		if (tmp == NULL)
 		{
@@ -127,11 +136,11 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * r
 		}
 		if ( pointsValue > tmp -> points)
 		{
-			myTree = obtainBinaryNode (myTree, pointsValue, tmp -> next, **thatNode);
+			myTree = obtainBinaryNode (myTree, pointsValue, tmp,  tmp -> next, **thatNode);
 		}
 		if ( pointsValue < tmp -> points)
 		{
-			myTree = obtainBinaryNode (myTree, pointsValue, tmp -> prev, **thatNode);
+			myTree = obtainBinaryNode (myTree, pointsValue, tmp , tmp -> prev, **thatNode);
 		}
 // Cases where we could have the value!
 // Leaf case. No children.
@@ -139,49 +148,73 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * r
 			{
 				if ( tmp -> next == NULL && tmp -> prev == NULL)
 				{
-					**thatNode = tmp;
-					if (tmp2 -> next == tmp)
+// If its not the root node then disconnect the node.
+					if ( tmp != myTree->root)
 					{
-						tmp2 -> next = NULL;
+						**thatNode = tmp;
+						if (tmp2 -> next == tmp)
+						{
+							tmp2 -> next = NULL;
+						}
+						if (tmp2 -> prev == tmp)
+						{
+							tmp2 -> prev = NULL;
+						}
 					}
 					else
 					{
-						tmp2 -> prev = NULL;
+// If it is the root node then set myTree -> root to NULL;
+						**thatNode = tmp;
+						myTree -> root = NULL;
 					}
-				return (myTree);
-				}
+		
+					return (myTree);
+				}	
 // Two child case.
 				if ( tmp -> next != NULL && tmp -> prev != NULL)
 				{
-				 	**thatNode = tmp;
-					if (tmp2 -> prev == tmp)
+					if ( tmp != myTree -> root)
 					{
-						tmp2 -> prev 	= tmp -> next;
-						tmp -> next 	= NULL;
-						tmp3 			= tmp2 -> prev;
-						while (tmp3 -> prev != NULL;)
+				 		**thatNode = tmp;
+						if (tmp2 -> prev == tmp)
 						{
-							tmp3 = tmp3 -> prev;
+							tmp2 -> prev 	= tmp -> next;
+							tmp -> next 	= NULL;
+							tmp3 			= tmp2 -> prev;
+							while (tmp3 -> prev != NULL;)
+							{
+								tmp3 = tmp3 -> prev;
+							}
+								tmp3 -> prev = tmp -> prev;
+								tmp -> prev = NULL;
 						}
-							tmp3 -> prev = tmp -> prev;
-							tmp -> prev = NULL;
-					}
-					if (tmp2 -> prev == tmp)
-					{
-						tmp2 -> next   	= tmp -> prev;
-						tmp  -> prev 	= NULL;
-						tmp3			= tmp2 -> next;
-						while (tmp3 -> next != NULL;)
+						if (tmp2 -> next == tmp)
 						{
-							tmp3 = tmp3 -> next;
-						}
+							tmp2 -> next   	= tmp -> prev;
+							tmp  -> prev 	= NULL;
+							tmp3			= tmp2 -> next;
+							while (tmp3 -> next != NULL)
+							{
+								tmp3 = tmp3 -> next;
+							}	
 							tmp3 -> next 	= tmp -> next 
 							tmp -> next 	= NULL;
+						}
 					}
+// This happens if tmp is the root note.
+					else 
+					{
+						**thaNode = tmp;
+						tmp3 	  = tmp -> next;
+						while (tmp3 -> prev != NULL)
+						{
+							tmp3 	= tmp3 -> prev;
+						}
+							
 				return (myTree);
 				}
 	
-// Two children case		
+// Only 1 branch scenario.		
 		
 
 

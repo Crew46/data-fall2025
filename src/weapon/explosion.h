@@ -4,7 +4,11 @@
 #include "../object.h"
 
 //initialize instances list
-List* explosionList = createList();
+List*  explosionList      = createList();
+//create animation
+int[5] explosionAnimation = {EXPLODE_FRAME_0, EXPLODE_FRAME_1,
+                               EXPLODE_FRAME_2, EXPLODE_FRAME_3,
+                               EXPLODE_FRAME_4};
 
 struct Explosion {
     Object object;
@@ -19,10 +23,10 @@ struct Explosion {
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-Explosion* CreateExplosion(int textureID, int regionID, int x, int y, int status, int damage, float lifetime)
+Explosion* CreateExplosion(int x, int y, int status, int damage, float lifetime)
 {
     Explosion* explosion = (Explosion*)malloc(sizeof(Explosion));
-    initObject(&explosion->object, Object_Type_Explosion, textureID, &regionID, 1, x, y, status);
+    initObject(&explosion->object, Object_Type_Explosion, EXPLOSION_TEXTURE, &explosionAnimation[0], 5, x, y, status);
     explosion->damage = damage;
     explosion->lifetime = lifetime;
     explosion->age = 0.0;
@@ -54,8 +58,10 @@ void ExplosionUpdate(Explosion* explosion)
     //logical operations here
     explosion->age += 1.0/60.0 * (float)FRAME_SLICES;
 
-    int frame = floor(explosion->age / explosion->lifetime * 5.0);
-    explosion->object.regionID = explosion->object.regions[EXPLODE_FRAME_0 + frame];
+    int frame = floor(explosion->age / explosion -> lifetime * 5.0);
+
+    explosion -> object.frame    = frame;
+    explosion -> object.regionID = explosion -> object.regions[frame];
 
     if(explosion->age > explosion->lifetime)
     {

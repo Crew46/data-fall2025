@@ -113,7 +113,7 @@ void MissileUpdate(Missile* missile)
 
     if(missile->explode)
     {
-        CreateExplosion(EXPLOSION_TEXTURE, EXPLODE_FRAME_3, missile->object.x, missile->object.y, missile->object.status, 5, 1.0);
+        CreateExplosion(missile->object.x, missile->object.y, missile->object.status, 5, 1.0);
         missile->object.status |= DELETION_FLAG;
     }
 }

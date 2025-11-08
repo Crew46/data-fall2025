@@ -127,7 +127,6 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue,Object * fo
 		Object * tmp	= NULL;
 		Object * tmp2	= NULL;
 		Object * tmp3 	= NULL;
-		Object * tmp4	= NULL;
 		tmp2			= follower; 
 		tmp				= root;
 		if (tmp == NULL)

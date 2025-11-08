@@ -3,18 +3,20 @@
 #include "misc.h"
 #include "../object.h"
 
-//initialize instances list
-List*  explosionList      = createList();
-//create animation
-int[5] explosionAnimation = {EXPLODE_FRAME_0, EXPLODE_FRAME_1,
-                               EXPLODE_FRAME_2, EXPLODE_FRAME_3,
-                               EXPLODE_FRAME_4};
+// initialize instances list
+List *explosionList         = createList ();
 
-struct Explosion {
-    Object object;
-    int damage;
-    float lifetime; // Lifetime of the explosion in seconds
-    float age;
+// create animation
+int [5] explosionAnimation  = { EXPLODE_FRAME_0, EXPLODE_FRAME_1,
+                                EXPLODE_FRAME_2, EXPLODE_FRAME_3,
+                                EXPLODE_FRAME_4 };
+
+struct Explosion
+{
+    Object  object;
+    int     damage;
+    float   lifetime; // Lifetime of the explosion in seconds
+    float   age;
 };
 
 //=========================================================
@@ -23,17 +25,23 @@ struct Explosion {
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-Explosion* CreateExplosion(int x, int y, int status, int damage, float lifetime)
+Explosion *CreateExplosion (int  x, int  y, int  status, int  damage, float  lifetime)
 {
-    Explosion* explosion = (Explosion*)malloc(sizeof(Explosion));
-    initObject(&explosion->object, Object_Type_Explosion, EXPLOSION_TEXTURE, &explosionAnimation[0], 5, x, y, status);
-    explosion->damage = damage;
-    explosion->lifetime = lifetime;
-    explosion->age = 0.0;
+    Explosion *explosion   = (Explosion *) malloc (sizeof (Explosion));
+    initObject (&explosion -> object,
+                Object_Type_Explosion,
+                EXPLOSION_TEXTURE,
+                &explosionAnimation[0],
+                5, x, y, status);
+    explosion -> damage    = damage;
+    explosion -> lifetime  = lifetime;
+    explosion -> age       = 0.0;
 
-    explosionList = append(explosionList, explosionList->tail, createNode(&explosion->object));
+    explosionList          = append (explosionList, 
+                                     explosionList -> tail,
+                                     createNode (&explosion -> object));
 
-    return explosion;
+    return (explosion);
 }
 
 
@@ -43,27 +51,27 @@ Explosion* CreateExplosion(int x, int y, int status, int damage, float lifetime)
 ///////////////////////////////////////////////////////////
 //=========================================================
 
-void DrawExplosion(Explosion* explosion)
+void DrawExplosion (Explosion *explosion)
 {
-    drawObject(&explosion->object);
+    drawObject (&explosion -> object);
 }
 
-void DeconstructExplosion(Explosion* explosion)
+void DeconstructExplosion (Explosion *explosion)
 {
-    free(explosion);
+    free (explosion);
 }
 
-void ExplosionUpdate(Explosion* explosion)
+void ExplosionUpdate (Explosion *explosion)
 {
     //logical operations here
-    explosion->age += 1.0/60.0 * (float)FRAME_SLICES;
+    explosion -> age += 1.0/60.0 * (float)FRAME_SLICES;
 
-    int frame = floor(explosion->age / explosion -> lifetime * 5.0);
+    int frame = floor (explosion -> age / explosion -> lifetime * 5.0);
 
-    explosion -> object.frame    = frame;
-    explosion -> object.regionID = explosion -> object.regions[frame];
+    explosion -> object.frame     = frame;
+    explosion -> object.regionID  = explosion -> object.regions[frame];
 
-    if(explosion->age > explosion->lifetime)
+    if (explosion -> age         >  explosion -> lifetime)
     {
         explosion -> object.status |= DELETION_FLAG;
     }
@@ -75,50 +83,50 @@ void ExplosionUpdate(Explosion* explosion)
 //=========================================================
 
 //return linked list of explosions
-List* GetExplosionList()
+List *GetExplosionList ()
 {
-    return explosionList;
+    return (explosionList);
 }
 
-void UpdateAllExplosions()
+void UpdateAllExplosions ()
 {
     //loop through all instances of explosion controller
-    Node* currentNode = explosionList->head;
-    Node* nextNode;
+    Node *currentNode            = explosionList -> head;
+    Node *nextNode               = NULL;
 
-    while(currentNode != NULL)
+    while(currentNode           != NULL)
     {
-        nextNode = currentNode->next;
-        if(currentNode->data != NULL)
+        nextNode                 = currentNode -> next;
+        if (currentNode -> data != NULL)
         {
-            ExplosionUpdate((Explosion*)currentNode->data);
-            if(currentNode->data->status & DELETION_FLAG)
+            ExplosionUpdate ((Explosion*) currentNode -> data);
+            if (currentNode -> data -> status & DELETION_FLAG)
             {
-                DeconstructExplosion((Explosion*)currentNode->data);
-                explosionList  = obtain(explosionList, &currentNode);
-                deleteNode(currentNode);
+                DeconstructExplosion ((Explosion *) currentNode -> data);
+                explosionList    = obtain (explosionList, &currentNode);
+                deleteNode (currentNode);
             }
         }
 
-        currentNode = nextNode;
+        currentNode              = nextNode;
     }
 }
 
 //deconstruct linked list and all laser controllers in list
-void DeconstructAllExplosions()
+void DeconstructAllExplosions ()
 {
     //loop through all instances of explosion controller
-    Node* currentNode = explosionList->head;
-    Node* next;
+    Node *currentNode   = explosionList -> head;
+    Node *next          = NULL;
 
-    while(currentNode != NULL)
+    while (currentNode != NULL)
     {
-        next = currentNode->next;
-        DeconstructExplosion((Explosion*)currentNode->data);
-        explosionList  = obtain(explosionList, &currentNode);
-        deleteNode(currentNode);
+        next            = currentNode -> next;
+        DeconstructExplosion ((Explosion *) currentNode -> data);
+        explosionList   = obtain (explosionList, &currentNode);
+        deleteNode (currentNode);
 
-        currentNode = next;
+        currentNode     = next;
     }
 }
 

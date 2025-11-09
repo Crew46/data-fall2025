@@ -184,8 +184,6 @@ while (status == 0x00000000)
 	}
 	
 
-
-
 // player laser will fire if x is pressed pressed.
 	if (ammoList != NULL)
 	{	 

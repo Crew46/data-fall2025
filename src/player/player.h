@@ -371,7 +371,7 @@ void PlayerUpdate (Player *player)
 //constructor
 Player *CreatePlayer (int textureID, int *regions, int num_regions, int x, int y, int status, float maxShootCooldownTime, int gamepadID)
 {
-	int [1] tmpregion;
+    int [1] tmpregion;
 
     // allocate memory for player
     Player *player           = (Player *) malloc (sizeof (Player));
@@ -380,14 +380,15 @@ Player *CreatePlayer (int textureID, int *regions, int num_regions, int x, int y
     // player object properties initialization
     initObject (&player -> object, Object_Type_Entity, textureID, regions, num_regions, x, y, status);
 
-    player -> object.vx = 3;
-    player -> object.vy = 3;
+    player -> object.vx      = 3;
+    player -> object.vy      = 3;
+    player -> object.delay   = player -> object.index + 1;
 
     // player properties initialization
     player -> gamepadID      = gamepadID;
 
     player -> weapons        = createQueue (MAXWEAPONS);
-	tmpregion[0]             = WEAPON_REGION;
+    tmpregion[0]             = WEAPON_REGION;
     weapon                   = CreateWeapon (WEAPON_TEXTURES,
                                              tmpregion, 1,
                                              player -> object.x,
@@ -406,10 +407,10 @@ Player *CreatePlayer (int textureID, int *regions, int num_regions, int x, int y
 
     player -> health         = 3;
     player -> maxHealth      = 3;
-    player ->invincTimer     = 0.0;
+    player -> invincTimer    = 0.0;
 
     // return pointer to player
-    return player;
+    return (player);
 }
 
 // deconstructor

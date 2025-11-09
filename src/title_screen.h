@@ -136,7 +136,7 @@ void title_screen (bool *alreadyrun)
             otmp                      = ntmp -> data;
             otmp -> offset            = half_seconds;
             otmp -> index             = index % 6;
-            otmp -> delay             = otmp -> index;
+            otmp -> delay             = otmp -> index + 1;
             otmp -> vx                = 0;
             otmp -> vy                = 0;
             otmp -> dx                = -1000;  // destination X

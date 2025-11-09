@@ -48,7 +48,7 @@ void main (void)
     int        cycles                      = 0;
     int        position                    = 0;
     int        frame                       = 0;
-	int  [1]   tmpregion;
+	int  [4]   tmpregion;
     int  [7]   creport;
     int  [12]  sreport;
     int  [2]   vreport;
@@ -199,8 +199,11 @@ void main (void)
                     // params.
 
 					tmpregion[0]        = PLAYER_FRAME_0;
+					tmpregion[1]        = PLAYER_FRAME_1;
+					tmpregion[2]        = PLAYER_FRAME_2;
+					tmpregion[3]        = PLAYER_FRAME_3;
                     CreatePlayer (PLAYER_TEXTURE,                  // texture ID
-                                  tmpregion, 1,                    // region ID
+                                  tmpregion, 4,                    // region ID
                                   HALFWAY_ACROSS,                  // starting X
                                   HALFWAY_DOWN,                    // starting Y
                                   IS_ACTIVE_FLAG,                  // status flag bits

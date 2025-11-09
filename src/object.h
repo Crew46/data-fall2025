@@ -71,7 +71,7 @@ struct Object
     int         index;       // index of regions array currently being displayed
     int         id;
     int         offset;
-    int         delay;       // delay between cycling of regions (0 for none)
+    int         delay;       // delay between cycling of regions (-1 for none)
     int         x;
     int         y;
     int         dx;
@@ -96,6 +96,7 @@ void    initObject (Object *obj,      ObjectType  objT,        int  textureID,
     }
     obj -> index               = 0;
     obj -> frames              = frames;
+    obj -> delay               = -1; // set delay
     obj -> x                   = xPos;
     obj -> y                   = yPos;
     obj -> dx                  = 0;
@@ -119,6 +120,7 @@ Object *createObject (int textureID, int *regions,  int frames,
         obj -> regions[index]  = regions[index];
     }
     obj -> frames              = frames;
+    obj -> delay               = -1; // set delay (-1 for none)
     obj -> x                   = x;
     obj -> y                   = y;
     obj -> status              = status;

@@ -48,7 +48,7 @@ void CreateCelestials (void)
             otmp                  = ntmp -> data;
             otmp -> offset        = half_seconds;
             otmp -> index         = pick;
-            otmp -> delay         = pick;
+            otmp -> delay         = pick + 1;
             otmp -> vx            = 0;
             otmp -> vy            = rand () % max_obj_vy + min_obj_vy;
             otmp -> dx            = -1000;  // destination X
@@ -67,31 +67,29 @@ List *GetObjectList ()
 
 void  UpdateAllObjects (List *myList)
 {
-    Node   *currentNode                    = NULL;
-    Object *otmp                           = NULL;
+    Node   *currentNode                = NULL;
+    Object *otmp                       = NULL;
 
-    if (myList                            != NULL)
+    if (myList                        != NULL)
     {
-        currentNode                        = myList      -> head;
-        while (currentNode                != NULL)
+        currentNode                    = myList      -> head;
+        while (currentNode            != NULL)
         {
-            otmp                           = currentNode -> data;
+            otmp                       = currentNode -> data;
 
             ////////////////////////////////////////////////////////////////////////
             //
-            // Adjust celestial objects
+            // Sprite frame animations: cycle frame if enough time has passed
+            // (delay of 0 means there is no cycling of frame for sprite)
             //
-            if (otmp -> vy                == 0)
+            if (otmp -> delay         >  0)
             {
-                if (otmp -> type          == Object_Type_Celestial)
+                if (half_seconds      >  otmp -> offset + otmp -> delay)
                 {
-                    if (half_seconds      >  otmp -> offset + otmp -> delay)
-                    {
-                        otmp -> index      = otmp -> index + 1;
-                        otmp -> index     %= otmp -> frames;
-                        otmp -> offset     = half_seconds;
-                        otmp -> delay      = otmp -> index;
-                    }
+                    otmp -> index      = otmp -> index + 1;
+                    otmp -> index     %= otmp -> frames;
+                    otmp -> offset     = half_seconds;
+                    otmp -> delay      = otmp -> index;
                 }
             }
 
@@ -99,18 +97,18 @@ void  UpdateAllObjects (List *myList)
             //
             // Adjust node X position, comparing to desired destination X
             //
-            if (otmp -> vx                <  0)
+            if (otmp      -> vx       <  0)
             {
-                if (otmp -> x             >= otmp -> dx)
+                if (otmp  -> x        >= otmp -> dx)
                 {
-                    otmp -> x              = otmp -> x + otmp -> vx;
+                    otmp  -> x         = otmp -> x + otmp -> vx;
                 }
             }
-            else if (otmp -> vx           >  0)
+            else if (otmp -> vx       >  0)
             {
-                if (otmp -> x             <= otmp -> dx)
+                if (otmp  -> x        <= otmp -> dx)
                 {
-                    otmp -> x              = otmp -> x + otmp -> vx;
+                    otmp  -> x         = otmp -> x + otmp -> vx;
                 }
             }
 
@@ -118,22 +116,28 @@ void  UpdateAllObjects (List *myList)
             //
             // Adjust object's Y position, comparing to desired destination Y
             //
-            if (otmp -> y                 != otmp -> dy)
+            if (otmp -> y             != otmp -> dy)
             {
-                otmp -> y                 += otmp -> vy * vy_obj_factor;
-                if (otmp -> y             >  360)
+                otmp -> y             += otmp -> vy * vy_obj_factor;
+                if (otmp -> y         >  360)
                 {
-                    otmp -> x              = rand () % 630;
-                    otmp -> vx             = 0;
-                    otmp -> y              = -1 * (rand () % 40 + 20);
-                    otmp -> vy             = rand () % max_obj_vy + min_obj_vy;
-                    if (otmp -> type      == Object_Type_Celestial)
+                    otmp -> x          = rand () % 630;
+                    otmp -> vx         = 0;
+                    otmp -> y          = -1 * (rand () % 40 + 20);
+                    otmp -> vy         = rand () % max_obj_vy + min_obj_vy;
+
+                    ////////////////////////////////////////////////////////////////
+                    //
+                    // Moving celestial has left the screen; randomly switch to
+                    // a different frame (being recycled to top of screen)
+                    //
+                    if (otmp -> type  == Object_Type_Celestial)
                     {
-                        otmp -> index      = rand () % otmp -> frames;
+                        otmp -> index  = rand () % otmp -> frames;
                     }
                 }
             }
-            currentNode                    = currentNode -> next;
+            currentNode                = currentNode -> next;
         }
     }
 }

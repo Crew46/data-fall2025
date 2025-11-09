@@ -41,8 +41,8 @@ void CreateCelestials (void)
              index                = index + 1)
         {
             pick                  = rand () % 3   + STAR0;
-            x                     = rand () % 6300 + 0;
-            y                     = rand () % 3500 - 3600;
+            x                     = rand () % 630 + 0;
+            y                     = rand () % 350 - 360;
 
             otmp                  = createObject (CELESTIAL_TEXTURES, stars, 3,
                                                   x,                  y,
@@ -55,8 +55,8 @@ void CreateCelestials (void)
             otmp -> delay         = pick + 1;
             otmp -> vx            = 0;
             otmp -> vy            = rand () % max_obj_vy + min_obj_vy;
-            otmp -> dx            = -10000;  // destination X
-            otmp -> dy            = -10000;  // destination Y
+            otmp -> dx            = -1000;  // destination X
+            otmp -> dy            = -1000;  // destination Y
             ltmp                  = insert (ltmp, ltmp -> head, ntmp);
         }
         objectList                = ltmp;
@@ -99,7 +99,7 @@ void  UpdateAllObjects (List *myList)
 
             ////////////////////////////////////////////////////////////////////////
             //
-            // Adjust node X position, comparing to desired destination X
+            // Adjust Object's X position, comparing to desired destination X
             //
             if (otmp      -> vx        <  0)
             {
@@ -122,12 +122,12 @@ void  UpdateAllObjects (List *myList)
             //
             if (otmp -> y              != otmp -> dy)
             {
-                otmp -> y              += otmp -> vy * vy_obj_factor;
-                if (otmp -> y          >  3600)
+                otmp -> y              += (otmp -> vy * vy_obj_factor);
+                if (otmp -> y          >  360)
                 {
-                    otmp -> x           = rand () % 6300;
+                    otmp -> x           = rand () % 630;
                     otmp -> vx          = 0;
-                    otmp -> y           = -1 * (rand () % 400 + 200);
+                    otmp -> y           = -1 * (rand () % 40 + 20);
                     otmp -> vy          = rand () % max_obj_vy + min_obj_vy;
 
                     ////////////////////////////////////////////////////////////////

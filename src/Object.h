@@ -12,6 +12,7 @@ int i; // used for queue stuff;
 int b; // Used for rng stuff
 int check;
 int time;
+bool success;
 // The main struct that we use.
 struct Object
 {

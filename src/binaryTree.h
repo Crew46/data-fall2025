@@ -131,12 +131,11 @@ bool postOrder ( binaryTree * myTree, Object * root)
 	return (false);
 }
 // For the first call in main. The follower must be the root node
-binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * follower,  Object * root, Object **thatNode)
+binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, bool success, Object * follower,  Object * root, Object **thatNode)
 	{
 		Object * tmp	= NULL;
 		Object * tmp2	= NULL;
 		Object * tmp3 	= NULL;
-		bool success	= false;
 		tmp2			= follower; 
 		tmp				= root;
 		if (tmp == NULL)
@@ -146,7 +145,7 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * f
 // Look right if greater. If successful. End the recursion.
 		if ( pointsValue > tmp -> points)
 		{
-			myTree = obtainBinaryNode (myTree, pointsValue, tmp,  tmp -> next, &(*thatNode));
+			myTree = obtainBinaryNode (myTree, pointsValue, success, tmp,  tmp -> next, &(*thatNode));
 			if (success = true)
 				{
 					return (myTree);
@@ -155,16 +154,16 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * f
 // Look left is smaller or equal. If successful. End the recursion.
 		if ( pointsValue < tmp -> points)
 		{
-			myTree = obtainBinaryNode (myTree, pointsValue, tmp , tmp -> prev, &(*thatNode));
+			myTree = obtainBinaryNode (myTree, pointsValue,success, tmp , tmp -> prev, &(*thatNode));
 			if ( success = true)
 				{
 					return (myTree);
 				}
 		}
-// Cases where we could have the value!
-// Leaf case. No children.
+
 		if ( pointsValue == tmp -> points)	
 			{
+//Edge case time!
 				if ( tmp -> next == NULL && tmp -> prev == NULL)
 				{
 // If its not the root node then disconnect the node.
@@ -226,7 +225,7 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * f
 							tmp3 -> next 				= (*thatNode) -> next; 
 							(*thatNode)	-> next 		= NULL;
 						}
-					success = true;
+					success 	= true;
 					return (myTree);
 					}
 // This happens if (*thatNode) is the root note.
@@ -248,17 +247,69 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, Object * f
 						(*thatNode)    -> prev = NULL;
 						(*thatNode)    -> next = NULL;
 // Lowest depth going to the right from tmp3 and then connect it to tmp2.
-						while ( tmp3 -> next != NULL)
+						while (tmp3 -> next != NULL)
 						{
 							tmp3 = tmp3 -> next;
 						}
 						tmp3   -> next = tmp2;
 					}
+					success	= true;
 					return (myTree);
 				}
+// If either is true (Which it should be at this point) then it is a 1 branch scenario.
+			if ( (tmp -> prev != NULL && tmp -> next == NULL) || (tmp -> prev == NULL && tmp -> next != NULL))
+				{
+// The left is not NULL, but the right is NULL.
+					if (tmp -> prev != NULL && tmp -> next == NULL)
+						{
+						if (tmp2 -> prev == tmp)
+							{
+								(*thatNode) 		= tmp;
+								tmp2 -> prev		= (*thatNode) -> prev;
+								(*thatNode) -> prev	= NULL;
+								success 			= true;
+								return (myTree);
+							}
+						if (tmp2 -> next == tmp)
+							{
+								(*thatNode)			= tmp;
+								tmp2 -> next		= (*thatNode) -> prev;
+								(*thatNode) -> prev	= NULL;
+								success				= true;
+								return (myTree);
+							}
+						}
+// The left is NULL, but the right is not NULL.
+					if (tmp -> prev == NULL && tmp -> next != NULL)
+						{
+							if (tmp2 -> prev == tmp)
+								{		
+								 	(*thatNode)			= tmp;
+									tmp2 -> prev		= (*thatNode) -> next;
+									(*thatNode) -> next	= NULL;
+									success 			= true;
+									return (myTree);
+								}
+							if (tmp2 -> next == tmp)
+								{
+									(*thatNode)		= tmp;
+									tmp2 -> next		= (*thatNode) -> next;
+									(*thatNode) -> next	= NULL;
+									success				= true;
+									return (myTree);
+								}
+						}
+				}
+						
+			}
+		return (myTree);
+	}			
+								
+						
+				
 
-	}
-}
+	
+
 // Only 1 branch scenario.		
 		
 

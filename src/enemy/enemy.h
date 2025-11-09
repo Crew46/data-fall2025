@@ -89,28 +89,31 @@ void DrawEnemy (Enemy *enemy)
 
 bool enemyDropWeapon (Enemy *enemy)
 {
+    bool    status             = false;
     Node   *dropped            = dequeue (enemy -> weapons);
     Weapon *wtmp               = NULL;
+
     if (dropped               != NULL)
     {
         wtmp                   = ((Weapon *) dropped -> data);
         wtmp -> hasOwner       = false;
         wtmp -> isFiring       = false;
+        wtmp -> object.dy      = 380;
+        wtmp -> object.vy      = 1;
         free (dropped);
         dropped                = NULL;
-
-        return (true);
+        status                 = true;
     }
 
-    return (false);
+    return (status);
 }
 
 void enemyGrabWeapon (Enemy *enemy)
 {
-    Node   *currentNode                      = GetWeaponList() -> head;
-    Weapon *weapon                           = NULL;
     int     newStatus                        = 0;
     int     tmpStatus                        = 0;
+    Node   *currentNode                      = GetWeaponList() -> head;
+    Weapon *weapon                           = NULL;
 
     while (currentNode                      != NULL)
     {
@@ -182,14 +185,13 @@ void setEnemyWeaponPositions (Enemy *enemy)
 void enemyFireWeapons (Enemy *enemy, bool canFire)
 {
     bool    fireStatus             = canFire;
+    Node   *currentNode            = enemy -> weapons -> data -> head;
+    Weapon *currentWeapon          = NULL;
 
-    if(canFire)
+    if (canFire)
     {
         fireStatus                 = ((rand() % 10) >  5);
     }
-
-    Node   *currentNode            = enemy -> weapons -> data -> head;
-    Weapon *currentWeapon          = NULL;
 
     while (currentNode            != NULL)
     {
@@ -203,9 +205,9 @@ void enemyFindTarget (Enemy *enemy)
 {
     Node   *currentNode              = playerList -> head;
     Object *bestTarget               = NULL;
-    int     bestDistance;
-    int     tmp;
-    bool    isBest;
+    int     bestDistance             = 0;
+    int     tmp                      = 0;
+    bool    isBest                   = false;
 
     while (currentNode              != NULL)
     {
@@ -213,14 +215,14 @@ void enemyFindTarget (Enemy *enemy)
         {
             if (currentNode -> data != NULL)
             {
-                tmp                  = abs(enemy->object.x - currentNode->data->x);
+                tmp                  = abs (enemy -> object.x - currentNode -> data -> x);
                 isBest               = false;
 
                 if (bestTarget      == NULL)
                 {
                     isBest           = true;
                 }
-                else if (tmp         < bestDistance)
+                else if (tmp        <  bestDistance)
                 {
                     isBest           = true;
                 }
@@ -233,7 +235,7 @@ void enemyFindTarget (Enemy *enemy)
 
                 if(isBest)
                 {
-                    bestTarget       = currentNode->data;
+                    bestTarget       = currentNode -> data;
                     bestDistance     = tmp;
                 }
             }
@@ -249,27 +251,27 @@ void enemyAI (Enemy *enemy)
     int pick                              = rand () % 24;
     if (enemy -> object.y                <  20)
     {
-        enemy -> object.dy = 2;
+        enemy -> object.dy                = 2;
     }
     else if (enemy -> object.y           >  200)
     {
-        enemy -> object.dy = -2;
+        enemy -> object.dy                = -2;
     }
     else if (pick                        >  21)
     {
-        enemy -> object.dy = 0;
+        enemy -> object.dy                = 0;
     }
     else if (pick                        >  20)
     {
-        enemy -> object.dy = 2;
+        enemy -> object.dy                = 2;
     }
     else if (pick                        >  18)
     {
-        enemy -> object.dy = 1;
+        enemy -> object.dy                = 1;
     }
     else if (pick                        >  16)
     {
-        enemy -> object.dy = -1;
+        enemy -> object.dy                = -1;
     }
 
     enemyFindTarget (enemy);
@@ -288,15 +290,15 @@ void enemyAI (Enemy *enemy)
             }
             else
             {
-                enemy -> object.dx = min (enemy -> object.dx,  enemy -> object.vx);
-                enemy -> object.dx = max (enemy -> object.dx, -enemy -> object.vx);
+                enemy -> object.dx        = min (enemy -> object.dx,  enemy -> object.vx);
+                enemy -> object.dx        = max (enemy -> object.dx, -enemy -> object.vx);
             }
 
             //Set firing and rush attack
-            int distance                  = abs(enemy->object.x - enemy->target->x);
+            int distance                  = abs (enemy -> object.x - enemy -> target -> x);
             if (distance                 <  10)
             {
-                enemyFireWeapons(enemy, true);
+                enemyFireWeapons (enemy, true);
                 if (pick                 <  10 &&
                     enemy -> object.x    <  250)
                 {
@@ -305,27 +307,27 @@ void enemyAI (Enemy *enemy)
             }
             else
             {
-                enemyFireWeapons(enemy, false);
+                enemyFireWeapons (enemy, false);
             }
         }
     }
 }
 
-
 void EnemyCheckProjectiles (Enemy* enemy, List* projectiles)
 {
-    Node *currentNode   = projectiles -> head;
+    int   damage            = 0;
+    Node *currentNode       = projectiles -> head;
 
-    while (currentNode != NULL)
+    while (currentNode     != NULL)
     {
         if (((currentNode -> data -> status ^ enemy -> object.status) & TeamFlagMask) != 0)
         {
             if (collisionCheck (&enemy -> object, currentNode -> data))
             {
-                int damage = 1;
-                if(currentNode -> data -> type == Object_Type_Missile)
+                damage      = 1;
+                if (currentNode -> data -> type == Object_Type_Missile)
                 {
-                    damage = 0;
+                    damage  = 0;
                     ((Missile *) currentNode -> data)->explode = true;
                 }
                 else
@@ -336,7 +338,7 @@ void EnemyCheckProjectiles (Enemy* enemy, List* projectiles)
             }
         }
 
-        currentNode     = currentNode -> next;
+        currentNode         = currentNode -> next;
     }
 }
 void EnemyUpdate (Enemy *enemy)
@@ -362,7 +364,7 @@ void EnemyUpdate (Enemy *enemy)
 //constructor
 Enemy *CreateEnemy (int textureID, int *regions, int num_regions, int x, int y, int status, float maxShootCooldownTime, bool addToList)
 {
-	int [1] tmpregion;
+    int [1] tmpregion;
     // allocate memory for enemy
     Enemy  *enemy            = (Enemy *) malloc (sizeof (Enemy));
     Weapon *weapon           = NULL;
@@ -376,12 +378,12 @@ Enemy *CreateEnemy (int textureID, int *regions, int num_regions, int x, int y, 
     int pick                 = rand () % 20;
     if(pick == 0)
     {
-		tmpregion[0]         = LAUNCHER_REGION;
+        tmpregion[0]         = LAUNCHER_REGION;
         weapon               = CreateWeapon (WEAPON_TEXTURES, tmpregion, 1, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_MISSILE_LAUNCHER, maxShootCooldownTime, 2.0);
     }
     else
     {
-		tmpregion[0]         = WEAPON_REGION;
+        tmpregion[0]         = WEAPON_REGION;
         weapon               = CreateWeapon (WEAPON_TEXTURES, tmpregion, 1, enemy->object.x, enemy->object.y, status, WEAPON_TYPE_LASER_CANNON, maxShootCooldownTime, 2.0);
     }
 

@@ -97,8 +97,8 @@ void    initObject (Object *obj,      ObjectType  objT,        int  textureID,
     obj -> index               = 0;
     obj -> frames              = frames;
     obj -> delay               = -1; // set delay
-    obj -> x                   = xPos;
-    obj -> y                   = yPos;
+    obj -> x                   = xPos * 10;
+    obj -> y                   = yPos * 10;
     obj -> dx                  = 0;
     obj -> dy                  = 0;
     obj -> vx                  = 1; // Set to 1 for now, will make it customizable eventually
@@ -121,8 +121,8 @@ Object *createObject (int textureID, int *regions,  int frames,
     }
     obj -> frames              = frames;
     obj -> delay               = -1; // set delay (-1 for none)
-    obj -> x                   = x;
-    obj -> y                   = y;
+    obj -> x                   = x * 10;
+    obj -> y                   = y * 10;
     obj -> status              = status;
 
     return (obj);
@@ -130,7 +130,7 @@ Object *createObject (int textureID, int *regions,  int frames,
 
 void  drawObject (Object *object)
 {
-    int team            = 0;
+    int  team           = 0;
 
     if (IS_ACTIVE_FLAG == (object -> status & IS_ACTIVE_FLAG))
     {
@@ -150,7 +150,12 @@ void  drawObject (Object *object)
             set_drawing_scale (1.00, 1.00);
         }    
 
-        draw_region_rotozoomed_at (object -> x, object -> y);
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // Draw the object at its x and y (divided by 10 as part of a pseudo float
+        // strategy)
+        //
+        draw_region_rotozoomed_at (object -> x / 10, object -> y / 10);
     }
 }
 

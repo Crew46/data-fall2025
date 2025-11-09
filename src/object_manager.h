@@ -28,17 +28,21 @@ void CreateCelestials (void)
 
     if (objectList               == NULL)
     {
-        for (index = 0; index < 3; index++)
+        for (index                = 0;
+             index               <  3;
+             index                = index + 1)
         {
             stars[index]          = STAR0 + index;
         }
 
         ltmp                      = createList ();
-        for (index = 0; index < 96; index++)
+        for (index                = 0;
+             index               <  96;
+             index                = index + 1)
         {
             pick                  = rand () % 3   + STAR0;
-            x                     = rand () % 630 + 0;
-            y                     = rand () % 350 - 360;
+            x                     = rand () % 6300 + 0;
+            y                     = rand () % 3500 - 3600;
 
             otmp                  = createObject (CELESTIAL_TEXTURES, stars, 3,
                                                   x,                  y,
@@ -51,8 +55,8 @@ void CreateCelestials (void)
             otmp -> delay         = pick + 1;
             otmp -> vx            = 0;
             otmp -> vy            = rand () % max_obj_vy + min_obj_vy;
-            otmp -> dx            = -1000;  // destination X
-            otmp -> dy            = -1000;  // destination Y
+            otmp -> dx            = -10000;  // destination X
+            otmp -> dy            = -10000;  // destination Y
             ltmp                  = insert (ltmp, ltmp -> head, ntmp);
         }
         objectList                = ltmp;
@@ -67,29 +71,29 @@ List *GetObjectList ()
 
 void  UpdateAllObjects (List *myList)
 {
-    Node   *currentNode                = NULL;
-    Object *otmp                       = NULL;
+    Node   *currentNode                 = NULL;
+    Object *otmp                        = NULL;
 
-    if (myList                        != NULL)
+    if (myList                         != NULL)
     {
-        currentNode                    = myList      -> head;
-        while (currentNode            != NULL)
+        currentNode                     = myList      -> head;
+        while (currentNode             != NULL)
         {
-            otmp                       = currentNode -> data;
+            otmp                        = currentNode -> data;
 
             ////////////////////////////////////////////////////////////////////////
             //
             // Sprite frame animations: cycle frame if enough time has passed
             // (delay of 0 means there is no cycling of frame for sprite)
             //
-            if (otmp -> delay         >= 0)
+            if (otmp -> delay          >= 0)
             {
-                if (half_seconds      >  otmp -> offset + otmp -> delay)
+                if (half_seconds       >  otmp -> offset + otmp -> delay)
                 {
-                    otmp -> index      = otmp -> index + 1;
-                    otmp -> index     %= otmp -> frames;
-                    otmp -> offset     = half_seconds;
-                    otmp -> delay      = otmp -> index;
+                    otmp -> index       = otmp -> index + 1;
+                    otmp -> index      %= otmp -> frames;
+                    otmp -> offset      = half_seconds;
+                    otmp -> delay       = otmp -> index;
                 }
             }
 
@@ -97,18 +101,18 @@ void  UpdateAllObjects (List *myList)
             //
             // Adjust node X position, comparing to desired destination X
             //
-            if (otmp      -> vx       <  0)
+            if (otmp      -> vx        <  0)
             {
-                if (otmp  -> x        >= otmp -> dx)
+                if (otmp  -> x         >= otmp -> dx)
                 {
-                    otmp  -> x         = otmp -> x + otmp -> vx;
+                    otmp  -> x          = otmp -> x + otmp -> vx;
                 }
             }
-            else if (otmp -> vx       >  0)
+            else if (otmp -> vx        >  0)
             {
-                if (otmp  -> x        <= otmp -> dx)
+                if (otmp  -> x         <= otmp -> dx)
                 {
-                    otmp  -> x         = otmp -> x + otmp -> vx;
+                    otmp  -> x          = otmp -> x + otmp -> vx;
                 }
             }
 
@@ -116,28 +120,37 @@ void  UpdateAllObjects (List *myList)
             //
             // Adjust object's Y position, comparing to desired destination Y
             //
-            if (otmp -> y             != otmp -> dy)
+            if (otmp -> y              != otmp -> dy)
             {
-                otmp -> y             += otmp -> vy * vy_obj_factor;
-                if (otmp -> y         >  360)
+                otmp -> y              += otmp -> vy * vy_obj_factor;
+                if (otmp -> y          >  3600)
                 {
-                    otmp -> x          = rand () % 630;
-                    otmp -> vx         = 0;
-                    otmp -> y          = -1 * (rand () % 40 + 20);
-                    otmp -> vy         = rand () % max_obj_vy + min_obj_vy;
+                    otmp -> x           = rand () % 6300;
+                    otmp -> vx          = 0;
+                    otmp -> y           = -1 * (rand () % 400 + 200);
+                    otmp -> vy          = rand () % max_obj_vy + min_obj_vy;
 
                     ////////////////////////////////////////////////////////////////
                     //
                     // Moving celestial has left the screen; randomly switch to
                     // a different frame (being recycled to top of screen)
                     //
-                    if (otmp -> type  == Object_Type_Celestial)
+                    if (otmp -> type   == Object_Type_Celestial)
                     {
-                        otmp -> index  = rand () % otmp -> frames;
+                        otmp -> index   = rand () % otmp -> frames;
+                    }
+
+                    ////////////////////////////////////////////////////////////////
+                    //
+                    // Otherwise, consider it prime for deallocation
+                    //
+                    else
+                    {
+                        otmp -> status  = otmp -> status | DELETION_FLAG;
                     }
                 }
             }
-            currentNode                = currentNode -> next;
+            currentNode                 = currentNode -> next;
         }
     }
 }

@@ -82,7 +82,7 @@ void  UpdateAllObjects (List *myList)
             // Sprite frame animations: cycle frame if enough time has passed
             // (delay of 0 means there is no cycling of frame for sprite)
             //
-            if (otmp -> delay         >  0)
+            if (otmp -> delay         >= 0)
             {
                 if (half_seconds      >  otmp -> offset + otmp -> delay)
                 {

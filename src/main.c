@@ -565,7 +565,7 @@ while (status == 0x00000000)
 		myTree  = addBinaryNode ( myTree, newNode);
 		b = rand() % ( 21 + 1);
 		if ( inOrder (myTree , myTree -> root, b) == true)
-			{
+		{
 				tmp5 	= NULL;
 				myTree 	= obtainBinaryNode(myTree, b, success, myTree -> root, myTree -> root, &(tmp5));
 				listA  	= appendNode ( listA, listA -> tail, tmp5);

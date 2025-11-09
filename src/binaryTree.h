@@ -132,192 +132,272 @@ bool postOrder ( binaryTree * myTree, Object * root)
 }
 // For the first call in main. The follower must be the root node
 binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, bool success, Object * follower,  Object * root, Object **thatNode)
+{
+	Object * tmp	= NULL;
+	Object * tmp2	= NULL;
+	Object * tmp3 	= NULL;
+	tmp2			= follower; 
+	tmp				= root;
+	if (tmp == NULL)
 	{
-		Object * tmp	= NULL;
-		Object * tmp2	= NULL;
-		Object * tmp3 	= NULL;
-		tmp2			= follower; 
-		tmp				= root;
-		if (tmp == NULL)
+		return (myTree);
+	}
+// Look right if greater. If successful. End the recursion.
+	if ( pointsValue > tmp -> points)
+	{
+		myTree = obtainBinaryNode (myTree, pointsValue, success, tmp,  tmp -> next, &(*thatNode));
+		if (success = true)
 		{
 			return (myTree);
 		}
-// Look right if greater. If successful. End the recursion.
-		if ( pointsValue > tmp -> points)
-		{
-			myTree = obtainBinaryNode (myTree, pointsValue, success, tmp,  tmp -> next, &(*thatNode));
-			if (success = true)
-				{
-					return (myTree);
-				}
-		}
+	}
 // Look left is smaller or equal. If successful. End the recursion.
-		if ( pointsValue < tmp -> points)
+	if ( pointsValue < tmp -> points)
+	{
+		myTree = obtainBinaryNode (myTree, pointsValue,success, tmp , tmp -> prev, &(*thatNode));
+		if ( success = true)
 		{
-			myTree = obtainBinaryNode (myTree, pointsValue,success, tmp , tmp -> prev, &(*thatNode));
-			if ( success = true)
+			return (myTree);
+		}
+	}
+
+	if ( pointsValue == tmp -> points)	
+	{
+//Edge case time
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Leaf cases ( No children)
+		if ( tmp -> next == NULL && tmp -> prev == NULL)
+		{
+// If its not the root node then disconnect the node.
+			if ( tmp != myTree->root)
+			{
+				(*thatNode) = tmp;
+				if (tmp2 -> next == tmp)
 				{
+					tmp2 -> next = NULL;
+				}
+				if (tmp2 -> prev == tmp)
+				{
+					tmp2 -> prev = NULL;
+				}
+				success			 = true;
+				return (myTree);
+			}
+			if ( tmp == myTree->root)
+			{
+// If it is the root node then set myTree -> root to NULL;
+				(*thatNode) = tmp;
+				myTree -> root = NULL;
+			}
+			success = true;
+			return (myTree);
+		}	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 2 node cases. Both are != NULL.
+		if ( tmp -> next != NULL && tmp -> prev != NULL)
+		{
+// If it is not the root node then continue
+			if ( tmp != myTree -> root)
+			{
+				(*thatNode) = tmp;
+//tmp2 is following (*thatNode). This means that (*thatNode) must be prev.
+				if (tmp2 -> prev == (*thatNode))
+				{
+//Connect tmp2 -> prev to tmp -> next.
+					tmp2 -> prev 				= (*thatNode) -> next;
+					(*thatNode)		 -> next 	= NULL;
+					tmp3 						= tmp2 -> prev;
+// Once that happens we want the lowest depth of tmp2 -> prev
+					while (tmp3 -> prev != NULL)
+					{
+						tmp3 = tmp3 -> prev;
+					}
+						tmp3 -> prev 			= tmp -> prev;
+						(*thatNode)	-> prev		= NULL;
+						success					= true;
+						return (myTree);
+				}
+				if (tmp2 -> next == (*thatNode))
+				{
+					tmp2 -> next   	= tmp -> prev;
+					(*thatNode)  -> prev 	= NULL;
+// Go to the lowest depths of tmp2 -> next with tmp3
+					tmp3			= tmp2 -> next;
+					while (tmp3 -> next != NULL)
+					{
+						tmp3 = tmp3 -> next;
+					}	
+// Once at the lowest depth connect tmp3 -> next to *thatNode -> next and set *thatNode -> next to NULL
+					tmp3 -> next 				= (*thatNode) -> next; 
+					(*thatNode)	-> next 		= NULL;
+					success						= true;
 					return (myTree);
 				}
-		}
-
-		if ( pointsValue == tmp -> points)	
+			}
+// This happens if tmp  is the root note.
+			if  (tmp == myTree -> root); 
 			{
-//Edge case time!
-				if ( tmp -> next == NULL && tmp -> prev == NULL)
+				(*thatNode) = tmp;
+				tmp3 	  = (*thatNode) -> next;
+// Get the lowest depth.
+				if ( tmp3 -> prev != NULL)
 				{
-// If its not the root node then disconnect the node.
-					if ( tmp != myTree->root)
+					while (tmp3 -> prev != NULL)
 					{
-						(*thatNode) = tmp;
-						if (tmp2 -> next == tmp)
-						{
-							tmp2 -> next = NULL;
-						}
-						if (tmp2 -> prev == tmp)
-						{
-							tmp2 -> prev = NULL;
-						}
+						tmp2 	= tmp3;
+						tmp3 	= tmp3 -> prev;
 					}
-					else
+// Moving pointers around.
+					tmp2 -> prev 			= NULL;
+					tmp2 		 			= tmp -> next;
+					myTree -> root 			= tmp3;
+					tmp3   -> prev 			= tmp -> prev;
+					(*thatNode)    -> prev 	= NULL;
+					(*thatNode)    -> next 	= NULL;
+// Lowest depth going to the right from tmp3 and then connect it to tmp2.
+					while (tmp3 -> next != NULL)
 					{
-// If it is the root node then set myTree -> root to NULL;
-						(*thatNode) = tmp;
-						myTree -> root = NULL;
+						tmp3 = tmp3 -> next;
 					}
+					tmp3   -> next = tmp2;
 					success = true;
 					return (myTree);
-				}	
-// Two child case.  I FORGOT TO COMMENT MY CODE.
-				if ( tmp -> next != NULL && tmp -> prev != NULL)
+				}
+// Edge case where tmp has no prev.
+				if ( tmp3 -> prev == NULL)
 				{
-// If it is not the root node then continue
-					if ( tmp != myTree -> root)
-					{
-						(*thatNode) = tmp;
-//tmp2 is following (*thatNode). This means that (*thatNode) must be prev.
-						if (tmp2 -> prev == (*thatNode))
-						{
-//Connect tmp2 -> prev to tmp -> next.
-							tmp2 -> prev 				= (*thatNode) -> next;
-							(*thatNode)		 -> next 	= NULL;
-							tmp3 						= tmp2 -> prev;
-// Once that happens we want the lowest depth of tmp2 -> prev
-							while (tmp3 -> prev != NULL)
-							{
-								tmp3 = tmp3 -> prev;
-							}
-// Once we are at the lowest depth we can connect tmp3 -> prev to (*thatNode) -> prev.
-								tmp3 -> prev 			= tmp -> prev;
-								(*thatNode)	-> prev		= NULL;
-						}
-						if (tmp2 -> next == (*thatNode))
-						{
-							tmp2 -> next   	= tmp -> prev;
-							(*thatNode)  -> prev 	= NULL;
-// Go to the lowest depths of tmp2 -> next with tmp3
-							tmp3			= tmp2 -> next;
-							while (tmp3 -> next != NULL)
-							{
-								tmp3 = tmp3 -> next;
-							}	
-// Once at the lowest depth connect tmp3 -> next to *thatNode -> next and set *thatNode -> next to NULL
-							tmp3 -> next 				= (*thatNode) -> next; 
-							(*thatNode)	-> next 		= NULL;
-						}
-					success 	= true;
-					return (myTree);
-					}
-// This happens if (*thatNode) is the root note.
-					else 
-					{
-						(*thatNode) = tmp;
-						tmp3 	  = (*thatNode) -> next;
-// Get the lowest depth.
-						while (tmp3 -> prev != NULL)
-						{
-							tmp2 	= tmp3;
-							tmp3 	= tmp3 -> prev;
-						}
-// Moving pointers around.
-						tmp2 -> prev = NULL;
-						tmp2 		 = tmp -> next;
-						myTree -> root = tmp3;
-						tmp3   -> prev = tmp -> prev;
-						(*thatNode)    -> prev = NULL;
-						(*thatNode)    -> next = NULL;
-// Lowest depth going to the right from tmp3 and then connect it to tmp2.
-						while (tmp3 -> next != NULL)
-						{
-							tmp3 = tmp3 -> next;
-						}
-						tmp3   -> next = tmp2;
-					}
-					success	= true;
+					(*thatNode) -> next = NULL;
+					myTree -> root 		= tmp3;
+					success			= true;
 					return (myTree);
 				}
-// If either is true (Which it should be at this point) then it is a 1 branch scenario.
-			if ( (tmp -> prev != NULL && tmp -> next == NULL) || (tmp -> prev == NULL && tmp -> next != NULL))
-				{
-// The left is not NULL, but the right is NULL.
-					
-
-
-/// ADD THE ROOT CHECK. THAT IS THE ISSUE
-
-
-
-					if (tmp -> prev != NULL && tmp -> next == NULL)
-						{
-						if (tmp2 -> prev == tmp)
-							{
-								(*thatNode) 		= tmp;
-								tmp2 -> prev		= (*thatNode) -> prev;
-								(*thatNode) -> prev	= NULL;
-								success 			= true;
-								return (myTree);
-							}
-						if (tmp2 -> next == tmp)
-							{
-								(*thatNode)			= tmp;
-								tmp2 -> next		= (*thatNode) -> prev;
-								(*thatNode) -> prev	= NULL;
-								success				= true;
-								return (myTree);
-							}
-						}
-// The left is NULL, but the right is not NULL.
-					if (tmp -> prev == NULL && tmp -> next != NULL)
-						{
-							if (tmp2 -> prev == tmp)
-								{		
-								 	(*thatNode)			= tmp;
-									tmp2 -> prev		= (*thatNode) -> next;
-									(*thatNode) -> next	= NULL;
-									success 			= true;
-									return (myTree);
-								}
-							if (tmp2 -> next == tmp)
-								{
-									(*thatNode)		= tmp;
-									tmp2 -> next		= (*thatNode) -> next;
-									(*thatNode) -> next	= NULL;
-									success				= true;
-									return (myTree);
-								}
-						}
-				}
-						
 			}
-		return (myTree);
-	}			
+		}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Branch case. 1 node != NULL and 1 node == NULL
+		if ( (tmp -> prev != NULL && tmp -> next == NULL) || (tmp -> prev == NULL && tmp -> next != NULL))
+		{
+// The left is not NULL, but the right is NULL.
+			if ( tmp != myTree -> root)
+			{
+				if (tmp -> prev != NULL && tmp -> next == NULL)
+				{
+					if (tmp2 -> prev == tmp)
+					{
+						(*thatNode) 		= tmp;
+						tmp2 -> prev		= (*thatNode) -> prev;
+						(*thatNode) -> prev	= NULL;
+						success 			= true;
+						return (myTree);
+					}
+					if (tmp2 -> next == tmp)
+					{
+						(*thatNode)			= tmp;
+						tmp2 -> next		= (*thatNode) -> prev;
+						(*thatNode) -> prev	= NULL;
+						success				= true;
+						return (myTree);
+					}
+				}
+// The left is NULL, but the right is not NULL.
+				if (tmp -> prev == NULL && tmp -> next != NULL)
+				{
+					if (tmp2 -> prev == tmp)
+					{		
+						(*thatNode)			= tmp;
+						tmp2 -> prev		= (*thatNode) -> next;
+						(*thatNode) -> next	= NULL;
+						success 			= true;
+						return (myTree);
+					}
+					if (tmp2 -> next == tmp)
+					{
+						(*thatNode)			= tmp;
+						tmp2 -> next		= (*thatNode) -> next;
+						(*thatNode) -> next	= NULL;
+						success				= true;
+						return (myTree);
+					}
+				}
+			}
+// If tmp is the root then we need to hand things differently.
+			if ( tmp == myTree -> root)
+			{	
+				if ( tmp -> prev != NULL && tmp -> next == NULL)
+				{
+					(*thatNode) = tmp;
+					tmp3 = (*thatNode) -> prev;
+// tmp2 will follow tmp3.
+// We are getting the highest on the left.
+					if ( tmp3 -> next != NULL)
+					{
+						while ( tmp3 -> next != NULL)
+						{
+						tmp2 = tmp3;
+						tmp3 = tmp3 -> next;
+						}
+							tmp2 -> next = NULL;
+// Disconnect tmp2 -> next and set tmp2 to (*thatNode) -> next to changing pointers
+							tmp2 = (*thatNode) -> prev;
+							(*thatNode) -> prev = NULL;
+							myTree -> root		= tmp3;
+							while ( tmp3 -> prev != NULL)
+							{
+							tmp3 = tmp3 -> prev;
+							}
+							tmp3 -> prev 		= tmp2;
+							success				= true;
+							return (myTree);
+					}
+					if ( tmp3 -> next == NULL)
+					{
+						(*thatNode) -> prev = NULL;
+						myTree		-> root = tmp3;
+						success				= true;
+						return (myTree);
+					}		
+				} 
+				if ( tmp -> prev == NULL && tmp -> next != NULL)
+				{
+					(*thatNode)	= tmp;
+					tmp3 = (*thatNode) -> next;	
+					if ( tmp3 -> prev != NULL)
+					{
+						while ( tmp3 -> prev != NULL)
+						{
+							tmp2 = tmp3;
+							tmp3 = tmp3 -> prev;
+						}
+// Disconnecting tmp2 -> prev and changing pointers around
+						tmp2 -> prev = NULL;
+						tmp2 = (*thatNode) -> next;
+						(*thatNode) -> next = NULL;
+						myTree -> root 		= tmp3;
+							while ( tmp3 -> next != NULL)
+							{
+							tmp3 = tmp3 -> next;
+							}
+						tmp3 -> next = tmp2;
+						success = true;
+						return (myTree);
+					}
+					if ( tmp3 -> prev == NULL)
+					{
+						(*thatNode) -> next = NULL;
+						myTree -> root 		= tmp3;
+						success				= true;
+						return (myTree);
+					}
+				}
+			}		
+		}
+	}	
+	return (myTree);
+}			
 								
 						
 				
 
-	
-
-// Only 1 branch scenario.		
 		
 
 

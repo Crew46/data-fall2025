@@ -260,6 +260,13 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, bool succe
 			if ( (tmp -> prev != NULL && tmp -> next == NULL) || (tmp -> prev == NULL && tmp -> next != NULL))
 				{
 // The left is not NULL, but the right is NULL.
+					
+
+
+/// ADD THE ROOT CHECK. THAT IS THE ISSUE
+
+
+
 					if (tmp -> prev != NULL && tmp -> next == NULL)
 						{
 						if (tmp2 -> prev == tmp)

@@ -31,7 +31,7 @@ Object *mkNode ()
         enemy -> hp         = 1;
         enemy -> texture    = ENEMYA_TEXTURE;
         enemy -> region     = ENEMYA_REGION;
-        enemy -> points     = 10;
+        enemy -> points     = rand ()  % ( 19 + 1);
     }
     else
     {

@@ -561,15 +561,16 @@ while (status == 0x00000000)
 				}
 		}
 	}
-	/* 	newNode = mkNode ();
+	 	newNode = mkNode ();
 		myTree  = addBinaryNode ( myTree, newNode);
-		if ( inOrder (myTree , myTree -> root, 10) == true)
+		b = rand() % ( 21 + 1);
+		if ( inOrder (myTree , myTree -> root, b) == true)
 			{
 				tmp5 	= NULL;
-				myTree 	= obtainBinaryNode(myTree, 20, success, myTree -> root, myTree -> root, &(tmp5));
+				myTree 	= obtainBinaryNode(myTree, b, success, myTree -> root, myTree -> root, &(tmp5));
 				listA  	= appendNode ( listA, listA -> tail, tmp5);
 			}
-	*/
+	
         end_frame ();
         frame = frame + 1;
     }

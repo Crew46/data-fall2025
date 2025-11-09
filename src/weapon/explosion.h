@@ -68,7 +68,7 @@ void ExplosionUpdate (Explosion *explosion)
 
     int frame = floor (explosion -> age / explosion -> lifetime * 5.0);
 
-    explosion -> object.frame     = frame;
+    explosion -> object.index     = frame;
 
     if (explosion -> age         >  explosion -> lifetime)
     {

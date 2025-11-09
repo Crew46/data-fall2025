@@ -135,8 +135,8 @@ void title_screen (bool *alreadyrun)
             ntmp                      = createNode (otmp);
             otmp                      = ntmp -> data;
             otmp -> offset            = half_seconds;
-            otmp -> frame             = index % 6;
-            otmp -> delay             = otmp -> frame;
+            otmp -> index             = index % 6;
+            otmp -> delay             = otmp -> index;
             otmp -> vx                = 0;
             otmp -> vy                = 0;
             otmp -> dx                = -1000;  // destination X

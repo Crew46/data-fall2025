@@ -10,13 +10,13 @@
 //                        ObjectType  objT,
 //                        int         textureID,
 //                        int        *regions,
-//                        int         num_regions,
+//                        int         frames,
 //                        int         xPos,
 //                        int         yPos,
 //                        int         status);
 // Object *createObject  (int         textureID,
 //                        int        *regions,
-//                        int         num_regions,
+//                        int         frames,
 //                        int         x,
 //                        int         y,
 //                        int         status);
@@ -65,13 +65,13 @@ enum ObjectType
 struct Object
 {
     ObjectType  type;
-    int         textureID;
-    int        *regions;
-    int         num_regions;
-    int         frame;
+    int         textureID;   // textureID of sprite
+    int        *regions;     // regionID array
+    int         frames;      // number of regions in regionID array
+    int         index;       // index of regions array currently being displayed
     int         id;
     int         offset;
-    int         delay;
+    int         delay;       // delay between cycling of regions (0 for none)
     int         x;
     int         y;
     int         dx;
@@ -82,20 +82,20 @@ struct Object
 };
 
 // This function is mainly for our embedded object 
-void    initObject (Object *obj,      ObjectType objT,        int textureID,
-                    int    *regions,  int        num_regions, int xPos,
-                    int     yPos,     int        status)
+void    initObject (Object *obj,      ObjectType  objT,        int  textureID,
+                    int    *regions,  int         frames,      int  xPos,
+                    int     yPos,     int         status)
 {
     int  index                 = 0;
     obj -> type                = objT;
     obj -> textureID           = textureID;
-    obj -> regions             = (int *) malloc (sizeof (int) * num_regions);
-    for (index = 0; index < num_regions; index++)
+    obj -> regions             = (int *) malloc (sizeof (int) * frames);
+    for (index = 0; index < frames; index++)
     {
         obj -> regions[index]  = regions[index];
     }
-    obj -> frame               = 0;
-    obj -> num_regions         = num_regions;
+    obj -> index               = 0;
+    obj -> frames              = frames;
     obj -> x                   = xPos;
     obj -> y                   = yPos;
     obj -> dx                  = 0;
@@ -105,20 +105,20 @@ void    initObject (Object *obj,      ObjectType objT,        int textureID,
     obj -> status              = status;
 }
 
-Object *createObject (int textureID, int *regions,  int num_regions,
+Object *createObject (int textureID, int *regions,  int frames,
                       int x,         int  y,        int status)
 {
     int  index                 = 0;
     Object *obj                = (Object *) malloc (sizeof (Object));
     obj -> type                = Object_Type_None; // Has no parent
-    obj -> frame               = 0;
+    obj -> index               = 0;
     obj -> textureID           = textureID;
-    obj -> regions             = (int *) malloc (sizeof (int) * num_regions);
-    for (index = 0; index < num_regions; index++)
+    obj -> regions             = (int *) malloc (sizeof (int) * frames);
+    for (index = 0; index < frames; index++)
     {
         obj -> regions[index]  = regions[index];
     }
-    obj -> num_regions         = num_regions;
+    obj -> frames              = frames;
     obj -> x                   = x;
     obj -> y                   = y;
     obj -> status              = status;
@@ -133,7 +133,7 @@ void  drawObject (Object *object)
     if (IS_ACTIVE_FLAG == (object -> status & IS_ACTIVE_FLAG))
     {
         select_texture (object -> textureID);
-        select_region  (object -> regions[object -> frame]);
+        select_region  (object -> regions[object -> index]);
 
         team            = (object -> status & TeamFlagMask) >> TeamFlagOffset;
 

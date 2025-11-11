@@ -38,6 +38,9 @@ struct Enemy
     Queue  *weapons; // weapon that enemy has equipped
     int     weaponIndexer;
     Object* target;
+    int     health;
+    int     maxHealth;
+    float   invincTimer;
 };
 
 //=========================================================
@@ -330,10 +333,22 @@ void EnemyCheckProjectiles (Enemy* enemy, List* projectiles)
                     damage  = 0;
                     ((Missile *) currentNode -> data)->explode = true;
                 }
-                else
+                else if(currentNode -> data -> type == Object_Type_Explosion)
+                {
+                    damage = ((Explosion *) currentNode -> data)->damage;
+                }
+
+                if(enemy -> invincTimer <= 0.0 && damage != 0)
+                {
+                    enemy -> invincTimer = 1.0;
+                    enemy -> health -= damage;
+                }
+
+                if(enemy -> health <= 0)
                 {
                     enemy -> object.status |= DELETION_FLAG;
                 }
+
 
             }
         }
@@ -349,6 +364,8 @@ void EnemyUpdate (Enemy *enemy)
         moveEnemy (enemy);
         setEnemyWeaponPositions (enemy);
     }
+
+    enemy -> invincTimer -= 1.0 / 60.0 * (float)FRAME_SLICES;
 
     EnemyCheckProjectiles (enemy, GetLaserList     ());
     EnemyCheckProjectiles (enemy, GetMissileList   ());
@@ -391,6 +408,10 @@ Enemy *CreateEnemy (int textureID, int *regions, int num_regions, int x, int y, 
     weapon -> hasOwner       = true;
 
     enemy -> weaponIndexer   = 1;
+    enemy  -> health         = 3;
+    enemy  -> maxHealth      = 3;
+    enemy  -> invincTimer    = 0.0;
+
 
     if(addToList)
     {

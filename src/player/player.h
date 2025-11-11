@@ -110,6 +110,28 @@ void movePlayer (Player *player)
 
 void DrawPlayer (Player *player)
 {
+    drawObject (&player -> object);
+    if(player -> invincTimer > 0)
+    {
+        int oldColor     = get_multiply_color ();
+        int oldMode      = get_blending_mode ();
+
+        int tmp          = get_frame_counter() * 30;
+        tmp             %= 512;
+        tmp              = abs(256 - tmp);
+
+        int newColor     = 0x00FFFFFF;
+        newColor        |= (tmp) << 24;
+
+
+        set_multiply_color (newColor);
+        set_blending_mode (blending_add);
+
+        drawObject (&player -> object);
+
+        set_multiply_color (oldColor);
+        set_blending_mode (oldMode);
+    }
     if(player -> health <= 1)
     {
         int oldColor     = get_multiply_color ();
@@ -119,22 +141,16 @@ void DrawPlayer (Player *player)
         tmp             %= 512;
         tmp              = abs(256 - tmp);
 
-        int newColor     = 0xFF0000FF;
-        newColor        |= (tmp) << 8;
-        newColor        |= (tmp) << 16;
+        int newColor     = 0x000000FF;
+        newColor        |= (tmp) << 24;
 
         set_multiply_color (newColor);
-        set_blending_mode (blending_alpha);
+        set_blending_mode (blending_add);
 
         drawObject (&player -> object);
 
         set_multiply_color (oldColor);
         set_blending_mode (oldMode);
-
-    }
-    else
-    {
-        drawObject (&player -> object);
     }
 }
 

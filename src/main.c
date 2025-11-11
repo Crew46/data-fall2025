@@ -174,6 +174,7 @@ void main (void)
                     weapon -> hasOwner    = true;
                     tmp -> weaponIndexer += 1;
                     enqueue (tmp -> weapons, createNode (&weapon -> object));
+                    tmp -> health         = 5;
 
                     AddBinTree(reserves, ConstructBinNode(&tmp -> object));
 

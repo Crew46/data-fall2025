@@ -395,11 +395,34 @@ binaryTree * obtainBinaryNode ( binaryTree * myTree, int pointsValue, bool succe
 	return (myTree);
 }			
 								
-						
+binaryTree * clearBinaryTree (binaryTree * myTree)						
+{
+	Object * tmp = NULL;
+// b will be used to extract the roots point value.
+	int b		 = NULL;
+	
+	while (myTree -> root != NULL)
+	{
+		b = myTree -> root -> points;
+		myTree = obtainBinaryNode (myTree, b, success, myTree -> root, myTree -> root, &(tmp));
+		free (&tmp);
+		tmp	     = NULL;
+	}
+}
 				
-
-		
-
+binaryTree * deleteBinaryTree (binaryTree * myTree)
+{
+	if (myTree != NULL)
+	{
+		if (myTree -> root != NULL)
+		{
+			myTree = clearBinaryTree (myTree);
+		}
+		free ( myTree);
+		myTree = NULL;
+	}
+	return (myTree);
+}
 
 
 

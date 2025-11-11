@@ -131,12 +131,13 @@ while (status == 0x00000000)
             player               = NULL;
 
 
-            listA                = clearList(listA);
-            listA                = deleteList(listA);
-			ammoList			 = clearList(ammoList);
-			ammoList			 = deleteList(ammoList);
-			myQueue				 = deleteQueue(myQueue);
-			myStack				 = deleteStack(myStack);
+            listA                = clearList  (listA);
+            listA                = deleteList (listA);
+			ammoList			 = clearList  (ammoList);
+			ammoList			 = deleteList (ammoList);
+			myQueue				 = deleteQueue (myQueue);
+			myStack				 = deleteStack (myStack);
+			myTree				 = clearBinaryTree (myTree);
         }
 
 

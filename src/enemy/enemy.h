@@ -204,21 +204,25 @@ void enemyFireWeapons (Enemy *enemy, bool canFire)
     }
 }
 
-void enemyFindTarget (Enemy *enemy)
+Object* findClosestFromList (Object* thing, List* list)
 {
-    Node   *currentNode              = playerList -> head;
+    Node   *currentNode              = list -> head;
     Object *bestTarget               = NULL;
     int     bestDistance             = 0;
     int     tmp                      = 0;
     bool    isBest                   = false;
+    int     xDiff;
+    int     yDiff;
 
     while (currentNode              != NULL)
     {
         if (currentNode -> data     != NULL)
         {
-            if (currentNode -> data != NULL)
+            if (currentNode -> data != thing)
             {
-                tmp                  = abs (enemy -> object.x - currentNode -> data -> x);
+                xDiff                = (thing -> x - currentNode -> data -> x);
+                yDiff                = (thing -> y - currentNode -> data -> y);
+                tmp                  = xDiff * xDiff + yDiff * yDiff;
                 isBest               = false;
 
                 if (bestTarget      == NULL)
@@ -230,12 +234,6 @@ void enemyFindTarget (Enemy *enemy)
                     isBest           = true;
                 }
 
-                if (((currentNode -> data -> status ^ enemy -> object.status) & TeamFlagMask) == 0)
-                {
-                    isBest           = false;
-                }
-
-
                 if(isBest)
                 {
                     bestTarget       = currentNode -> data;
@@ -246,12 +244,75 @@ void enemyFindTarget (Enemy *enemy)
         currentNode                  = currentNode -> next;
     }
 
+    return bestTarget;
+}
+
+void enemyFindTarget (Enemy *enemy)
+{
+    Node   *currentNode          = playerList -> head;
+    Object *bestTarget           = NULL;
+    int     bestDistance         = 0;
+    int     tmp                  = 0;
+    bool    isBest               = false;
+
+    while (currentNode          != NULL)
+    {
+        if (currentNode -> data != NULL)
+        {
+            tmp                  = abs (enemy -> object.x - currentNode -> data -> x);
+            isBest               = false;
+
+            if (bestTarget      == NULL)
+            {
+                isBest           = true;
+            }
+            else if (tmp        <  bestDistance)
+            {
+                isBest           = true;
+            }
+
+            if (((currentNode -> data -> status ^ enemy -> object.status) & TeamFlagMask) == 0)
+            {
+                isBest           = false;
+            }
+
+
+            if(isBest)
+            {
+                bestTarget       = currentNode -> data;
+                bestDistance     = tmp;
+            }
+        }
+        currentNode              = currentNode -> next;
+    }
+
     enemy -> target                  = bestTarget;
 }
 
 void enemyAI (Enemy *enemy)
 {
+    Object* tmp;
     int pick                              = rand () % 24;
+
+    tmp = findClosestFromList(&enemy -> object, enemyList);
+    if(tmp != NULL)
+    {
+        if(collisionCheck(&enemy -> object, tmp))
+        {
+            if(enemy -> object.x > tmp -> x)
+                enemy -> object.dx = enemy -> object.vx;
+            if(enemy -> object.x < tmp -> x)
+                enemy -> object.dx = -enemy -> object.vx;
+
+            if(enemy -> object.y > tmp -> y)
+                enemy -> object.dy = enemy -> object.vy;
+            if(enemy -> object.y < tmp -> y)
+                enemy -> object.dy = -enemy -> object.vy;
+
+            return;
+        }
+    }
+
     if (enemy -> object.y                <  20)
     {
         enemy -> object.dy                = 2;

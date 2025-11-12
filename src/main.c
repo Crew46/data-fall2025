@@ -562,6 +562,9 @@ while (status == 0x00000000)
 				}
 		}
 	}
+// Spawn an enemy from the binary tree every 5 frames
+if ( frame % 5 == 0)
+{
 	 	newNode = mkNode ();
 		myTree  = addBinaryNode ( myTree, newNode);
 		b = rand() % ( 21 + 1);
@@ -571,7 +574,7 @@ while (status == 0x00000000)
 				myTree 	= obtainBinaryNode(myTree, b, success, myTree -> root, myTree -> root, &(tmp5));
 				listA  	= appendNode ( listA, listA -> tail, tmp5);
 			}
-	
+}	
         end_frame ();
         frame = frame + 1;
     }

@@ -81,24 +81,28 @@ bool inOrder( binaryTree * myTree, Object * root, int pointsValue)
 return (false);
 }
 //preorder left, parent, right.
-bool preOrder( binaryTree * myTree, Object * root)
+bool preOrder( binaryTree * myTree, Object * root, int pointsValue)
 {
 	Object * tmp	= NULL;
 	tmp = root;
 	if (tmp != NULL)
 	{
-		if ( preOrder ( myTree, tmp -> prev) == true);
+		if ( preOrder ( myTree, tmp -> prev, pointsValue) == true);
 		{
 			return (true);
 		}
 	}
 	if (tmp == NULL)
 	{
-		return false;
+		return (false);
 	}	
+	if (tmp -> points == pointsValue)
+	{
+		return (true);
+	}
 	if ( tmp != NULL)
 	{
-		if ( preOrder ( myTree, tmp -> next) == true);
+		if ( preOrder ( myTree, tmp -> next, pointsValue) == true);
 		{
 			return (true);
 		}	
@@ -106,13 +110,13 @@ bool preOrder( binaryTree * myTree, Object * root)
 	return false;
 }
 //postorder right, parent, left.
-bool postOrder ( binaryTree * myTree, Object * root)
+bool postOrder ( binaryTree * myTree, Object * root, int pointsValue)
 {
 	Object * tmp = NULL;
 	tmp = root;
 	if ( tmp != NULL)
 	{
-		if ( postOrder (myTree, tmp -> next) == true)
+		if ( postOrder (myTree, tmp -> next, pointsValue) == true)
 		{
 			return (true);
 		}
@@ -121,9 +125,13 @@ bool postOrder ( binaryTree * myTree, Object * root)
 	{
 		return (false);
 	}
+	if ( tmp-> points == pointsValue)
+	{
+		return (true);
+	}
 	if ( tmp != NULL)
 	{
-		if ( postOrder (myTree, tmp -> prev) == true );
+		if ( postOrder (myTree, tmp -> prev, pointsValue) == true );
 		{
 			return (true);
 		}

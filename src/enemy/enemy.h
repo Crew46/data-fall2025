@@ -574,4 +574,51 @@ void UpdateAllEnemies ()
     }
 }
 
+void preloadEnemies(BinTree* tree, int level)
+{
+    int [1] tmpregion      = {ENEMY_REGION};
+    float   value          = 0.0;
+
+    Enemy* tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
+                              tmpregion, 1,                    // region ID
+                              rand () % screen_width,          // starting X
+                              rand () % 120 - 240,             // starting Y
+                              IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
+                              0.5,                             // cooldown
+                              false);                          // add to scene
+
+    tmpregion[0]           = LAUNCHER_REGION;
+    Weapon* weapon = CreateWeapon (WEAPON_TEXTURES,
+                                   tmpregion, 1,
+                                   tmp->object.x,
+                                   tmp->object.y,
+                                   IS_ACTIVE_FLAG | HIGH_TEAM_FLAG,
+                                   WEAPON_TYPE_MISSILE_LAUNCHER,
+                                   0.5,
+                                   2.0);
+
+    weapon -> xOffset     = 0;
+    weapon -> hasOwner    = true;
+    tmp -> weaponIndexer += 1;
+    enqueue (tmp -> weapons, createNode (&weapon -> object));
+    tmp -> health         = 5;
+
+    AddBinTree(tree, ConstructBinNode(&tmp -> object));
+
+    for(int i = 0; i < (level * level) + (level * 5) + 9; i++)
+    {
+        value  = (float) (rand () % 15 + 3) / 10;
+        tmpregion[0]       = ENEMY_REGION;
+        tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
+                           tmpregion, 1,                    // region ID
+                           rand () % screen_width,          // starting X
+                           rand () % 120 - 240,             // starting Y
+                           IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
+                           value,                           // cooldown
+                           false);                          // add to scene
+        AddBinTree(tree, ConstructBinNode(&tmp -> object));
+    }
+
+}
+
 #endif // _ENEMY_H 

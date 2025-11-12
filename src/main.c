@@ -44,16 +44,15 @@ void main (void)
 {
     bool       alreadyrun                  = false;
     bool       start                       = false;
-    float      value                       = 0.0;
     int        cycles                      = 0;
     int        position                    = 0;
     int        frame                       = 0;
-	int  [4]   tmpregion;
+    int        level                       = 1;
+    int  [4]   tmpregion;
     int  [7]   creport;
     int  [12]  sreport;
     int  [2]   vreport;
 
-    Node      *enemy                       = NULL;
     BinTree   *reserves                    = ConstructBinTree ();
 
     max_obj_vy                             = 1;
@@ -151,46 +150,7 @@ void main (void)
                     min_obj_vy             = 1;
                     vy_obj_factor          = 0;
 
-					tmpregion[0]           = ENEMY_REGION;
-                    Enemy* tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
-                                              tmpregion, 1,                    // region ID
-                                              rand () % screen_width,          // starting X
-                                              rand () % 120 - 240,             // starting Y
-                                              IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
-                                              0.5,                             // cooldown
-                                              false);                          // add to scene
-
-					tmpregion[0]           = LAUNCHER_REGION;
-                    Weapon* weapon = CreateWeapon (WEAPON_TEXTURES,
-                                                   tmpregion, 1,
-                                                   tmp->object.x,
-                                                   tmp->object.y,
-                                                   IS_ACTIVE_FLAG | HIGH_TEAM_FLAG,
-                                                   WEAPON_TYPE_MISSILE_LAUNCHER,
-                                                   0.5,
-                                                   2.0);
-
-                    weapon -> xOffset     = 0;
-                    weapon -> hasOwner    = true;
-                    tmp -> weaponIndexer += 1;
-                    enqueue (tmp -> weapons, createNode (&weapon -> object));
-                    tmp -> health         = 5;
-
-                    AddBinTree(reserves, ConstructBinNode(&tmp -> object));
-
-                    for(int i = 0; i < 15; i++)
-                    {
-                        value  = (float) (rand () % 15 + 3) / 10;
-						tmpregion[0]       = ENEMY_REGION;
-                        tmp = CreateEnemy (ENEMY_TEXTURE,                   // texture ID
-                                           tmpregion, 1,                    // region ID
-                                           rand () % screen_width,          // starting X
-                                           rand () % 120 - 240,             // starting Y
-                                           IS_ACTIVE_FLAG | HIGH_TEAM_FLAG, // status bits
-                                           value,                           // cooldown
-                                           false);                          // add to scene
-                        AddBinTree(reserves, ConstructBinNode(&tmp -> object));
-                    }
+                    preloadEnemies(reserves, level);
 
                     // MANY INSTANCES OF PLAYER,  WHEN PLAYER IS CREATED,
                     // THE PLAYER FILE HAS STORED  IT IN A LINKED LIST TO
@@ -408,13 +368,8 @@ void main (void)
                     UpdateAllEnemies ();
                     if (list -> qty == 0 && reserves -> root == NULL)
                     {
-                        DeconstructAllEnemies   ();
-                        DeconstructAllPlayers   ();
-                        DeconstructAllWeapons   ();
-                        DeconstructAllMissiles  ();
-                        DeconstructAllLasers    ();
-                        DeconstructAllExplosions();
-                        currentState = GAMESTATE_TITLE;
+                        level++;
+                        preloadEnemies(reserves, level);
                     }
                 }
                 break;

@@ -9,15 +9,9 @@ struct BinTree
 };
 
 //Compare A to B
-bool BinTreeCompareKeys(int* a, int* b)
+bool BinTreeCompareKeys(int a, int b)
 {
-    if(a == NULL)
-        return false;
-
-    if(b == NULL)
-        return false;
-
-    return *a <= *b;
+    return a <= b;
 }
 
 BinTree* ConstructBinTree()
@@ -27,9 +21,13 @@ BinTree* ConstructBinTree()
     return tree;
 }
 
-BinNode* searchTreeKey(BinTree* tree, int* value)
+BinNode* searchTreeKey(BinTree* tree, int value)
 {
     BinNode* bestNode = tree -> root;
+    if(tree -> root == NULL)
+    {
+        return NULL;
+    }
 
     while(bestNode != NULL)
     {
@@ -61,6 +59,14 @@ BinNode* searchTreeKey(BinTree* tree, int* value)
 
 void AddBinTree(BinTree* tree, BinNode* node)
 {
+    if(tree -> root == NULL)
+    {
+        tree -> root = node;
+        node -> base.next = NULL;
+        node -> base.prev = NULL;
+        return;
+    }
+
     BinNode* parent = searchTreeKey(tree, node -> key);
 
     if(parent != NULL)
@@ -87,55 +93,35 @@ enum ParentType
     none
 };
 
-void extractNode(BinNode* parent, BinNode* node, ParentType type)
+void extractNode(BinNode* node, Node** nodeLink)
 {
-    BinNode* maxNode;
-    BinNode** maxLink;
+    BinNode* replacement     = (BinNode*)node -> base.prev;
+    Node**   replacementLink = &node -> base.prev;
 
-    if(node -> base.prev == NULL)
+    if(node == NULL || nodeLink == NULL)
+        return;
+
+    if(replacement == NULL)
     {
-        if(type == lesser)
-            parent -> base.next = node -> base.next;
-        else if(type == greater)
-            parent -> base.prev = node -> base.next;
+        *nodeLink = node -> base.next;
 
         node -> base.next = NULL;
         node -> base.prev = NULL;
         return;
     }
 
-    if(node -> base.next == NULL)
+    while(replacement -> base.next != NULL)
     {
-        if(type == lesser)
-            parent -> base.next = node -> base.prev;
-        else if(type == greater)
-            parent -> base.prev = node -> base.prev;
-
-        node -> base.next = NULL;
-        node -> base.prev = NULL;
-        return;
+        replacementLink = &replacement -> base.next;
+        replacement     = (BinNode*)replacement -> base.next;
     }
 
+    *replacementLink = replacement -> base.prev;
 
-    maxLink = (BinNode**)&node -> base.prev;
-    maxNode = (BinNode*)node -> base.prev;
+    replacement -> base.next = node -> base.next;
+    replacement -> base.prev = node -> base.prev;
 
-    while(maxNode -> base.next != NULL)
-    {
-        maxLink = (BinNode**)&maxNode -> base.next;
-        maxNode = (BinNode*)maxNode -> base.next;
-    }
-
-    *maxLink = (BinNode*)maxNode -> base.prev;
-
-    maxNode -> base.next = node -> base.next;
-    maxNode -> base.prev = node -> base.prev;
-
-    if(type == lesser)
-        parent -> base.next = &maxNode -> base;
-    else if(type == greater)
-        parent -> base.prev = &maxNode -> base;
-
+    *nodeLink = (Node*)replacement;
 }
 
 void grabRecursive(BinNode* position, BinNode* goal)
@@ -146,7 +132,7 @@ void grabRecursive(BinNode* position, BinNode* goal)
         //Goal is immediate
         if(position -> base.prev == &goal -> base)
         {
-            extractNode(position, goal, greater);
+            extractNode(goal, &position -> base.prev);
         }
         else
         {
@@ -158,7 +144,7 @@ void grabRecursive(BinNode* position, BinNode* goal)
         //Goal is immediate
         if((BinNode*)position -> base.next == goal)
         {
-            extractNode(position, goal, lesser);
+            extractNode(goal, &position -> base.next);
         }
         else
         {
@@ -174,7 +160,8 @@ void grab(BinTree* tree, BinNode* node)
 
     if(tree -> root == node)
     {
-        extractNode(node, node, none);
+        extractNode(node, (Node**)&tree -> root);
+        return;
     }
 
     grabRecursive(tree -> root, node);
@@ -269,6 +256,50 @@ BinNode* grabRandom(BinTree* tree)
         }
     }
     return NULL;
+}
+
+BinNode* findDeepest(BinNode* node, int* depth)
+{
+    BinNode* deepestLess  = NULL;
+    int      prevDepth    = *depth + 1;
+    BinNode* deepestMore  = NULL;
+    int      nextDepth    = *depth + 1;
+
+    //NULL check
+    if(node == NULL)
+        return NULL;
+
+    //Has no children, thus deepest
+    if(node -> base.prev == NULL && node -> base.next == NULL)
+        return node;
+
+    //Has no prev children, thus deepest is in next
+    if(node -> base.prev == NULL)
+    {
+        *depth += 1;
+        return findDeepest((BinNode*)node -> base.next, depth);
+    }
+
+    //Has no next children, thus deepest is in prev
+    if(node -> base.next == NULL)
+    {
+        *depth += 1;
+        return findDeepest((BinNode*)node -> base.prev, depth);
+    }
+
+    deepestLess = findDeepest((BinNode*)node -> base.prev, &prevDepth);
+    deepestMore = findDeepest((BinNode*)node -> base.next, &nextDepth);
+
+    if(prevDepth > nextDepth)
+    {
+        *depth = prevDepth;
+        return deepestLess;
+    }
+    else
+    {
+        *depth = nextDepth;
+        return deepestMore;
+    }
 }
 
 #endif // BIN_TREE_C

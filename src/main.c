@@ -354,13 +354,14 @@ void main (void)
             case ENEMY_PROCESSING_FRAME:
                 if (currentState         == GAMESTATE_GAMEPLAY)
                 {
-
                     List* list = GetEnemyList ();
-                    if (list -> qty <  8)
+                    if (list -> qty <  8 && reserves -> root != NULL)
                     {
-                        BinNode* newGuy = grabRandom(reserves);
+                        int tmp = 0;
+                        BinNode* newGuy = findDeepest(reserves -> root, &tmp);
                         if(newGuy != NULL)
                         {
+                            grab(reserves, newGuy);
                             append(list, list -> tail, createNode(newGuy -> base.data));
                             DeconstructBinNode(newGuy);
                         }

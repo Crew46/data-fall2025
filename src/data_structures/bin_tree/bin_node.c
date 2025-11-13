@@ -6,7 +6,7 @@
 struct BinNode
 {
     Node base;
-    int* key;
+    int  key;
 };
 
 BinNode* ConstructBinNode(Object* data)
@@ -15,7 +15,7 @@ BinNode* ConstructBinNode(Object* data)
     node->base.next = NULL;
     node->base.prev = NULL;
     node->base.data = data;
-    node->key       = &data -> x;
+    node->key       = data -> x;
     return node;
 }
 

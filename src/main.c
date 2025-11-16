@@ -310,10 +310,23 @@ while (status == 0x00000000)
 
                 if(tmp->isActive 	== true)
                 {
+					if (tmp -> type != 1 && tmp -> type != 3)
+					{
                     tmp -> xdir    	= rand () % 3 - 1;
                     tmp -> ydir    	= 1; //rand () % 3 - 1;
                     tmp -> x       	= tmp -> x + tmp -> xdir;
                     tmp -> y       	= tmp -> y + tmp -> ydir;
+					}
+					if (tmp -> type == 1 || tmp -> type == 3)
+					{
+						if (frame % 2 == 0)
+						{
+							tmp -> xdir     = rand () % 3 - 1;
+							tmp -> ydir     = 1;
+							tmp -> x 		= tmp -> x + tmp -> xdir;
+							tmp -> y		= tmp -> y + tmp -> ydir;
+						}
+					}
                     select_texture (tmp->texture);
                     select_region  (tmp->region);
                     draw_region_at (tmp  -> x, tmp  -> y);
@@ -563,7 +576,7 @@ while (status == 0x00000000)
 		}
 	}
 // Spawn an enemy from the binary tree every 5 frames
-if ( frame % 1  == 0)
+if ( frame % 5  == 0)
 {
 	 	newNode = mkNode ();
 		myTree  = addBinaryNode ( myTree, newNode);

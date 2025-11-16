@@ -4,7 +4,7 @@
 // This will make a node for either enemy or enemy (more will be added.)
 
 
-//Types for things other than ammo. 0 = normal enemy, 1 = boss, 2 = powerup.
+//Types for things other than ammo. 0 = normal enemy, 1 = boss, 2 = powerup, 3 = enemy laser.
 Object *mkNode ()
 {
     Object *enemy           = NULL;

@@ -14,7 +14,7 @@
 #define ROCKET_TEXTURE      8
 #define BOSSA_TEXTURE		9
 #define PAWNA_TEXTURE 		10
-
+#define ENEMYC_TEXTURE		11
 // Regions
 #define BACKGROUND_REGION	0
 #define NEBULA_REGION    	1
@@ -30,8 +30,9 @@
 #define ROCKET_REGION      	11
 #define BOSSA_REGION		12	
 #define PAWNA_REGION		13
-#define LASERSPEED 			1
+#define ENEMYC_REGION		14
 
+#define LASERSPEED 			1
 
 // Visuals will be used to define textures 
 void visuals(void)
@@ -86,6 +87,10 @@ void visuals(void)
 	select_texture ( PAWNA_TEXTURE);
 	select_region ( PAWNA_REGION);
 	define_region_center (0, 0, 29, 29);
+// EnemyC
+	select_texture ( ENEMYC_TEXTURE);
+	select_region ( ENEMYC_REGION);
+	define_region_center (0, 0, 19, 19);
 }
 
 Object * updateVisuals(Object * enemy)

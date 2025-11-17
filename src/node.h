@@ -4,7 +4,7 @@
 // This will make a node for either enemy or enemy (more will be added.)
 
 
-//Types for things other than ammo. 0 = normal enemy, 1 = boss, 2 = powerup, 3 = enemy laser.
+//Types for things other than ammo. 0 = normal enemy, 1 = boss, 2 = powerup, 3 = laser enemy. 4 = enemy laser.
 Object *mkNode ()
 {
     Object *enemy           = NULL;
@@ -22,9 +22,8 @@ Object *mkNode ()
     enemy -> x              = xpos;
     enemy -> y              = ypos;
     enemy -> isActive       = true;
-	enemy -> type			= 0;
 
-    if (pickVariant        <= 80)
+    if (pickVariant        <= 70)
     {
         enemy -> height     = 10;
         enemy -> width      = 10;
@@ -32,8 +31,9 @@ Object *mkNode ()
         enemy -> texture    = ENEMYA_TEXTURE;
         enemy -> region     = ENEMYA_REGION;
         enemy -> points     = rand ()  % ( 20 + 1);
+		enemy -> type		= 0;
     }
-    else
+    if ( pickVariant	   >= 71 && pickVariant <= 85)
     {
         enemy -> height     = 20;
         enemy -> width      = 20;
@@ -41,8 +41,18 @@ Object *mkNode ()
         enemy -> texture    = ENEMYB_TEXTURE;
         enemy -> region     = ENEMYB_REGION1;
         enemy -> points     = 20;
+		enemy -> type		= 0;
+	}
+	if ( pickVariant	   >= 86)
+	{
+		enemy -> height 	= 20;
+		enemy -> width		= 20;
+		enemy -> hp			= 2;
+		enemy -> texture	= ENEMYC_TEXTURE;
+		enemy -> region		= ENEMYC_REGION;
+		enemy -> points		= 30;
+		enemy -> type		= 3;
     }
-
     return (enemy);
 }
 // Used to make bosses
@@ -58,7 +68,7 @@ Object * mkBoss(Object * player)
 	boss -> type	= 1;
 	boss -> height  = 100;
 	boss -> width	= 100;
-	boss -> hp 		= 50;
+	boss -> hp 		= 40;
 	boss -> texture = BOSSA_TEXTURE;
 	boss -> region  = BOSSA_REGION;
 	boss -> points	= 200;

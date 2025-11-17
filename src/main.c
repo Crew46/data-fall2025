@@ -310,7 +310,7 @@ while (status == 0x00000000)
 
                 if(tmp->isActive 	== true)
                 {
-					if (tmp -> type != 1 && tmp -> type != 3)
+					if (tmp -> type == 0 || tmp-> type == 2)
 					{
                     tmp -> xdir    	= rand () % 3 - 1;
                     tmp -> ydir    	= 1; //rand () % 3 - 1;
@@ -361,8 +361,8 @@ while (status == 0x00000000)
 					tmp2	= ammoList->head;
 					while(tmp2 != NULL)
 					{
-// This checks the enemy to make sure it is not a powerup and that it is active.
-            			if(tmp2->isActive == true && tmp->type != 2 && tmp->isActive == true && collision(tmp2, tmp) )
+// This checks the enemy to make sure it is not a powerup or a laser and that it is active.
+            			if(tmp2->isActive == true && tmp->type != 2 && tmp ->type != 4 && tmp->isActive == true && collision(tmp2, tmp) )
                 		{    
                     	tmp->hp         = tmp->hp - tmp2 -> damage;
 						tmp2->hp		= tmp2->hp - 1;

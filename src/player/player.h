@@ -14,6 +14,8 @@
 #include "../data_structures/queue/queue.h"
 #include "../weapon/weapon.h"
 #include "../tools/debugger.h"
+#include "../powerups/powerups.h"
+#include "../video_manager.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -77,6 +79,7 @@ struct Player
     int     health;
     int     maxHealth;
     float   invincTimer;
+    List   *powerUps;
 };
 
 //=========================================================
@@ -152,6 +155,8 @@ void DrawPlayer (Player *player)
         set_multiply_color (oldColor);
         set_blending_mode (oldMode);
     }
+
+    drawList(player -> powerUps);
 }
 
 
@@ -363,6 +368,67 @@ void PlayerCheckProjectiles (Player* player, List* projectiles)
     }
 }
 
+void PlayerCheckPowerUps (Player* player, List* powerUps)
+{
+    Node *currentNode   = powerUps -> head;
+    Node *nextNode;
+
+    while (currentNode != NULL)
+    {
+        nextNode     = currentNode -> next;
+        if (collisionCheck (&player -> object, currentNode -> data))
+        {
+            powerUps  = obtain (powerUps, &currentNode);
+            currentNode -> next = NULL;
+            currentNode -> prev = NULL;
+            ((PowerUp*)(currentNode -> data)) -> age = 0.0;
+            player -> powerUps = append (player ->powerUps, player -> powerUps -> tail, currentNode);
+        }
+        currentNode = nextNode;
+    }
+}
+
+void PlayerUsePowerUp (Player *player, PowerUp *powerUp)
+{
+    if(powerUp -> type          == POWERUP_TYPE_MAXHP)
+    {
+        player  -> health        = player  -> maxHealth;
+        powerUp -> object.x      = player  -> object.x;
+        powerUp -> object.y      = player  -> object.y;
+        powerUp -> object.index  = 0;
+        player  -> invincTimer   = powerUp -> duration;
+        powerUp -> age          += 1.0 / 60.0 * (float)FRAME_SLICES;
+        if(powerUp -> age       >  powerUp -> duration)
+        {
+            powerUp -> object.status |= DELETION_FLAG;
+        }
+    }
+}
+
+void UpdatePlayerPowerUps (Player *player, List *powerUps)
+{
+    //loop through all instances of powerUps
+    Node* currentNode = powerUps -> head;
+    Node* nextNode;
+
+    while (currentNode != NULL)
+    {
+        nextNode = currentNode -> next;
+        if (currentNode -> data != NULL)
+        {
+            PlayerUsePowerUp (player, (PowerUp*)currentNode -> data);
+            if (currentNode -> data -> status & DELETION_FLAG)
+            {
+                DeconstructPowerUp ((PowerUp*)currentNode -> data);
+                powerUps  = obtain (powerUps, &currentNode);
+                deleteNode (currentNode);
+            }
+        }
+
+        currentNode = nextNode;
+    }
+}
+
 void PlayerUpdate (Player *player)
 {
     if (player -> object.status & IS_ACTIVE_FLAG)
@@ -373,6 +439,8 @@ void PlayerUpdate (Player *player)
 
     player -> invincTimer -= 1.0 / 60.0 * (float)FRAME_SLICES;
 
+    PlayerCheckPowerUps    (player, GetPowerUpList   ());
+    UpdatePlayerPowerUps   (player, player -> powerUps );
     PlayerCheckProjectiles (player, GetLaserList     ());
     PlayerCheckProjectiles (player, GetMissileList   ());
     PlayerCheckProjectiles (player, GetExplosionList ());
@@ -424,6 +492,7 @@ Player *CreatePlayer (int textureID, int *regions, int num_regions, int x, int y
     player -> health         = 3;
     player -> maxHealth      = 3;
     player -> invincTimer    = 0.0;
+    player -> powerUps       = createList();
 
     // return pointer to player
     return (player);

@@ -15,5 +15,6 @@
 #define ENEMY_TEXTURE      1 // for now, same as player just to get something
 #define TITLE_TEXTURE      6
 #define EXPLOSION_TEXTURE  7
+#define POWERUP_TEXTURE    8
 
 #endif // _TEXTURES_CONFIGURATIONS_H

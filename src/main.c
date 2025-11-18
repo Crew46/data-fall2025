@@ -236,6 +236,7 @@ void main (void)
                         drawList (GetLaserList     ());
                         drawList (GetMissileList   ());
                         drawList (GetExplosionList ());
+                        drawList (GetPowerUpList   ());
 
                         ////////////////////////////////////////////////////////////////
                         //
@@ -384,6 +385,7 @@ void main (void)
                 UpdateAllLasers     ();
                 UpdateAllMissiles   ();
                 UpdateAllExplosions ();
+                UpdateAllPowerUps   ();
                 break;
         }
 

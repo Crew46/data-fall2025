@@ -12,6 +12,7 @@
 #include "../weapon/weapon.h"
 #include "../player/player.h"
 #include "../tools/debugger.h"
+#include "../powerups/powerups.h"
 
 /*
  * 
@@ -486,6 +487,14 @@ Enemy *CreateEnemy (int textureID, int *regions, int num_regions, int x, int y, 
 // deconstructor
 void DeconstructEnemy (Enemy *enemy)
 {
+    int    roll = rand() % 20;
+    int[2] tmp  = {POWERUP_BASE, POWERUP_MAXHP};
+
+    if(roll == 0)
+    {
+        CreatePowerUp(POWERUP_TEXTURE, &tmp[0], 2, enemy -> object.x, enemy -> object.y, IS_ACTIVE_FLAG, POWERUP_TYPE_MAXHP, 5.0);
+    }
+
     while(enemyDropWeapon(enemy));
 
     free (enemy);

@@ -36,6 +36,8 @@
 #define  EXPLODE_FRAME_2   52
 #define  EXPLODE_FRAME_3   53
 #define  EXPLODE_FRAME_4   54
+#define  POWERUP_BASE      60
+#define  POWERUP_MAXHP     61
 
 void InitializeRegions ()
 {
@@ -152,6 +154,10 @@ void InitializeRegions ()
     // EXPLOSION
     select_texture (EXPLOSION_TEXTURE);
     define_region_matrix (EXPLODE_FRAME_0, 0, 0, 31, 31, 15, 15, 5, 1, 0);
+
+    // POWERUP
+    select_texture (POWERUP_TEXTURE);
+    define_region_matrix (POWERUP_BASE, 0, 0, 63, 64, 31, 31, 2, 1, 0);
 }
 
 #endif // _REGIONS_CONFIGURATIONS_H

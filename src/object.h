@@ -47,6 +47,8 @@
 #define EXPLOSIONHEIGHT 40
 #define WEAPONWIDTH     10
 #define WEAPONHEIGHT    10
+#define POWERUPWIDTH    64
+#define POWERUPHEIGHT   64
 
 // We need to know if the object is embedded so we can free memory properly
 enum ObjectType
@@ -58,7 +60,8 @@ enum ObjectType
     Object_Type_Explosion,
     Object_Type_Weapon,
     Object_Type_Celestial,
-    Object_Type_Entity
+    Object_Type_Entity,
+    Object_Type_PowerUp
 };
 
 // Object struct which will be our base struct 
@@ -165,6 +168,46 @@ void  moveObject (Object *object)
     object -> y  = object -> y + (object -> dy * FRAME_SLICES);
 }
 
+void  getObjectSize (ObjectType type, int* width, int* height)
+{
+    if (type      == Object_Type_Entity)
+    {
+        *width     = SHIPWIDTH;
+        *height    = SHIPHEIGHT;
+    }
+    else if (type == Object_Type_Laser)
+    {
+        *width     = LASERWIDTH;
+        *height    = LASERHEIGHT;
+    }
+    else if (type == Object_Type_Missile)
+    {
+        *width     = MISSILEWIDTH;
+        *height    = MISSILEHEIGHT;
+    }
+    else if (type == Object_Type_Explosion)
+    {
+        *width     = EXPLOSIONWIDTH;
+        *height    = EXPLOSIONHEIGHT;
+    }
+    else if (type == Object_Type_Weapon)
+    {
+        *width     = WEAPONWIDTH;
+        *height    = WEAPONHEIGHT;
+    }
+    else if (type == Object_Type_PowerUp)
+    {
+        *width     = WEAPONWIDTH;
+        *height    = WEAPONHEIGHT;
+    }
+    else
+    {
+        *width     = 0;
+        *height    = 0;
+    }
+
+}
+
 bool  collisionCheck (Object *object1, Object *object2)
 {
     int  object1width         = 0;
@@ -181,62 +224,13 @@ bool  collisionCheck (Object *object1, Object *object2)
     int  object2down          = 0;
     int  result               = 0;
 
-    if (object1 -> type      == Object_Type_Entity)
-    {
-        object1width          = SHIPWIDTH;
-        object1height         = SHIPHEIGHT;
-    }
-    else if (object1 -> type == Object_Type_Laser)
-    {
-        object1width          = LASERWIDTH;
-        object1height         = LASERHEIGHT;
-    }
-    else if (object1 -> type == Object_Type_Missile)
-    {
-        object1width          = MISSILEWIDTH;
-        object1height         = MISSILEHEIGHT;
-    }
-    else if (object1 -> type == Object_Type_Explosion)
-    {
-        object1width          = EXPLOSIONWIDTH;
-        object1height         = EXPLOSIONHEIGHT;
-    }
-    else if (object1 -> type == Object_Type_Weapon)
-    {
-        object1width          = WEAPONWIDTH;
-        object1height         = WEAPONHEIGHT;
-    }
-    else
-    {
-        return (false);
-    }
+    getObjectSize (object1 -> type, &object1width, &object1height);
+    getObjectSize (object2 -> type, &object2width, &object2height);
 
-    if (object2 -> type      == Object_Type_Entity)
-    {
-        object2width          = SHIPWIDTH;
-        object2height         = SHIPHEIGHT;
-    }
-    else if (object2 -> type == Object_Type_Laser)
-    {
-        object2width          = LASERWIDTH;
-        object2height         = LASERHEIGHT;
-    }
-    else if (object2 -> type == Object_Type_Missile)
-    {
-        object2width          = MISSILEWIDTH;
-        object2height         = MISSILEHEIGHT;
-    }
-    else if (object2 -> type == Object_Type_Explosion)
-    {
-        object2width          = EXPLOSIONWIDTH;
-        object2height         = EXPLOSIONHEIGHT;
-    }
-    else if (object2 -> type == Object_Type_Weapon)
-    {
-        object2width          = WEAPONWIDTH;
-        object2height         = WEAPONHEIGHT;
-    }
-    else
+    if(object1width  == 0 ||
+       object2width  == 0 ||
+       object1height == 0 ||
+       object2height == 0)
     {
         return (false);
     }

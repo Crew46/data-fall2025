@@ -310,7 +310,7 @@ while (status == 0x00000000)
 
                 if(tmp->isActive 	== true)
                 {
-					if (tmp -> type == 0 || tmp-> type == 2)
+					if (tmp -> type != 1 && tmp-> type != 3)
 					{
                     tmp -> xdir    	= rand () % 3 - 1;
                     tmp -> ydir    	= 1; //rand () % 3 - 1;
@@ -403,7 +403,7 @@ while (status == 0x00000000)
 								while( tmp4 != NULL)
 								{
 // Explosion size.
-									if(tmp2->isActive == true && tmp4->type != 2 && tmp4->isActive == true && collision(tmp2, tmp4) )
+									if(tmp2->isActive == true && tmp4->type != 2 && tmp4 -> type != 4 && tmp4->isActive == true && collision(tmp2, tmp4) )
 									{
 										tmp4 -> hp = tmp4-> hp - tmp2->damage;
 // If the rocket aoe hits the boss. Then spawn a pawn.
@@ -505,6 +505,15 @@ while (status == 0x00000000)
                 // If we didn't delete a node move on.
                 else
                 {
+					if (tmp -> type == 3)
+					{
+						b = rand() % ( 1000 + 1);
+						if ( b < 10)
+						{
+							newNode = mkEnemyLaser (tmp);
+							listA	= appendNode (listA, listA->tail, newNode);
+						}
+					}
                     tmp             = tmp->next;
                 }
             }

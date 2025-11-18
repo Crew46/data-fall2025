@@ -96,6 +96,19 @@ return (pawn);
 //Used to make enemy lasers (Must be a type 3)
 Object * mkEnemyLaser ( Object * enemy) 
 {
+	Object * EnemyLaser 	= NULL;
+	EnemyLaser 				= (Object *) malloc(sizeof(Object));
+	EnemyLaser -> next		= NULL;
+	EnemyLaser -> prev		= NULL;
+	EnemyLaser -> x			= enemy -> x;
+	EnemyLaser -> y			= enemy -> y;
+	EnemyLaser -> isActive	= true;
+	EnemyLaser -> type		= 4;
+	EnemyLaser -> height	= 9;
+	EnemyLaser -> width		= 3;
+	EnemyLaser -> texture	= ENEMYLASER_TEXTURE;
+	EnemyLaser -> region	= ENEMYLASER_REGION;
+return (EnemyLaser);
 }
 	
 

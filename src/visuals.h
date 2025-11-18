@@ -15,6 +15,8 @@
 #define BOSSA_TEXTURE		9
 #define PAWNA_TEXTURE 		10
 #define ENEMYC_TEXTURE		11
+#define ENEMYLASER_TEXTURE  12
+
 // Regions
 #define BACKGROUND_REGION	0
 #define NEBULA_REGION    	1
@@ -31,6 +33,7 @@
 #define BOSSA_REGION		12	
 #define PAWNA_REGION		13
 #define ENEMYC_REGION		14
+#define ENEMYLASER_REGION	15
 
 #define LASERSPEED 			1
 
@@ -91,6 +94,10 @@ void visuals(void)
 	select_texture ( ENEMYC_TEXTURE);
 	select_region ( ENEMYC_REGION);
 	define_region_center (0, 0, 19, 19);
+// Enemy Laser
+	select_texture ( ENEMYLASER_TEXTURE);
+	select_region ( ENEMYLASER_REGION);
+	define_region_center (0, 0, 3, 9);
 }
 
 Object * updateVisuals(Object * enemy)

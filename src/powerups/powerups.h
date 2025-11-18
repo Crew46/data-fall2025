@@ -33,6 +33,8 @@ PowerUp* CreatePowerUp (int textureID, int *regions, int num_regions, int x, int
     initObject (&powerUp -> object, Object_Type_PowerUp, textureID, regions, num_regions, x, y, status);
 
     powerUp -> object.index = 1;
+    powerUp -> object.dx    = 0;
+    powerUp -> object.dy    = 1;
 
     powerUp -> type      = type;
     powerUp -> duration  = duration;
@@ -61,7 +63,7 @@ void PowerUpUpdate (PowerUp* powerUp)
         powerUp -> object.status |= DELETION_FLAG;
     }
 
-    powerUp -> object.y -= powerUp -> object.dy;
+    powerUp -> object.y += powerUp -> object.dy;
 }
 
 //update all powerUps

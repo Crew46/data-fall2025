@@ -92,7 +92,11 @@ Object * mkPawn (Object * boss)
 	pawn -> region	= PAWNA_REGION;
 	pawn -> points	= 50;
 return (pawn);
-} 
+}
+//Used to make enemy lasers (Must be a type 3)
+Object * mkEnemyLaser ( Object * enemy) 
+{
+}
 	
 
 

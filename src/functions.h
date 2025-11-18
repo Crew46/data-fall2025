@@ -75,8 +75,8 @@ Object * mkAmmo(Object * player)
 	if (bitMasking (0x00000100, 0) == 0x00000100)
 	{
 		ammo -> type	= 0;
-		ammo -> height 	= 3;
-		ammo -> width   = 9;
+		ammo -> height 	= 9;
+		ammo -> width   = 3;
 		ammo -> texture = LASER_TEXTURE;
 		ammo -> region  = LASER_REGION;
 		ammo -> hp 		= 1;

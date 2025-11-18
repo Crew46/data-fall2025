@@ -13,10 +13,12 @@ BinaryNode* mkBinNode(int data)
 {
   BinaryNode* bNode = (BinaryNode)malloc(sizeof(BinaryNode));
   bNode->node = createNode();
-  bNode->data = data.
+  bNode->data = data;
+
+  return bNode;
 }
 
-void DeconstructBinaryNode(BinaryNode* bNode)
+void DeconstructBinNode(BinaryNode* bNode)
 {
     free(bNode);
 }

@@ -310,16 +310,19 @@ while (status == 0x00000000)
 
                 if(tmp->isActive 	== true)
                 {
-					if (tmp -> type != 1 && tmp-> type != 3)
+					if (tmp -> type == 0 || tmp-> type == 2)
 					{
-                    tmp -> xdir    	= rand () % 3 - 1;
-                    tmp -> ydir    	= 1; //rand () % 3 - 1;
-                    tmp -> x       	= tmp -> x + tmp -> xdir;
-                    tmp -> y       	= tmp -> y + tmp -> ydir;
+						if ( frame % 2 == 0)
+						{
+                    		tmp -> xdir    	= rand () % 3 - 1;
+                    		tmp -> ydir    	= 1; //rand () % 3 - 1;
+                    		tmp -> x       	= tmp -> x + tmp -> xdir;
+                    		tmp -> y       	= tmp -> y + tmp -> ydir;
+						}
 					}
 					if (tmp -> type == 1 || tmp -> type == 3)
 					{
-						if (frame % 2 == 0)
+						if (frame % 4 == 0)
 						{
 							tmp -> xdir     = rand () % 3 - 1;
 							tmp -> ydir     = 1;
@@ -327,6 +330,14 @@ while (status == 0x00000000)
 							tmp -> y		= tmp -> y + tmp -> ydir;
 						}
 					}
+					if ( tmp -> type == 4)
+					{
+						tmp -> xdir     = rand () % 3 - 1;
+						tmp -> ydir     = 1;
+						tmp -> x        = tmp -> x + tmp -> xdir;
+						tmp -> y        = tmp -> y + tmp -> ydir;
+					}
+				
                     select_texture (tmp->texture);
                     select_region  (tmp->region);
                     draw_region_at (tmp  -> x, tmp  -> y);
@@ -508,7 +519,7 @@ while (status == 0x00000000)
 					if (tmp -> type == 3)
 					{
 						b = rand() % ( 1000 + 1);
-						if ( b < 10)
+						if ( b < 6)
 						{
 							newNode = mkEnemyLaser (tmp);
 							listA	= appendNode (listA, listA->tail, newNode);
@@ -542,7 +553,7 @@ while (status == 0x00000000)
 
 // spawning mechanism    
         newNode    = mkNode();
-        if (95    <  (rand () % (100 + 0)))
+        if (96    <  (rand () % (100 + 0)))
         {
             listA  = insertNode (listA, listA -> head, newNode);
         }
@@ -585,7 +596,7 @@ while (status == 0x00000000)
 		}
 	}
 // Spawn an enemy from the binary tree every 5 frames
-if ( frame % 5  == 0)
+if ( frame % 10  == 0)
 {
 	 	newNode = mkNode ();
 		myTree  = addBinaryNode ( myTree, newNode);

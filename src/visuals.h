@@ -104,11 +104,11 @@ Object * updateVisuals(Object * enemy)
 {
 	if (enemy -> texture    == ENEMYB_TEXTURE)
 	{
-		if (enemy->hp       == 2)
+		if (enemy->hp       == 4 || enemy -> hp == 3)
 		{
 			enemy->region   = ENEMYB_REGION2;
 		}
-		if (enemy->hp       == 1)
+		if (enemy->hp       == 2 || enemy -> hp == 1)
 		{
 			enemy->region   = ENEMYB_REGION3;
 		}

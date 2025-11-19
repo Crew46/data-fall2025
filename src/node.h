@@ -37,7 +37,7 @@ Object *mkNode ()
     {
         enemy -> height     = 20;
         enemy -> width      = 20;
-        enemy -> hp         = 3;
+        enemy -> hp         = 6;
         enemy -> texture    = ENEMYB_TEXTURE;
         enemy -> region     = ENEMYB_REGION1;
         enemy -> points     = 20;
@@ -128,7 +128,7 @@ Object * mkAmmo (Object * player)
 		ammo -> texture = LASER_TEXTURE;
 		ammo -> region  = LASER_REGION;
 		ammo -> hp 		= 1;
-		ammo -> damage	= 5;
+		ammo -> damage	= 6;
 	}
 	if (bitMasking (0x00000200, 0) == 0x000000200)
 	{

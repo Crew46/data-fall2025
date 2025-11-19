@@ -11,7 +11,7 @@ struct BinaryNode
 
 BinaryNode* mkBinNode(int data)
 {
-  BinaryNode* bNode = (BinaryNode)malloc(sizeof(BinaryNode));
+  BinaryNode* bNode = (BinaryNode*)malloc(sizeof(BinaryNode));
   bNode->node = createNode();
   bNode->data = data;
 

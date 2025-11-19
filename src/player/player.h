@@ -382,6 +382,7 @@ void PlayerCheckPowerUps (Player* player, List* powerUps)
             currentNode -> next = NULL;
             currentNode -> prev = NULL;
             ((PowerUp*)(currentNode -> data)) -> age = 0.0;
+            ((PowerUp*)(currentNode -> data)) -> duration = 1.0;
             player -> powerUps = append (player ->powerUps, player -> powerUps -> tail, currentNode);
         }
         currentNode = nextNode;
@@ -402,6 +403,19 @@ void PlayerUsePowerUp (Player *player, PowerUp *powerUp)
         {
             powerUp -> object.status |= DELETION_FLAG;
         }
+    }
+    else if(powerUp -> type      == POWERUP_TYPE_UPGRADE)
+    {
+        Node   *currentNode       = player -> weapons -> data -> head;
+        Weapon *currentWeapon     = NULL;
+
+        while (currentNode       != NULL)
+        {
+            currentWeapon         = (Weapon *) currentNode -> data;
+            currentWeapon -> maxShootCooldownTime *= 0.8;
+            currentNode           = currentNode -> next;
+        }
+        powerUp -> object.status |= DELETION_FLAG;
     }
 }
 

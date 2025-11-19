@@ -402,7 +402,7 @@ void EnemyCheckProjectiles (Enemy* enemy, List* projectiles)
 
                 if(enemy -> invincTimer <= 0.0 && damage != 0)
                 {
-                    enemy -> invincTimer = 1.0;
+                    enemy -> invincTimer = 0.5;
                     enemy -> health -= damage;
                 }
 
@@ -488,12 +488,21 @@ Enemy *CreateEnemy (int textureID, int *regions, int num_regions, int x, int y, 
 void DeconstructEnemy (Enemy *enemy)
 {
     int    roll = rand() % 20;
-    int[2] tmp  = {POWERUP_BASE, POWERUP_MAXHP};
+    int[2] tmp;
 
     if(roll == 0)
     {
+        tmp[0] = POWERUP_BASE;
+        tmp[1] = POWERUP_MAXHP;
         CreatePowerUp(POWERUP_TEXTURE, &tmp[0], 2, enemy -> object.x, enemy -> object.y, IS_ACTIVE_FLAG, POWERUP_TYPE_MAXHP, 5.0);
     }
+    else if(roll == 1)
+    {
+        tmp[0] = POWERUP_BASE;
+        tmp[1] = POWERUP_UPGRADE;
+        CreatePowerUp(POWERUP_TEXTURE, &tmp[0], 2, enemy -> object.x, enemy -> object.y, IS_ACTIVE_FLAG, POWERUP_TYPE_UPGRADE, 5.0);
+    }
+
 
     while(enemyDropWeapon(enemy));
 

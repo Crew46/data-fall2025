@@ -54,3 +54,7 @@ I added new functions such as mkBoss and mkPawn. A boss now spawns after the cou
 
 Week 10
 This week I have been mainly working on my binary tree. Currently it has all of the main functions that I could think of. Such as making the binary tree, adding nodes to the binary tree, obtaining nodes, clearing the binary tree and deleting the binary tree. I was also working on recursive functions such as Inorder, Preorder, and Post order. Which all work. I mainly use Inorder for now. I am currently using the binary tree to spawn a few more enemies while I figure out what I want it to do.
+
+
+Week 11
+This week I was changing a bunch of values for quality of life changes. I changed the speed for most enemies to make them slower since I didn't like how fast they were moving. I also made the tough enemies tougher to resist the rockets and to promote using the laser more. I made a laser enemy that will shoot lasers at the player. I also updated the textures for the boss and the pawn. I also turned down the spawn rates for less chaos. I upped the counter before a boss will spawn. I am now using the frame counter for some movement and spawning rates.

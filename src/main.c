@@ -7,10 +7,10 @@
 #include "Object.h"
 #include "sounds.h"
 #include "visuals.h"
+#include "functions.h"
 #include "node.h"
 #include "linkedlist.h"
 #include "stack.h"
-#include "functions.h"
 #include "queue.h"
 #include "binaryTree.h"
 #define AMMOSPEED            1
@@ -542,7 +542,7 @@ while (status == 0x00000000)
 
 // spawning mechanism    
         newNode    = mkNode();
-        if (92    <  (rand () % (100 + 0)))
+        if (95    <  (rand () % (100 + 0)))
         {
             listA  = insertNode (listA, listA -> head, newNode);
         }
@@ -556,7 +556,7 @@ while (status == 0x00000000)
 		}
  	}
 // Boss spawning
-		if ( bitMasking (0x00001000, 0) != 0x00001000 && counter > 30)
+		if ( bitMasking (0x00001000, 0) != 0x00001000 && counter > 100)
 			{
 				status 	= bitMasking (0x00001000, 1);
 				newNode = mkBoss (player);

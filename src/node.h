@@ -110,7 +110,67 @@ Object * mkEnemyLaser ( Object * enemy)
 	EnemyLaser -> region	= ENEMYLASER_REGION;
 return (EnemyLaser);
 }
-	
-
-
+// Used to make ammo for the ammo list.
+// Type guide. 0 = Laser and 1 = Rocket.	
+Object * mkAmmo (Object * player)
+{
+	Object * ammo           = (Object *)malloc(sizeof(Object));
+	ammo -> isActive		= true;
+	ammo -> x               = player -> x;
+	ammo -> y               = player -> y;
+	ammo -> next            = NULL;
+	ammo -> prev            = NULL;
+	if (bitMasking (0x00000100, 0) == 0x00000100)
+	{
+		ammo -> type    = 0;
+		ammo -> height  = 9;
+		ammo -> width   = 3;
+		ammo -> texture = LASER_TEXTURE;
+		ammo -> region  = LASER_REGION;
+		ammo -> hp 		= 1;
+		ammo -> damage	= 5;
+	}
+	if (bitMasking (0x00000200, 0) == 0x000000200)
+	{
+		ammo -> type	= 1;
+		ammo -> width	= 12;
+		ammo -> height	= 12;
+		ammo -> texture = ROCKET_TEXTURE;
+		ammo -> region  = ROCKET_REGION;
+		ammo -> hp		= 1;
+		ammo -> damage  = 1;
+		}
+return (ammo);
+}
+// Powerups
+Object * mkPowerup ( Object * enemy)
+{
+	Object * powerup	= (Object *)malloc(sizeof(Object));
+	powerup -> isActive	= true;
+	powerup -> height	= 11;
+	powerup -> width	= 11;
+	powerup -> x            = enemy -> x;
+	powerup -> y            = enemy -> y;
+	powerup -> texture      = SHIELD_TEXTURE;
+	powerup -> region       = SHIELD_REGION;
+	powerup -> type			= 2;
+	powerup -> next			= NULL;
+	powerup -> prev			= NULL;
+return (powerup);
+}
+// Player
+Object * mkPlayer ()
+{
+	Object *player      = (Object *) malloc (sizeof (Object) * 1);
+	player -> next		= NULL;
+	player -> prev		= NULL;
+	player -> x			= 360;
+	player -> y			= 300;
+	player -> isActive	= true;
+	player -> height	= 32;
+	player -> width		= 32;
+	player -> texture	= PLAYER_TEXTURE;
+	player -> region 	= PLAYER_REGION;
+return (player);
+}
 #endif // NODE_H

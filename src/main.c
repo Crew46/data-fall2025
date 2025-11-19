@@ -296,7 +296,8 @@ while (status == 0x00000000)
         ////////////////////////////////////////////////////////////////////////////////
         //
         // Adjust enemy positions based on randomness and draw them.
-        //    
+        //   
+ 
         if(listA !=NULL)
         {
             tmp                    	= listA->head;

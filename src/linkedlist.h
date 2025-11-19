@@ -111,6 +111,7 @@ doublyLinkedList *clearList (doublyLinkedList *myList)
     Object *tmp      = NULL;
     if (myList      != NULL)
     {
+		tmp = myList -> head;
         while (tmp  != NULL)
         {
             myList   = obtainNode (myList, &tmp);

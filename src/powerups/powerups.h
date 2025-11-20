@@ -18,8 +18,8 @@ enum PowerUpType
 {
     POWERUP_TYPE_MAXHP,
     POWERUP_TYPE_UPGRADE,
-	POWERUP_TYPE_LASER,
-	POWERUP_TYPE_MISSILE
+    POWERUP_TYPE_LASER,
+    POWERUP_TYPE_MISSILE
 };
 
 struct PowerUp
@@ -90,28 +90,38 @@ void PowerUpUpdate (PowerUp *powerUp)
     powerUp -> object.y          += powerUp -> object.dy;
 }
 
-//update all powerUps
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// update all powerUps
+//
 void UpdateAllPowerUps ()
 {
-    //loop through all instances of powerUps
-    Node* currentNode = powerUpList -> head;
-    Node* nextNode;
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // declare and initialize variables
+    //
+    Node *currentNode            = powerUpList -> head;
+    Node *tmp                    = NULL;
 
-    while (currentNode != NULL)
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // loop through all instances of powerUps
+    //
+    while (currentNode          != NULL)
     {
-        nextNode = currentNode -> next;
-        if (currentNode -> data != NULL)
+        tmp                      = currentNode;
+        if (tmp -> data         != NULL)
         {
-            PowerUpUpdate ((PowerUp*)currentNode -> data);
-            if (currentNode -> data -> status & DELETION_FLAG)
+            PowerUpUpdate ((PowerUp *) tmp -> data);
+            if (tmp -> data -> status & DELETION_FLAG)
             {
-                DeconstructPowerUp ((PowerUp*)currentNode -> data);
-                powerUpList  = obtain (powerUpList, &currentNode);
-                deleteNode (currentNode);
+                DeconstructPowerUp ((PowerUp *) tmp -> data);
+                powerUpList      = obtain (powerUpList, &tmp);
+                deleteNode (tmp);
             }
         }
 
-        currentNode = nextNode;
+        currentNode              = currentNode -> next;
     }
 }
 

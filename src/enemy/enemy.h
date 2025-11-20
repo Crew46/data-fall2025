@@ -102,22 +102,21 @@ bool enemyDropWeapon (Enemy *enemy)
     {
         wtmp                     = ((Weapon *) dropped -> data);
 
-		////////////////////////////////////////////////////////////////////////////////
-		//
-		// if the type of dropped weapon is a laser cannon, create a laser powerup
-		//
-        if (wtmp -> type     == WEAPON_TYPE_LASER_CANNON)
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // if the type of dropped weapon is a laser cannon, create a laser powerup
+        //
+        if (wtmp -> type        == WEAPON_TYPE_LASER_CANNON)
         {
             tmp[0]               = POWERUP_LASER;
             CreatePowerUp (POWERUP_TEXTURE, &tmp[0], 1, wtmp -> object.x, wtmp -> object.y, IS_ACTIVE_FLAG, POWERUP_TYPE_LASER, 5.0);
         }
 
-		////////////////////////////////////////////////////////////////////////////////
-		//
-		// if the dropped weapon is a missile launcher, create a missile powerup
-		//
-      //  if (wtmp -> type     == WEAPON_TYPE_MISSILE_LAUNCHER)
-	  	else
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // if the dropped weapon is a missile launcher, create a missile powerup
+        //
+        if (wtmp -> type        == WEAPON_TYPE_MISSILE_LAUNCHER)
         {
             tmp[0]               = POWERUP_MISSILE;
             CreatePowerUp (POWERUP_TEXTURE, &tmp[0], 1, wtmp -> object.x, wtmp -> object.y, IS_ACTIVE_FLAG, POWERUP_TYPE_MISSILE, 5.0);
@@ -128,11 +127,11 @@ bool enemyDropWeapon (Enemy *enemy)
         wtmp -> object.dy        = 380;
         wtmp -> object.vy        = 1;
 
-		////////////////////////////////////////////////////////////////////////////////
-		//
-		// mark the dropped weapon for deletion
-		//
-        wtmp -> object.status   &= DELETION_FLAG;
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // mark the dropped weapon for deletion
+        //
+        wtmp -> object.status   |= DELETION_FLAG;
         free (dropped);
         dropped                  = NULL;
         status                   = true;

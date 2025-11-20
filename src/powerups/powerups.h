@@ -17,7 +17,9 @@ List *powerUpList  = createList();
 enum PowerUpType
 {
     POWERUP_TYPE_MAXHP,
-    POWERUP_TYPE_UPGRADE
+    POWERUP_TYPE_UPGRADE,
+	POWERUP_TYPE_LASER,
+	POWERUP_TYPE_MISSILE
 };
 
 struct PowerUp

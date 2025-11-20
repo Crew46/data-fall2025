@@ -39,6 +39,8 @@
 #define  POWERUP_BASE      60
 #define  POWERUP_MAXHP     61
 #define  POWERUP_UPGRADE   62
+#define  POWERUP_LASER     63
+#define  POWERUP_MISSILE   64
 
 void InitializeRegions ()
 {
@@ -159,6 +161,16 @@ void InitializeRegions ()
     // POWERUP
     select_texture (POWERUP_TEXTURE);
     define_region_matrix (POWERUP_BASE, 0, 0, 63, 64, 31, 31, 3, 1, 0);
+
+    // POWERUP
+    select_texture (POWERUP_TEXTURE);
+    select_region (POWERUP_LASER);
+    define_region_center (0, 63, 64, 127);
+
+    // POWERUP
+    select_texture (POWERUP_TEXTURE);
+    select_region (POWERUP_MISSILE);
+    define_region_center (64, 63, 127, 127);
 }
 
 #endif // _REGIONS_CONFIGURATIONS_H

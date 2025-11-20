@@ -93,20 +93,34 @@ void DrawEnemy (Enemy *enemy)
 
 bool enemyDropWeapon (Enemy *enemy)
 {
-    bool    status             = false;
-    Node   *dropped            = dequeue (enemy -> weapons);
-    Weapon *wtmp               = NULL;
+    bool        status           = false;
+    int    [1]  tmp;
+    Node       *dropped          = dequeue (enemy -> weapons);
+    Weapon     *wtmp             = NULL;
 
-    if (dropped               != NULL)
+    if (dropped                 != NULL)
     {
-        wtmp                   = ((Weapon *) dropped -> data);
-        wtmp -> hasOwner       = false;
-        wtmp -> isFiring       = false;
-        wtmp -> object.dy      = 380;
-        wtmp -> object.vy      = 1;
+        wtmp                     = ((Weapon *) dropped -> data);
+        if (wtmp -> type == WEAPON_TYPE_LASER_CANNON)
+        {
+            tmp[0]               = POWERUP_LASER;
+            CreatePowerUp (POWERUP_TEXTURE, &tmp[0], 1, wtmp -> object.x, wtmp -> object.y, IS_ACTIVE_FLAG, POWERUP_TYPE_UPGRADE, 5.0);
+        }
+
+        if (wtmp -> type == WEAPON_TYPE_MISSILE_LAUNCHER)
+        {
+            tmp[0]               = POWERUP_MISSILE;
+            CreatePowerUp (POWERUP_TEXTURE, &tmp[0], 1, wtmp -> object.x, wtmp -> object.y, IS_ACTIVE_FLAG, POWERUP_TYPE_UPGRADE, 5.0);
+        }
+
+        wtmp -> hasOwner         = false;
+        wtmp -> isFiring         = false;
+        wtmp -> object.dy        = 380;
+        wtmp -> object.vy        = 1;
+        wtmp -> object.status   &= DELETION_FLAG;
         free (dropped);
-        dropped                = NULL;
-        status                 = true;
+        dropped                  = NULL;
+        status                   = true;
     }
 
     return (status);

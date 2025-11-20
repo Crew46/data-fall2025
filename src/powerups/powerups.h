@@ -22,26 +22,39 @@ enum PowerUpType
 
 struct PowerUp
 {
-    Object      object;
-    PowerUpType type;
-    float       duration;
-    float       age;
+    Object       object;
+    PowerUpType  type;
+    float        duration;
+    float        age;
 };
 
 PowerUp* CreatePowerUp (int textureID, int *regions, int num_regions, int x, int y, int status, PowerUpType type, float duration)
 {
-    PowerUp* powerUp = (PowerUp*)malloc (sizeof (PowerUp));
-    initObject (&powerUp -> object, Object_Type_PowerUp, textureID, regions, num_regions, x, y, status);
+    PowerUp *powerUp                 = (PowerUp *) malloc (sizeof (PowerUp));
+    initObject (&powerUp -> object,
+                Object_Type_PowerUp,
+                textureID,
+                regions,
+                num_regions,
+                x, y,
+                status);
 
-    powerUp -> object.index = 1;
-    powerUp -> object.dx    = 0;
-    powerUp -> object.dy    = 1;
+    powerUp -> object.index          = 1;
+    powerUp -> object.dx             = 0;
+    powerUp -> object.dy             = 1;
 
-    powerUp -> type      = type;
-    powerUp -> duration  = duration;
-    powerUp -> age       = 0.0;
+    powerUp -> type                  = type;
+    powerUp -> duration              = duration;
+    powerUp -> age                   = 0.0;
+    powerUp -> object.angle          = 0.0;
+    powerUp -> object.direction      = rand () % 2;
+    if (powerUp -> object.direction == 0)
+    {
+        powerUp -> object.direction  = -1;
+    }
 
-    powerUpList = append (powerUpList, powerUpList -> tail, createNode (&powerUp -> object));
+    powerUpList                      = append (powerUpList, powerUpList -> tail,
+                                               createNode (&powerUp -> object));
 }
 
 //return linked list of powerUps
@@ -55,16 +68,23 @@ void DeconstructPowerUp (PowerUp* powerUp)
     free (powerUp);
 }
 
-void PowerUpUpdate (PowerUp* powerUp)
+void PowerUpUpdate (PowerUp *powerUp)
 {
-    //logical operations here
-    powerUp -> age += 1.0 / 60.0 * (float)FRAME_SLICES;
-    if (powerUp -> age > powerUp -> duration)
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // process power-up age / time on screen
+    //
+    powerUp -> age               += 1.0 / 60.0 * (float)FRAME_SLICES;
+    if (powerUp -> age           >  powerUp -> duration)
     {
         powerUp -> object.status |= DELETION_FLAG;
     }
 
-    powerUp -> object.y += powerUp -> object.dy;
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // move the power-up
+    //
+    powerUp -> object.y          += powerUp -> object.dy;
 }
 
 //update all powerUps

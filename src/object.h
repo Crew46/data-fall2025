@@ -81,6 +81,8 @@ struct Object
     int         dy;
     int         vx;
     int         vy;
+    int         angle;       // drawing angle
+    int         direction;   // angle adjustment direction/speed
     int         status;
 };
 
@@ -106,6 +108,7 @@ void    initObject (Object *obj,      ObjectType  objT,        int  textureID,
     obj -> dy                  = 0;
     obj -> vx                  = 1; // Set to 1 for now, will make it customizable eventually
     obj -> vy                  = 1;
+    obj -> angle               = 0;
     obj -> status              = status;
 }
 
@@ -126,6 +129,7 @@ Object *createObject (int textureID, int *regions,  int frames,
     obj -> delay               = -1; // set delay (-1 for none)
     obj -> x                   = x;
     obj -> y                   = y;
+    obj -> angle               = 0;
     obj -> status              = status;
 
     return (obj);
@@ -133,18 +137,28 @@ Object *createObject (int textureID, int *regions,  int frames,
 
 void  drawObject (Object *object)
 {
-    int  team           = 0;
+    float  radians           = 0;
+    int    team              = 0;
 
-    if (IS_ACTIVE_FLAG == (object -> status & IS_ACTIVE_FLAG))
+    if (IS_ACTIVE_FLAG      == (object -> status & IS_ACTIVE_FLAG))
     {
         select_texture (object -> textureID);
         select_region  (object -> regions[object -> index]);
 
-        team            = (object -> status & TeamFlagMask) >> TeamFlagOffset;
+        team                 = (object -> status & TeamFlagMask) >> TeamFlagOffset;
 
-        set_drawing_angle ((float) team * pi / 2.0);
+        if (object -> type  == Object_Type_PowerUp)
+        {
+            radians          = (float) object -> angle * (pi / 180);
+            set_drawing_angle (radians);
+            object -> angle  = object -> angle + object -> direction;
+        }
+        else
+        {
+            set_drawing_angle ((float) team * pi / 2.0);
+        }
 
-        if (ZOOM_FLAG  == (object -> status & ZOOM_FLAG))
+        if (ZOOM_FLAG       == (object -> status & ZOOM_FLAG))
         {
             set_drawing_scale (0.25, 0.25);
         }

@@ -356,7 +356,7 @@ void main (void)
                 if (currentState         == GAMESTATE_GAMEPLAY)
                 {
                     List* list = GetEnemyList ();
-                    if (list -> qty <  8 && reserves -> root != NULL)
+                    if (list -> qty <  8  + level * level && reserves -> root != NULL)
                     {
                         int tmp = 0;
                         BinNode* newGuy = findDeepest(reserves -> root, &tmp);

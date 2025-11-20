@@ -12,3 +12,5 @@
 **Week 8** Added in status flags, I only added the ISACTIVE flag for now but it is a start. I also moved all of the deletion of objects to the update functions and in the other functions where an object was deleted, I set its ISACTIVE flag off.
 
 **Week 9** Added in an audio manager file, for now I just added in a playSound() function but I started and am going to implement a global audio manager struct that will queue sfx and that way we can separate the audio from the game logic and just run throught the queue.
+
+**Week 11** Added in a binary tree with an insert function that is built upon our node struct that is already implemented

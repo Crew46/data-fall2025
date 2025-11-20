@@ -39,17 +39,18 @@ enum WeaponType
     WEAPON_TYPE_MAGNETIC_ATTRACTION_DEVICE
 };
 
-struct Weapon {
-    Object object;
-    WeaponType type;
-    float maxShootCooldownTime; //shoot cooldown in seconds
-    float shootCooldownElapsed; //seconds elapsed since last shot
-    float lifetime; // Lifetime of the weapon's projectile in seconds
-    float despawnTimer;
-    bool isFiring;
-    int  xOffset;
-    int  yOffset;
-    bool hasOwner;
+struct Weapon
+{
+    Object      object;
+    WeaponType  type;
+    float       maxShootCooldownTime; // shoot cooldown in seconds
+    float       shootCooldownElapsed; // seconds elapsed since last shot
+    float       lifetime;             // projectile lifetime in seconds
+    float       despawnTimer;
+    bool        isFiring;
+    int         xOffset;
+    int         yOffset;
+    bool        hasOwner;
 };
 
 /////////////////////////////////////////////////
@@ -121,7 +122,7 @@ void DrawWeapon (Weapon* weapon)
 
 void WeaponShoot (Weapon* weapon)
 {
-	int [1] tmpregion;
+    int [1] tmpregion;
     if (weapon -> isFiring)
     {
         //if not in cooldown, shoot
@@ -131,11 +132,11 @@ void WeaponShoot (Weapon* weapon)
             switch (weapon -> type)
             {
                 case WEAPON_TYPE_LASER_CANNON:
-					tmpregion[0]            = LASER_REGION;
+                    tmpregion[0]            = LASER_REGION;
                     CreateLaser (LASER_TEXTURES, tmpregion, 1, weapon -> object.x, weapon -> object.y, weapon -> object.status, LASER_TYPE_LASER_CANNON, weapon -> lifetime);
                     break;
                 case WEAPON_TYPE_MISSILE_LAUNCHER:
-					tmpregion[0]            = MISSILE_REGION;
+                    tmpregion[0]            = MISSILE_REGION;
                     CreateMissile (LASER_TEXTURES, tmpregion, 1, weapon -> object.x, weapon -> object.y, weapon -> object.status, LASER_TYPE_MISSILE_LAUNCHER, weapon -> lifetime);
                     break;
             }
@@ -157,6 +158,12 @@ void WeaponUpdate (Weapon* weapon)
     //logical operations here
     WeaponShoot (weapon);
     weapon -> shootCooldownElapsed  -= 1.0/60.0 * (float)FRAME_SLICES;
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // move the weapon
+    //
+    weapon -> object.y              += weapon -> object.vy;
 
     if (weapon -> hasOwner)
     {

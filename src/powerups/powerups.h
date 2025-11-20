@@ -52,6 +52,7 @@ PowerUp* CreatePowerUp (int textureID, int *regions, int num_regions, int x, int
     {
         powerUp -> object.direction  = -1;
     }
+    powerUp -> object.direction     *= 4;
 
     powerUpList                      = append (powerUpList, powerUpList -> tail,
                                                createNode (&powerUp -> object));

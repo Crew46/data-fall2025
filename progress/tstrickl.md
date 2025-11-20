@@ -37,3 +37,6 @@ On another note, I have been organizing and making the weapon controller manager
 **Week 11**
 This week i was starting to look into making the binary tree recursively. I was able to implement searching for an element recursively, but i have yet to look into adding an element.
 
+**Week 12**
+started brainstorming ideas for breaking up the game development we've done into discrete parts that we can talk about on our poster.
+

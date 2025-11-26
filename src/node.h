@@ -52,8 +52,22 @@ Object *mkNode ()
 		enemy -> region		= ENEMYC_REGION;
 		enemy -> points		= 30;
 		enemy -> type		= 3;
-    }
-    return (enemy);
+		enemy -> y			= 50;
+		enemy -> xdir		= 2;
+// Spawning enemies outside and then they will come in and shoot.
+	b = rand() % 2;
+			if ( b == 0)
+			{
+				enemy -> x 			= 690;
+				enemy -> movement 	= 0;
+			}
+			if ( b == 1) 
+			{
+				enemy -> x			= -30;
+				enemy -> movement	= 1;
+			}
+	}
+return (enemy);
 }
 // Used to make bosses
 Object * mkBoss(Object * player)

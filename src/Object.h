@@ -30,6 +30,7 @@ struct Object
     int     points;
 	int		type;
 	int 	damage;
+	int		movement;
     Object *next;
     Object *prev;
 };

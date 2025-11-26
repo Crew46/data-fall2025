@@ -311,6 +311,7 @@ while (status == 0x00000000)
 
                 if(tmp->isActive 	== true)
                 {
+// Normal enemies and powerup movement.
 					if (tmp -> type == 0 || tmp-> type == 2)
 					{
 						if ( frame % 2 == 0)
@@ -321,7 +322,8 @@ while (status == 0x00000000)
                     		tmp -> y       	= tmp -> y + tmp -> ydir;
 						}
 					}
-					if (tmp -> type == 1 || tmp -> type == 3)
+// Enemy Boss movement
+					if (tmp -> type == 1)
 					{
 						if (frame % 4 == 0)
 						{
@@ -331,11 +333,30 @@ while (status == 0x00000000)
 							tmp -> y		= tmp -> y + tmp -> ydir;
 						}
 					}
+// EnemyC movement
+					if (tmp -> type == 3)
+					{
+						if (tmp -> movement == 0)
+						{
+							tmp -> x = tmp -> x - tmp -> xdir;
+							if (tmp -> x < -40)
+							{
+								tmp -> movement = 1;
+							}
+						}
+						if (tmp -> movement == 1)
+						{
+							tmp -> x = tmp -> x + tmp -> xdir;
+							if (tmp -> x > 700)
+							{
+								tmp -> movement = 0;
+							}
+						}
+					}
+// Enemy laser movement
 					if ( tmp -> type == 4)
 					{
-						tmp -> xdir     = rand () % 3 - 1;
 						tmp -> ydir     = 1;
-						tmp -> x        = tmp -> x + tmp -> xdir;
 						tmp -> y        = tmp -> y + tmp -> ydir;
 					}
 				
@@ -568,7 +589,7 @@ while (status == 0x00000000)
 		}
  	}
 // Boss spawning
-		if ( bitMasking (0x00001000, 0) != 0x00001000 && counter > 100)
+		if ( bitMasking (0x00001000, 0) != 0x00001000 && counter > 250)
 			{
 				status 	= bitMasking (0x00001000, 1);
 				newNode = mkBoss (player);
@@ -596,8 +617,8 @@ while (status == 0x00000000)
 				}
 		}
 	}
-// Spawn an enemy from the binary tree every 5 frames
-if ( frame % 10  == 0)
+// Spawn an enemy from the binary tree every 10 frames
+if ( frame  % 10  == 0)
 {
 	 	newNode = mkNode ();
 		myTree  = addBinaryNode ( myTree, newNode);

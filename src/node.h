@@ -5,15 +5,11 @@
 
 
 //Types for things other than ammo. 0 = normal enemy, 1 = boss, 2 = powerup, 3 = laser enemy. 4 = enemy laser.
-Object *mkNode ()
+Object *mkNode (int x, int y, int pickVariant)
 {
     Object *enemy           = NULL;
-    int     pickVariant     = 0;
-    int     xpos            = 0;
-    int     ypos            = 0;
-
-    pickVariant             = rand () % (100 + 1);
-    xpos                    = rand () % (639 + 1);
+    int     xpos            = x;
+    int     ypos            = y;
 
     enemy                   = (Object *) malloc (sizeof (Object));
 
@@ -187,4 +183,12 @@ Object * mkPlayer ()
 	player -> region 	= PLAYER_REGION;
 return (player);
 }
+Object * spawn( Object * newNode)
+{
+	int pickVariant	= rand () % (100 + 1);
+	int c			= rand () % (639 + 1);
+	newNode 		= mkNode(c, 0 , pickVariant);
+return (newNode);
+}
+	
 #endif // NODE_H

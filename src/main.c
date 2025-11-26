@@ -21,6 +21,9 @@ void main (void)
     int               byb          	= 1;
 //  int               byn          	= 1;
     int               frame        	= 0;
+	int 			  formX;
+	int				  formY;
+	int				  formZ;
     int              *scoreResult  	= NULL;
     Object           *newNode      	= NULL;
     doublyLinkedList *listA        	= mkList (); // Main enemy list.
@@ -29,7 +32,7 @@ void main (void)
 	doublyLinkedList *listC			= mkList (); // stack list.
 	queue  *myQueue					= mkQueue (listB);
 	stack  *myStack					= mkStack (listC);
-	binaryTree *myTree							= mkBinaryTree ();
+	binaryTree *myTree				= mkBinaryTree ();
     Object *tmp             = NULL;
 	Object *tmp2			= NULL;
     Object *tmp3            = NULL;
@@ -38,9 +41,8 @@ void main (void)
 	Object *player			= NULL;
     max                     = 0; 
 	score 					= 0;
-
+	check					= 0;
     srand (get_time ());     
-
     scoreResult             = (int *) malloc (sizeof (int) * 10);
 
 // STATUS GUIDE. UPDATE WHEN NEEDED.
@@ -58,22 +60,8 @@ void main (void)
     //
     // 
     // 
-    // We are spawning and inserting the enemies.   
-	newNode = mkNode ();
-	listA   = appendNode (listA, listA->tail, newNode);
-	newNode = mkNode ();
-	listA   = appendNode (listA, listA->tail, newNode);
-	newNode = mkNode ();
-    listA   = appendNode (listA, listA->tail, newNode);
-    newNode = mkNode ();
-    listA   = appendNode (listA, listA->tail, newNode);
-    newNode = mkNode ();
-    listA   = appendNode (listA, listA->tail, newNode);
-    newNode = mkNode ();
-    listA   = appendNode (listA, listA->tail, newNode);
-    newNode = mkNode();
-    listA   = insertNode (listA, listA->head, newNode);
-    newNode = mkNode();
+    // We are inserting an enemy.   
+    newNode = spawn (newNode);
     listA   = insertNode (listA, listA->head, newNode);
     
     ////////////////////////////////////////////////////////////////////////////////////
@@ -574,7 +562,7 @@ while (status == 0x00000000)
 		}
 
 // spawning mechanism    
-        newNode    = mkNode();
+        newNode    = spawn (newNode);
         if (96    <  (rand () % (100 + 0)))
         {
             listA  = insertNode (listA, listA -> head, newNode);
@@ -605,22 +593,50 @@ while (status == 0x00000000)
 		if(score != check)
 		{
 			check = score;
-			for ( i = 0; i < 14; i++)
+			b = rand () % 2;
+			if (b == 0)
+			{		
+				for ( i = 0; i < 14; i++)
+					{
+						newNode			= spawn (newNode);
+						myQueue	= enqueue (myQueue, newNode);
+						myQueue = dequeue (myQueue, &(tmp3));
+						listA   = appendNode (listA, listA->tail, tmp3);	
+						draw_region ();
+						set_drawing_point ( 260, 150);
+						print( " INVASION ");
+					}
+			}
+			if (b == 1)
+			{
+				formZ = rand () % 200 + 200;
+				formX = formZ;
+				formY = 0;
+				for ( i = 0; i< 16; i++)
 				{
-					newNode			= mkNode ();
-					myQueue	= enqueue (myQueue, newNode);
-					myQueue = dequeue (myQueue, &(tmp3));
-					listA   = appendNode (listA, listA->tail, tmp3);	
-					draw_region ();
-					set_drawing_point ( 260, 150);
-					print( " INVASION ");
+// Spawn a formation of EnemyB enemies.
+						newNode			= mkNode( formX, formY, 72);
+						myQueue = enqueue (myQueue, newNode); 
+						myQueue = dequeue (myQueue, &(tmp3));
+						listA   = appendNode (listA, listA->tail, tmp3);
+						formX = formX + 40;
+						if (formX > (formZ +160) - 1)
+						{
+							formX = formZ;
+							formY = formY - 20;
+						}
+						draw_region ();
+						set_drawing_point ( 230, 150);
+						print("ENEMY FLEET INCOMING");
 				}
+			}
+					
 		}
 	}
 // Spawn an enemy from the binary tree every 10 frames
 if ( frame  % 10  == 0)
 {
-	 	newNode = mkNode ();
+	 	newNode = spawn (newNode);
 		myTree  = addBinaryNode ( myTree, newNode);
 		b = rand() % ( 21 + 1);
 		if ( preOrder (myTree , myTree -> root, b) == true)

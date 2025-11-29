@@ -5,6 +5,7 @@
 
 
 //Types for things other than ammo. 0 = normal enemy, 1 = boss, 2 = powerup, 3 = laser enemy. 4 = enemy laser.
+// 5 = EnemyD which bounces around.
 Object *mkNode (int x, int y, int pickVariant, int movement)
 {
     Object *enemy           = NULL;
@@ -21,8 +22,8 @@ Object *mkNode (int x, int y, int pickVariant, int movement)
 
     if (pickVariant        <= 70)
     {
-        enemy -> height     = 10;
-        enemy -> width      = 10;
+        enemy -> height     = 9;
+        enemy -> width      = 14;
         enemy -> hp         = 1;
         enemy -> texture    = ENEMYA_TEXTURE;
         enemy -> region     = ENEMYA_REGION;
@@ -32,8 +33,8 @@ Object *mkNode (int x, int y, int pickVariant, int movement)
     }
     if ( pickVariant	   >= 71 && pickVariant <= 85)
     {
-        enemy -> height     = 20;
-        enemy -> width      = 20;
+        enemy -> height     = 19;
+        enemy -> width      = 19;
         enemy -> hp         = 6;
         enemy -> texture    = ENEMYB_TEXTURE;
         enemy -> region     = ENEMYB_REGION1;
@@ -41,10 +42,10 @@ Object *mkNode (int x, int y, int pickVariant, int movement)
 		enemy -> type		= 0;
 		enemy -> movement	= movement;
 	}
-	if ( pickVariant	   >= 86)
+	if ( pickVariant	   >= 86 && pickVariant <= 91)
 	{
-		enemy -> height 	= 20;
-		enemy -> width		= 20;
+		enemy -> height 	= 19;
+		enemy -> width		= 19;
 		enemy -> hp			= 2;
 		enemy -> texture	= ENEMYC_TEXTURE;
 		enemy -> region		= ENEMYC_REGION;
@@ -65,6 +66,29 @@ Object *mkNode (int x, int y, int pickVariant, int movement)
 				enemy -> movement	= 1;
 			}
 	}
+	if (pickVariant >= 92)
+	{
+		enemy -> height 	= 29;
+		enemy -> width		= 29;
+		enemy -> hp			= 6;
+		enemy -> texture	= ENEMYD_TEXTURE;
+		enemy -> region		= ENEMYD_REGION;
+		enemy -> points		= 25;
+		enemy -> type		= 5;
+		b = rand () % 3;
+			if ( b == 0)
+			{
+				enemy -> movement = 0;
+			}
+			if ( b == 1)
+			{
+				enemy -> movement = 1;
+			}
+			if ( b == 2)
+			{
+				enemy -> movement = 2;
+			}
+		}
 return (enemy);
 }
 // Used to make bosses

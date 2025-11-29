@@ -299,8 +299,8 @@ while (status == 0x00000000)
 
                 if(tmp->isActive 	== true)
                 {
-// Normal enemies and powerup movement.
-					if (tmp -> type == 0 || tmp-> type == 2)
+// Normal enemy movement.
+					if (tmp -> type == 0)
 					{
 						if ( frame % 2 == 0)
 						{
@@ -335,7 +335,7 @@ while (status == 0x00000000)
 							}
 							if ( tmp -> movement == 2 || tmp -> movement == 3)
 							{
-								if ( tmp -> x == 635 || tmp -> x == 5)
+								if ( tmp -> x < 635 && tmp -> x < 5)
 								{
 									tmp -> movement = 0;
 								}
@@ -353,6 +353,11 @@ while (status == 0x00000000)
 							tmp -> x 		= tmp -> x + tmp -> xdir;
 							tmp -> y		= tmp -> y + tmp -> ydir;
 						}
+					}
+// Power up movement
+					if ( tmp -> type == 2)
+					{
+						tmp -> y 	= tmp -> y + 1;
 					}
 // EnemyC movement
 					if (tmp -> type == 3)
@@ -382,7 +387,33 @@ while (status == 0x00000000)
 						tmp -> ydir     = 1;
 						tmp -> y        = tmp -> y + tmp -> ydir;
 					}
-				
+// EnemyD movement
+					if ( tmp -> type == 5)
+					{
+						if (tmp -> movement == 0)
+						{
+							// Rush movement
+							tmp -> y = tmp -> y + 4;
+						}
+						if (tmp -> movement == 1)
+						{
+							tmp -> x = tmp -> x + 2;
+							tmp -> y = tmp -> y + 2;
+							if ( tmp -> x >= 639)
+							{
+								tmp -> movement = 2;
+							}
+						}
+						if (tmp -> movement == 2)
+						{
+							tmp -> x = tmp -> x - 2;
+							tmp -> y = tmp -> y + 2;
+							if ( tmp -> x <= 2)
+							{
+								tmp -> movement = 1;
+							}
+						}
+					}
                     select_texture (tmp->texture);
                     select_region  (tmp->region);
                     draw_region_at (tmp  -> x, tmp  -> y);
@@ -390,7 +421,7 @@ while (status == 0x00000000)
                 tmp                 = tmp->next;
             }  
         }
-
+	
         // This is here to make sure clearlist() and deleteList() is working.
         // Currently works!
         if (bitMasking (0x00000001, 0)  != 0x00000001)
@@ -683,7 +714,7 @@ if ( frame  % 10  == 0)
 				myTree 	= obtainBinaryNode(myTree, b, success, myTree -> root, myTree -> root, &(tmp5));
 				listA  	= appendNode ( listA, listA -> tail, tmp5);
 			}
-}	
+}
         end_frame ();
         frame = frame + 1;
     }

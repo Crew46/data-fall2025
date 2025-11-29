@@ -304,10 +304,43 @@ while (status == 0x00000000)
 					{
 						if ( frame % 2 == 0)
 						{
-                    		tmp -> xdir    	= rand () % 3 - 1;
-                    		tmp -> ydir    	= 1; //rand () % 3 - 1;
-                    		tmp -> x       	= tmp -> x + tmp -> xdir;
-                    		tmp -> y       	= tmp -> y + tmp -> ydir;
+							if ( tmp -> movement == 0)
+							{
+                    			tmp -> xdir    	= rand () % 3 - 1;
+                    			tmp -> x       	= tmp -> x + tmp -> xdir;
+                    			tmp -> y       	= tmp -> y + 1;
+							}
+// Used for formations	
+							if (tmp -> movement == 1)
+							{
+								tmp -> y 		= tmp -> y + 1;
+							}
+							if ( tmp -> x > 638)
+							{
+								tmp -> movement = 2;
+							}
+							if ( tmp -> x < 2)
+							{
+								tmp -> movement = 3;
+							}
+							if ( tmp -> movement == 2)
+							{
+								tmp -> y 		= tmp -> y + 1;
+								tmp -> x		= tmp -> x - 1;
+							}
+							if ( tmp -> movement == 3)
+							{
+								tmp -> y		= tmp -> y + 1;
+								tmp -> x 		= tmp -> x + 1;
+							}
+							if ( tmp -> movement == 2 || tmp -> movement == 3)
+							{
+								if ( tmp -> x == 635 || tmp -> x == 5)
+								{
+									tmp -> movement = 0;
+								}
+							}
+									
 						}
 					}
 // Enemy Boss movement
@@ -327,17 +360,19 @@ while (status == 0x00000000)
 						if (tmp -> movement == 0)
 						{
 							tmp -> x = tmp -> x - tmp -> xdir;
-							if (tmp -> x < -40)
+							if (tmp -> x < 0)
 							{
 								tmp -> movement = 1;
+								tmp -> y = tmp -> y + 20;
 							}
 						}
 						if (tmp -> movement == 1)
 						{
 							tmp -> x = tmp -> x + tmp -> xdir;
-							if (tmp -> x > 700)
+							if (tmp -> x > 640)
 							{
 								tmp -> movement = 0;
+								tmp -> y = tmp -> y + 20;
 							}
 						}
 					}
@@ -419,31 +454,34 @@ while (status == 0x00000000)
 							{
 // If the ammo is a rocket. Then we have to do another AOE check.
 								tmp4 = listA->head;
-								tmp2 -> width = tmp2-> width + 60;
-								tmp2 -> height= tmp2-> height + 60;
+								tmp2 -> width = tmp2-> width + 50;
+								tmp2 -> height= tmp2-> height + 50;
 								while( tmp4 != NULL)
 								{
+									select_texture (ROCKETEXPLOSION_TEXTURE);
+									select_region  (ROCKETEXPLOSION_REGION);
+									draw_region_at ( tmp2 -> x, tmp2 -> y);
 // Explosion size.
 									if(tmp2->isActive == true && tmp4->type != 2 && tmp4 -> type != 4 && tmp4->isActive == true && collision(tmp2, tmp4) )
 									{
 										tmp4 -> hp = tmp4-> hp - tmp2->damage;
 // If the rocket aoe hits the boss. Then spawn a pawn.
 										if (tmp4 -> type == 1 && tmp4-> isActive == true)
-											{
-												newNode = mkPawn (tmp4);
-												listA   = appendNode (listA, listA->tail, newNode);
-											}
+										{
+											newNode = mkPawn (tmp4);
+											listA   = appendNode (listA, listA->tail, newNode);
+										}
 										if (tmp4->hp < 1)
 										{
 										tmp4 = explosion (tmp4);
 										b = rand () % ( 100 + 1);
-										if( b  > 95)
+											if( b  > 95)
 											{
 												newNode = mkPowerup (tmp4);
 												myStack = push (myStack, newNode);
 												myStack = pop  (myStack, &(tmp3));
 												listA   = appendNode ( listA, listA->tail, tmp3);
-											}
+											}	
 										}
 									}
 								tmp4 = tmp4->next;
@@ -615,7 +653,7 @@ while (status == 0x00000000)
 				for ( i = 0; i< 16; i++)
 				{
 // Spawn a formation of EnemyB enemies.
-						newNode			= mkNode( formX, formY, 72);
+						newNode			= mkNode( formX, formY, 72, 1);
 						myQueue = enqueue (myQueue, newNode); 
 						myQueue = dequeue (myQueue, &(tmp3));
 						listA   = appendNode (listA, listA->tail, tmp3);

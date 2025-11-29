@@ -3,39 +3,39 @@
 #include "video.h"
 
 // Textures
-#define BACKGROUND_TEXTURE  0
-#define NEBULA_TEXTURE      1
-#define PLAYER_TEXTURE		2
-#define ENEMYA_TEXTURE		3
-#define LASER_TEXTURE		4
-#define ENEMYB_TEXTURE		5
-#define SHIELD_TEXTURE 		6
-#define EXPLOSION_TEXTURE   7
-#define ROCKET_TEXTURE      8
-#define BOSSA_TEXTURE		9
-#define PAWNA_TEXTURE 		10
-#define ENEMYC_TEXTURE		11
-#define ENEMYLASER_TEXTURE  12
-
+#define BACKGROUND_TEXTURE  		0
+#define NEBULA_TEXTURE      		1
+#define PLAYER_TEXTURE				2
+#define ENEMYA_TEXTURE				3
+#define LASER_TEXTURE				4
+#define ENEMYB_TEXTURE				5
+#define SHIELD_TEXTURE 				6
+#define EXPLOSION_TEXTURE   		7
+#define ROCKET_TEXTURE      		8
+#define BOSSA_TEXTURE				9
+#define PAWNA_TEXTURE 				10
+#define ENEMYC_TEXTURE				11
+#define ENEMYLASER_TEXTURE  		12
+#define ROCKETEXPLOSION_TEXTURE     13
 // Regions
-#define BACKGROUND_REGION	0
-#define NEBULA_REGION    	1
-#define PLAYER_REGION		2
-#define ENEMYA_REGION		3
-#define LASER_REGION		4	
-#define ENEMYB_REGION1		5
-#define ENEMYB_REGION2		6
-#define ENEMYB_REGION3      7
-#define SHIELD_REGION		8
-#define PLAYERSHIELD_REGION 9
-#define EXPLOSION_REGION    10
-#define ROCKET_REGION      	11
-#define BOSSA_REGION		12	
-#define PAWNA_REGION		13
-#define ENEMYC_REGION		14
-#define ENEMYLASER_REGION	15
-
-#define LASERSPEED 			1
+#define BACKGROUND_REGION			0
+#define NEBULA_REGION    			1
+#define PLAYER_REGION				2
+#define ENEMYA_REGION				3
+#define LASER_REGION				4		
+#define ENEMYB_REGION1				5
+#define ENEMYB_REGION2				6
+#define ENEMYB_REGION3      		7
+#define SHIELD_REGION				8
+#define PLAYERSHIELD_REGION 		9
+#define EXPLOSION_REGION    		10
+#define ROCKET_REGION      			11
+#define BOSSA_REGION				12	
+#define PAWNA_REGION				13
+#define ENEMYC_REGION				14
+#define ENEMYLASER_REGION			15
+#define ROCKETEXPLOSION_REGION		16
+#define LASERSPEED 					1
 
 // Visuals will be used to define textures 
 void visuals(void)
@@ -98,6 +98,10 @@ void visuals(void)
 	select_texture ( ENEMYLASER_TEXTURE);
 	select_region ( ENEMYLASER_REGION);
 	define_region_center (0, 0, 3, 9);
+//	Rocket Explosion
+	select_texture ( ROCKETEXPLOSION_TEXTURE);
+	select_region ( ROCKETEXPLOSION_REGION);
+	define_region_center (0,0, 61, 61);
 }
 
 Object * updateVisuals(Object * enemy)

@@ -5,7 +5,7 @@
 
 
 //Types for things other than ammo. 0 = normal enemy, 1 = boss, 2 = powerup, 3 = laser enemy. 4 = enemy laser.
-Object *mkNode (int x, int y, int pickVariant)
+Object *mkNode (int x, int y, int pickVariant, int movement)
 {
     Object *enemy           = NULL;
     int     xpos            = x;
@@ -28,6 +28,7 @@ Object *mkNode (int x, int y, int pickVariant)
         enemy -> region     = ENEMYA_REGION;
         enemy -> points     = rand ()  % ( 20 + 1);
 		enemy -> type		= 0;
+		enemy -> movement 	= movement;
     }
     if ( pickVariant	   >= 71 && pickVariant <= 85)
     {
@@ -38,6 +39,7 @@ Object *mkNode (int x, int y, int pickVariant)
         enemy -> region     = ENEMYB_REGION1;
         enemy -> points     = 20;
 		enemy -> type		= 0;
+		enemy -> movement	= movement;
 	}
 	if ( pickVariant	   >= 86)
 	{
@@ -143,8 +145,8 @@ Object * mkAmmo (Object * player)
 	if (bitMasking (0x00000200, 0) == 0x000000200)
 	{
 		ammo -> type	= 1;
-		ammo -> width	= 12;
-		ammo -> height	= 12;
+		ammo -> width	= 11;
+		ammo -> height	= 11;
 		ammo -> texture = ROCKET_TEXTURE;
 		ammo -> region  = ROCKET_REGION;
 		ammo -> hp		= 1;
@@ -187,7 +189,7 @@ Object * spawn( Object * newNode)
 {
 	int pickVariant	= rand () % (100 + 1);
 	int c			= rand () % (639 + 1);
-	newNode 		= mkNode(c, 0 , pickVariant);
+	newNode 		= mkNode(c, 0 , pickVariant, 0);
 return (newNode);
 }
 	

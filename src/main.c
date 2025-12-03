@@ -427,12 +427,18 @@ while (status == 0x00000000)
         if (bitMasking (0x00000001, 0)  != 0x00000001)
         {
             draw_region ();
-            set_drawing_point (200, 180);
+            set_drawing_point (150, 150);
             print ("You have died. CTRL+R to restart.");
+			draw_region ();
+			set_drawing_point( 150, 200);
+			print (" SCORE:");
+			draw_region ();
+			itoa (score , scoreResult, 10);
+			print_at ( 250, 200, scoreResult);
             exit ();
         }
         draw_region ();
-        set_drawing_point (200, 10);
+        set_drawing_point (150, 10);
         print ("SCORE");
 
         draw_region ();    

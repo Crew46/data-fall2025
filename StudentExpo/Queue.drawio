@@ -1,0 +1,49 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Page-1" id="TQrlI_txXcbGVO7WfPHR">
+    <mxGraphModel dx="1358" dy="962" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iH3y5e-5P-susnNiwo4H-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="iH3y5e-5P-susnNiwo4H-1" target="iH3y5e-5P-susnNiwo4H-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-1" value="" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="370" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="iH3y5e-5P-susnNiwo4H-2" target="iH3y5e-5P-susnNiwo4H-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-2" value="" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="370" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="iH3y5e-5P-susnNiwo4H-3" target="iH3y5e-5P-susnNiwo4H-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-3" value="" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="370" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-4" value="" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="370" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-5" value="Back" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="395" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-6" value="Data2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="230" y="395" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-7" value="Data1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="390" y="395" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-8" value="Front" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="550" y="395" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-12" value="Dequeue:&lt;div&gt;Obtains and uses the front node.&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="550" y="240" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iH3y5e-5P-susnNiwo4H-13" value="Enqueue:&lt;div&gt;Insert new node at the back.&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="240" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
